@@ -17,19 +17,13 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -52,13 +46,35 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD32xzXQ3mZ0E28zvFKE1lBMxEqVdZJmjQ',
+    appId: '1:35237509417:web:95be7a122183dde5c79f38',
+    messagingSenderId: '35237509417',
+    projectId: 'my-first-project-e7a15',
+    authDomain: 'my-first-project-e7a15.firebaseapp.com',
+    databaseURL: 'https://my-first-project-e7a15-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'my-first-project-e7a15.appspot.com',
+    measurementId: 'G-BT4M3DL0SV',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1zW3VnSfdvK3D3V_B34tVi8l4Qgtc5T0',
     appId: '1:35237509417:android:087de6c8f51512d1c79f38',
     messagingSenderId: '35237509417',
     projectId: 'my-first-project-e7a15',
-    databaseURL:
-        'https://my-first-project-e7a15-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL: 'https://my-first-project-e7a15-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'my-first-project-e7a15.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDlHINv_IV9Rv9YivPfME0vofTeP_-Cv8U',
+    appId: '1:35237509417:ios:d5c07bf94a7a385ac79f38',
+    messagingSenderId: '35237509417',
+    projectId: 'my-first-project-e7a15',
+    databaseURL: 'https://my-first-project-e7a15-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'my-first-project-e7a15.appspot.com',
+    androidClientId: '35237509417-iqvadn3klaij5hshgd1ccjg2b0i0u4ip.apps.googleusercontent.com',
+    iosClientId: '35237509417-35n12rfj17d4stu0hmgi6uqtj1vqe4m2.apps.googleusercontent.com',
+    iosBundleId: 'com.example.myApp',
   );
 }
