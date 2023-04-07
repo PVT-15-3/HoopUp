@@ -9,4 +9,12 @@ Event(this.name, this.description, this.id);
 getName() => name;
 getDescription() => description;
 getId() => id;
+
+Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'id': id
+    };
+  }
 }

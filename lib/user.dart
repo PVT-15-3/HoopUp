@@ -1,34 +1,58 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:uuid/uuid.dart';
+import './event.dart';
+import './firebase_options.dart';
+import 'package:flutter/material.dart';
+
+FirebaseDatabase database = FirebaseDatabase.instance;
 
 class User {
-  final String _username;
+  String _username;
   int _skillLevel;
-  final int _id;
+  final String _id;
   String _email;
+  final List<Event> _events = [];
 
   User(
       {required String username,
       required int skillLevel,
-      required int id,
       required String email})
       : _username = username,
-        _id = id,
+        _id = const Uuid().v4(),
         _email = email,
         _skillLevel = skillLevel {
     _validateSkillLevel(skillLevel);
     _validateEmail(email);
+    database.ref("users/$_id").set({
+      "username": _username,
+      "skillLevel": _skillLevel,
+      "email": _email,
+    });
   }
 
-  String get username => _username;
+  // setters
 
-  int get skillLevel => _skillLevel;
+  set username(String username) {
+    _username = username;
+    database.ref("users/$_id").update({"username": _username});
+  }
+
   set skillLevel(int skillLevel) {
     _validateSkillLevel(skillLevel);
     _skillLevel = skillLevel;
+    database.ref("users/$_id").update({"skillLevel": _skillLevel});
   }
 
-  int get id => _id;
+  // getters
+
+  String get username => _username;
+
+  List<Event> get events => _events;
+
+  int get skillLevel => _skillLevel;
+
+  String get id => _id;
 
   String get email => _email;
   set email(String email) {
@@ -36,8 +60,26 @@ class User {
     _email = email;
   }
 
+  // handle events
+
+  void addEvent(Event event) {
+    var id = event.id;
+    _events.add(event);
+    database.ref("users/$_id/events/$id").set(event.toJson());
+  }
+
+  void removeEvent(Event event) {
+    int index = _events.indexOf(event);
+    if (index >= 0) {
+      _events.removeAt(index);
+      database.ref("users/$_id/events/${event.id}").remove();
+    }
+  }
+
   @override
   String toString() => 'User: $_username, $_skillLevel, $_id, $_email';
+
+  // override equality operator
 
   @override
   bool operator ==(Object other) =>
@@ -46,7 +88,6 @@ class User {
           runtimeType == other.runtimeType &&
           _username == other._username &&
           _skillLevel == other._skillLevel &&
-          _id == other._id &&
           _email == other._email;
 
   @override
@@ -55,6 +96,8 @@ class User {
       _skillLevel.hashCode ^
       _id.hashCode ^
       _email.hashCode;
+
+  // validate inputs
 
   void _validateSkillLevel(int skillLevel) {
     if (skillLevel < 0 || skillLevel > 5) {
@@ -69,14 +112,30 @@ class User {
       throw ArgumentError('Invalid email address');
     }
   }
+
+  void deleteAccount() {
+    database.ref("users/$_id").remove();
+  }
 }
 
-void main() {
-  final user = User(
-      username: 'John Doe', skillLevel: 3, id: 1, email: 'viktor@gmail.com');
+// ---------- ONLY FOR TESTING ----------
 
-  final user2 = User(
-      username: 'John Doe', skillLevel: 3, id: 1, email: 'viktor@gmail.com');
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  print(user == user2);
+  Event event1 = Event("asd", "asdasd", "aoffr");
+  Event event2 = Event("asd3", "asdasd2", "aoffr4");
+
+  var user3 = User(username: "username", skillLevel: 2, email: "email@asd.com");
+
+  // wait 3 seconds
+  await Future.delayed(const Duration(seconds: 3));
+
+  user3.addEvent(event1);
+  user3.addEvent(event2);
+
+  await Future.delayed(const Duration(seconds: 3));
+
+  user3.removeEvent(event1);
 }
