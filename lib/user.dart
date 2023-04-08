@@ -117,25 +117,3 @@ class User {
     database.ref("users/$_id").remove();
   }
 }
-
-// ---------- ONLY FOR TESTING ----------
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  Event event1 = Event("asd", "asdasd", "aoffr");
-  Event event2 = Event("asd3", "asdasd2", "aoffr4");
-
-  var user3 = User(username: "username", skillLevel: 2, email: "email@asd.com");
-
-  // wait 3 seconds
-  await Future.delayed(const Duration(seconds: 3));
-
-  user3.addEvent(event1);
-  user3.addEvent(event2);
-
-  await Future.delayed(const Duration(seconds: 3));
-
-  user3.removeEvent(event1);
-}
