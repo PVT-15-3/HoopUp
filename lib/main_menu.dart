@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './functions.dart';
+import './sign_in.dart';
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key? key}) : super(key: key);
@@ -22,13 +22,25 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(
         title: const Text("data"),
       ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Go to Map'),
-          onPressed: () {
-            Navigator.pushNamed(context, '/map');
-          },
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(
+              child: Text('Go to Map'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/map');
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: Text('auth test'),
+              onPressed: () {
+                signInWithGoogle();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
