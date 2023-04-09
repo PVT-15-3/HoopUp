@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_app/user.dart';
-import 'package:my_app/firebase_options.dart';
+import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ Future <void> main() async {
   group('User tests', () {
     test('create user', () async {
       // Arrange
-      var user = User(username: "username", skillLevel: 3, email: "email@asd.com");
+      var user = HoopUpUser(username: "username", skillLevel: 3, id: "email@asd.com");
 
       // Assert
       expect(user.username == "username", true);

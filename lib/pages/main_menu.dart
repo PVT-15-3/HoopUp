@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './sign_in.dart';
+import 'package:my_app/classes/hoopup_user.dart';
+import '../services/sign_in.dart';
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class _MainMenuState extends State<MainMenu> {
     super.initState();
     Firebase.initializeApp(); // initialize Firebase app
   }
+
+  HoopUpUser? currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +38,28 @@ class _MainMenuState extends State<MainMenu> {
           Center(
             child: ElevatedButton(
               child: Text('auth test'),
+              onPressed: () async {
+                final user = await signInWithGoogle();
+                setState(() {
+                  currentUser = user;
+                });
+                print(currentUser);
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: Text('remove user'),
               onPressed: () {
-                signInWithGoogle();
+                currentUser?.deleteAccount();
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: Text('log out user'),
+              onPressed: () {
+                HoopUpUser.signOut();
               },
             ),
           ),
