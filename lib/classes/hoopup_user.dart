@@ -1,10 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../services/firebase_options.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,24 +10,37 @@ class HoopUpUser {
   int _skillLevel;
   final String _id;
   final List<Event> _events = [];
+  String? _photoUrl;
 
-  HoopUpUser({
-    required String username,
-    required int skillLevel,
-    required String id,
-  })  : _username = username,
+  HoopUpUser(
+      {required String username,
+      required int skillLevel,
+      required String id,
+      required String? photoUrl})
+      : _username = username,
         _skillLevel = skillLevel,
-        _id = id {
+        _id = id,
+        _photoUrl = photoUrl {
     _validateSkillLevel(skillLevel);
     database.ref("users/$_id").set({
       "username": _username,
       "skillLevel": _skillLevel,
+      "photoUrl": _photoUrl
     }).catchError((error) {
       print("Failed to create user: ${error.toString()}");
     });
   }
 
   // setters
+
+  set photo(String url) {
+    _photoUrl = url;
+    database
+        .ref("users/$_id")
+        .update({"photoUrl": _photoUrl}).catchError((error) {
+      print("Failed to update photo: ${error.toString()}");
+    });
+  }
 
   set username(String username) {
     _username = username;
@@ -53,6 +62,8 @@ class HoopUpUser {
   }
 
   // getters
+
+  String? get photoUrl => _photoUrl;
 
   String get username => _username;
 
@@ -92,12 +103,9 @@ class HoopUpUser {
   // override equality operator
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is HoopUpUser &&
-          runtimeType == other.runtimeType &&
-          _username == other._username &&
-          _skillLevel == other._skillLevel;
+  bool operator ==(Object other) {
+    return identical(this, other) || other is HoopUpUser && _id == other._id;
+  }
 
   @override
   int get hashCode => _username.hashCode ^ _skillLevel.hashCode ^ _id.hashCode;
