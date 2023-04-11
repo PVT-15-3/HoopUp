@@ -29,7 +29,7 @@ class _MainMenuState extends State<MainMenu> {
         children: [
           Center(
             child: ElevatedButton(
-              child: Text('Go to Map'),
+              child: const Text('Go to Map'),
               onPressed: () {
                 Navigator.pushNamed(context, '/map');
               },
@@ -37,7 +37,7 @@ class _MainMenuState extends State<MainMenu> {
           ),
           Center(
             child: ElevatedButton(
-              child: Text('auth test'),
+              child: const Text('auth test'),
               onPressed: () async {
                 await signInWithGoogle(context);
               },
@@ -45,7 +45,7 @@ class _MainMenuState extends State<MainMenu> {
           ),
           Center(
             child: ElevatedButton(
-              child: Text('remove user'),
+              child: const Text('remove user'),
               onPressed: () {
                 Provider.of<HoopUpUserProvider>(context, listen: false)
                     .user
@@ -55,10 +55,18 @@ class _MainMenuState extends State<MainMenu> {
           ),
           Center(
             child: ElevatedButton(
-              child: Text('log out user'),
+              child: const Text('log out user'),
               onPressed: () {
                 HoopUpUser.signOut();
               },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/create_event.dart');
+              },
+              child: const Text('create event'),
             ),
           ),
         ],

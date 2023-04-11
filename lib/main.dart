@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/create_event.dart';
 import 'package:provider/provider.dart';
 import 'pages/map.dart';
 import 'pages/main_menu.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         home: const MainMenu(),
         routes: {
           '/map': (context) => const Map(),
+          '/create_event.dart': (context) => const CreateEventPage(),
         },
       ),
     );

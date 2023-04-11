@@ -25,7 +25,7 @@ class HoopUpUser {
     database.ref("users/$_id").set({
       "username": _username,
       "skillLevel": _skillLevel,
-      "photoUrl": _photoUrl
+      "photoUrl": _photoUrl,
     }).catchError((error) {
       print("Failed to create user: ${error.toString()}");
     });
@@ -69,7 +69,12 @@ class HoopUpUser {
 
   List<Event> get events => _events;
 
+  String get id => _id;
+
   int get skillLevel => _skillLevel;
+   Map<String, dynamic> toJson() {
+    return {'username': _username, 'skillLevel': _skillLevel, 'id': _id, 'photoUrl': _photoUrl };
+  }
 
   // handle events
 
