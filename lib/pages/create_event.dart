@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
-
 import '../classes/event.dart';
 import '../classes/time.dart';
 

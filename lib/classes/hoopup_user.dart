@@ -79,7 +79,7 @@ class HoopUpUser {
   // handle events
 
   void addEvent(Event event) {
-    var id = event.id;
+    String id = event.id;
     _events.add(event);
     database
         .ref("users/$_id/events/$id")

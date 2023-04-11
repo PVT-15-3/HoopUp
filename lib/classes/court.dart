@@ -66,11 +66,11 @@ class Court {
     });
   }
 
-  set address(Address a) {
-    _address = a;
+  set address(Address adress) {
+    _address = adress;
     database
         .ref("courts/$_courtId")
-        .update({"address": a.toJson()}).catchError((error) {
+        .update({"address": adress.toJson()}).catchError((error) {
       print("Failed to set address: ${error.toString()}");
     });
   }
