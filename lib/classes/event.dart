@@ -31,7 +31,12 @@ class Event {
       {
       _chat = Chat(eventId: _id);
        database.ref("events/$_id").set({
-      toJson()
+      "name": _name,
+      "description": _description,
+      "creatorId": _creatorId,
+      "time": _time.toJson(),
+      "courtId": _courtId,
+      "chat": _chat?.toJson(),
     }).catchError((error) {
       print("Failed to create event: ${error.toString()}");
     });
