@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
 import '../services/hoopup_user_provider.dart';
@@ -28,7 +27,7 @@ class MainMenu extends StatelessWidget {
             child: ElevatedButton(
               child: const Text('login with google'),
               onPressed: () async {
-                await signInWithGoogle(context);
+                await signInWithGoogle(context.read<HoopUpUserProvider>());
               },
             ),
           ),

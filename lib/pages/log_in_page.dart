@@ -14,7 +14,7 @@ class LogInPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: const Text('Sign In'),
       ),
       body: Form(
         key: _formKey,

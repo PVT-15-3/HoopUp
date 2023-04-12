@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/services/hoopup_user_provider.dart';
-import 'package:provider/provider.dart';
 
-Future<void> signInWithGoogle(BuildContext context) async {
+Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -35,29 +33,30 @@ Future<void> signInWithGoogle(BuildContext context) async {
       username: name, skillLevel: 0, id: uid, photoUrl: googleUserNew.photoURL);
 
   // Update the user object in the UserProvider
-  Provider.of<HoopUpUserProvider>(context, listen: false).setUser(user);
+  hoopUpUserProvider.setUser(user);
 
   await GoogleSignIn().signOut();
 }
 
-Future<void> signUpWithEmail(String email, String password, String username,
-    BuildContext context) async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+Future<void> signUpWithEmail(
+  String email,
+  String password,
+  String username,
+  HoopUpUserProvider hoopUpUserProvider,
+) async {
   try {
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    User? user = userCredential.user;
-    String uid = user!.uid;
-    HoopUpUser hoopUpuser =
-        HoopUpUser(username: username, skillLevel: 0, id: uid, photoUrl: null);
-
-    // Update the user object in the UserProvider
-    Provider.of<HoopUpUserProvider>(context, listen: false).setUser(hoopUpuser);
-
-    print(hoopUpuser);
-    print('User created: ${user.uid}');
+    HoopUpUser hoopUpuser = HoopUpUser(
+        username: username,
+        skillLevel: 0,
+        id: userCredential.user!.uid,
+        photoUrl: null);
+    hoopUpUserProvider.setUser(hoopUpuser);
+    print('User created: ${userCredential.user!.uid}');
   } on FirebaseAuthException catch (e) {
     print('Failed to create user: ${e.message}');
   }

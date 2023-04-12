@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/hoopup_user_provider.dart';
 import '../services/sign_in.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -14,7 +16,7 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: const Text('Sign Up'),
       ),
       body: Form(
         key: _formKey,
@@ -69,8 +71,13 @@ class SignUpPage extends StatelessWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  signUpWithEmail(email!, password!, username!, context);
-                  
+                  signUpWithEmail(
+                    email!,
+                    password!,
+                    username!,
+                    context.read<HoopUpUserProvider>(),
+                  );
+
                   Navigator.pop(context);
                 }
               },
