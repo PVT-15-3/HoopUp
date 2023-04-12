@@ -5,8 +5,8 @@ import 'hoopup_user.dart';
 class Message {
   final String _id;
   final HoopUpUser _user;
-  String _messageText;
-  String _timeStamp;
+  final String _messageText;
+  final String _timeStamp;
 
   Message({
     required HoopUpUser user,
@@ -24,9 +24,9 @@ class Message {
 
   String get timeStamp => _timeStamp;
 
-  set messageText(String text) => _messageText = text;
+  //set messageText(String text) => _messageText = text;
 
-  set timeStamp(String timestamp) => _timeStamp = timestamp;
+  //set timeStamp(String timestamp) => _timeStamp = timestamp;
 
   Map<String, dynamic> toJson() {
     return {

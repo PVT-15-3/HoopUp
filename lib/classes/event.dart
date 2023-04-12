@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
-
 class Event {
   final String _name;
   final String _description;
