@@ -5,19 +5,8 @@ import 'package:provider/provider.dart';
 import '../services/hoopup_user_provider.dart';
 import '../services/sign_in.dart';
 
-class MainMenu extends StatefulWidget {
+class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
-
-  @override
-  _MainMenuState createState() => _MainMenuState();
-}
-
-class _MainMenuState extends State<MainMenu> {
-  @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp(); // initialize Firebase app
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +26,7 @@ class _MainMenuState extends State<MainMenu> {
           ),
           Center(
             child: ElevatedButton(
-              child: const Text('auth test'),
+              child: const Text('login with google'),
               onPressed: () async {
                 await signInWithGoogle(context);
               },
@@ -55,9 +44,37 @@ class _MainMenuState extends State<MainMenu> {
           ),
           Center(
             child: ElevatedButton(
+              child: const Text('test user'),
+              onPressed: () {
+                print("!!!!!!!!");
+                print(HoopUpUser.isUserSignedIn());
+                print(Provider.of<HoopUpUserProvider>(context, listen: false)
+                    .user);
+                print("!!!!!!!!");
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
               child: const Text('log out user'),
               onPressed: () {
                 HoopUpUser.signOut();
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: const Text('login with email'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/log_in_page.dart');
+              },
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: const Text('signup with email'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/sign_up_page.dart');
               },
             ),
           ),

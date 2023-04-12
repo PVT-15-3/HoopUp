@@ -1,5 +1,3 @@
-// is used to sign in a user, signInWithGoogle() returns a user.
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,7 +6,6 @@ import 'package:my_app/services/hoopup_user_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> signInWithGoogle(BuildContext context) async {
-  final BuildContext currentContext = context;
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -38,7 +35,44 @@ Future<void> signInWithGoogle(BuildContext context) async {
       username: name, skillLevel: 0, id: uid, photoUrl: googleUserNew.photoURL);
 
   // Update the user object in the UserProvider
-  Provider.of<HoopUpUserProvider>(currentContext, listen: false).setUser(user);
+  Provider.of<HoopUpUserProvider>(context, listen: false).setUser(user);
 
   await GoogleSignIn().signOut();
+}
+
+Future<void> signUpWithEmail(String email, String password, String username,
+    BuildContext context) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  try {
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    User? user = userCredential.user;
+    String uid = user!.uid;
+    HoopUpUser hoopUpuser =
+        HoopUpUser(username: username, skillLevel: 0, id: uid, photoUrl: null);
+
+    // Update the user object in the UserProvider
+    Provider.of<HoopUpUserProvider>(context, listen: false).setUser(hoopUpuser);
+
+    print(hoopUpuser);
+    print('User created: ${user.uid}');
+  } on FirebaseAuthException catch (e) {
+    print('Failed to create user: ${e.message}');
+  }
+}
+
+Future<void> signInWithEmail(String email, String password) async {
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    User? user = userCredential.user;
+    print('User signed in: ${user?.uid}');
+  } on FirebaseAuthException catch (e) {
+    print('Failed to sign in user: ${e.message}');
+  }
 }
