@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../classes/time.dart';
+import '../services/hoopup_user_provider.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
@@ -19,6 +21,39 @@ class _CreateEventPageState extends State<CreateEventPage> {
   final _eventNameController = TextEditingController();
   final _eventDescriptionController = TextEditingController();
   final _eventCourtIdController = TextEditingController();
+
+  int _skillLevel = 1;
+  int _numParticipants = 1;
+  String _selectedGender = 'Female';
+  String _selectedAgeGroup = '13-17';
+
+  void _incrementSkillLevel() {
+    setState(() {
+      _skillLevel++;
+    });
+  }
+
+  void _decrementSkillLevel() {
+    setState(() {
+      if (_skillLevel > 1) {
+        _skillLevel--;
+      }
+    });
+  }
+
+  void _incrementNumParticipants() {
+    setState(() {
+      _numParticipants++;
+    });
+  }
+
+  void _decrementNumParticipants() {
+    setState(() {
+      if (_numParticipants > 1) {
+        _numParticipants--;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +144,148 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 child: Text("${_endTime.hour}:${_endTime.minute}"),
               ),
               const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Text('Skill Level: '),
+                  ElevatedButton(
+                    onPressed: _decrementSkillLevel,
+                    child: const Icon(Icons.remove),
+                  ),
+                  Text('$_skillLevel'),
+                  ElevatedButton(
+                    onPressed: _incrementSkillLevel,
+                    child: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Text('Number of Participants: '),
+                  ElevatedButton(
+                    onPressed: _decrementNumParticipants,
+                    child: const Icon(Icons.remove),
+                  ),
+                  Text('$_numParticipants'),
+                  ElevatedButton(
+                    onPressed: _incrementNumParticipants,
+                    child: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedGender = 'Female';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedGender == 'Female' ? Colors.blue : null,
+                    ),
+                    child: const Text('Female'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedGender = 'Male';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedGender == 'Male' ? Colors.blue : null,
+                    ),
+                    child: const Text('Male'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedGender = 'Other';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedGender == 'Other' ? Colors.blue : null,
+                    ),
+                    child: const Text('Other'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedGender = 'All';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedGender == 'All' ? Colors.blue : null,
+                    ),
+                    child: const Text('All'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedAgeGroup = '13-17';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedAgeGroup == '13-17' ? Colors.blue : null,
+                    ),
+                    child: const Text('13-17'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedAgeGroup = '18+';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedAgeGroup == '18+' ? Colors.blue : null,
+                    ),
+                    child: const Text('18+'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedAgeGroup = '55+';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedAgeGroup == '55+' ? Colors.blue : null,
+                    ),
+                    child: const Text('55+'),
+                  ),
+                  const SizedBox(width: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedAgeGroup = 'All';
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _selectedAgeGroup == 'All' ? Colors.blue : null,
+                    ),
+                    child: const Text('All'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20.0),
               TextFormField(
                 controller: _eventDescriptionController,
                 decoration: const InputDecoration(labelText: 'Description'),
@@ -137,6 +314,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   submitForm() {
     Time eventDate = Time(startTime: _startTime, endTime: _endTime);
+    String? id =
+        Provider.of<HoopUpUserProvider>(context, listen: false).user?.id;
     HoopUpUser newUser = HoopUpUser(
         username: 'kalle',
         skillLevel: 3,
@@ -147,12 +326,15 @@ class _CreateEventPageState extends State<CreateEventPage> {
     print(
         '${_eventCourtIdController.text} -  ${_eventNameController.text} - ${eventDate.toJson()}');
     Event event = Event(
-      name: _eventNameController.text,
-      description: _eventDescriptionController.text,
-      time: eventDate,
-      courtId: _eventCourtIdController.text,
-      creatorId: newUser.id,
-    );
+        name: _eventNameController.text,
+        description: _eventDescriptionController.text,
+        time: eventDate,
+        courtId: _eventCourtIdController.text,
+        creatorId: id,
+        skillLevel: _skillLevel,
+        playerAmount: _numParticipants,
+        ageGroup: _selectedAgeGroup,
+        genderGroup: _selectedGender);
 
     print('${event.toJson()}');
   }

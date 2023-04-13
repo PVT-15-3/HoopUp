@@ -8,50 +8,117 @@ FirebaseDatabase database = FirebaseDatabase.instance;
 class Event {
   final String _name;
   final String _description;
-  final String _creatorId;
+  final String? _creatorId;
   Chat? _chat;
   final Time _time;
   final String _courtId;
   final String _id;
+  int _skillLevel;
+  int _playerAmount;
+  String _genderGroup;
+  String _ageGroup;
   final List<String> _usersIds = [];
 
-  Event( {required String name,
-      required String description,
-      required String creatorId,
-      required Time time,
-      required String courtId,
-      }) 
-      : _name = name, 
-      _description = description, 
-      _creatorId = creatorId,
-      _time = time,
-      _courtId = courtId,
-      _id = const Uuid().v4()
-      {
-      _chat = Chat(eventId: _id);
-       database.ref("events/$_id").set({
-      'name': _name, 
+  Event({
+    required String name,
+    required String description,
+    required String? creatorId,
+    required Time time,
+    required String courtId,
+    required int skillLevel,
+    required int playerAmount,
+    required String genderGroup,
+    required String ageGroup,
+  })  : _name = name,
+        _description = description,
+        _creatorId = creatorId,
+        _time = time,
+        _courtId = courtId,
+        _skillLevel = skillLevel,
+        _playerAmount = playerAmount,
+        _genderGroup = genderGroup,
+        _ageGroup = ageGroup,
+        _id = const Uuid().v4() {
+    _chat = Chat(eventId: _id);
+    {
+      _validateSkillLevel(skillLevel);
+      _validatePlayerAmount(playerAmount);
+      database.ref("events/$_id").set({
+        'name': _name,
+        'description': _description,
+        'creatorId': _creatorId,
+        'time': _time.toJson(),
+        'courtId': _courtId,
+        'chat': _chat?.toJson(),
+        'skillLevel': _skillLevel,
+        'playerAmount': _playerAmount,
+        'genderGroup': _genderGroup,
+        'ageGroup': _ageGroup,
+      }).catchError((error) {
+        print("Failed to create event: ${error.toString()}");
+      });
+    }
+  }
+
+// getters for the class properties
+  String get name => _name;
+  String get description => _description;
+  String? get creatorId => _creatorId;
+  String get id => _id;
+  Time get time => _time;
+  String get courtId => _courtId;
+  int get skillLevel => _skillLevel;
+  int get playerAmount => _playerAmount;
+  String get ageGroup => _ageGroup;
+  String get genderGroup => _genderGroup;
+  Chat? get chat => _chat;
+  List<String> get usersIds => _usersIds;
+
+  //Handle events
+
+  void addUser(String userId) {
+    if (userId == _creatorId) {
+      throw ArgumentError('Cannot add creator as a user.');
+    }
+    if (_usersIds.contains(userId)) {
+      throw ArgumentError('User is already added to this event.');
+    }
+    _usersIds.add(userId);
+    database.ref("events/$_id/userIds/${userId}");
+  }
+
+  void removeUser(String userId) {
+    if (userId != _creatorId) {
+      _usersIds.remove(userId);
+      database.ref("events/$_id/userIds/${userId}").remove();
+    }
+  }
+
+  // Validate inputs
+  void _validateSkillLevel(int skillLevel) {
+    if (skillLevel < 1 || skillLevel > 3) {
+      throw ArgumentError('Skill level should be between 1 and 3');
+    }
+  }
+
+  void _validatePlayerAmount(int playerAmount) {
+    if (playerAmount < 2 || playerAmount > 20) {
+      throw ArgumentError('Player amount should be between 2 and 20');
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': _name,
       'description': _description,
       'creatorId': _creatorId,
       'time': _time.toJson(),
       'courtId': _courtId,
-      'chat': _chat?.toJson()
-    }).catchError((error) {
-      print("Failed to create event: ${error.toString()}");
-    });
-      }
-       
-// getters for the class properties
-  String get name => _name;
-  String get description => _description;
-  String get creatorId => _creatorId;
-  String get id => _id;
-  Time get time => _time;
-  String get courtId => _courtId;
-  Chat? get chat => _chat;
-  List<String> get usersIds => _usersIds;
-
-  Map<String, dynamic> toJson() {
-    return {'name': _name, 'description': _description, 'creatorId': _creatorId, 'time': _time.toJson(), 'courtId': _courtId, 'chat': _chat?.toJson()};
+      'chat': _chat?.toJson(),
+      'skillLevel': _skillLevel,
+      'playerAmount': _playerAmount,
+      'genderGroup': _genderGroup,
+      'ageGroup': _ageGroup,
+    };
   }
 }
