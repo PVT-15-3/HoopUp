@@ -3,6 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/services/hoopup_user_provider.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -19,14 +21,13 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
 
   // Once signed in, return the UserCredential
   var googleUserNew =
-      ((await FirebaseAuth.instance.signInWithCredential(credential)).user);
+      ((await _auth.signInWithCredential(credential)).user);
 
   String? name = googleUserNew?.displayName;
-  String? email = googleUserNew?.email;
   String uid = googleUserNew!.uid;
 
-  if (email == null || name == null) {
-    throw Exception("email or name or id is null");
+  if (name == null) {
+    throw Exception("name is null");
   }
 
   HoopUpUser user = HoopUpUser(
@@ -40,8 +41,6 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
 
 
 //////////////////////////////////////////// EMAIL SIGN IN  ////////////////////////////////////////////
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<void> signUpWithEmail(
   String email,

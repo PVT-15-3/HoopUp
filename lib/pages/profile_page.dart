@@ -52,9 +52,15 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
+                  onPressed: () async {
+                    user.pickProfilePicture();
+                  },
+                  child: const Text('Select profile picture'),
+                ),
+                ElevatedButton(
                   onPressed: () {
                     user.skillLevel = skillLevel;
-                    if(controller.text.length >= 4) {
+                    if (controller.text.length >= 4) {
                       user.username = controller.text;
                     }
                   },

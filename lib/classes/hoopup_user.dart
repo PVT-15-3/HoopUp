@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:image_picker/image_picker.dart';
 import 'event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -33,7 +36,7 @@ class HoopUpUser {
 
   // setters
 
-  set photo(String url) {
+  set photoUrl(String? url) {
     _photoUrl = url;
     database
         .ref("users/$_id")
@@ -72,8 +75,14 @@ class HoopUpUser {
   String get id => _id;
 
   int get skillLevel => _skillLevel;
-   Map<String, dynamic> toJson() {
-    return {'username': _username, 'skillLevel': _skillLevel, 'id': _id, 'photoUrl': _photoUrl };
+
+  Map<String, dynamic> toJson() {
+    return {
+      'username': _username,
+      'skillLevel': _skillLevel,
+      'id': _id,
+      'photoUrl': _photoUrl
+    };
   }
 
   // handle events
@@ -141,5 +150,27 @@ class HoopUpUser {
 
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  void pickProfilePicture() async {
+    // Open gallery to select an image
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      // Upload image to Firebase Storage
+      final firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child('user_profiles/${DateTime.now().millisecondsSinceEpoch}');
+      final task = firebaseStorageRef.putFile(File(pickedFile.path));
+      task.snapshotEvents.listen((TaskSnapshot snapshot) {
+        print(
+            'Upload completed: ${snapshot.bytesTransferred} bytes transferred');
+      }, onError: (Object e) {
+        print(e.toString());
+      });
+      // Update user profile picture URL
+      photoUrl = await task
+          .then((TaskSnapshot snapshot) => snapshot.ref.getDownloadURL());
+    }
   }
 }
