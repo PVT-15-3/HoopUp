@@ -9,6 +9,7 @@ class MainMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = context.watch<HoopUpUserProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("data"),
@@ -35,9 +36,8 @@ class MainMenu extends StatelessWidget {
             child: ElevatedButton(
               child: const Text('remove user'),
               onPressed: () {
-                Provider.of<HoopUpUserProvider>(context, listen: false)
-                    .user
-                    ?.deleteAccount();
+                userProvider.user?.deleteAccount();
+                userProvider.clearUser();
               },
             ),
           ),
@@ -47,8 +47,7 @@ class MainMenu extends StatelessWidget {
               onPressed: () {
                 print("!!!!!!!!");
                 print(HoopUpUser.isUserSignedIn());
-                print(Provider.of<HoopUpUserProvider>(context, listen: false)
-                    .user);
+                print(userProvider.user);
                 print("!!!!!!!!");
               },
             ),
@@ -58,6 +57,7 @@ class MainMenu extends StatelessWidget {
               child: const Text('log out user'),
               onPressed: () {
                 HoopUpUser.signOut();
+                userProvider.clearUser();
               },
             ),
           ),
@@ -83,6 +83,14 @@ class MainMenu extends StatelessWidget {
                 Navigator.pushNamed(context, '/create_event.dart');
               },
               child: const Text('create event'),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/profile_page.dart');
+              },
+              child: const Text('go to profile page'),
             ),
           ),
         ],

@@ -301,6 +301,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     submitForm();
+                    Navigator.pop(context);
                   },
                   child: const Text('Create Event'),
                 ),

@@ -9,10 +9,23 @@ final hoopUpUserProvider = ChangeNotifierProvider<HoopUpUserProvider>((ref) {
 class HoopUpUserProvider extends ChangeNotifier {
   HoopUpUser? _user;
 
+  HoopUpUser? get user => _user;
+
   void setUser(HoopUpUser user) {
     _user = user;
     notifyListeners();
   }
 
-  HoopUpUser? get user => _user;
+  void clearUser() {
+    if (_user != null) {
+      _user = null;
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    clearUser();
+    super.dispose();
+  }
 }

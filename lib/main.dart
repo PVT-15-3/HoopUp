@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'pages/map.dart';
 import 'pages/main_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'services/hoopup_user_provider.dart';
 import 'pages/log_in_page.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/create_event.dart': (context) => const CreateEventPage(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
+          '/profile_page.dart': (context) => const ProfilePage(),
         },
       ),
     );
