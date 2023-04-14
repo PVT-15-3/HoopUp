@@ -38,6 +38,8 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
   await GoogleSignIn().signOut();
 }
 
+
+//////////////////////////////////////////// EMAIL SIGN IN  ////////////////////////////////////////////
 Future<void> signUpWithEmail(
   String email,
   String password,

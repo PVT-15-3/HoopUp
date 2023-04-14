@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_app/services/sign_in.dart';
 
@@ -60,6 +59,54 @@ class LogInPage extends StatelessWidget {
                 }
               },
               child: const Text('Submit'),
+            ),
+            TextButton(
+              child: const Text('Forgot Password'),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    final formKey = GlobalKey<FormState>();
+                    final emailController = TextEditingController();
+
+                    return AlertDialog(
+                      title: const Text("Forgot Password"),
+                      content: Form(
+                        key: formKey,
+                        child: TextFormField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            labelText: "Email",
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your email address";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text("Cancel"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: const Text("Submit"),
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              resetPassword(emailController.text);
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

@@ -77,7 +77,6 @@ class SignUpPage extends StatelessWidget {
                     username!,
                     context.read<HoopUpUserProvider>(),
                   );
-
                   Navigator.pop(context);
                 }
               },
