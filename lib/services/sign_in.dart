@@ -40,6 +40,9 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
 
 
 //////////////////////////////////////////// EMAIL SIGN IN  ////////////////////////////////////////////
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 Future<void> signUpWithEmail(
   String email,
   String password,
@@ -48,7 +51,7 @@ Future<void> signUpWithEmail(
 ) async {
   try {
     UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -67,7 +70,7 @@ Future<void> signUpWithEmail(
 Future<void> signInWithEmail(String email, String password) async {
   try {
     UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -76,4 +79,9 @@ Future<void> signInWithEmail(String email, String password) async {
   } on FirebaseAuthException catch (e) {
     print('Failed to sign in user: ${e.message}');
   }
+}
+
+ Future<void> resetPassword(String email) async {
+  await _auth.sendPasswordResetEmail(email: email);
+  print('Password reset email sent to $email');
 }
