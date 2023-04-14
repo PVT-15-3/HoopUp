@@ -13,12 +13,7 @@ class ProfilePage extends StatelessWidget {
         child: Consumer<HoopUpUserProvider>(
           builder: (context, userProvider, child) {
             HoopUpUser? user = userProvider.user;
-            HoopUpUser tempUser = HoopUpUser(
-              username: user!.username,
-              skillLevel: user.skillLevel,
-              id: user.id,
-              photoUrl: user.photoUrl,
-            );
+            int skillLevel = user!.skillLevel;
 
             final controller = TextEditingController(text: user.username);
             return Column(
@@ -32,33 +27,25 @@ class ProfilePage extends StatelessWidget {
                     hintText: user.username,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (controller.text != "") {
-                      user.username = controller.text;
-                    }
-                  },
-                  child: const Text('Change name'),
-                ),
                 const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        user.skillLevel = 1;
+                        skillLevel = 1;
                       },
                       child: const Text('Beginner'),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        user.skillLevel = 2;
+                        skillLevel = 2;
                       },
                       child: const Text('Intermediate'),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        user.skillLevel = 3;
+                        skillLevel = 3;
                       },
                       child: const Text('Advanced'),
                     ),
@@ -66,11 +53,12 @@ class ProfilePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    userProvider.setUser(tempUser);
-                    controller.text = tempUser.username;
-                    controller.clear();
+                    user.skillLevel = skillLevel;
+                    if(controller.text.length >= 4) {
+                      user.username = controller.text;
+                    }
                   },
-                  child: const Text('Reset'),
+                  child: const Text('Save'),
                 ),
                 const SizedBox(height: 16.0),
               ],
