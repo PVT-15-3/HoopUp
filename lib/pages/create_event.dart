@@ -3,7 +3,7 @@ import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../classes/time.dart';
-import '../services/hoopup_user_provider.dart';
+import '../providers/hoopup_user_provider.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);

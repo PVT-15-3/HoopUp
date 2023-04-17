@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
-import '../services/hoopup_user_provider.dart';
+import '../providers/hoopup_user_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../services/hoopup_user_provider.dart';
+import '../providers/hoopup_user_provider.dart';
 import '../services/sign_in.dart';
 
 class SignUpPage extends StatelessWidget {
