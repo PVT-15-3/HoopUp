@@ -7,7 +7,7 @@ import 'pages/main_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
-import 'services/hoopup_user_provider.dart';
+import 'providers/hoopup_user_provider.dart';
 import 'pages/log_in_page.dart';
 
 Future<void> main() async {

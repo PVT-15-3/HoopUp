@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app/classes/hoopup_user.dart';
-import 'package:my_app/services/hoopup_user_provider.dart';
+import 'package:my_app/providers/hoopup_user_provider.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -20,8 +20,7 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
   );
 
   // Once signed in, return the UserCredential
-  var googleUserNew =
-      ((await _auth.signInWithCredential(credential)).user);
+  var googleUserNew = ((await _auth.signInWithCredential(credential)).user);
 
   String? name = googleUserNew?.displayName;
   String uid = googleUserNew!.uid;
@@ -48,8 +47,7 @@ Future<void> signUpWithEmail(
   HoopUpUserProvider hoopUpUserProvider,
 ) async {
   try {
-    UserCredential userCredential =
-        await _auth.createUserWithEmailAndPassword(
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -69,8 +67,7 @@ Future<void> signUpWithEmail(
 
 Future<void> signInWithEmail(String email, String password) async {
   try {
-    UserCredential userCredential =
-        await _auth.signInWithEmailAndPassword(
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -81,7 +78,7 @@ Future<void> signInWithEmail(String email, String password) async {
   }
 }
 
- Future<void> resetPassword(String email) async {
+Future<void> resetPassword(String email) async {
   await _auth.sendPasswordResetEmail(email: email);
   print('Password reset email sent to $email');
 }
