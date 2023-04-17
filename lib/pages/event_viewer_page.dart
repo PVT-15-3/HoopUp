@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/event.dart';
 
 class EventViewerPage extends StatefulWidget {
   EventViewerPage({Key? key}) : super(key: key);

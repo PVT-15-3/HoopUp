@@ -7,14 +7,19 @@ import 'package:flutter/material.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
-Future <void> main() async {
+Future<void> main() async {
   // init database
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   group('User tests', () {
     test('create user', () async {
       // Arrange
-      var user = HoopUpUser(username: "username", skillLevel: 3, id: "email@asd.com", photoUrl: null, gender: 'none');
+      var user = HoopUpUser(
+          username: "username",
+          skillLevel: 3,
+          id: "email@asd.com",
+          photoUrl: null,
+          gender: 'none');
 
       // Assert
       expect(user.username == "username", true);
