@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/create_event.dart';
+import 'package:my_app/pages/event_viewer_page.dart';
+import 'package:my_app/pages/list_events.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/map.dart';
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
+          '/list_events.dart': (context) => ListEventsPage(),
         },
       ),
     );

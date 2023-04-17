@@ -1,25 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:my_app/classes/event.dart';
-import 'package:my_app/services/hoopup_user_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/providers/hoopup_user_provider.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 
-class EventViewerPage extends StatelessWidget {
-  EventViewerPage({Key? key}) : super(key: key);
+class ListEventsPage extends StatelessWidget {
+  ListEventsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Text('HoopUp'),
-        Container(
-          child: Column(
-            children: [Text('My bookings')],
-          ),
+      appBar: AppBar(
+        title: const Text('View events'),
+      ),
+      body: Center(
+        child: Consumer<HoopUpUserProvider>(
+          builder: (context, userProvider, child) {
+            HoopUpUser? user = userProvider.user;
+            List<Event>? events = user!.events;
+
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  const Text('My Bookings'),
+                  for (var event in events)
+                    Column(
+                      children: [
+                        Text(
+                          event.name,
+                        ),
+                        Text(
+                          'Game start: ${event.time.startTime.hour}',
+                        ),
+                        Text(
+                          '${event.time.startTime.day}',
+                        )
+                      ],
+                    )
+                ],
+              ),
+            );
+          },
         ),
-      ],
-    ));
+      ),
+    );
   }
 }

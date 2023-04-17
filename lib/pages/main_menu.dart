@@ -93,6 +93,14 @@ class MainMenu extends StatelessWidget {
               child: const Text('go to profile page'),
             ),
           ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/list_events.dart');
+              },
+              child: const Text('List events'),
+            ),
+          )
         ],
       ),
     );
