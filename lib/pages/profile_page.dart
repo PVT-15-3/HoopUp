@@ -14,6 +14,7 @@ class ProfilePage extends StatelessWidget {
           builder: (context, userProvider, child) {
             HoopUpUser? user = userProvider.user;
             int skillLevel = user!.skillLevel;
+            String? gender = user.gender;
 
             final controller = TextEditingController(text: user.username);
             return Column(
@@ -51,6 +52,29 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        gender = 'male';
+                      },
+                      child: const Text('male'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        gender = 'female';
+                      },
+                      child: const Text('female'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        gender = 'other';
+                      },
+                      child: const Text('other'),
+                    ),
+                  ],
+                ),
                 ElevatedButton(
                   onPressed: () async {
                     user.pickProfilePicture();
@@ -60,6 +84,7 @@ class ProfilePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     user.skillLevel = skillLevel;
+                    user.gender = gender!;
                     if (controller.text.length >= 4) {
                       user.username = controller.text;
                     }

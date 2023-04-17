@@ -14,26 +14,25 @@ class HoopUpUser {
   final String _id;
   final List<Event> _events = [];
   String? _photoUrl;
-  String _gender; // can be "none", "other", "male", "female"
+  String? _gender; // can be "other", "male", "female"
 
   HoopUpUser(
       {required String username,
       required int skillLevel,
       required String id,
       required String? photoUrl,
-      required String gender
-      })
+      required String? gender})
       : _username = username,
         _skillLevel = skillLevel,
         _id = id,
         _photoUrl = photoUrl,
-        _gender = gender
-         {
+        _gender = gender {
     _validateSkillLevel(skillLevel);
     database.ref("users/$_id").set({
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
+      "gender": _gender
     }).catchError((error) {
       print("Failed to create user: ${error.toString()}");
     });
@@ -47,6 +46,15 @@ class HoopUpUser {
         .ref("users/$_id")
         .update({"photoUrl": _photoUrl}).catchError((error) {
       print("Failed to update photo: ${error.toString()}");
+    });
+  }
+
+  set gender(String? gender) {
+    _gender = gender;
+    database
+        .ref("users/$_id")
+        .update({"gender": _gender}).catchError((error) {
+      print("Failed to update gender: ${error.toString()}");
     });
   }
 
@@ -72,6 +80,8 @@ class HoopUpUser {
   // getters
 
   String? get photoUrl => _photoUrl;
+
+  String? get gender => _gender;
 
   String get username => _username;
 
