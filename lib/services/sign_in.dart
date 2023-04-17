@@ -30,7 +30,11 @@ Future<void> signInWithGoogle(HoopUpUserProvider hoopUpUserProvider) async {
   }
 
   HoopUpUser user = HoopUpUser(
-      username: name, skillLevel: 0, id: uid, photoUrl: googleUserNew.photoURL, gender: 'none');
+      username: name,
+      skillLevel: 0,
+      id: uid,
+      photoUrl: googleUserNew.photoURL,
+      gender: 'other');
 
   // Update the user object in the UserProvider
   hoopUpUserProvider.setUser(user);
@@ -56,8 +60,7 @@ Future<void> signUpWithEmail(
         skillLevel: 0,
         id: userCredential.user!.uid,
         photoUrl: null,
-        gender: 'none'
-        );
+        gender: 'other');
     hoopUpUserProvider.setUser(hoopUpuser);
     print('User created: ${userCredential.user!.uid}');
   } on FirebaseAuthException catch (e) {
