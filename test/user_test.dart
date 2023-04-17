@@ -14,7 +14,7 @@ Future <void> main() async {
   group('User tests', () {
     test('create user', () async {
       // Arrange
-      var user = HoopUpUser(username: "username", skillLevel: 3, id: "email@asd.com", photoUrl: null);
+      var user = HoopUpUser(username: "username", skillLevel: 3, id: "email@asd.com", photoUrl: null, gender: 'none');
 
       // Assert
       expect(user.username == "username", true);

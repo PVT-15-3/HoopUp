@@ -322,7 +322,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
         skillLevel: 3,
         id: 'test id',
         photoUrl:
-            'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
+            'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+            gender: 'male');
 
     print(
         '${_eventCourtIdController.text} -  ${_eventNameController.text} - ${eventDate.toJson()}');

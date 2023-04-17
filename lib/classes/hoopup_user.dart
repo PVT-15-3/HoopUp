@@ -14,16 +14,21 @@ class HoopUpUser {
   final String _id;
   final List<Event> _events = [];
   String? _photoUrl;
+  String _gender; // can be "none", "other", "male", "female"
 
   HoopUpUser(
       {required String username,
       required int skillLevel,
       required String id,
-      required String? photoUrl})
+      required String? photoUrl,
+      required String gender
+      })
       : _username = username,
         _skillLevel = skillLevel,
         _id = id,
-        _photoUrl = photoUrl {
+        _photoUrl = photoUrl,
+        _gender = gender
+         {
     _validateSkillLevel(skillLevel);
     database.ref("users/$_id").set({
       "username": _username,
