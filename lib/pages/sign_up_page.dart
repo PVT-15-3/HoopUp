@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../services/sign_in.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends HookWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    String? email;
-    String? password;
-    String? username;
+    final isEmailValid = useState(true);
+    final email = useState<String?>(null);
+    final password = useState<String?>(null);
+    final username = useState<String?>(null);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,17 +28,25 @@ class SignUpPage extends StatelessWidget {
           children: [
             TextFormField(
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Email',
+                errorText: isEmailValid.value ? null : 'Please enter a valid email',
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                ),
               ),
+              controller: _emailController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
                 }
-                return null;
+                final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                final isValid = emailRegExp.hasMatch(value);
+                isEmailValid.value = isValid;
+                return isValid ? null : 'Please enter a valid email';
               },
               onSaved: (value) {
-                email = value;
+                email.value = value;
               },
             ),
             TextFormField(
@@ -50,7 +61,7 @@ class SignUpPage extends StatelessWidget {
                 return null;
               },
               onSaved: (value) {
-                password = value;
+                password.value = value;
               },
             ),
             TextFormField(
@@ -64,7 +75,7 @@ class SignUpPage extends StatelessWidget {
                 return null;
               },
               onSaved: (value) {
-                username = value;
+                username.value = value;
               },
             ),
             ElevatedButton(
@@ -72,9 +83,9 @@ class SignUpPage extends StatelessWidget {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   signUpWithEmail(
-                    email!,
-                    password!,
-                    username!,
+                    email.value!,
+                    password.value!,
+                    username.value!,
                     context.read<HoopUpUserProvider>(),
                   );
                   Navigator.pop(context);
