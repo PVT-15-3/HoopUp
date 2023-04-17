@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:my_app/classes/event.dart';
 
-class EventViewerPage extends StatefulWidget {
-  EventViewerPage({Key? key}) : super(key: key);
+final FirebaseDatabase database = FirebaseDatabase.instance;
 
-  @override
-  _EventViewerPageState createState() => _EventViewerPageState();
-}
+class EventViewerPage extends StatelessWidget {
+  Event _event;
+  EventViewerPage({Key? key, required Event event})
+      : _event = event,
+        super(key: key);
 
-class _EventViewerPageState extends State<EventViewerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Active Events"),
-      ),
-    );
+        body: Column(
+      children: [
+        Image.network(''),
+        Container(
+          child: Column(
+            children: [
+              //Name
+              Text('something'),
+              //Description
+              Text('something else'),
+              //User stats
+              Container(),
+            ],
+          ),
+        ),
+        Text('Comments'),
+        Container(
+          child: Column(
+            children: [
+              //List all comments
+            ],
+          ),
+        )
+      ],
+    ));
   }
 }
