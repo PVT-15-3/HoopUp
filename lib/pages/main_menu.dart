@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
-import '../services/sign_in.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -21,14 +20,6 @@ class MainMenu extends StatelessWidget {
               child: const Text('Go to Map'),
               onPressed: () {
                 Navigator.pushNamed(context, '/map');
-              },
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('login with google'),
-              onPressed: () async {
-                await signInWithGoogle(context.read<HoopUpUserProvider>());
               },
             ),
           ),

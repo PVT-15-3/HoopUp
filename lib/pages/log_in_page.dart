@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/services/sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LogInPage extends StatelessWidget {
-  LogInPage({super.key});
+  LogInPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -54,7 +55,7 @@ class LogInPage extends StatelessWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  signInWithEmail(email!, password!);
+                  signInWithEmail(email!, password!, context.read());
                   Navigator.pop(context);
                 }
               },
