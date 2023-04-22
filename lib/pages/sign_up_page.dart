@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
-import '../services/sign_in.dart';
+import '../handlers/login_handler.dart';
 
 class SignUpPage extends HookWidget {
   SignUpPage({Key? key}) : super(key: key);

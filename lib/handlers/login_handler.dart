@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
-import './get_data_from_firebase.dart';
+import '../services/get_data_from_firebase.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

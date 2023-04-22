@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter',
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.orange,
         ),
         home: const MainMenu(),
         routes: {
