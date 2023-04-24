@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
-import '../services/get_data_from_firebase.dart';
+import '../handlers/firebase_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -22,6 +22,7 @@ Future<void> signUpWithEmail(
         id: userCredential.user!.uid,
         photoUrl: null,
         gender: 'other');
+    hoopUpuser.addUserToDatabase();
     hoopUpUserProvider.setUser(hoopUpuser);
     print('User created: ${userCredential.user!.uid}');
   } on FirebaseAuthException catch (e) {
@@ -29,7 +30,8 @@ Future<void> signUpWithEmail(
   }
 }
 
-Future<void> signInWithEmail(String email, String password, HoopUpUserProvider hoopUpUserProvider) async {
+Future<void> signInWithEmail(String email, String password,
+    HoopUpUserProvider hoopUpUserProvider) async {
   try {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
       email: email,

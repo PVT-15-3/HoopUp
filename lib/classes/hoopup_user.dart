@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../handlers/firebase_handler.dart';
 
-final FirebaseDatabase database = FirebaseDatabase.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HoopUpUser {
@@ -28,13 +27,14 @@ class HoopUpUser {
         _photoUrl = photoUrl,
         _gender = gender {
     _validateSkillLevel(skillLevel);
-    database.ref("users/$_id").set({
+  }
+
+  void addUserToDatabase() async {
+    await setFirebaseData("users/$id", {
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
       "gender": _gender
-    }).catchError((error) {
-      print("Failed to create user: ${error.toString()}");
     });
   }
 
@@ -42,39 +42,23 @@ class HoopUpUser {
 
   set photoUrl(String? url) {
     _photoUrl = url;
-    database
-        .ref("users/$_id")
-        .update({"photoUrl": _photoUrl}).catchError((error) {
-      print("Failed to update photo: ${error.toString()}");
-    });
+    updateFirebaseData("users/$id", {"photoUrl": url});
   }
 
   set gender(String? gender) {
     _gender = gender;
-    database
-        .ref("users/$_id")
-        .update({"gender": _gender}).catchError((error) {
-      print("Failed to update gender: ${error.toString()}");
-    });
+    updateFirebaseData("users/$id", {"gender": gender});
   }
 
   set username(String username) {
     _username = username;
-    database
-        .ref("users/$_id")
-        .update({"username": _username}).catchError((error) {
-      print("Failed to update username: ${error.toString()}");
-    });
+    updateFirebaseData("users/$id", {"username": username});
   }
 
   set skillLevel(int skillLevel) {
     _validateSkillLevel(skillLevel);
     _skillLevel = skillLevel;
-    database
-        .ref("users/$_id")
-        .update({"skillLevel": _skillLevel}).catchError((error) {
-      print("Failed to update skill level: ${error.toString()}");
-    });
+    updateFirebaseData("users/$id", {"skillLevel": skillLevel});
   }
 
   // getters
@@ -102,32 +86,22 @@ class HoopUpUser {
 
   // handle events
 
-  void addEvent(Event event) {
-    String id = event.id;
+  void addEvent(Event event) async {
     _events.add(event);
-    database
-        .ref("users/$_id/events/$id")
-        .set(event.toJson())
-        .catchError((error) {
-      print("Failed to add event: ${error.toString()}");
-    });
+    await setFirebaseData("users/$id/events/$event.id", event.toJson());
   }
 
-  void removeEvent(Event event) {
+  void removeEvent(Event event) async {
     int index = _events.indexOf(event);
     if (index >= 0) {
       _events.removeAt(index);
-      database
-          .ref("users/$_id/events/${event.id}")
-          .remove()
-          .catchError((error) {
-        print("Failed to remove event: ${error.toString()}");
-      });
+      await removeFirebaseData("users/$id/events/${event.id}");
     }
   }
 
   @override
-  String toString() => 'User: $_username, $_skillLevel, $_id';
+  String toString() =>
+      'User: $username, $skillLevel, $id, $photoUrl, $gender, $events';
 
   // override equality operator
 
@@ -151,20 +125,11 @@ class HoopUpUser {
     try {
       var user = _auth.currentUser;
       await user?.delete();
-      database.ref("users/$_id").remove();
+      await removeFirebaseData("users/$_id");
       print("User deleted successfully");
     } catch (e) {
       print("Failed to delete user: ${e.toString()}");
     }
-  }
-
-  static bool isUserSignedIn() {
-    User? user = FirebaseAuth.instance.currentUser;
-    return user != null;
-  }
-
-  static Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
   }
 
   void pickProfilePicture() async {
@@ -173,19 +138,22 @@ class HoopUpUser {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       // Upload image to Firebase Storage
-      final firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('user_profiles/${DateTime.now().millisecondsSinceEpoch}');
-      final task = firebaseStorageRef.putFile(File(pickedFile.path));
-      task.snapshotEvents.listen((TaskSnapshot snapshot) {
-        print(
-            'Upload completed: ${snapshot.bytesTransferred} bytes transferred');
-      }, onError: (Object e) {
-        print(e.toString());
-      });
+      final path = 'user_profiles/${DateTime.now().millisecondsSinceEpoch}';
+      await uploadFileToFirebaseStorage(File(pickedFile.path), path);
       // Update user profile picture URL
-      photoUrl = await task
-          .then((TaskSnapshot snapshot) => snapshot.ref.getDownloadURL());
+      photoUrl =
+          await FirebaseStorage.instance.ref().child(path).getDownloadURL();
     }
+  }
+
+  // static methods
+
+  static bool isUserSignedIn() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user != null;
+  }
+
+  static Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

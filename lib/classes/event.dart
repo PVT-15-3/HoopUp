@@ -84,13 +84,13 @@ class Event {
       throw ArgumentError('User is already added to this event.');
     }
     _usersIds.add(userId);
-    database.ref("events/$_id/userIds/${userId}");
+    database.ref("events/$_id/userIds/$userId");
   }
 
   void removeUser(String userId) {
     if (userId != _creatorId) {
       _usersIds.remove(userId);
-      database.ref("events/$_id/userIds/${userId}").remove();
+      database.ref("events/$_id/userIds/$userId").remove();
     }
   }
 

@@ -21,7 +21,6 @@ class Chat {
 
   List<Message> get messages => _messages;
 
-
   //Handle events
 
   void addMessage(Message message) {
