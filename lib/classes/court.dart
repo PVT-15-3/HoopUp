@@ -23,7 +23,6 @@ class Court {
         _courtType = courtType,
         _address = address,
         _courtId = const Uuid().v4() {
-    //TODO should we really use the court ID as the identifier in the DB? could get messy
     database.ref("courts/$_courtId").set({
       "name": _name,
       "imageLink": _imageLink,

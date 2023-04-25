@@ -25,7 +25,7 @@ class ListEventsPage extends StatelessWidget {
             return Container(
               child: Column(
                 children: <Widget>[
-                  const Text('My Bookings'),
+                  Text("$name's Bookings"),
                   for (var event in events)
                     Column(
                       children: [
