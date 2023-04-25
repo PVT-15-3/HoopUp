@@ -55,6 +55,10 @@ Future<void> signInWithEmail(String email, String password,
 }
 
 Future<void> resetPassword(String email) async {
-  await _auth.sendPasswordResetEmail(email: email);
-  print('Password reset email sent to $email');
+  try {
+    await _auth.sendPasswordResetEmail(email: email);
+    print('Password reset email sent to $email');
+  } on Exception catch (e) {
+    print('Failed to send password reset email to $email: ${e.toString()}');
+  }
 }

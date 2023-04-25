@@ -11,7 +11,7 @@ class HoopUpUser {
   String _username;
   int _skillLevel;
   final String _id;
-  final List<Event> _events = [];
+  final List<String> _events = [];
   String? _photoUrl;
   String? _gender; // can be "other", "male", "female"
 
@@ -30,7 +30,7 @@ class HoopUpUser {
   }
 
   void addUserToDatabase() async {
-    await setFirebaseData("users/$id", {
+    await setFirebaseDataMap("users/$id", {
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
@@ -69,7 +69,7 @@ class HoopUpUser {
 
   String get username => _username;
 
-  List<Event> get events => _events;
+  List<String> get events => _events;
 
   String get id => _id;
 
@@ -87,12 +87,12 @@ class HoopUpUser {
   // handle events
 
   void addEvent(Event event) async {
-    _events.add(event);
-    await setFirebaseData("users/$id/events/$event.id", event.toJson());
+    _events.add(event.id);
+    await setFirebaseDataString("users/$id/events", event.id);
   }
 
   void removeEvent(Event event) async {
-    int index = _events.indexOf(event);
+    int index = _events.indexOf(event.id);
     if (index >= 0) {
       _events.removeAt(index);
       await removeFirebaseData("users/$id/events/${event.id}");
@@ -125,7 +125,7 @@ class HoopUpUser {
     try {
       var user = _auth.currentUser;
       await user?.delete();
-      await removeFirebaseData("users/$_id");
+      await removeFirebaseData("users/$id");
       print("User deleted successfully");
     } catch (e) {
       print("Failed to delete user: ${e.toString()}");

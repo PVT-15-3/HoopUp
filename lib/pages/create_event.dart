@@ -323,7 +323,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         id: 'test id',
         photoUrl:
             'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
-            gender: 'male');
+        gender: 'male');
 
     print(
         '${_eventCourtIdController.text} -  ${_eventNameController.text} - ${eventDate.toJson()}');
@@ -339,6 +339,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         genderGroup: _selectedGender);
 
     print('${event.toJson()}');
+    //HoopUpUserProvider().user!.addEvent(event);
   }
 }
 

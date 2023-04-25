@@ -20,7 +20,7 @@ class ListEventsPage extends StatelessWidget {
         child: Consumer<HoopUpUserProvider>(
           builder: (context, userProvider, child) {
             HoopUpUser? user = userProvider.user;
-            List<Event>? events = user!.events;
+            List<String>? events = user!.events;
 
             return Container(
               child: Column(
