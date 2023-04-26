@@ -339,7 +339,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ageGroup: _selectedAgeGroup,
         genderGroup: _selectedGender,
         id: const Uuid().v4(),);
-    event.addEventToDatabase();
+        event.addEventToDatabase();
 
     print('${event.toJson()}');
     //HoopUpUserProvider().user!.addEvent(event);

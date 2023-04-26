@@ -1,8 +1,11 @@
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
+
+import '../handlers/firebase_handler.dart';
 
 class JoinEventPage extends StatefulWidget {
   const JoinEventPage({super.key});
@@ -16,13 +19,14 @@ class _JoinEventPageState extends State<JoinEventPage> {
       BehaviorSubject<List<Event>>.seeded([]);
 
   late DatabaseReference _eventsRef;
+  late StreamSubscription<DatabaseEvent> _eventsSubscription; // Add this line
 
   @override
   void initState() {
     super.initState();
     _eventsRef = FirebaseDatabase.instance.ref().child('events');
 
-    _eventsRef.onValue.listen((event) {
+    _eventsSubscription = _eventsRef.onValue.listen((event) {
       DataSnapshot snapshot = event.snapshot;
       List<Event> events = [];
 
@@ -45,6 +49,7 @@ class _JoinEventPageState extends State<JoinEventPage> {
   void dispose() {
     super.dispose();
     _eventsController.close();
+    _eventsSubscription.cancel();
   }
 
   @override
@@ -63,21 +68,29 @@ class _JoinEventPageState extends State<JoinEventPage> {
 
             List<Event>? events = snapshot.data;
 
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 3 / 2,
-              ),
+            return ListView.builder(
               itemCount: events?.length,
               itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.grey[300],
-                  child: ListTile(
-                    title: Text(events![index].name),
-                    subtitle: Text(events[index].description),
-                  ),
+                final event = events![index];
+                return Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: Text(event.name),
+                        subtitle: Text(event.description),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Handle join event button press
+                        joinEvent(event.id);
+                      },
+                      style: TextButton.styleFrom(
+                        alignment: Alignment.centerRight,
+                      ),
+                      child: const Text('Join Event'),
+                    ),
+                  ],
                 );
               },
             );
@@ -86,4 +99,31 @@ class _JoinEventPageState extends State<JoinEventPage> {
       ),
     );
   }
+}
+
+final DatabaseReference _usersRef = FirebaseDatabase.instance.ref().child('users');
+
+Future<void> joinEvent(String eventId) async {
+  // Get the currently logged-in user's ID
+ final String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+if (userId == null) {
+  // User is not logged in
+  return;
+}
+
+Map? userMap = await getMapFromFirebase("users", userId);
+
+List<dynamic> eventsList = userMap['events'] ?? [];
+
+if (eventsList.contains(eventId)) {
+  print('Event already joined');
+} else {
+   // Add the new event ID to the user's list
+  eventsList.add(eventId);
+  // Update the user's list of events in the database
+  await _usersRef.child(userId).child('events').set(eventsList);
+  print('Event joined');
+}
+  
 }

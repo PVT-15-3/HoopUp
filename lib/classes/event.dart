@@ -130,7 +130,7 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) {
   final name = json['name'] as String;
   final description = json['description'] as String;
-  final creatorId = json['creatorId'] as String;
+  final creatorId = json['creatorId'] ?? '';
   final time = Time.fromJson(json['time']);
   final courtId = json['courtId'] as String;
   final skillLevel = json['skillLevel'] as int;
