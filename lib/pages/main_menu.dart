@@ -84,6 +84,14 @@ class MainMenu extends StatelessWidget {
               child: const Text('go to profile page'),
             ),
           ),
+           Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/join_event_page.dart');
+              },
+              child: const Text('Join Event'),
+            ),
+          ),
           Center(
             child: ElevatedButton(
               onPressed: () {

@@ -53,4 +53,11 @@ class Time {
       'endTime': _endTime.toIso8601String(),
     };
   }
+
+  factory Time.fromJson(Map<String, dynamic> json) {
+  final startTime = DateTime.parse(json['startTime']);
+  final endTime = DateTime.parse(json['endTime']);
+  return Time(startTime: startTime, endTime: endTime);
+}
+
 }

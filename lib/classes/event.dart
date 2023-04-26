@@ -1,4 +1,3 @@
-import 'package:uuid/uuid.dart';
 import 'chat.dart';
 import 'time.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -30,6 +29,7 @@ class Event {
     required int playerAmount,
     required String genderGroup,
     required String ageGroup,
+    required String id,
   })  : _name = name,
         _description = description,
         _creatorId = creatorId,
@@ -39,7 +39,7 @@ class Event {
         _playerAmount = playerAmount,
         _genderGroup = genderGroup,
         _ageGroup = ageGroup,
-        _id = const Uuid().v4() {
+        _id = id {
     _chat = Chat(eventId: _id);
     {
       _validateSkillLevel(skillLevel);
@@ -127,4 +127,34 @@ class Event {
       'ageGroup': _ageGroup,
     };
   }
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+  final name = json['name'] as String;
+  final description = json['description'] as String;
+  final creatorId = json['creatorId'] as String;
+  final time = Time.fromJson(json['time']);
+  final courtId = json['courtId'] as String;
+  final skillLevel = json['skillLevel'] as int;
+  final playerAmount = json['playerAmount'] as int;
+  final genderGroup = json['genderGroup'] as String;
+  final ageGroup = json['ageGroup'] as String;
+  Map<String, dynamic> chatJason = json['chat'] as Map<String, dynamic>;
+  final id = chatJason['eventId'] as String;
+
+
+  final event = Event(
+    name: name,
+    description: description,
+    creatorId: creatorId,
+    time: time,
+    courtId: courtId,
+    skillLevel: skillLevel,
+    playerAmount: playerAmount,
+    genderGroup: genderGroup,
+    ageGroup: ageGroup,
+    id: id,
+  );
+
+  return event;
+}
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
@@ -146,7 +147,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               const SizedBox(height: 20.0),
               Row(
                 children: [
-                  Text('Skill Level: '),
+                  const Text('Skill Level: '),
                   ElevatedButton(
                     onPressed: _decrementSkillLevel,
                     child: const Icon(Icons.remove),
@@ -161,7 +162,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               const SizedBox(height: 20.0),
               Row(
                 children: [
-                  Text('Number of Participants: '),
+                  const Text('Number of Participants: '),
                   ElevatedButton(
                     onPressed: _decrementNumParticipants,
                     child: const Icon(Icons.remove),
@@ -336,7 +337,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
         skillLevel: _skillLevel,
         playerAmount: _numParticipants,
         ageGroup: _selectedAgeGroup,
-        genderGroup: _selectedGender);
+        genderGroup: _selectedGender,
+        id: const Uuid().v4(),);
     event.addEventToDatabase();
 
     print('${event.toJson()}');

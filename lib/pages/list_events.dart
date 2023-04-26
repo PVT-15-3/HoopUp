@@ -9,7 +9,7 @@ import 'package:my_app/providers/hoopup_user_provider.dart';
 final FirebaseDatabase database = FirebaseDatabase.instance;
 
 class ListEventsPage extends StatelessWidget {
-  ListEventsPage({Key? key}) : super(key: key);
+  const ListEventsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
