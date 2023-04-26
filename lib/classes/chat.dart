@@ -37,15 +37,6 @@ class Chat {
     }
   }
 
-  // void editMessage(Message message, String newText) {
-  //   if (_messages.contains(message)) {
-  //     message.messageText = newText;
-  //     database
-  //         .ref("events/$_eventId/chat/messages/${message.id}")
-  //         .set(message.toJson());
-  //   }
-  // }
-
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
