@@ -89,7 +89,7 @@ class Event {
     }
     _usersIds.add(userId);
     //database.ref("events/$_id/userIds/$userId");
-    updateFirebaseData("events/$_id/userIds", {userId: userId});
+    setFirebaseDataMap("events/$_id/userIds", {userId: userId});
   }
 
   void removeUser(String userId) {
