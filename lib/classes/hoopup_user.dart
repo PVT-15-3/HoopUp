@@ -86,9 +86,9 @@ class HoopUpUser {
 
   // handle events
 
-  void addEvent(Event event) async {
-    _events.add(event.id);
-    await setFirebaseDataString("users/$id/events", event.id);
+  void addEvent(String eventId) async {
+    _events.add(eventId);
+    await updateFirebaseData("users/$id/events", {eventId: eventId});
   }
 
   void removeEvent(Event event) async {
