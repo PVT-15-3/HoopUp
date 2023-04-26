@@ -1,5 +1,6 @@
 import 'package:uuid/uuid.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../handlers/firebase_handler.dart';
 import 'address.dart';
 import 'event.dart';
 
@@ -23,11 +24,23 @@ class Court {
         _courtType = courtType,
         _address = address,
         _courtId = const Uuid().v4() {
+    // TODO id borde inte sättas varje gång objektet skapas. Detta är en temporär lösning.
     database.ref("courts/$_courtId").set({
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,
       "address": _address.toJson(), //TODO Is this correct?
+    }).catchError((error) {
+      print("Failed to create Court: ${error.toString()}");
+    });
+  }
+
+  void addCourtToDatabase() async {
+    await setFirebaseDataMap("courts/$courtId", {
+      "name": _name,
+      "imageLink": _imageLink,
+      "courtType": _courtType,
+      "address": _address.toJson(),
     }).catchError((error) {
       print("Failed to create Court: ${error.toString()}");
     });
