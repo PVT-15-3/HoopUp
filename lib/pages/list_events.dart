@@ -25,18 +25,18 @@ class ListEventsPage extends StatelessWidget {
             return Container(
               child: Column(
                 children: <Widget>[
-                  Text("$name's Bookings"),
+                  //Text("$name's Bookings"),
                   for (var event in events)
                     Column(
                       children: [
                         Text(
-                          event.name,
+                          'event.name',
                         ),
                         Text(
-                          'Game start: ${event.time.startTime.hour}',
+                          'Game start: {event.time.startTime.hour}',
                         ),
                         Text(
-                          '${event.time.startTime.day}',
+                          '{event.time.startTime.day}',
                         )
                       ],
                     )
