@@ -44,7 +44,6 @@ class Event {
     {
       _validateSkillLevel(skillLevel);
       _validatePlayerAmount(playerAmount);
-      addUser("7UglDqvVYBXhvvExsWJhuGzi4Gt2");
     }
   }
 

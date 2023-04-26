@@ -29,7 +29,13 @@ class ListEventsPage extends StatelessWidget {
                   AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
                 if (snapshot.hasData) {
                   final map = snapshot.data!;
-                  return Text(map.toString());
+                  final newMap = <dynamic, dynamic>{};
+                  for (String key in map.keys) {
+                    if (userProvider.user!.events.contains(key)) {
+                      newMap[key] = map[key];
+                    }
+                  }
+                  return Text(newMap.toString());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
