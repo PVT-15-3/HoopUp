@@ -44,7 +44,6 @@ class Event {
     {
       _validateSkillLevel(skillLevel);
       _validatePlayerAmount(playerAmount);
-      addUser("7UglDqvVYBXhvvExsWJhuGzi4Gt2");
     }
   }
 
@@ -90,7 +89,7 @@ class Event {
     }
     _usersIds.add(userId);
     //database.ref("events/$_id/userIds/$userId");
-    setFirebaseDataMap("events/$_id/userIds", {userId: userId});
+    updateFirebaseData("events/$_id/userIds", {userId: userId});
   }
 
   void removeUser(String userId) {
