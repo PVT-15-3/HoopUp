@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 import 'chat.dart';
 import 'time.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../handlers/firebase_handler.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
@@ -43,21 +44,25 @@ class Event {
     {
       _validateSkillLevel(skillLevel);
       _validatePlayerAmount(playerAmount);
-      database.ref("events/$_id").set({
-        'name': _name,
-        'description': _description,
-        'creatorId': _creatorId,
-        'time': _time.toJson(),
-        'courtId': _courtId,
-        'chat': _chat?.toJson(),
-        'skillLevel': _skillLevel,
-        'playerAmount': _playerAmount,
-        'genderGroup': _genderGroup,
-        'ageGroup': _ageGroup,
-      }).catchError((error) {
-        print("Failed to create event: ${error.toString()}");
-      });
+      addUser("7UglDqvVYBXhvvExsWJhuGzi4Gt2");
     }
+  }
+
+  addEventToDatabase() {
+    database.ref("events/$_id").set({
+      'name': _name,
+      'description': _description,
+      'creatorId': _creatorId,
+      'time': _time.toJson(),
+      'courtId': _courtId,
+      'chat': _chat?.toJson(),
+      'skillLevel': _skillLevel,
+      'playerAmount': _playerAmount,
+      'genderGroup': _genderGroup,
+      'ageGroup': _ageGroup,
+    }).catchError((error) {
+      print("Failed to create event: ${error.toString()}");
+    });
   }
 
 // getters for the class properties
@@ -84,7 +89,8 @@ class Event {
       throw ArgumentError('User is already added to this event.');
     }
     _usersIds.add(userId);
-    database.ref("events/$_id/userIds/$userId");
+    //database.ref("events/$_id/userIds/$userId");
+    setFirebaseDataMap("events/$_id/userIds", {userId: userId});
   }
 
   void removeUser(String userId) {

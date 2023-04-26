@@ -36,6 +36,9 @@ class HoopUpUser {
       "photoUrl": _photoUrl,
       "gender": _gender
     });
+    addEvent("eventId");
+    addEvent("eventId2");
+    addEvent("eventId3");
   }
 
   // setters

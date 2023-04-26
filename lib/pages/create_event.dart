@@ -337,6 +337,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         playerAmount: _numParticipants,
         ageGroup: _selectedAgeGroup,
         genderGroup: _selectedGender);
+    event.addEventToDatabase();
 
     print('${event.toJson()}');
     //HoopUpUserProvider().user!.addEvent(event);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:my_app/classes/event.dart';
+import 'package:my_app/handlers/firebase_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
@@ -19,29 +20,22 @@ class ListEventsPage extends StatelessWidget {
       body: Center(
         child: Consumer<HoopUpUserProvider>(
           builder: (context, userProvider, child) {
-            HoopUpUser? user = userProvider.user;
-            List<String>? events = user!.events;
-
-            return Container(
-              child: Column(
-                children: <Widget>[
-                  Text("$name's Bookings"),
-                  for (var event in events)
-                    Column(
-                      children: [
-                        Text(
-                          event.name,
-                        ),
-                        Text(
-                          'Game start: ${event.time.startTime.hour}',
-                        ),
-                        Text(
-                          '${event.time.startTime.day}',
-                        )
-                      ],
-                    )
-                ],
+            return FutureBuilder<Map<dynamic, dynamic>>(
+              future: getMapFromFirebase(
+                "",
+                "events",
               ),
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
+                if (snapshot.hasData) {
+                  final map = snapshot.data!;
+                  return Text(map.toString());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
             );
           },
         ),

@@ -56,11 +56,11 @@ Future<void> uploadFileToFirebaseStorage(File file, String path) async {
   await task.whenComplete(() => print('File uploaded to Firebase Storage.'));
 }
 
-Future<Map> getMapFromFirebase(String resource, String id) async {
+Future<Map> getMapFromFirebase(String path, String resource) async {
   String safeId =
-      id.replaceAll('.', ',').replaceAll('[', '-').replaceAll(']', '-');
+      resource.replaceAll('.', ',').replaceAll('[', '-').replaceAll(']', '-');
   final DatabaseReference eventRef =
-      database.ref().child(resource).child(safeId);
+      database.ref().child(path).child(safeId);
       Map<dynamic, dynamic> map = {};
   await eventRef.once().then((DatabaseEvent event) {
     DataSnapshot snapshot = event.snapshot;
