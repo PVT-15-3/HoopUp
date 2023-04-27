@@ -11,8 +11,8 @@ class Time {
   })  : _id = const Uuid().v4(),
         _startTime = startTime,
         _endTime = endTime {
-    _validateStartTime();
-    _validateEndTime();
+    // _validateStartTime();  // causes issues with loading the times from the database (viktor)
+    // _validateEndTime();
   }
 
   // Getters
@@ -23,24 +23,24 @@ class Time {
   // Setters
   set startTime(DateTime startTime) {
     _startTime = startTime;
-    _validateStartTime();
-    _validateEndTime();
+    validateStartTime();
+    validateEndTime();
   }
 
   set endTime(DateTime endTime) {
     _endTime = endTime;
-    _validateStartTime();
-    _validateEndTime();
+    validateStartTime();
+    validateEndTime();
   }
 
   // Validate inputs
-  void _validateStartTime() {
+  void validateStartTime() {
     if (_startTime.isBefore(DateTime.now())) {
       throw ArgumentError('Start time cannot be in the past.');
     }
   }
 
-  void _validateEndTime() {
+  void validateEndTime() {
     if (_endTime.isBefore(_startTime)) {
       throw ArgumentError('End time cannot be earlier than start time.');
     }

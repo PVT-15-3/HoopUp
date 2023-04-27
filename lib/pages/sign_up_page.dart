@@ -58,6 +58,9 @@ class SignUpPage extends HookWidget {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';
                 }
+                 if (value.length < 6) {
+                  return 'Password must be at least 6 characters long';
+                }
                 return null;
               },
               onSaved: (value) {
@@ -71,6 +74,9 @@ class SignUpPage extends HookWidget {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your username';
+                }
+                if (value.length < 3) {
+                  return 'Username must be at least 3 characters long';
                 }
                 return null;
               },
