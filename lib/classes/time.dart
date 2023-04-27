@@ -54,7 +54,7 @@ class Time {
     };
   }
 
-  factory Time.fromJson(Map<String, dynamic> json) {
+  factory Time.fromJson(Map<dynamic, dynamic> json) {
   final startTime = DateTime.parse(json['startTime']);
   final endTime = DateTime.parse(json['endTime']);
   return Time(startTime: startTime, endTime: endTime);

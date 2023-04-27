@@ -127,7 +127,7 @@ class Event {
     };
   }
 
-  factory Event.fromJson(Map<String, dynamic> json) {
+  factory Event.fromJson(Map<dynamic, dynamic> json) {
   final name = json['name'] as String;
   final description = json['description'] as String;
   final creatorId = json['creatorId'] ?? '';
@@ -137,7 +137,10 @@ class Event {
   final playerAmount = json['playerAmount'] as int;
   final genderGroup = json['genderGroup'] as String;
   final ageGroup = json['ageGroup'] as String;
-  Map<String, dynamic> chatJason = json['chat'] as Map<String, dynamic>;
+
+  // This is only to get the event id. The chat is not used. Maybe we should change this. If we need to
+  // the chat in the fromJason method, we need to change the chat to a map in the Event class? 
+  Map<dynamic, dynamic> chatJason = json['chat'] as Map<dynamic, dynamic>;
   final id = chatJason['eventId'] as String;
 
 

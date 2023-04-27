@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
-
 import '../classes/event_list_item.dart';
 
 class JoinEventPage extends StatefulWidget {
@@ -31,11 +30,11 @@ class _JoinEventPageState extends State<JoinEventPage> {
       List<Event> events = [];
 
       if (snapshot.value != null) {
-        Map<dynamic, dynamic> map = snapshot.value as Map<dynamic, dynamic>;
+        Map<dynamic, dynamic> eventsFromDatabaseMap = snapshot.value as Map;
+      
+        print(eventsFromDatabaseMap.toString());
 
-        print(map.toString());
-
-        map.forEach((key, value) {
+        eventsFromDatabaseMap.forEach((key, value) {
           final event = Event.fromJson(value);
           events.add(event);
         });

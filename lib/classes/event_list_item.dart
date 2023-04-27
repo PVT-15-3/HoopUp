@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
-
 import '../handlers/firebase_handler.dart';
 
 class EventListItem extends StatefulWidget {
@@ -79,7 +78,7 @@ final DatabaseReference _usersRef =
 
   Map? userMap = await getMapFromFirebase("users", userId!);
 
-  List<dynamic> eventsList = userMap['events'] ?? [];
+ List<String> eventsList = List.from(userMap['events'] ?? []);
 
   if (eventsList.contains(eventId)) {
     // Remove the event ID from the user's list
@@ -90,9 +89,10 @@ final DatabaseReference _usersRef =
     return false;
   } else {
     // Add the new event ID to the user's list
-    eventsList.add(eventId);
+    List<String> newEventsList = List.from(eventsList)..add(eventId);
+ 
     // Update the user's list of events in the database
-    await _usersRef.child(userId).child('events').set(eventsList);
+    await _usersRef.child(userId).child('events').set(newEventsList);
     print('Event joined');
     return true;
   }
