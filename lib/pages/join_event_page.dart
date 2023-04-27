@@ -15,9 +15,9 @@ class JoinEventPage extends StatefulWidget {
 class _JoinEventPageState extends State<JoinEventPage> {
   final BehaviorSubject<List<Event>> _eventsController =
       BehaviorSubject<List<Event>>.seeded([]);
+  late StreamSubscription<DatabaseEvent> _eventsSubscription;
 
   late DatabaseReference _eventsRef;
-  late StreamSubscription<DatabaseEvent> _eventsSubscription;
   bool joined = false;
 
   @override
@@ -31,15 +31,12 @@ class _JoinEventPageState extends State<JoinEventPage> {
 
       if (snapshot.value != null) {
         Map<dynamic, dynamic> eventsFromDatabaseMap = snapshot.value as Map;
-      
-        print(eventsFromDatabaseMap.toString());
 
         eventsFromDatabaseMap.forEach((key, value) {
           final event = Event.fromJson(value);
           events.add(event);
         });
       }
-
       _eventsController.sink.add(events);
     });
   }

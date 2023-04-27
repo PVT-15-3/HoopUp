@@ -15,9 +15,14 @@ class EventListItem extends StatefulWidget {
 }
 
 class _EventListItemState extends State<EventListItem> {
+  final DatabaseReference _usersRef =
+      FirebaseDatabase.instance.ref().child('users');
+  final DatabaseReference _eventsRef =
+      FirebaseDatabase.instance.ref().child('events');
+
   bool _joined = false;
 
-   _EventListItemState() {
+  _EventListItemState() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {
         // User is logged in, check if they have already joined the event
@@ -41,9 +46,17 @@ class _EventListItemState extends State<EventListItem> {
     return Row(
       children: [
         Expanded(
-          child: ListTile(
-            title: Text(widget.event.name),
-            subtitle: Text(widget.event.description),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: ListTile(
+              title: Text(widget.event.name),
+              subtitle: Text(
+                  'Event info: ${widget.event.description}\n'
+                  'Date and time: ${widget.event.time.getFormattedStartTime()}'
+                  '\nThe event is for: ${widget.event.genderGroup}\n'
+                  'Number of participants allowed: ${widget.event.playerAmount}\n'
+                  'Skill level: ${widget.event.skillLevel}'),
+            ),
           ),
         ),
         TextButton(
@@ -64,37 +77,65 @@ class _EventListItemState extends State<EventListItem> {
     );
   }
 
-final DatabaseReference _usersRef =
-    FirebaseDatabase.instance.ref().child('users');
-
   Future<bool> handleEvent(String eventId) async {
-  // Get the currently logged-in user's ID
-  final String? userId = FirebaseAuth.instance.currentUser?.uid;
+    // Get the currently logged-in user's ID
+    final String? userId = FirebaseAuth.instance.currentUser?.uid;
+    Map? eventMap = await getMapFromFirebase("events", eventId);
+    Map? userMap = await getMapFromFirebase("users", userId!);
 
-  if (userId == null) {
-    // User is not logged in
-    print('User is not logged in');
+    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
+    List<String> eventsList = List.from(userMap['events'] ?? []);
+
+    int numberOfPlayersInEvent = userIdsList.length;
+    int numberOfAllowed= eventMap['playerAmount'];
+
+
+    if (userId == null) {
+      // User is not logged in
+      print('User is not logged in');
+      return false;
+    }
+
+    if (numberOfPlayersInEvent >= numberOfAllowed ) {
+      print('Event is full');
+      return false;
+    } 
+    if (eventsList.contains(eventId)) {
+      removeUser(eventId, eventsList, userId, userIdsList);
+      return false;
+    }
+    else {
+      addUser(eventId, eventsList, userId, userIdsList);
+      return true;
+    }
   }
 
-  Map? userMap = await getMapFromFirebase("users", userId!);
+  removeUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) async {
+      // Remove the event ID from the user's list
+      eventsList.remove(eventId);
+      // Update the user's list of events in the database
+      await _usersRef.child(userId).child('events').set(eventsList);
+      print('Event cancelled');
 
- List<String> eventsList = List.from(userMap['events'] ?? []);
+      // Remove the user's ID from the event's list of users
+      userIdsList.remove(userId);
 
-  if (eventsList.contains(eventId)) {
-    // Remove the event ID from the user's list
-    eventsList.remove(eventId);
-    // Update the user's list of events in the database
-    await _usersRef.child(userId).child('events').set(eventsList);
-    print('Event cancelled');
-    return false;
-  } else {
+      // Update the event's list of users in the database
+      await _eventsRef.child(eventId).child('userIds').set(userIdsList);
+    
+  }
+
+  addUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) async {
     // Add the new event ID to the user's list
-    List<String> newEventsList = List.from(eventsList)..add(eventId);
- 
-    // Update the user's list of events in the database
-    await _usersRef.child(userId).child('events').set(newEventsList);
-    print('Event joined');
-    return true;
+      List<String> newEventsList = List.from(eventsList)..add(eventId);
+      
+      // Update the user's list of events in the database
+      await _usersRef.child(userId).child('events').set(newEventsList);
+      print('Event joined');
+
+      // Add the user's ID to the event's list of users
+      List<String> newUserIdsList = List.from(userIdsList)..add(userId);
+      // Update the event's list of users in the database
+      await _eventsRef.child(eventId).child('userIds').set(newUserIdsList);
   }
-}
 }

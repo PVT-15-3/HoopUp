@@ -46,6 +46,14 @@ class Time {
     }
   }
 
+  String getFormattedStartTime() {
+  final formattedDate =
+      "${_startTime.day}/${_startTime.month}/${_startTime.year}";
+  final formattedStartTime = "${_startTime.hour}:${_startTime.minute}";
+  final formattedEndTime = "${_endTime.hour}:${_endTime.minute}";
+  return "$formattedDate $formattedStartTime - $formattedEndTime";
+}
+
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
