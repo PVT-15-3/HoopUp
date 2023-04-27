@@ -46,11 +46,40 @@ void main() {
       expect(userAubrey.events, ["event2"]);
     });
 
-    test("Removing an event from a user", () {});
+    test("Removing an event from a user", () {
+      //TODO rerenovate this shit
+      expect(userGeoff.events, ["event1"]);
+      //userGeoff.removeEvent("event1");
+      expect(userGeoff.events, []);
+    });
     test(
         "Removing and adding events in different orders seeing if it's consistent in the end",
-        () {});
-    test("Removing the same event twice should return false", () => null);
+        () {
+      expect(userGeoff.events, []);
+      userGeoff.addEvent("event1");
+      userGeoff.addEvent("event2");
+      userGeoff.addEvent("event3");
+      userGeoff.addEvent("event4");
+      //userGeoff.removeEvent("event2");
+      expect(userGeoff.events, [
+        "event1",
+        "event3",
+        "event4",
+      ]);
+      userGeoff.addEvent("event2");
+      //userGeoff.removeEvent("event1");
+      expect(userGeoff.events, ["event3", "event4", "event2"]);
+      //userGeoff.removeEvent("event2");
+      //userGeoff.removeEvent("event4");
+      //userGeoff.removeEvent("event3");
+      expect(userGeoff.events, []);
+    });
+    test("Removing the same event twice should return false", () {
+      expect(userAubrey.events, ["event2"]);
+      //userGeoff.removeEvent("event2");
+      //userGeoff.removeEvent("event2");
+      expect(userAubrey.events, []);
+    });
   });
 
   group("Testing equalisation, toString, hashing and validation functions",
