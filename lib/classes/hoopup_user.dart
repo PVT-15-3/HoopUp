@@ -124,8 +124,8 @@ class HoopUpUser {
   Future<void> deleteAccount() async {
     try {
       var user = _auth.currentUser;
-      await user?.delete();
       await removeFirebaseData("users/$id");
+      await user?.delete();
       print("User deleted successfully");
     } catch (e) {
       print("Failed to delete user: ${e.toString()}");

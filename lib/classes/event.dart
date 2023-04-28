@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import 'chat.dart';
 import 'time.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -48,6 +50,8 @@ class Event {
   }
 
   addEventToDatabase() {
+    _time.validateStartTime();
+    _time.validateEndTime();
     database.ref("events/$_id").set({
       'name': _name,
       'description': _description,
@@ -128,35 +132,34 @@ class Event {
   }
 
   factory Event.fromJson(Map<dynamic, dynamic> json) {
-  final name = json['name'] as String;
-  final description = json['description'] as String;
-  final creatorId = json['creatorId'] ?? '';
-  final time = Time.fromJson(json['time']);
-  final courtId = json['courtId'] as String;
-  final skillLevel = json['skillLevel'] as int;
-  final playerAmount = json['playerAmount'] as int;
-  final genderGroup = json['genderGroup'] as String;
-  final ageGroup = json['ageGroup'] as String;
+    final name = json['name'] as String;
+    final description = json['description'] as String;
+    final creatorId = json['creatorId'] ?? '';
+    final time = Time.fromJson(json['time']);
+    final courtId = json['courtId'] as String;
+    final skillLevel = json['skillLevel'] as int;
+    final playerAmount = json['playerAmount'] as int;
+    final genderGroup = json['genderGroup'] as String;
+    final ageGroup = json['ageGroup'] as String;
 
-  // This is only to get the event id. The chat is not used. Maybe we should change this. If we need to
-  // the chat in the fromJason method, we need to change the chat to a map in the Event class? 
-  Map<dynamic, dynamic> chatJason = json['chat'] as Map<dynamic, dynamic>;
-  final id = chatJason['eventId'] as String;
+    // This is only to get the event id. The chat is not used. Maybe we should change this. If we need to
+    // the chat in the fromJason method, we need to change the chat to a map in the Event class?
+    Map<dynamic, dynamic> chatJason = json['chat'] as Map<dynamic, dynamic>;
+    final id = chatJason['eventId'] as String;
 
+    final event = Event(
+      name: name,
+      description: description,
+      creatorId: creatorId,
+      time: time,
+      courtId: courtId,
+      skillLevel: skillLevel,
+      playerAmount: playerAmount,
+      genderGroup: genderGroup,
+      ageGroup: ageGroup,
+      id: id,
+    );
 
-  final event = Event(
-    name: name,
-    description: description,
-    creatorId: creatorId,
-    time: time,
-    courtId: courtId,
-    skillLevel: skillLevel,
-    playerAmount: playerAmount,
-    genderGroup: genderGroup,
-    ageGroup: ageGroup,
-    id: id,
-  );
-
-  return event;
-}
+    return event;
+  }
 }

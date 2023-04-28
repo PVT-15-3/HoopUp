@@ -63,14 +63,20 @@ class _JoinEventPageState extends State<JoinEventPage> {
             }
 
             List<Event>? events = snapshot.data;
-           // events = events?.where((event) => event.isSignedUp()).toList();
-  
-            return ListView.builder(
-              itemCount: events?.length,
-              itemBuilder: (context, index) {
-                final event = events![index];
-                return EventListItem(event: event);
-              },
+            return Stack(
+              children: [
+                ListView.builder(
+                  itemCount: events?.length,
+                  itemBuilder: (context, index) {
+                    final event = events![index];
+                    return EventListItem(event: event);
+                  },
+                ),
+                if (events == null || events.isEmpty)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
             );
           },
         ),
