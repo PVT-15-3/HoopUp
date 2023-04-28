@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:my_app/classes/hoopup_user.dart';
 
 final FirebaseDatabase database = FirebaseDatabase.instance;
 
@@ -23,16 +23,6 @@ Future<void> setFirebaseDataMap(String path, Map<String, dynamic> data) async {
   }
 }
 
-Future<void> setFirebaseDataString(String path, String data) async {
-  try {
-    await database.ref(path).set(data);
-  } catch (error) {
-    print("Failed to set $data : ${error.toString()}");
-    rethrow;
-  }
-}
-
-
 Future<void> removeFirebaseData(String path) async {
   try {
     await database.ref(path).remove();
@@ -43,13 +33,10 @@ Future<void> removeFirebaseData(String path) async {
 }
 
 Future<void> uploadFileToFirebaseStorage(File file, String path) async {
-  final firebaseStorageRef = FirebaseStorage.instance
-      .ref()
-      .child(path);
+  final firebaseStorageRef = FirebaseStorage.instance.ref().child(path);
   final task = firebaseStorageRef.putFile(file);
   task.snapshotEvents.listen((TaskSnapshot snapshot) {
-    print(
-        'Upload completed: ${snapshot.bytesTransferred} bytes transferred');
+    print('Upload completed: ${snapshot.bytesTransferred} bytes transferred');
   }, onError: (Object e) {
     print(e.toString());
   });
@@ -59,9 +46,8 @@ Future<void> uploadFileToFirebaseStorage(File file, String path) async {
 Future<Map> getMapFromFirebase(String path, String resource) async {
   String safeId =
       resource.replaceAll('.', ',').replaceAll('[', '-').replaceAll(']', '-');
-  final DatabaseReference eventRef =
-      database.ref().child(path).child(safeId);
-      Map<dynamic, dynamic> map = {};
+  final DatabaseReference eventRef = database.ref().child(path).child(safeId);
+  Map<dynamic, dynamic> map = {};
   await eventRef.once().then((DatabaseEvent event) {
     DataSnapshot snapshot = event.snapshot;
     if (snapshot.value != null) {
@@ -75,4 +61,14 @@ Future<Map> getMapFromFirebase(String path, String resource) async {
     print('Error: $error');
   });
   return map;
+}
+
+Future<HoopUpUser> getUserFromFirebase(String id) async {
+  Map? userMap = await getMapFromFirebase('users', id);
+  return HoopUpUser(
+      username: userMap['username'] ?? 'unknown',
+      skillLevel: userMap['skillLevel'] ?? 0,
+      id: id,
+      photoUrl: userMap['photoUrl'],
+      gender: userMap['gender'] ?? 'other');
 }
