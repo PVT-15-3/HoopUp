@@ -1,7 +1,7 @@
 class Address {
   final String _street;
   final String _city;
-  final int _postalCode;
+  final int _postalCode; //tst
   final double _long;
   final double _lat;
 
