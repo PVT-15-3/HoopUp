@@ -32,15 +32,6 @@ Future<void> setFirebaseDataList(String path, List<dynamic> data) async {
   }
 }
 
-Future<void> setFirebaseDataString(String path, String data) async {
-  try {
-    await database.ref(path).set(data);
-  } catch (error) {
-    print("Failed to set $data : ${error.toString()}");
-    rethrow;
-  }
-}
-
 
 Future<void> removeFirebaseData(String path) async {
   try {
