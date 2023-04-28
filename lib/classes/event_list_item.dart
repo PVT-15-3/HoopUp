@@ -17,7 +17,6 @@ class EventListItem extends StatefulWidget {
 }
 
 class _EventListItemState extends State<EventListItem> {
-
   bool _joined = false;
 
   _EventListItemState() {
@@ -48,8 +47,7 @@ class _EventListItemState extends State<EventListItem> {
             padding: const EdgeInsets.only(top: 8.0),
             child: ListTile(
               title: Text(widget.event.name),
-              subtitle: Text(
-                  'Event info: ${widget.event.description}\n'
+              subtitle: Text('Event info: ${widget.event.description}\n'
                   'Date and time: ${widget.event.time.getFormattedStartTime()}'
                   '\nThe event is for: ${widget.event.genderGroup}\n'
                   'Number of participants allowed: ${widget.event.playerAmount}\n'
@@ -85,59 +83,50 @@ class _EventListItemState extends State<EventListItem> {
     List<String> eventsList = List.from(userMap['events'] ?? []);
 
     int numberOfPlayersInEvent = userIdsList.length;
-    int numberOfAllowed= eventMap['playerAmount'];
+    int numberOfAllowed = eventMap['playerAmount'];
 
-
-    if (userId == null) {
-      // User is not logged in
-      print('User is not logged in');
-      return false;
-    }
-
-    if (numberOfPlayersInEvent >= numberOfAllowed ) {
+    if (numberOfPlayersInEvent >= numberOfAllowed) {
       print('Event is full');
       return false;
-    } 
+    }
     if (eventsList.contains(eventId)) {
       removeUser(eventId, eventsList, userId, userIdsList);
       return false;
-    }
-    else {
+    } else {
       addUser(eventId, eventsList, userId, userIdsList);
       return true;
     }
   }
 
-  removeUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) {
-      // Remove the event ID from the user's list
-      eventsList.remove(eventId);
-      // Update the user's list of events in the database
-      setFirebaseDataList('users/$userId/events', eventsList);
-      
-      print('Event cancelled');
+  removeUser(String eventId, List<String> eventsList, String userId,
+      List<String> userIdsList) {
+    // Remove the event ID from the user's list
+    eventsList.remove(eventId);
+    // Update the user's list of events in the database
+    HoopUpUser? user =
+        Provider.of<HoopUpUserProvider>(context, listen: false).user;
+    user!.events = eventsList;
 
-      // Remove the user's ID from the event's list of users
-      userIdsList.remove(userId);
+    // Remove the user's ID from the event's list of users
+    userIdsList.remove(userId);
 
-      // Update the event's list of users in the database
-     setFirebaseDataList('events/$eventId/userIds', userIdsList);
-    
+    // Update the event's list of users in the database
+    setFirebaseDataList('events/$eventId/userIds', userIdsList);
   }
 
-  addUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) {
+  addUser(String eventId, List<String> eventsList, String userId,
+      List<String> userIdsList) {
     // Add the new event ID to the user's list
-      List<String> newEventsList = List.from(eventsList)..add(eventId);
-      
-      // Update the user's list of events in the database
-      // setFirebaseDataList('users/$userId/events', newEventsList);
-      // print('Event joined');
+    List<String> newEventsList = List.from(eventsList)..add(eventId);
 
-      HoopUpUser? user = Provider.of<HoopUpUserProvider>(context, listen: false).user;
-      user!.events = newEventsList;
+    // Update the user's list of events in the database
+    HoopUpUser? user =
+        Provider.of<HoopUpUserProvider>(context, listen: false).user;
+    user!.events = newEventsList;
 
-      // Add the user's ID to the event's list of users
-      List<String> newUserIdsList = List.from(userIdsList)..add(userId);
-      // Update the event's list of users in the database
-      setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
+    // Add the user's ID to the event's list of users
+    List<String> newUserIdsList = List.from(userIdsList)..add(userId);
+    // Update the event's list of users in the database
+    setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
   }
 }

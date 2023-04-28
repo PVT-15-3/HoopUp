@@ -89,21 +89,6 @@ class HoopUpUser {
     };
   }
 
-  // handle events
-
-  void addEvent(String eventId) async {
-    _events.add(eventId);
-    await updateFirebaseData("users/$id/events", {eventId: eventId});
-  }
-
-  void removeEvent(Event event) async {
-    int index = _events.indexOf(event.id);
-    if (index >= 0) {
-      _events.removeAt(index);
-      await removeFirebaseData("users/$id/events/${event.id}");
-    }
-  }
-
   @override
   String toString() =>
       'User: $username, $skillLevel, $id, $photoUrl, $gender, $events';
