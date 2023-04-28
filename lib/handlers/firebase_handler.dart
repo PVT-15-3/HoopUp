@@ -32,7 +32,6 @@ Future<void> setFirebaseDataList(String path, List<dynamic> data) async {
   }
 }
 
-
 Future<void> removeFirebaseData(String path) async {
   try {
     await database.ref(path).remove();
@@ -71,6 +70,26 @@ Future<Map> getMapFromFirebase(String path, String resource) async {
     print('Error: $error');
   });
   return map;
+}
+
+Future<List> getListFromFirebase(String path, String resource) async {
+  String safeId =
+      resource.replaceAll('.', ',').replaceAll('[', '-').replaceAll(']', '-');
+  final DatabaseReference eventRef = database.ref().child(path).child(safeId);
+  List<dynamic> list = [];
+  await eventRef.once().then((DatabaseEvent event) {
+    DataSnapshot snapshot = event.snapshot;
+    if (snapshot.value != null) {
+      list = snapshot.value! as List<dynamic>;
+    } else {
+      // Event not found
+      print('User not found');
+    }
+  }).catchError((error) {
+    // Error occurred while fetching event data
+    print('Error: $error');
+  });
+  return list;
 }
 
 Future<HoopUpUser> getUserFromFirebase(String id) async {

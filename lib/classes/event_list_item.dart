@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/classes/hoopup_user.dart';
+import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../handlers/firebase_handler.dart';
+import '../providers/hoopup_user_provider.dart';
 
 class EventListItem extends StatefulWidget {
   final Event event;
@@ -126,8 +129,11 @@ class _EventListItemState extends State<EventListItem> {
       List<String> newEventsList = List.from(eventsList)..add(eventId);
       
       // Update the user's list of events in the database
-      setFirebaseDataList('users/$userId/events', newEventsList);
-      print('Event joined');
+      // setFirebaseDataList('users/$userId/events', newEventsList);
+      // print('Event joined');
+
+      HoopUpUser? user = Provider.of<HoopUpUserProvider>(context, listen: false).user;
+      user!.events = newEventsList;
 
       // Add the user's ID to the event's list of users
       List<String> newUserIdsList = List.from(userIdsList)..add(userId);

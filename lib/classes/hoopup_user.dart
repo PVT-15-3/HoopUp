@@ -11,7 +11,7 @@ class HoopUpUser {
   String _username;
   int _skillLevel;
   final String _id;
-  final List<String> _events = [];
+  List<String> _events = [];
   String? _photoUrl;
   String? _gender; // can be "other", "male", "female"
 
@@ -59,6 +59,11 @@ class HoopUpUser {
     _validateSkillLevel(skillLevel);
     _skillLevel = skillLevel;
     updateFirebaseData("users/$id", {"skillLevel": skillLevel});
+  }
+
+  set events(List<String> events) {
+    _events = events;
+    setFirebaseDataList('users/$id/events', events);
   }
 
   // getters
