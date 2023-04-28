@@ -9,8 +9,9 @@ import '../providers/hoopup_user_provider.dart';
 
 class EventListItem extends StatefulWidget {
   final Event event;
+  final bool showJoinedEvents;
 
-  const EventListItem({super.key, required this.event});
+  const EventListItem({super.key, required this.event, required this.showJoinedEvents });
 
   @override
   _EventListItemState createState() => _EventListItemState();
@@ -40,6 +41,12 @@ class _EventListItemState extends State<EventListItem> {
 
   @override
   Widget build(BuildContext context) {
+    print(_joined);
+    print('!!!!!!!!!!');
+    print(widget.showJoinedEvents);
+    if(_joined != widget.showJoinedEvents){
+      return Container();
+    }
     return Row(
       children: [
         Expanded(

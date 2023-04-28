@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 
 import 'chat.dart';
 import 'time.dart';

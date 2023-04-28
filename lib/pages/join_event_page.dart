@@ -6,7 +6,8 @@ import 'package:rxdart/subjects.dart';
 import '../classes/event_list_item.dart';
 
 class JoinEventPage extends StatefulWidget {
-  const JoinEventPage({super.key});
+final bool showJoinedEvents;
+  const JoinEventPage({super.key, required this.showJoinedEvents});
 
   @override
   _JoinEventPageState createState() => _JoinEventPageState();
@@ -69,7 +70,7 @@ class _JoinEventPageState extends State<JoinEventPage> {
                   itemCount: events?.length,
                   itemBuilder: (context, index) {
                     final event = events![index];
-                    return EventListItem(event: event);
+                    return EventListItem(event: event, showJoinedEvents: widget.showJoinedEvents);
                   },
                 ),
                 if (events == null || events.isEmpty)
