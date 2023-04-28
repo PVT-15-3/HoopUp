@@ -63,6 +63,8 @@ class _JoinEventPageState extends State<JoinEventPage> {
             }
 
             List<Event>? events = snapshot.data;
+           // events = events?.where((event) => event.isSignedUp()).toList();
+  
             return ListView.builder(
               itemCount: events?.length,
               itemBuilder: (context, index) {

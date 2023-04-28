@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import '../handlers/firebase_handler.dart';
@@ -15,10 +14,6 @@ class EventListItem extends StatefulWidget {
 }
 
 class _EventListItemState extends State<EventListItem> {
-  final DatabaseReference _usersRef =
-      FirebaseDatabase.instance.ref().child('users');
-  final DatabaseReference _eventsRef =
-      FirebaseDatabase.instance.ref().child('events');
 
   bool _joined = false;
 
@@ -110,32 +105,33 @@ class _EventListItemState extends State<EventListItem> {
     }
   }
 
-  removeUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) async {
+  removeUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) {
       // Remove the event ID from the user's list
       eventsList.remove(eventId);
       // Update the user's list of events in the database
-      await _usersRef.child(userId).child('events').set(eventsList);
+      setFirebaseDataList('users/$userId/events', eventsList);
+      
       print('Event cancelled');
 
       // Remove the user's ID from the event's list of users
       userIdsList.remove(userId);
 
       // Update the event's list of users in the database
-      await _eventsRef.child(eventId).child('userIds').set(userIdsList);
+     setFirebaseDataList('events/$eventId/userIds', userIdsList);
     
   }
 
-  addUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) async {
+  addUser(String eventId, List<String> eventsList, String userId, List<String> userIdsList) {
     // Add the new event ID to the user's list
       List<String> newEventsList = List.from(eventsList)..add(eventId);
       
       // Update the user's list of events in the database
-      await _usersRef.child(userId).child('events').set(newEventsList);
+      setFirebaseDataList('users/$userId/events', newEventsList);
       print('Event joined');
 
       // Add the user's ID to the event's list of users
       List<String> newUserIdsList = List.from(userIdsList)..add(userId);
       // Update the event's list of users in the database
-      await _eventsRef.child(eventId).child('userIds').set(newUserIdsList);
+      setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
   }
 }
