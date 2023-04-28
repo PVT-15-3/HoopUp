@@ -45,6 +45,18 @@ Future<void> signInWithEmail(String email, String password,
         id: user.uid,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other');
+    Future<List<dynamic>> eventsMapFuture =
+        getListFromFirebase('users/${hoopUpuser.id}', "events");
+    print(
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    List<dynamic> eventsMap = await eventsMapFuture;
+    print(eventsMap.toString());
+    print(
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //hoopUpuser.events = eventsList;
+    List<String> eventsList = [];
+    eventsMap.forEach((element) { eventsList.add(element.toString()); });
+    hoopUpuser.events = eventsList;
     hoopUpUserProvider.setUser(hoopUpuser);
     print(hoopUpUserProvider.user!);
 
