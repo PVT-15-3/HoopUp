@@ -329,17 +329,18 @@ class _CreateEventPageState extends State<CreateEventPage> {
     print(
         '${_eventCourtIdController.text} -  ${_eventNameController.text} - ${eventDate.toJson()}');
     Event event = Event(
-        name: _eventNameController.text,
-        description: _eventDescriptionController.text,
-        time: eventDate,
-        courtId: _eventCourtIdController.text,
-        creatorId: id,
-        skillLevel: _skillLevel,
-        playerAmount: _numParticipants,
-        ageGroup: _selectedAgeGroup,
-        genderGroup: _selectedGender,
-        id: const Uuid().v4(),);
-        event.addEventToDatabase();
+      name: _eventNameController.text,
+      description: _eventDescriptionController.text,
+      time: eventDate,
+      courtId: _eventCourtIdController.text,
+      creatorId: id,
+      skillLevel: _skillLevel,
+      playerAmount: _numParticipants,
+      ageGroup: _selectedAgeGroup,
+      genderGroup: _selectedGender,
+      id: const Uuid().v4(),
+    );
+    event.addEventToDatabase();
 
     print('${event.toJson()}');
     //HoopUpUserProvider().user!.addEvent(event);
