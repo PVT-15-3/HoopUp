@@ -86,7 +86,7 @@ class _EventListItemState extends State<EventListItem> {
     Map? eventMap = await getMapFromFirebase("events", eventId);
     Map? userMap = await getMapFromFirebase("users", userId!);
 
-    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
+    List<String>? userIdsList = List.from(eventMap['userIds'] ?? []);
     List<String> eventsList = List.from(userMap['events'] ?? []);
 
     int numberOfPlayersInEvent = userIdsList.length;
