@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/create_event.dart';
+import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/pages/list_events.dart';
 import 'package:my_app/pages/sign_up_page.dart';
+import 'package:my_app/providers/create_event_wizard_provider.dart';
 import 'package:provider/provider.dart';
 import 'pages/map.dart';
 import 'pages/main_menu.dart';
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HoopUpUserProvider()),
+        ChangeNotifierProvider(create: (_) => CreateEventWizardProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,11 +41,14 @@ class MyApp extends StatelessWidget {
         routes: {
           '/map': (context) => const Map(),
           '/create_event.dart': (context) => const CreateEventPage(),
+          '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events.dart': (context) => const ListEventsPage(showJoinedEvents : true),
-          '/join_event_page.dart': (context) => const JoinEventPage(showJoinedEvents: false),
+          '/list_events.dart': (context) =>
+              const ListEventsPage(showJoinedEvents: true),
+          '/join_event_page.dart': (context) =>
+              const JoinEventPage(showJoinedEvents: false),
         },
       ),
     );
