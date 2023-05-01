@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/classes/bottom_nav_bar.dart';
 import 'package:my_app/pages/create_event.dart';
-import 'package:my_app/pages/list_events.dart%20';
+
 import 'package:my_app/pages/main_menu.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: const MainMenu(),
+        home: const BottomNavBar(),
         routes: {
           '/map': (context) => const Map(),
           '/create_event.dart': (context) => const CreateEventPage(),
