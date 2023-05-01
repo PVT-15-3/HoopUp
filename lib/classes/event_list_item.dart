@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../handlers/firebase_handler.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
+import '../widgets/pop_up.dart';
 
 class EventListItem extends StatefulWidget {
   final Event event;
@@ -78,7 +78,7 @@ class _EventListItemState extends State<EventListItem> {
               TextButton(
                 onPressed: () async {
                   // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
-                  final bool joined = await toggleEvent(widget.event.id);
+                  await toggleEvent(widget.event.id, hasUserJoined);
                   setState(() {
                     _hasUserJoined = _checkJoined();
                   });
@@ -106,7 +106,7 @@ class _EventListItemState extends State<EventListItem> {
         'Skill level: ${event.skillLevel}';
   }
 
-  Future<bool> toggleEvent(String eventId) async {
+  Future<void> toggleEvent(String eventId, bool hasUserJoined) async {
     // Get the currently logged-in user's ID
     final String? userId = FirebaseAuth.instance.currentUser?.uid;
     Map? eventMap = await getMapFromFirebase("events", eventId);
@@ -120,17 +120,39 @@ class _EventListItemState extends State<EventListItem> {
     HoopUpUserProvider userProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    if (numberOfPlayersInEvent >= numberOfAllowed) {
-      print('Event is full');
-      return false;
+    if (checkIfEventIsFull(
+        numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
+      return;
     }
+
     if (eventsList.contains(eventId)) {
       removeUserFromEvent(
           eventId, eventsList, userId, userIdsList, userProvider);
-      return false;
+      return;
     } else {
       addUserToEvent(eventId, eventsList, userId, userIdsList, userProvider);
+      return;
+    }
+  }
+
+  bool checkIfEventIsFull(
+      int numberOfPlayersInEvent, int numberOfAllowed, bool hasUserJoined) {
+    if (numberOfPlayersInEvent >= numberOfAllowed && !hasUserJoined) {
+      print('$numberOfAllowed number of allowed');
+      print('!!!!!');
+      print('$numberOfPlayersInEvent number of players in event');
+      print('Event is full');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const PopUp(
+            title: 'Event is full',
+            message: 'You can not join this event because it is full.',
+          );
+        },
+      );
       return true;
     }
+    return false;
   }
 }

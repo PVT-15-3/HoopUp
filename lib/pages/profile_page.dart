@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/log_in_page.dart';
+import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 
@@ -26,6 +27,17 @@ class ProfilePage extends StatelessWidget {
                 );
               },
               child: const Text('Press here to log in'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignUpPage(),
+                  ),
+                );
+              },
+              child: const Text('Press here to sign up'),
             ),
           ],
         ),
