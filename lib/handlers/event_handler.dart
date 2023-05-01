@@ -47,6 +47,7 @@ class EventHandler {
       ageGroup: selectedAgeGroup,
       id: const Uuid().v4(),
     );
+    event.addEventToDatabase();
 
     print('Event created:');
     print('  Date: $eventDate');
