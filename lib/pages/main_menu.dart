@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../handlers/firebase_handler.dart';
+import 'create_event.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -23,103 +25,51 @@ class MainMenu extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("data"),
+        title: const Text('HoopUp'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              print("!!!!!!!!");
+              print(HoopUpUser.isUserSignedIn());
+              print(userProvider.user);
+              print("!!!!!!!!");
+            },
+            icon: const Icon(Icons.manage_accounts),
+          ),
+        ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 40),
           Center(
             child: ElevatedButton(
-              child: const Text('Go to Map'),
               onPressed: () {
-                Navigator.pushNamed(context, '/map');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateEventPage(),
+                  ),
+                );
               },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(200, 60),
+              ),
+              child: const Text(
+                'Create Event',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('remove user'),
-              onPressed: () {
-                userProvider.user?.deleteAccount();
-                userProvider.clearUser();
-              },
+          const SizedBox(height: 40),
+          const Expanded(
+            child: Center(
+              child: ListEventHandler(showJoinedEvents: false),
             ),
           ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('test user'),
-              onPressed: () {
-                print("!!!!!!!!");
-                print(HoopUpUser.isUserSignedIn());
-                print(userProvider.user);
-                print("!!!!!!!!");
-              },
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('log out user'),
-              onPressed: () {
-                HoopUpUser.signOut();
-                userProvider.clearUser();
-              },
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('login with email'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/log_in_page.dart');
-              },
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              child: const Text('signup with email'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/sign_up_page.dart');
-              },
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/create_event.dart');
-              },
-              child: const Text('create event'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/create_event_wizard.dart');
-              },
-              child: const Text('create event wizard'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/profile_page.dart');
-              },
-              child: const Text('go to profile page'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/join_event_page.dart');
-              },
-              child: const Text('Join Event'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/list_events.dart');
-              },
-              child: const Text('List events'),
-            ),
-          )
         ],
       ),
     );
