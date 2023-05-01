@@ -1,4 +1,3 @@
-
 import 'chat.dart';
 import 'time.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -104,8 +103,8 @@ class Event {
 
   // Validate inputs
   void _validateSkillLevel(int skillLevel) {
-    if (skillLevel < 1 || skillLevel > 3) {
-      throw ArgumentError('Skill level should be between 1 and 3');
+    if (skillLevel < 1 || skillLevel > 5) {
+      throw ArgumentError('Skill level should be between 1 and 5');
     }
   }
 
