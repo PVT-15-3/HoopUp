@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
+import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../handlers/firebase_handler.dart';
 import 'create_event.dart';
 
-class MainMenu extends StatelessWidget {
-  const MainMenu({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   static HoopUpUser? user;
 
@@ -48,7 +49,7 @@ class MainMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const CreateEventPage(),
+                    builder: (context) => CreateEventWizard(),
                   ),
                 );
               },

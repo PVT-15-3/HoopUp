@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
-import 'package:my_app/pages/main_menu.dart';
+import 'package:my_app/pages/home_page.dart';
 import 'package:my_app/pages/map.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -15,7 +15,12 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [  const MainMenu(),  const JoinedEventsPage(showJoinedEvents: true), const Map(),    const ProfilePage(),  ];
+  final List<Widget> _pages = [
+    const HomePage(),
+    const JoinedEventsPage(showJoinedEvents: true),
+    const Map(),
+    const ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {

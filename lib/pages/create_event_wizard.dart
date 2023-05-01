@@ -428,6 +428,7 @@ class CreateEventWizard extends StatelessWidget {
               if (eventDescriptionController.text.isEmpty) {
                 return 'Please enter a description';
               }
+              return null;
             },
           ),
         ],

@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events.dart': (context) => const ListEventsPage(showJoinedEvents : true),
-          '/join_event_page.dart': (context) => const JoinEventPage(showJoinedEvents: false),
+          '/list_events_handler.dart': (context) => const ListEventHandler(showJoinedEvents : true),
+          '/join_event_page.dart': (context) => const JoinedEventsPage(showJoinedEvents: false),
         },
       ),
     );
