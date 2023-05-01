@@ -1,106 +1,33 @@
-import 'dart:async';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import '../classes/event.dart';
-import 'package:rxdart/subjects.dart';
-import '../classes/event_list_item.dart';
+import 'package:my_app/providers/hoopup_user_provider.dart';
+import '../classes/hoopup_user.dart';
+import 'firebase_handler.dart';
 
-class EventHandler extends StatefulWidget {
-final bool showJoinedEvents;
-  const EventHandler({super.key, required this.showJoinedEvents});
+removeUserFromEvent(String eventId, List<String> eventsList, String userId,
+    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) {
+  // Remove the event ID from the user's list
+  eventsList.remove(eventId);
+  // Update the user's list of events in the database
+  HoopUpUser? user = hoopUpUserProvider.user;
+  user!.events = eventsList;
 
-  @override
-  _EventHandlerState createState() => _EventHandlerState();
+  // Remove the user's ID from the event's list of users
+  userIdsList.remove(userId);
+
+  // Update the event's list of users in the database
+  setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
 
-class _EventHandlerState extends State<EventHandler> {
-  final BehaviorSubject<List<Event>> _eventsController =
-      BehaviorSubject<List<Event>>.seeded([]);
-  late StreamSubscription<DatabaseEvent> _eventsSubscription;
+addUserToEvent(String eventId, List<String> eventsList, String userId,
+    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) {
+  // Add the new event ID to the user's list
+  List<String> newEventsList = List.from(eventsList)..add(eventId);
 
-  late DatabaseReference _eventsRef;
-  bool joined = false;
+  // Update the user's list of events in the database
+  HoopUpUser? user = hoopUpUserProvider.user;
+  user!.events = newEventsList;
 
-  @override
-  void initState() {
-    super.initState();
-    _eventsRef = FirebaseDatabase.instance.ref().child('events');
-
-    _eventsSubscription = _eventsRef.onValue.listen((event) {
-      DataSnapshot snapshot = event.snapshot;
-      List<Event> events = [];
-
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> eventsFromDatabaseMap = snapshot.value as Map;
-
-        eventsFromDatabaseMap.forEach((key, value) {
-          final event = Event.fromJson(value);
-          events.add(event);
-        });
-      }
-      _eventsController.sink.add(events);
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _eventsController.close();
-    _eventsSubscription.cancel();
-  }
-
-  @override
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Column(
-      children: [
-        widget.showJoinedEvents ? const SizedBox.shrink() :
-        Container(
-          color: Colors.orange,
-          height: 70,
-          alignment: Alignment.center,
-          child: const Text(
-            'Join Events',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Center(
-            child: StreamBuilder<List<Event>>(
-              stream: _eventsController.stream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-
-                List<Event>? events = snapshot.data;
-                return Stack(
-                  children: [
-                    ListView.builder(
-                      itemCount: events?.length,
-                      itemBuilder: (context, index) {
-                        final event = events![index];
-                        return EventListItem(
-                            event: event,
-                            showJoinedEvents: widget.showJoinedEvents);
-                      },
-                    ),
-                    if (events == null || events.isEmpty)
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
+  // Add the user's ID to the event's list of users
+  List<String> newUserIdsList = List.from(userIdsList)..add(userId);
+  // Update the event's list of users in the database
+  setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
 }

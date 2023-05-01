@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/bottom_nav_bar.dart';
-import 'package:my_app/handlers/event_handler.dart';
+import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event.dart';
-import 'package:my_app/pages/event_viewer_page.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
-
-import 'package:my_app/pages/main_menu.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/map.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
 import 'pages/log_in_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,8 +41,10 @@ class MyApp extends StatelessWidget {
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events.dart': (context) => const EventHandler(showJoinedEvents : true),
-          '/join_event_page.dart': (context) => const JoinedEventsPage(showJoinedEvents: false),
+          '/list_events.dart': (context) =>
+              const ListEventHandler(showJoinedEvents: true),
+          '/join_event_page.dart': (context) =>
+              const JoinedEventsPage(showJoinedEvents: false),
         },
       ),
     );

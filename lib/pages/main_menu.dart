@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:provider/provider.dart';
-import '../handlers/event_handler.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../handlers/firebase_handler.dart';
@@ -67,7 +67,7 @@ class MainMenu extends StatelessWidget {
           const SizedBox(height: 40),
           const Expanded(
             child: Center(
-              child: EventHandler(showJoinedEvents: false),
+              child: ListEventHandler(showJoinedEvents: false),
             ),
           ),
         ],

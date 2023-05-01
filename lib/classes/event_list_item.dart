@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../handlers/firebase_handler.dart';
 import '../providers/hoopup_user_provider.dart';
+import '../handlers/event_handler.dart';
 
 class EventListItem extends StatefulWidget {
   final Event event;
@@ -22,12 +23,12 @@ class EventListItem extends StatefulWidget {
 }
 
 class _EventListItemState extends State<EventListItem> {
-  late Future<bool> _joinedFuture;
+  late Future<bool> _hasUserJoined;
 
   @override
   void initState() {
     super.initState();
-    _joinedFuture = _checkJoined();
+    _hasUserJoined = _checkJoined();
   }
 
   // Added type annotations for variables and return type
@@ -44,12 +45,10 @@ class _EventListItemState extends State<EventListItem> {
 
   @override
   Widget build(BuildContext context) {
-
     // Return a FutureBuilder that will build the UI based on the status of the _joinedFuture variable
     return FutureBuilder<bool>(
-      future: _joinedFuture,
+      future: _hasUserJoined,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-
         // Check the connection state of the snapshot, and return a different widget depending on the state
         if (snapshot.connectionState == ConnectionState.waiting) {
           // If the snapshot is still waiting for data, return an empty SizedBox widget
@@ -62,7 +61,7 @@ class _EventListItemState extends State<EventListItem> {
           return const SizedBox.shrink();
         } else {
           // Otherwise, get the value of the joined variable from the snapshot data
-          final bool joined = snapshot.data ?? false;
+          final bool hasUserJoined = snapshot.data ?? false;
           print(snapshot.data);
           // Build a Row widget with the event information and a button to join/cancel the event
           return Row(
@@ -79,13 +78,13 @@ class _EventListItemState extends State<EventListItem> {
               TextButton(
                 onPressed: () async {
                   // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
-                  final bool joined = await handleEvent(widget.event.id);
+                  final bool joined = await toggleEvent(widget.event.id);
                   setState(() {
-                    _joinedFuture = _checkJoined();
+                    _hasUserJoined = _checkJoined();
                   });
                 },
                 child: Text(
-                  joined ? 'Cancel event' : 'Join event',
+                  hasUserJoined ? 'Cancel event' : 'Join event',
                   style: const TextStyle(
                     fontSize: 18.0,
                   ),
@@ -107,7 +106,7 @@ class _EventListItemState extends State<EventListItem> {
         'Skill level: ${event.skillLevel}';
   }
 
-  Future<bool> handleEvent(String eventId) async {
+  Future<bool> toggleEvent(String eventId) async {
     // Get the currently logged-in user's ID
     final String? userId = FirebaseAuth.instance.currentUser?.uid;
     Map? eventMap = await getMapFromFirebase("events", eventId);
@@ -118,49 +117,20 @@ class _EventListItemState extends State<EventListItem> {
 
     int numberOfPlayersInEvent = userIdsList.length;
     int numberOfAllowed = eventMap['playerAmount'];
+    HoopUpUserProvider userProvider =
+        Provider.of<HoopUpUserProvider>(context, listen: false);
 
     if (numberOfPlayersInEvent >= numberOfAllowed) {
       print('Event is full');
       return false;
     }
     if (eventsList.contains(eventId)) {
-      removeUser(eventId, eventsList, userId, userIdsList);
+      removeUserFromEvent(
+          eventId, eventsList, userId, userIdsList, userProvider);
       return false;
     } else {
-      addUser(eventId, eventsList, userId, userIdsList);
+      addUserToEvent(eventId, eventsList, userId, userIdsList, userProvider);
       return true;
     }
-  }
-
-  removeUser(String eventId, List<String> eventsList, String userId,
-      List<String> userIdsList) {
-    // Remove the event ID from the user's list
-    eventsList.remove(eventId);
-    // Update the user's list of events in the database
-    HoopUpUser? user =
-        Provider.of<HoopUpUserProvider>(context, listen: false).user;
-    user!.events = eventsList;
-
-    // Remove the user's ID from the event's list of users
-    userIdsList.remove(userId);
-
-    // Update the event's list of users in the database
-    setFirebaseDataList('events/$eventId/userIds', userIdsList);
-  }
-
-  addUser(String eventId, List<String> eventsList, String userId,
-      List<String> userIdsList) {
-    // Add the new event ID to the user's list
-    List<String> newEventsList = List.from(eventsList)..add(eventId);
-
-    // Update the user's list of events in the database
-    HoopUpUser? user =
-        Provider.of<HoopUpUserProvider>(context, listen: false).user;
-    user!.events = newEventsList;
-
-    // Add the user's ID to the event's list of users
-    List<String> newUserIdsList = List.from(userIdsList)..add(userId);
-    // Update the event's list of users in the database
-    setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
   }
 }

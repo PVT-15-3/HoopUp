@@ -29,20 +29,24 @@ void main() {
         gender: "Female");
   });
 
+  List<String> eventsLocal = [];
+
   group("Testing event list changing operations", () {
     test("Initial state of events list is empty", () {
       expect(userGeoff.events, []);
     });
     test("Adding one event and seeing it in the list", () {
-      userGeoff.addEvent("event1");
+      eventsLocal.add("event1");
+      userGeoff.events = eventsLocal;
       expect(userGeoff.events, ["event1"]);
     });
     test("Adding same event multiple times should give return false", () {
       //TODO allow for add event to return true or false
       //expect(userAubrey.addEvent("event2"), true);
       //expect(userAubrey.addEvent("event2"), false);
-      userAubrey.addEvent("event2");
-      userAubrey.addEvent("event2");
+      eventsLocal.add("event2");
+      eventsLocal.add("event2");
+      userGeoff.events = eventsLocal;
       expect(userAubrey.events, ["event2"]);
     });
 
@@ -56,17 +60,22 @@ void main() {
         "Removing and adding events in different orders seeing if it's consistent in the end",
         () {
       expect(userGeoff.events, []);
-      userGeoff.addEvent("event1");
-      userGeoff.addEvent("event2");
-      userGeoff.addEvent("event3");
-      userGeoff.addEvent("event4");
+      eventsLocal.add("event1");
+      userGeoff.events = eventsLocal;
+      eventsLocal.add("event2");
+      userGeoff.events = eventsLocal;
+      eventsLocal.add("event3");
+      userGeoff.events = eventsLocal;
+      eventsLocal.add("event4");
+      userGeoff.events = eventsLocal;
       //userGeoff.removeEvent("event2");
       expect(userGeoff.events, [
         "event1",
         "event3",
         "event4",
       ]);
-      userGeoff.addEvent("event2");
+      eventsLocal.add("event2");
+      userGeoff.events = eventsLocal;
       //userGeoff.removeEvent("event1");
       expect(userGeoff.events, ["event3", "event4", "event2"]);
       //userGeoff.removeEvent("event2");
