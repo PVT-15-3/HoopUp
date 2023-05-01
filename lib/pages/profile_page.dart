@@ -130,7 +130,24 @@ class ProfilePage extends StatelessWidget {
                   },
                   child: const Text('Save'),
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 100.0),
+                ElevatedButton(
+                
+                  onPressed: () {
+                     HoopUpUser.signOut();
+                    userProvider.user?.deleteAccount();
+                    userProvider.clearUser();
+                   
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: const Color(0xFFFAFAFA),
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                ),
+                  child: const Text('Delete account'),
+                ),
               ],
             );
           },

@@ -44,18 +44,25 @@ class MainMenu extends StatelessWidget {
           const SizedBox(height: 40),
           Center(
             child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CreateEventPage(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 60),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateEventPage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(200, 60),
+              ),
+              child: const Text(
+                'Create Event',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: const Text('Create Event')),
+              ),
+            ),
           ),
           const SizedBox(height: 40),
           const Expanded(

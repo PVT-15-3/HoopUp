@@ -55,13 +55,14 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Column(
       children: [
+        widget.showJoinedEvents ? const SizedBox.shrink() :
         Container(
           color: Colors.orange,
           height: 70,
           alignment: Alignment.center,
-          child: Text(
-            widget.showJoinedEvents ? 'Joined Events': 'Join Events',
-            style: const TextStyle(
+          child: const Text(
+            'Join Events',
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),

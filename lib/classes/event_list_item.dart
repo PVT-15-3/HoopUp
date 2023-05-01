@@ -11,73 +11,100 @@ class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
 
-  const EventListItem({super.key, required this.event, required this.showJoinedEvents });
+  const EventListItem({
+    Key? key, // Added a Key? parameter for super constructor
+    required this.event,
+    required this.showJoinedEvents,
+  }) : super(key: key);
 
   @override
   _EventListItemState createState() => _EventListItemState();
 }
 
 class _EventListItemState extends State<EventListItem> {
-  bool _joined = false;
+  late Future<bool> _joinedFuture;
 
-  _EventListItemState() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-      if (user != null) {
-        // User is logged in, check if they have already joined the event
-        Map? userMap = await getMapFromFirebase("users", user.uid);
-        List<dynamic> eventsList = userMap['events'] ?? [];
-        bool joined = eventsList.contains(widget.event.id);
-        setState(() {
-          _joined = joined;
-        });
-      } else {
-        // User is not logged in, set joined to false
-        setState(() {
-          _joined = false;
-        });
-      }
-    });
+  @override
+  void initState() {
+    super.initState();
+    _joinedFuture = _checkJoined();
+  }
+
+  // Added type annotations for variables and return type
+  Future<bool> _checkJoined() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return false;
+    } else {
+      final Map userMap = await getMapFromFirebase("users", user.uid);
+      final List<dynamic> eventsList = userMap['events'] ?? [];
+      return eventsList.contains(widget.event.id);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_joined);
-    print('!!!!!!!!!!');
-    print(widget.showJoinedEvents);
-    if(_joined != widget.showJoinedEvents){
-      return Container();
-    }
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: ListTile(
-              title: Text(widget.event.name),
-              subtitle: Text('Event info: ${widget.event.description}\n'
-                  'Date and time: ${widget.event.time.getFormattedStartTime()}'
-                  '\nThe event is for: ${widget.event.genderGroup}\n'
-                  'Number of participants allowed: ${widget.event.playerAmount}\n'
-                  'Skill level: ${widget.event.skillLevel}'),
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () async {
-            bool joined = await handleEvent(widget.event.id);
-            setState(() {
-              _joined = joined;
-            });
-          },
-          child: Text(
-            _joined ? 'Cancel event' : 'Join event',
-            style: const TextStyle(
-              fontSize: 18.0,
-            ),
-          ),
-        )
-      ],
+
+    // Return a FutureBuilder that will build the UI based on the status of the _joinedFuture variable
+    return FutureBuilder<bool>(
+      future: _joinedFuture,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+
+        // Check the connection state of the snapshot, and return a different widget depending on the state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // If the snapshot is still waiting for data, return an empty SizedBox widget
+          return const SizedBox.shrink();
+        } else if (snapshot.hasError) {
+          // If there is an error with the snapshot, return a Text widget with the error message
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.data != widget.showJoinedEvents) {
+          // If the snapshot data is not equal to the showJoinedEvents variable, return an empty SizedBox widget
+          return const SizedBox.shrink();
+        } else {
+          // Otherwise, get the value of the joined variable from the snapshot data
+          final bool joined = snapshot.data ?? false;
+          print(snapshot.data);
+          // Build a Row widget with the event information and a button to join/cancel the event
+          return Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ListTile(
+                    title: Text(widget.event.name),
+                    subtitle: Text(_getSubtitleText()),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
+                  final bool joined = await handleEvent(widget.event.id);
+                  setState(() {
+                    _joinedFuture = _checkJoined();
+                  });
+                },
+                child: Text(
+                  joined ? 'Cancel event' : 'Join event',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                  ),
+                ),
+              )
+            ],
+          );
+        }
+      },
     );
+  }
+
+  String _getSubtitleText() {
+    final event = widget.event;
+    return 'Event info: ${event.description}\n'
+        'Date and time: ${event.time.getFormattedStartTime()}'
+        '\nThe event is for: ${event.genderGroup}\n'
+        'Number of participants allowed: ${event.playerAmount}\n'
+        'Skill level: ${event.skillLevel}';
   }
 
   Future<bool> handleEvent(String eventId) async {
