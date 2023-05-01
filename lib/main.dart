@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/bottom_nav_bar.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event.dart';
-<<<<<<< Updated upstream
 import 'package:my_app/pages/joined_events_pages.dart';
-=======
-import 'package:my_app/pages/create_event_wizard.dart';
->>>>>>> Stashed changes
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/map.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
 import 'pages/log_in_page.dart';
-import 'pages/joined_events_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,11 +43,7 @@ class MyApp extends StatelessWidget {
           '/profile_page.dart': (context) => const ProfilePage(),
           '/list_events.dart': (context) =>
               const ListEventHandler(showJoinedEvents: true),
-<<<<<<< Updated upstream
           '/join_event_page.dart': (context) =>
-=======
-          '/joined_events_page.dart': (context) =>
->>>>>>> Stashed changes
               const JoinedEventsPage(showJoinedEvents: false),
         },
       ),

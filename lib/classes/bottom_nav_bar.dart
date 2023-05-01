@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/main_menu.dart';
-=======
-import 'package:my_app/pages/joined_events_page.dart';
-import 'package:my_app/pages/home_page.dart';
->>>>>>> Stashed changes
 import 'package:my_app/pages/map.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
