@@ -1,15 +1,12 @@
 import 'chat.dart';
 import 'time.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../handlers/firebase_handler.dart';
-
-FirebaseDatabase database = FirebaseDatabase.instance;
 
 class Event {
   final String _name;
   final String _description;
   final String? _creatorId;
-  Chat? _chat;
+  late Chat _chat;
   final Time _time;
   final String _courtId;
   final String _id;
@@ -48,28 +45,31 @@ class Event {
   }
 
   addEventToDatabase() {
-    _time.validateStartTime();
-    _time.validateEndTime();
-    database.ref("events/$_id").set({
-      'name': _name,
-      'description': _description,
-      'creatorId': _creatorId,
-      'time': _time.toJson(),
-      'courtId': _courtId,
-      'chat': _chat?.toJson(),
-      'skillLevel': _skillLevel,
-      'playerAmount': _playerAmount,
-      'genderGroup': _genderGroup,
-      'ageGroup': _ageGroup,
-    }).catchError((error) {
-      print("Failed to create event: ${error.toString()}");
-    });
+    try {
+      _time.validateStartTime();
+      _time.validateEndTime();
+      setFirebaseDataMap("events/$_id", {
+        'name': _name,
+        'description': _description,
+        'creatorId': _creatorId,
+        'time': _time.toJson(),
+        'courtId': _courtId,
+        'chat': _chat.toJson(),
+        'skillLevel': _skillLevel,
+        'playerAmount': _playerAmount,
+        'genderGroup': _genderGroup,
+        'ageGroup': _ageGroup,
+      });
+    } on Exception catch (e) {
+      print("Failed to add event to database: $e");
+    }
   }
 
-// getters for the class properties
+  // getters for the class properties
+
   String get name => _name;
   String get description => _description;
-  String? get creatorId => _creatorId;
+  String? get creatorId => _creatorId as String;
   String get id => _id;
   Time get time => _time;
   String get courtId => _courtId;
@@ -80,28 +80,8 @@ class Event {
   Chat? get chat => _chat;
   List<String> get usersIds => _usersIds;
 
-  //Handle events
-
-  void addUser(String userId) {
-    if (userId == _creatorId) {
-      throw ArgumentError('Cannot add creator as a user.');
-    }
-    if (_usersIds.contains(userId)) {
-      throw ArgumentError('User is already added to this event.');
-    }
-    _usersIds.add(userId);
-    //database.ref("events/$_id/userIds/$userId");
-    setFirebaseDataMap("events/$_id/userIds", {userId: userId});
-  }
-
-  void removeUser(String userId) {
-    if (userId != _creatorId) {
-      _usersIds.remove(userId);
-      database.ref("events/$_id/userIds/$userId").remove();
-    }
-  }
-
   // Validate inputs
+
   void _validateSkillLevel(int skillLevel) {
     if (skillLevel < 1 || skillLevel > 5) {
       throw ArgumentError('Skill level should be between 1 and 5');
@@ -121,7 +101,7 @@ class Event {
       'creatorId': _creatorId,
       'time': _time.toJson(),
       'courtId': _courtId,
-      'chat': _chat?.toJson(),
+      'chat': _chat.toJson(),
       'skillLevel': _skillLevel,
       'playerAmount': _playerAmount,
       'genderGroup': _genderGroup,

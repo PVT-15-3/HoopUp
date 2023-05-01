@@ -8,6 +8,7 @@ class SignUpPage extends HookWidget {
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class SignUpPage extends HookWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  signUpWithEmail(
+                  auth.signUpWithEmail(
                     email.value!,
                     password.value!,
                     username.value!,

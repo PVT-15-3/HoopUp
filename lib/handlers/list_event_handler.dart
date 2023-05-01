@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
-import '../classes/event_list_item.dart';
+import '../widgets/event_list_item.dart';
 
 class ListEventHandler extends StatefulWidget {
   final bool showJoinedEvents;

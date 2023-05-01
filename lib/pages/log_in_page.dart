@@ -11,6 +11,7 @@ class LogInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     String? email;
     String? password;
+    final Auth auth = Auth();
 
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +56,7 @@ class LogInPage extends StatelessWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  signInWithEmail(email!, password!, context.read());
+                  auth.signInWithEmail(email!, password!, context.read());
                   Navigator.pop(context);
                 }
               },
@@ -98,7 +99,7 @@ class LogInPage extends StatelessWidget {
                           child: const Text("Submit"),
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              resetPassword(emailController.text);
+                              auth.resetPassword(emailController.text);
                               Navigator.of(context).pop();
                             }
                           },

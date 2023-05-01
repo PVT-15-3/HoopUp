@@ -6,7 +6,7 @@ import '../classes/event.dart';
 import '../handlers/firebase_handler.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
-import '../widgets/pop_up.dart';
+import 'toaster.dart';
 
 class EventListItem extends StatefulWidget {
   final Event event;
@@ -62,7 +62,6 @@ class _EventListItemState extends State<EventListItem> {
         } else {
           // Otherwise, get the value of the joined variable from the snapshot data
           final bool hasUserJoined = snapshot.data ?? false;
-          print(snapshot.data);
           // Build a Row widget with the event information and a button to join/cancel the event
           return Row(
             children: [
@@ -117,10 +116,13 @@ class _EventListItemState extends State<EventListItem> {
 
     int numberOfPlayersInEvent = userIdsList.length;
     int numberOfAllowed = eventMap['playerAmount'];
+    if (!mounted) {
+      return;
+    }
     HoopUpUserProvider userProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    if (checkIfEventIsFull(
+    if (eventIsFull(
         numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
       return;
     }
@@ -135,22 +137,10 @@ class _EventListItemState extends State<EventListItem> {
     }
   }
 
-  bool checkIfEventIsFull(
+  bool eventIsFull(
       int numberOfPlayersInEvent, int numberOfAllowed, bool hasUserJoined) {
     if (numberOfPlayersInEvent >= numberOfAllowed && !hasUserJoined) {
-      print('$numberOfAllowed number of allowed');
-      print('!!!!!');
-      print('$numberOfPlayersInEvent number of players in event');
-      print('Event is full');
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const PopUp(
-            title: 'Event is full',
-            message: 'You can not join this event because it is full.',
-          );
-        },
-      );
+      showCustomToast("This event is full!", Icons.error, context);
       return true;
     }
     return false;

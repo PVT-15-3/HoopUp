@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // TODO: IS NOT USED (USING TOASTER INSTEAD (1/5)), SHOULD WE REMOVE?? (VIKTOR)
 
 class PopUp extends StatelessWidget {
   final String title;

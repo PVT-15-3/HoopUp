@@ -6,24 +6,36 @@ import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../handlers/firebase_handler.dart';
-import 'create_event.dart';
+import '../widgets/toaster.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   static HoopUpUser? user;
+  // TODO: Put the provider here so that it can be used anywhere in the app
 
   @override
-  Widget build(BuildContext context) {
-    var userProvider = context.watch<HoopUpUserProvider>();
+  void initState() {
+    super.initState();
+    final userProvider = context.read<HoopUpUserProvider>();
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null && userProvider.user == null && user == null) {
-      print(firebaseUser);
       getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
         user = hoopUpUser;
+        showCustomToast('Welcome, ${user?.username}', Icons.sports_basketball, context);
       });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userProvider = context.watch<HoopUpUserProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('HoopUp'),

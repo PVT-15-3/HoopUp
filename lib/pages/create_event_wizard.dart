@@ -215,7 +215,7 @@ class CreateEventWizard extends StatelessWidget {
                 myProvider.eventStartTime.hour,
                 myProvider.eventStartTime.minute,
               );
-              DateTime thirtyMinutesFromNow = now.add(Duration(minutes: 30));
+              DateTime thirtyMinutesFromNow = now.add(const Duration(minutes: 30));
               if (startTime.isBefore(thirtyMinutesFromNow)) {
                 return 'Start time must be at least 30 minutes from now.';
               }
@@ -229,7 +229,7 @@ class CreateEventWizard extends StatelessWidget {
                 myProvider.eventEndTime.hour,
                 myProvider.eventEndTime.minute,
               );
-              if (endTime.isBefore(startTime.add(Duration(hours: 1)))) {
+              if (endTime.isBefore(startTime.add(const Duration(hours: 1)))) {
                 return 'End time must be at least 1 hour after start time.';
               }
               return null;

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // TODO: IS NOT USED (USING WIZARD INSTEAD (1/5)), SHOULD WE REMOVE?? (VIKTOR)
 import 'package:uuid/uuid.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:provider/provider.dart';

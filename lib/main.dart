@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/classes/bottom_nav_bar.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event.dart';
 import 'package:my_app/pages/create_event_wizard.dart';

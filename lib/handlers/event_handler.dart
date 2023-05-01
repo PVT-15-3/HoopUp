@@ -3,7 +3,6 @@ import '../classes/hoopup_user.dart';
 import 'firebase_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event.dart';
-import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
 
