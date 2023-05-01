@@ -17,7 +17,7 @@ class ListEventsPage extends StatelessWidget {
         title: const Text('View events'),
       ),
       body: Center(
-        child: Consumer<HoopUpUserProvider>(
+          /*   child: Consumer<HoopUpUserProvider>(
           builder: (context, userProvider, child) {
             HoopUpUser? user = userProvider.user;
             List<String>? events = user!.events;
@@ -45,7 +45,8 @@ class ListEventsPage extends StatelessWidget {
             );
           },
         ),
-      ),
+    */
+          ),
     );
   }
 }
