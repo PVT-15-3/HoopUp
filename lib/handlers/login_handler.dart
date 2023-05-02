@@ -1,14 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
-import '../handlers/firebase_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 
 class Auth {
+  final FirebaseProvider _firebaseHandler;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> signUpWithEmail(String email, String password, String username, HoopUpUserProvider hoopUpUserProvider) async {
+  Auth(FirebaseProvider firebaseHandler) : _firebaseHandler = firebaseHandler;
+
+  Future<void> signUpWithEmail(String email, String password, String username,
+      HoopUpUserProvider hoopUpUserProvider) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       HoopUpUser hoopUpuser = HoopUpUser(
         username: username,
@@ -16,6 +21,7 @@ class Auth {
         id: userCredential.user!.uid,
         photoUrl: null,
         gender: 'other',
+        firebaseHandler: _firebaseHandler,
       );
       hoopUpuser.addUserToDatabase();
 
@@ -27,11 +33,14 @@ class Auth {
     }
   }
 
-  Future<void> signInWithEmail(String email, String password, HoopUpUserProvider hoopUpUserProvider) async {
+  Future<void> signInWithEmail(String email, String password,
+      HoopUpUserProvider hoopUpUserProvider) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       User? user = userCredential.user;
-      Map? userMap = await getMapFromFirebase('users', user!.uid);
+      Map? userMap =
+          await _firebaseHandler.getMapFromFirebase('users', user!.uid);
 
       HoopUpUser hoopUpuser = HoopUpUser(
         username: userMap['username'] ?? 'unknown',
@@ -39,10 +48,13 @@ class Auth {
         id: user.uid,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
+        firebaseHandler: _firebaseHandler,
       );
 
-      List<dynamic> dynamicList = await getListFromFirebase('users/${hoopUpuser.id}', "events");
-      List<String> eventsList = List<String>.from(dynamicList.map((event) => event.toString()));
+      List<dynamic> dynamicList = await _firebaseHandler.getListFromFirebase(
+          'users/${hoopUpuser.id}', "events");
+      List<String> eventsList =
+          List<String>.from(dynamicList.map((event) => event.toString()));
       hoopUpuser.events = eventsList;
 
       hoopUpUserProvider.setUser(hoopUpuser);
@@ -60,7 +72,9 @@ class Auth {
       await _auth.sendPasswordResetEmail(email: email);
       print('Password reset email sent to $email');
     } on FirebaseException catch (e) {
-      throw AuthException(message: 'Failed to send password reset email to $email: ${e.toString()}');
+      throw AuthException(
+          message:
+              'Failed to send password reset email to $email: ${e.toString()}');
     }
   }
 }

@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import '../handlers/login_handler.dart';
+import '../providers/firebase_provider.dart';
 
 class SignUpPage extends HookWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
+    final firebaseProvider = context.read<FirebaseProvider>();
     final isEmailValid = useState(true);
     final email = useState<String?>(null);
     final password = useState<String?>(null);
     final username = useState<String?>(null);
+    final Auth auth = Auth(firebaseProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +61,7 @@ class SignUpPage extends HookWidget {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';
                 }
-                 if (value.length < 6) {
+                if (value.length < 6) {
                   return 'Password must be at least 6 characters long';
                 }
                 return null;

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../handlers/firebase_handler.dart';
 import '../widgets/toaster.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,18 +17,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static HoopUpUser? user;
+  late final FirebaseProvider firebaseProvider;
+
   // TODO: Put the provider here so that it can be used anywhere in the app
 
   @override
   void initState() {
     super.initState();
     final userProvider = context.read<HoopUpUserProvider>();
+    firebaseProvider = context.read<FirebaseProvider>();
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null && userProvider.user == null && user == null) {
-      getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
+      firebaseProvider.getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
         user = hoopUpUser;
-        showCustomToast('Welcome, ${user?.username}', Icons.sports_basketball, context);
+        showCustomToast(
+            'Welcome, ${user?.username}', Icons.sports_basketball, context);
       });
     }
   }
@@ -78,9 +82,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 40),
-          const Expanded(
+          Expanded(
             child: Center(
-              child: ListEventHandler(showJoinedEvents: false),
+              child: ListEventHandler(
+                  showJoinedEvents: false, firebase: firebaseProvider),
             ),
           ),
         ],

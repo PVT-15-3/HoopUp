@@ -1,10 +1,7 @@
 import 'package:uuid/uuid.dart';
-import 'package:firebase_database/firebase_database.dart';
-import '../handlers/firebase_handler.dart';
+import '../providers/firebase_provider.dart';
 import 'address.dart';
 import 'event.dart';
-
-final FirebaseDatabase database = FirebaseDatabase.instance;
 
 class Court {
   final String _courtId;
@@ -13,13 +10,16 @@ class Court {
   String _courtType;
   Address _address;
   final List<Event> _events = [];
+  final FirebaseProvider _firebase;
 
   Court(
       {required String name,
       required String imageLink,
       required String courtType,
-      required Address address}) // TODO unrequired
+      required Address address,
+      required FirebaseProvider firebase})
       : _name = name,
+        _firebase = firebase,
         _imageLink = imageLink,
         _courtType = courtType,
         _address = address,
@@ -29,20 +29,18 @@ class Court {
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,
-      "address": _address.toJson(), //TODO Is this correct?
+      "address": _address.toJson(),
     }).catchError((error) {
       print("Failed to create Court: ${error.toString()}");
     });
   }
 
   void addCourtToDatabase() async {
-    await setFirebaseDataMap("courts/$courtId", {
+    _firebase.setFirebaseDataMap("courts/$courtId", {
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,
       "address": _address.toJson(),
-    }).catchError((error) {
-      print("Failed to create Court: ${error.toString()}");
     });
   }
 
@@ -55,60 +53,37 @@ class Court {
   //Setters ---------------------------------------------------------------
   set name(String name) {
     _name = name;
-    database.ref("courts/$_courtId").update({"name": name}).catchError((error) {
-      print("Failed to set address: ${error.toString()}");
-    });
+    _firebase.updateFirebaseData("courts/$_courtId", {"name": name});
   }
 
   set imageLink(String imageLink) {
     _imageLink = imageLink;
-    database
-        .ref("courts/$_courtId")
-        .update({"imageLink": imageLink}).catchError((error) {
-      print("Failed to set address: ${error.toString()}");
-    });
+    _firebase.updateFirebaseData("courts/$_courtId", {"imageLink": imageLink});
   }
 
   set courtType(String courtType) {
     _courtType = courtType;
-    database
-        .ref("courts/$_courtId")
-        .update({"courtType": courtType}).catchError((error) {
-      print("Failed to set address: ${error.toString()}");
-    });
+    _firebase.updateFirebaseData("courts/$_courtId", {"courtType": courtType});
   }
 
   set address(Address adress) {
     _address = adress;
-    database
-        .ref("courts/$_courtId")
-        .update({"address": adress.toJson()}).catchError((error) {
-      print("Failed to set address: ${error.toString()}");
-    });
+    _firebase
+        .updateFirebaseData("courts/$_courtId", {"address": adress.toJson()});
   }
 
   //Functions ---------------------------------------------------------------
   void addEvent(Event event) {
     var id = event.id;
     _events.add(event);
-    database
-        .ref("courts/$_courtId/events/$id")
-        .set(event.toJson())
-        .catchError((error) {
-      print("Failed to add event: ${error.toString()}");
-    });
+    _firebase.setFirebaseDataMap("courts/$_courtId/events/$id", event.toJson());
   }
 
   void removeEvent(Event event) {
     int index = _events.indexOf(event);
     if (index >= 0) {
       _events.removeAt(index);
-      database
-          .ref("courts/$_courtId/events/${event.id}")
-          .remove()
-          .catchError((error) {
-        print("Failed to remove event: ${error.toString()}");
-      });
+      _firebase.removeFirebaseData("courts/$_courtId/events/${event.id}");
     }
   }
 

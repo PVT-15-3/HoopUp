@@ -1,6 +1,6 @@
 import 'chat.dart';
 import 'time.dart';
-import '../handlers/firebase_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 
 class Event {
   final String _name;
@@ -10,6 +10,7 @@ class Event {
   final Time _time;
   final String _courtId;
   final String _id;
+  final FirebaseProvider _firebase;
   int _skillLevel;
   int _playerAmount;
   String _genderGroup;
@@ -27,7 +28,9 @@ class Event {
     required String genderGroup,
     required String ageGroup,
     required String id,
+    required FirebaseProvider firebase,
   })  : _name = name,
+        _firebase = firebase,
         _description = description,
         _creatorId = creatorId,
         _time = time,
@@ -37,7 +40,7 @@ class Event {
         _genderGroup = genderGroup,
         _ageGroup = ageGroup,
         _id = id {
-    _chat = Chat(eventId: _id);
+    _chat = Chat(eventId: _id, firebaseProvider: firebase);
     {
       _validateSkillLevel(skillLevel);
       _validatePlayerAmount(playerAmount);
@@ -48,7 +51,7 @@ class Event {
     try {
       _time.validateStartTime();
       _time.validateEndTime();
-      setFirebaseDataMap("events/$_id", {
+      _firebase.setFirebaseDataMap("events/$_id", {
         'name': _name,
         'description': _description,
         'creatorId': _creatorId,
@@ -83,7 +86,7 @@ class Event {
   // setters for the class properties
   set userIds(List<String> userIds) {
     _usersIds = userIds;
-    setFirebaseDataList('events/$id/userIds', userIds);
+    _firebase.setFirebaseDataList('events/$id/userIds', userIds);
   }
 
   // Validate inputs
@@ -115,7 +118,8 @@ class Event {
     };
   }
 
-  factory Event.fromJson(Map<dynamic, dynamic> json) {
+  factory Event.fromJson(
+      Map<dynamic, dynamic> json, FirebaseProvider firebaseHandler) {
     final name = json['name'] as String;
     final description = json['description'] as String;
     final creatorId = json['creatorId'] ?? '';
@@ -142,6 +146,7 @@ class Event {
       genderGroup: genderGroup,
       ageGroup: ageGroup,
       id: id,
+      firebase: firebaseHandler,
     );
 
     return event;

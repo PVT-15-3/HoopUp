@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => HoopUpUserProvider()),
         ChangeNotifierProvider(create: (_) => CreateEventWizardProvider()),
+        ChangeNotifierProvider(create: (_) => FirebaseProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -43,8 +45,10 @@ class MyApp extends StatelessWidget {
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events_handler.dart': (context) =>
-              const ListEventHandler(showJoinedEvents: true),
+          '/list_events_handler.dart': (context) => ListEventHandler(
+                showJoinedEvents: true,
+                firebase: context.read<FirebaseProvider>(),
+              ),
           '/join_event_page.dart': (context) =>
               const JoinedEventsPage(showJoinedEvents: false),
         },

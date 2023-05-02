@@ -3,6 +3,7 @@ import 'package:cool_stepper/cool_stepper.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/handlers/event_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class CreateEventWizard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CreateEventWizardProvider myProvider =
+    final CreateEventWizardProvider wizardProvider =
         Provider.of<CreateEventWizardProvider>(context, listen: false);
     final HoopUpUserProvider hoopUpUserProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
@@ -32,33 +33,34 @@ class CreateEventWizard extends StatelessWidget {
       body: CoolStepper(
         onCompleted: () {
           // do something when the wizard is completed
-          myProvider.userId = hoopUpUserProvider.user?.id;
-          print(myProvider.userId);
-          print(myProvider.eventName);
-          print(myProvider.eventDate.toString());
-          print(myProvider.eventStartTime.toString());
-          print(myProvider.eventEndTime.toString());
-          print(myProvider.numberOfParticipants.toString());
-          print(myProvider.selectedGender.toString());
-          print(myProvider.selectedAgeGroup.toString());
-          print(myProvider.skillLevel.toString());
-          print(myProvider.courtId.toString());
-          print(myProvider.eventName.toString());
-          print(myProvider.eventDescription.toString());
+          wizardProvider.userId = hoopUpUserProvider.user?.id;
+          print(wizardProvider.userId);
+          print(wizardProvider.eventName);
+          print(wizardProvider.eventDate.toString());
+          print(wizardProvider.eventStartTime.toString());
+          print(wizardProvider.eventEndTime.toString());
+          print(wizardProvider.numberOfParticipants.toString());
+          print(wizardProvider.selectedGender.toString());
+          print(wizardProvider.selectedAgeGroup.toString());
+          print(wizardProvider.skillLevel.toString());
+          print(wizardProvider.courtId.toString());
+          print(wizardProvider.eventName.toString());
+          print(wizardProvider.eventDescription.toString());
           print('Steps completed!');
           EventHandler().createEvent(
-              eventDate: myProvider.eventDate,
-              eventStartTime: myProvider.eventStartTime,
-              eventEndTime: myProvider.eventEndTime,
-              numberOfParticipants: myProvider.numberOfParticipants,
-              selectedGender: myProvider.selectedGender,
-              selectedAgeGroup: myProvider.selectedAgeGroup,
-              skillLevel: myProvider.skillLevel,
-              eventName: myProvider.eventName,
-              eventDescription: myProvider.eventDescription,
-              courtId: myProvider.courtId,
-              userId: myProvider.userId,
-              hoopUpUser: hoopUpUserProvider.user);
+              eventDate: wizardProvider.eventDate,
+              eventStartTime: wizardProvider.eventStartTime,
+              eventEndTime: wizardProvider.eventEndTime,
+              numberOfParticipants: wizardProvider.numberOfParticipants,
+              selectedGender: wizardProvider.selectedGender,
+              selectedAgeGroup: wizardProvider.selectedAgeGroup,
+              skillLevel: wizardProvider.skillLevel,
+              eventName: wizardProvider.eventName,
+              eventDescription: wizardProvider.eventDescription,
+              courtId: wizardProvider.courtId,
+              userId: wizardProvider.userId,
+              hoopUpUser: hoopUpUserProvider.user,
+              firebase: context.read<FirebaseProvider>());
         },
         steps: [
           CoolStep(
@@ -76,11 +78,11 @@ class CreateEventWizard extends StatelessWidget {
                       maxTime: DateTime(2099, 12, 31),
                       onChanged: (date) {
                         dateController.text = date.toString();
-                        myProvider.eventDate = date;
+                        wizardProvider.eventDate = date;
                       },
                       onConfirm: (date) {
                         dateController.text = date.toString();
-                        myProvider.eventDate = date;
+                        wizardProvider.eventDate = date;
                       },
                       currentTime: DateTime.now(),
                     );
@@ -203,19 +205,20 @@ class CreateEventWizard extends StatelessWidget {
               if (dateController.text.isEmpty) {
                 return 'Please enter a date';
               }
-              if (myProvider.numberOfParticipants < 2 ||
-                  myProvider.numberOfParticipants > 20) {
+              if (wizardProvider.numberOfParticipants < 2 ||
+                  wizardProvider.numberOfParticipants > 20) {
                 return 'Please select a number of players between 2 and 20';
               }
               DateTime now = DateTime.now();
               DateTime startTime = DateTime(
-                myProvider.eventDate.year,
-                myProvider.eventDate.month,
-                myProvider.eventDate.day,
-                myProvider.eventStartTime.hour,
-                myProvider.eventStartTime.minute,
+                wizardProvider.eventDate.year,
+                wizardProvider.eventDate.month,
+                wizardProvider.eventDate.day,
+                wizardProvider.eventStartTime.hour,
+                wizardProvider.eventStartTime.minute,
               );
-              DateTime thirtyMinutesFromNow = now.add(const Duration(minutes: 30));
+              DateTime thirtyMinutesFromNow =
+                  now.add(const Duration(minutes: 30));
               if (startTime.isBefore(thirtyMinutesFromNow)) {
                 return 'Start time must be at least 30 minutes from now.';
               }
@@ -223,11 +226,11 @@ class CreateEventWizard extends StatelessWidget {
                 return 'Start time cannot be before current time.';
               }
               DateTime endTime = DateTime(
-                myProvider.eventDate.year,
-                myProvider.eventDate.month,
-                myProvider.eventDate.day,
-                myProvider.eventEndTime.hour,
-                myProvider.eventEndTime.minute,
+                wizardProvider.eventDate.year,
+                wizardProvider.eventDate.month,
+                wizardProvider.eventDate.day,
+                wizardProvider.eventEndTime.hour,
+                wizardProvider.eventEndTime.minute,
               );
               if (endTime.isBefore(startTime.add(const Duration(hours: 1)))) {
                 return 'End time must be at least 1 hour after start time.';
@@ -249,7 +252,7 @@ class CreateEventWizard extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedGender = "Female";
+                            wizardProvider.selectedGender = "Female";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -259,7 +262,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedGender = "Male";
+                            wizardProvider.selectedGender = "Male";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -269,7 +272,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedGender = "Other";
+                            wizardProvider.selectedGender = "Other";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -279,7 +282,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedGender = "All";
+                            wizardProvider.selectedGender = "All";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -299,7 +302,7 @@ class CreateEventWizard extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedAgeGroup = "13-17";
+                            wizardProvider.selectedAgeGroup = "13-17";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: selectedAgeGroup == "13-17"
@@ -310,7 +313,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedAgeGroup = "18+";
+                            wizardProvider.selectedAgeGroup = "18+";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -320,7 +323,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedAgeGroup = "55+";
+                            wizardProvider.selectedAgeGroup = "55+";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -330,7 +333,7 @@ class CreateEventWizard extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            myProvider.selectedAgeGroup = "All";
+                            wizardProvider.selectedAgeGroup = "All";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -351,7 +354,7 @@ class CreateEventWizard extends StatelessWidget {
                         5,
                         (index) => InkWell(
                           onTap: () {
-                            myProvider.skillLevel = index + 1;
+                            wizardProvider.skillLevel = index + 1;
                           },
                           child: Icon(
                             index < skillLevel ? Icons.star : Icons.star_border,
@@ -369,7 +372,7 @@ class CreateEventWizard extends StatelessWidget {
                     return DropdownButton<String>(
                       value: selectedLocationId,
                       onChanged: (value) {
-                        myProvider.courtId = value!;
+                        wizardProvider.courtId = value!;
                       },
                       items: const [
                         DropdownMenuItem(
@@ -411,14 +414,14 @@ class CreateEventWizard extends StatelessWidget {
                 TextField(
                   controller: eventNameController,
                   onChanged: (value) {
-                    myProvider.eventName = value;
+                    wizardProvider.eventName = value;
                   },
                 ),
                 const Text("Event description"),
                 TextField(
                   controller: eventDescriptionController,
                   onChanged: (value) {
-                    myProvider.eventDescription = value;
+                    wizardProvider.eventDescription = value;
                   },
                 ),
               ],
