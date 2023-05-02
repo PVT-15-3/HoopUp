@@ -76,11 +76,13 @@ class CreateEventWizard extends StatelessWidget {
                       minTime: DateTime.now(),
                       maxTime: DateTime(2099, 12, 31),
                       onChanged: (date) {
-                        dateController.text = date.toString();
+                        dateController.text =
+                            DateFormat('yyyy-MM-dd').format(date);
                         myProvider.eventDate = date;
                       },
                       onConfirm: (date) {
-                        dateController.text = date.toString();
+                        dateController.text =
+                            DateFormat('yyyy-MM-dd').format(date);
                         myProvider.eventDate = date;
                       },
                       currentTime: DateTime.now(),
