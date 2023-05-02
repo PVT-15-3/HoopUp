@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
-import 'package:my_app/pages/create_event.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/sign_up_page.dart';
@@ -40,13 +39,14 @@ class MyApp extends StatelessWidget {
         home: const BottomNavBar(),
         routes: {
           '/map': (context) => const Map(),
-          '/create_event.dart': (context) => const CreateEventPage(),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events_handler.dart': (context) => const ListEventHandler(showJoinedEvents : true),
-          '/join_event_page.dart': (context) => const JoinedEventsPage(showJoinedEvents: false),
+          '/list_events_handler.dart': (context) =>
+              const ListEventHandler(showJoinedEvents: true),
+          '/join_event_page.dart': (context) =>
+              const JoinedEventsPage(showJoinedEvents: false),
         },
       ),
     );
