@@ -14,7 +14,7 @@ class Event {
   int _playerAmount;
   String _genderGroup;
   String _ageGroup;
-  final List<String> _usersIds = [];
+  List<String> _usersIds = [];
 
   Event({
     required String name,
@@ -79,6 +79,12 @@ class Event {
   String get genderGroup => _genderGroup;
   Chat? get chat => _chat;
   List<String> get usersIds => _usersIds;
+
+  // setters for the class properties
+  set userIds(List<String> userIds) {
+    _usersIds = userIds;
+    setFirebaseDataList('events/$id/userIds', userIds);
+  }
 
   // Validate inputs
 
