@@ -30,6 +30,7 @@ class CreateEventWizard extends StatelessWidget {
         title: const Text('My Wizard'),
       ),
       body: CoolStepper(
+        showErrorSnackbar: true,
         onCompleted: () {
           // do something when the wizard is completed
           myProvider.userId = hoopUpUserProvider.user?.id;
@@ -215,7 +216,8 @@ class CreateEventWizard extends StatelessWidget {
                 myProvider.eventStartTime.hour,
                 myProvider.eventStartTime.minute,
               );
-              DateTime thirtyMinutesFromNow = now.add(const Duration(minutes: 30));
+              DateTime thirtyMinutesFromNow =
+                  now.add(const Duration(minutes: 30));
               if (startTime.isBefore(thirtyMinutesFromNow)) {
                 return 'Start time must be at least 30 minutes from now.';
               }
