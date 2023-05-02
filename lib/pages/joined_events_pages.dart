@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import '../handlers/list_event_handler.dart';
+import 'package:provider/provider.dart';
 
 class JoinedEventsPage extends StatelessWidget {
   final bool showJoinedEvents;
@@ -25,7 +26,6 @@ class JoinedEventsPage extends StatelessWidget {
       ),
       body: ListEventHandler(
         showJoinedEvents: showJoinedEvents,
-        firebase: firebaseProvider,
       ),
     );
   }

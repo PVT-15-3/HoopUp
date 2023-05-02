@@ -116,7 +116,7 @@ class FirebaseProvider with ChangeNotifier {
         id: id,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
-        firebaseHandler: this);
+        firebaseProvider: this);
   }
 
   Stream<List<Event>> get eventsStream => _eventsRef.onValue.map((event) {

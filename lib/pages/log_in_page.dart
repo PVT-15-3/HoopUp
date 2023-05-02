@@ -7,14 +7,14 @@ class LogInPage extends StatelessWidget {
   LogInPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  late final FirebaseProvider _firebaseProvider;
+  late final FirebaseProvider firebaseProvider;
 
   @override
   Widget build(BuildContext context) {
-    _firebaseProvider = context.read<FirebaseProvider>();
+    firebaseProvider = context.read<FirebaseProvider>();
     String? email;
     String? password;
-    final Auth auth = Auth(_firebaseProvider);
+    final Auth auth = Auth(firebaseProvider);
 
     return Scaffold(
       appBar: AppBar(

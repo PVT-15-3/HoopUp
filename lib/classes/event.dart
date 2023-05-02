@@ -10,7 +10,7 @@ class Event {
   final Time _time;
   final String _courtId;
   final String _id;
-  final FirebaseProvider _firebase;
+  final FirebaseProvider _firebaseProvider;
   int _skillLevel;
   int _playerAmount;
   String _genderGroup;
@@ -28,9 +28,9 @@ class Event {
     required String genderGroup,
     required String ageGroup,
     required String id,
-    required FirebaseProvider firebase,
+    required FirebaseProvider firebaseProvider,
   })  : _name = name,
-        _firebase = firebase,
+        _firebaseProvider = firebaseProvider,
         _description = description,
         _creatorId = creatorId,
         _time = time,
@@ -40,7 +40,7 @@ class Event {
         _genderGroup = genderGroup,
         _ageGroup = ageGroup,
         _id = id {
-    _chat = Chat(eventId: _id, firebaseProvider: firebase);
+    _chat = Chat(eventId: _id, firebaseProvider: firebaseProvider);
     {
       _validateSkillLevel(skillLevel);
       _validatePlayerAmount(playerAmount);
@@ -51,7 +51,7 @@ class Event {
     try {
       _time.validateStartTime();
       _time.validateEndTime();
-      _firebase.setFirebaseDataMap("events/$_id", {
+      _firebaseProvider.setFirebaseDataMap("events/$_id", {
         'name': _name,
         'description': _description,
         'creatorId': _creatorId,
@@ -68,7 +68,7 @@ class Event {
     }
   }
 
-  // getters for the class properties
+  // Getters --------------------------------------------------------------
 
   String get name => _name;
   String get description => _description;
@@ -83,13 +83,13 @@ class Event {
   Chat? get chat => _chat;
   List<String> get usersIds => _usersIds;
 
-  // setters for the class properties
+  // Setters --------------------------------------------------------------
   set userIds(List<String> userIds) {
     _usersIds = userIds;
-    _firebase.setFirebaseDataList('events/$id/userIds', userIds);
+    _firebaseProvider.setFirebaseDataList('events/$id/userIds', userIds);
   }
 
-  // Validate inputs
+  // Validate inputs -----------------------------------------------------
 
   void _validateSkillLevel(int skillLevel) {
     if (skillLevel < 1 || skillLevel > 5) {
@@ -146,7 +146,7 @@ class Event {
       genderGroup: genderGroup,
       ageGroup: ageGroup,
       id: id,
-      firebase: firebaseHandler,
+      firebaseProvider: firebaseHandler,
     );
 
     return event;

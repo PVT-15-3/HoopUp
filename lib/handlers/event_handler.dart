@@ -20,7 +20,7 @@ class EventHandler {
       required String courtId,
       required String? userId,
       required HoopUpUser? hoopUpUser,
-      required FirebaseProvider firebase}) {
+      required FirebaseProvider firebaseProvider}) {
     // Implementation of event creation logic goes here
     DateTime startTime = DateTime(
       eventDate.year,
@@ -48,7 +48,7 @@ class EventHandler {
       genderGroup: selectedGender,
       ageGroup: selectedAgeGroup,
       id: const Uuid().v4(),
-      firebase: firebase,
+      firebaseProvider: firebaseProvider,
     );
     event.addEventToDatabase();
     addCreatorToEvent(event, hoopUpUser, userId);
@@ -85,7 +85,7 @@ removeUserFromEvent(
     String userId,
     List<String> userIdsList,
     HoopUpUserProvider hoopUpUserProvider,
-    FirebaseProvider firebase) {
+    FirebaseProvider firebaseProvider) {
   // Remove the event ID from the user's list
   eventsList.remove(eventId);
   // Update the user's list of events in the database
@@ -96,7 +96,7 @@ removeUserFromEvent(
   userIdsList.remove(userId);
 
   // Update the event's list of users in the database
-  firebase.setFirebaseDataList('events/$eventId/userIds', userIdsList);
+  firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
 
 addUserToEvent(
@@ -105,7 +105,7 @@ addUserToEvent(
     String userId,
     List<String> userIdsList,
     HoopUpUserProvider hoopUpUserProvider,
-    FirebaseProvider firebase) {
+    FirebaseProvider firebaseProvider) {
   // Add the new event ID to the user's list
   List<String> newEventsList = List.from(eventsList)..add(eventId);
 
@@ -116,5 +116,6 @@ addUserToEvent(
   // Add the user's ID to the event's list of users
   List<String> newUserIdsList = List.from(userIdsList)..add(userId);
   // Update the event's list of users in the database
-  firebase.setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
+  firebaseProvider.setFirebaseDataList(
+      'events/$eventId/userIds', newUserIdsList);
 }

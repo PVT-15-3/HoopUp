@@ -4,12 +4,11 @@ import 'package:my_app/providers/firebase_provider.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
 import '../widgets/event_list_item.dart';
+import 'package:provider/provider.dart';
 
 class ListEventHandler extends StatefulWidget {
   final bool showJoinedEvents;
-  final FirebaseProvider firebase;
-  const ListEventHandler(
-      {super.key, required this.showJoinedEvents, required this.firebase});
+  const ListEventHandler({super.key, required this.showJoinedEvents});
 
   @override
   _ListEventHandlerState createState() => _ListEventHandlerState();
@@ -24,7 +23,8 @@ class _ListEventHandlerState extends State<ListEventHandler> {
   @override
   void initState() {
     super.initState();
-    _eventsSubscription = widget.firebase.eventsStream.listen((events) {
+    final firebaseProvider = context.read<FirebaseProvider>();
+    _eventsSubscription = firebaseProvider.eventsStream.listen((events) {
       _eventsController.sink.add(events);
     });
   }

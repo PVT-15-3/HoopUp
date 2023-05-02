@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
-import '../handlers/firebase_handler.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
@@ -24,6 +24,7 @@ class EventListItem extends StatefulWidget {
 
 class _EventListItemState extends State<EventListItem> {
   late Future<bool> _hasUserJoined;
+  late final FirebaseProvider _firebaseProvider;
 
   @override
   void initState() {
@@ -37,7 +38,8 @@ class _EventListItemState extends State<EventListItem> {
     if (user == null) {
       return false;
     } else {
-      final Map userMap = await getMapFromFirebase("users", user.uid);
+      final Map userMap =
+          await _firebaseProvider.getMapFromFirebase("users", user.uid);
       final List<dynamic> eventsList = userMap['events'] ?? [];
       return eventsList.contains(widget.event.id);
     }
@@ -45,6 +47,7 @@ class _EventListItemState extends State<EventListItem> {
 
   @override
   Widget build(BuildContext context) {
+    _firebaseProvider = context.read<FirebaseProvider>();
     // Return a FutureBuilder that will build the UI based on the status of the _joinedFuture variable
     return FutureBuilder<bool>(
       future: _hasUserJoined,
@@ -108,8 +111,9 @@ class _EventListItemState extends State<EventListItem> {
   Future<void> toggleEvent(String eventId, bool hasUserJoined) async {
     // Get the currently logged-in user's ID
     final String? userId = FirebaseAuth.instance.currentUser?.uid;
-    Map? eventMap = await getMapFromFirebase("events", eventId);
-    Map? userMap = await getMapFromFirebase("users", userId!);
+    Map? eventMap =
+        await _firebaseProvider.getMapFromFirebase("events", eventId);
+    Map? userMap = await _firebaseProvider.getMapFromFirebase("users", userId!);
 
     List<String>? userIdsList = List.from(eventMap['userIds'] ?? []);
     List<String> eventsList = List.from(userMap['events'] ?? []);
@@ -122,17 +126,17 @@ class _EventListItemState extends State<EventListItem> {
     HoopUpUserProvider userProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    if (eventIsFull(
-        numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
+    if (eventIsFull(numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
       return;
     }
 
     if (eventsList.contains(eventId)) {
-      removeUserFromEvent(
-          eventId, eventsList, userId, userIdsList, userProvider);
+      removeUserFromEvent(eventId, eventsList, userId, userIdsList,
+          userProvider, _firebaseProvider);
       return;
     } else {
-      addUserToEvent(eventId, eventsList, userId, userIdsList, userProvider);
+      addUserToEvent(eventId, eventsList, userId, userIdsList, userProvider,
+          _firebaseProvider);
       return;
     }
   }

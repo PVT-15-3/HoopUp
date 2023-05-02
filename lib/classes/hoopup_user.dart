@@ -13,7 +13,7 @@ class HoopUpUser {
   List<String> _events = [];
   String? _photoUrl;
   String? _gender;
-  final FirebaseProvider _firebase;
+  final FirebaseProvider _firebaseProvider;
 
   HoopUpUser(
       {required String username,
@@ -21,9 +21,9 @@ class HoopUpUser {
       required String id,
       required String? photoUrl,
       required String? gender,
-      required FirebaseProvider firebaseHandler})
+      required FirebaseProvider firebaseProvider})
       : _username = username,
-        _firebase = firebaseHandler,
+        _firebaseProvider = firebaseProvider,
         _skillLevel = skillLevel,
         _id = id,
         _photoUrl = photoUrl,
@@ -32,7 +32,7 @@ class HoopUpUser {
   }
 
   void addUserToDatabase() async {
-    await _firebase.setFirebaseDataMap("users/$id", {
+    await _firebaseProvider.setFirebaseDataMap("users/$id", {
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
@@ -44,28 +44,29 @@ class HoopUpUser {
 
   set photoUrl(String? url) {
     _photoUrl = url;
-    _firebase.updateFirebaseData("users/$id", {"photoUrl": url});
+    _firebaseProvider.updateFirebaseData("users/$id", {"photoUrl": url});
   }
 
   set gender(String? gender) {
     _gender = gender;
-    _firebase.updateFirebaseData("users/$id", {"gender": gender});
+    _firebaseProvider.updateFirebaseData("users/$id", {"gender": gender});
   }
 
   set username(String username) {
     _username = username;
-    _firebase.updateFirebaseData("users/$id", {"username": username});
+    _firebaseProvider.updateFirebaseData("users/$id", {"username": username});
   }
 
   set skillLevel(int skillLevel) {
     _validateSkillLevel(skillLevel);
     _skillLevel = skillLevel;
-    _firebase.updateFirebaseData("users/$id", {"skillLevel": skillLevel});
+    _firebaseProvider
+        .updateFirebaseData("users/$id", {"skillLevel": skillLevel});
   }
 
   set events(List<String> events) {
     _events = events;
-    _firebase.setFirebaseDataList('users/$id/events', events);
+    _firebaseProvider.setFirebaseDataList('users/$id/events', events);
   }
 
   // getters
@@ -116,7 +117,7 @@ class HoopUpUser {
   Future<void> deleteAccount() async {
     try {
       var user = _auth.currentUser;
-      await _firebase.removeFirebaseData("users/$id");
+      await _firebaseProvider.removeFirebaseData("users/$id");
       await user?.delete();
       print("User deleted successfully");
     } catch (e) {
@@ -131,7 +132,8 @@ class HoopUpUser {
     if (pickedFile != null) {
       // Upload image to Firebase Storage
       final path = 'user_profiles/${DateTime.now().millisecondsSinceEpoch}';
-      await _firebase.uploadFileToFirebaseStorage(File(pickedFile.path), path);
+      await _firebaseProvider.uploadFileToFirebaseStorage(
+          File(pickedFile.path), path);
       // Update user profile picture URL
       photoUrl =
           await FirebaseStorage.instance.ref().child(path).getDownloadURL();

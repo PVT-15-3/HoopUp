@@ -45,12 +45,11 @@ class MyApp extends StatelessWidget {
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events_handler.dart': (context) => ListEventHandler(
+          '/list_events_handler.dart': (context) => const ListEventHandler(
                 showJoinedEvents: true,
-                firebase: context.read<FirebaseProvider>(),
               ),
           '/join_event_page.dart': (context) =>
-              const JoinedEventsPage(showJoinedEvents: false),
+              JoinedEventsPage(showJoinedEvents: false),
         },
       ),
     );

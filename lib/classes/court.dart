@@ -10,16 +10,16 @@ class Court {
   String _courtType;
   Address _address;
   final List<Event> _events = [];
-  final FirebaseProvider _firebase;
+  final FirebaseProvider _firebaseProvider;
 
   Court(
       {required String name,
       required String imageLink,
       required String courtType,
       required Address address,
-      required FirebaseProvider firebase})
+      required FirebaseProvider firebaseProvider})
       : _name = name,
-        _firebase = firebase,
+        _firebaseProvider = firebaseProvider,
         _imageLink = imageLink,
         _courtType = courtType,
         _address = address,
@@ -36,7 +36,7 @@ class Court {
   }
 
   void addCourtToDatabase() async {
-    _firebase.setFirebaseDataMap("courts/$courtId", {
+    _firebaseProvider.setFirebaseDataMap("courts/$courtId", {
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,
@@ -53,22 +53,24 @@ class Court {
   //Setters ---------------------------------------------------------------
   set name(String name) {
     _name = name;
-    _firebase.updateFirebaseData("courts/$_courtId", {"name": name});
+    _firebaseProvider.updateFirebaseData("courts/$_courtId", {"name": name});
   }
 
   set imageLink(String imageLink) {
     _imageLink = imageLink;
-    _firebase.updateFirebaseData("courts/$_courtId", {"imageLink": imageLink});
+    _firebaseProvider
+        .updateFirebaseData("courts/$_courtId", {"imageLink": imageLink});
   }
 
   set courtType(String courtType) {
     _courtType = courtType;
-    _firebase.updateFirebaseData("courts/$_courtId", {"courtType": courtType});
+    _firebaseProvider
+        .updateFirebaseData("courts/$_courtId", {"courtType": courtType});
   }
 
   set address(Address adress) {
     _address = adress;
-    _firebase
+    _firebaseProvider
         .updateFirebaseData("courts/$_courtId", {"address": adress.toJson()});
   }
 
@@ -76,14 +78,16 @@ class Court {
   void addEvent(Event event) {
     var id = event.id;
     _events.add(event);
-    _firebase.setFirebaseDataMap("courts/$_courtId/events/$id", event.toJson());
+    _firebaseProvider.setFirebaseDataMap(
+        "courts/$_courtId/events/$id", event.toJson());
   }
 
   void removeEvent(Event event) {
     int index = _events.indexOf(event);
     if (index >= 0) {
       _events.removeAt(index);
-      _firebase.removeFirebaseData("courts/$_courtId/events/${event.id}");
+      _firebaseProvider
+          .removeFirebaseData("courts/$_courtId/events/${event.id}");
     }
   }
 

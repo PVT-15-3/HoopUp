@@ -82,10 +82,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 40),
-          Expanded(
+          const Expanded(
             child: Center(
-              child: ListEventHandler(
-                  showJoinedEvents: false, firebase: firebaseProvider),
+              child: ListEventHandler(showJoinedEvents: false),
             ),
           ),
         ],

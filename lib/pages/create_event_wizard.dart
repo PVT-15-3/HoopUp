@@ -25,6 +25,7 @@ class CreateEventWizard extends StatelessWidget {
         Provider.of<CreateEventWizardProvider>(context, listen: false);
     final HoopUpUserProvider hoopUpUserProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
+    final firebaseProvider = context.read<FirebaseProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +61,7 @@ class CreateEventWizard extends StatelessWidget {
               courtId: wizardProvider.courtId,
               userId: wizardProvider.userId,
               hoopUpUser: hoopUpUserProvider.user,
-              firebase: context.read<FirebaseProvider>());
+              firebaseProvider: firebaseProvider);
         },
         steps: [
           CoolStep(

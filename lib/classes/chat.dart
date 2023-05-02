@@ -13,7 +13,7 @@ class Chat {
         _firebaseProvider = firebaseProvider,
         _id = const Uuid().v4();
 
-  //Getters
+  //Getters --------------------------------------------------------------
 
   String get id => _id;
 
