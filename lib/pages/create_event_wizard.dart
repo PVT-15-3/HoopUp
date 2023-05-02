@@ -398,7 +398,9 @@ class CreateEventWizard extends StatelessWidget {
                 ),
               ],
             ),
-            validation: () {},
+            validation: () {
+              return null;
+            },
           ),
           CoolStep(
             title: "Step 3",

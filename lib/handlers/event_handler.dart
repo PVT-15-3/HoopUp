@@ -50,6 +50,7 @@ class EventHandler {
       id: const Uuid().v4(),
     );
     event.addEventToDatabase();
+    addCreatorToEvent(event, hoopUpUser, userId);
 
     print('Event created:');
     print('  Date: $eventDate');
@@ -65,6 +66,17 @@ class EventHandler {
     print('  User ID: $userId');
   }
 }
+
+void addCreatorToEvent(event, hoopUpUser, userId){
+  // Add the user's ID to the event's list of users
+    List<String> userIdsList = event.usersIds;
+    List<String> newUserIdsList = List.from(userIdsList)..add(userId!);
+    event.userIds = newUserIdsList;
+    // Add the event ID to the user's list of events
+    List<String> eventsList = hoopUpUser!.events;
+    List<String> newEventsList = List.from(eventsList)..add(event.id);
+    hoopUpUser.events = newEventsList;
+    }
 
 removeUserFromEvent(String eventId, List<String> eventsList, String userId,
     List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) {
