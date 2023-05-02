@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/classes/time.dart';
-import 'package:my_app/pages/create_event.dart';
+import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +41,7 @@ void main() {
     return MaterialApp(
       home: ChangeNotifierProvider(
         create: (_) => userProvider,
-        child: const CreateEventPage(),
+        child: CreateEventWizard(),
       ),
     );
   }
