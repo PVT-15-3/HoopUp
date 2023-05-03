@@ -24,11 +24,13 @@ class EventListItem extends StatefulWidget {
 
 class _EventListItemState extends State<EventListItem> {
   late Future<bool> _hasUserJoined;
+  late Event _event;
 
   @override
   void initState() {
     super.initState();
     _hasUserJoined = _checkJoined();
+    _event = widget.event;
   }
 
   // Added type annotations for variables and return type
@@ -36,7 +38,7 @@ class _EventListItemState extends State<EventListItem> {
     final User? user = FirebaseAuth.instance.currentUser;
     final Map userMap = await getMapFromFirebase("users", user!.uid);
     final List<dynamic> eventsList = userMap['events'] ?? [];
-    return eventsList.contains(widget.event.id);
+    return eventsList.contains(_event.id);
   }
 
   @override
@@ -65,7 +67,7 @@ class _EventListItemState extends State<EventListItem> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: ListTile(
-                    title: Text(widget.event.name),
+                    title: Text(_event.name),
                     subtitle: Text(_getSubtitleText()),
                   ),
                 ),
@@ -73,7 +75,7 @@ class _EventListItemState extends State<EventListItem> {
               TextButton(
                 onPressed: () async {
                   // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
-                  await toggleEvent(widget.event.id, hasUserJoined);
+                  await _toggleEvent(hasUserJoined);
                   setState(() {
                     _hasUserJoined = _checkJoined();
                   });
@@ -93,18 +95,17 @@ class _EventListItemState extends State<EventListItem> {
   }
 
   String _getSubtitleText() {
-    final event = widget.event;
-    return 'Event info: ${event.description}\n'
-        'Date and time: ${event.time.getFormattedStartTime()}'
-        '\nThe event is for: ${event.genderGroup}\n'
-        'Number of participants allowed: ${event.playerAmount}\n'
-        'Skill level: ${event.skillLevel}';
+    return 'Event info: ${_event.description}\n'
+        'Date and time: ${_event.time.getFormattedStartTime()}'
+        '\nThe event is for: ${_event.genderGroup}\n'
+        'Participants: ${_event.playerAmount}\n'
+        'Skill level: ${_event.skillLevel}';
   }
 
-  Future<void> toggleEvent(String eventId, bool hasUserJoined) async {
+  Future<void> _toggleEvent(bool hasUserJoined) async {
     // Get the currently logged-in user's ID
     final String? userId = FirebaseAuth.instance.currentUser?.uid;
-    Map? eventMap = await getMapFromFirebase("events", eventId);
+    Map? eventMap = await getMapFromFirebase("events", _event.id);
     Map? userMap = await getMapFromFirebase("users", userId!);
 
     List<String>? userIdsList = List.from(eventMap['userIds'] ?? []);
@@ -118,26 +119,18 @@ class _EventListItemState extends State<EventListItem> {
     HoopUpUserProvider userProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    if (eventIsFull(numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
-      return;
-    }
-
-    if (eventsList.contains(eventId)) {
-      removeUserFromEvent(
-          eventId, eventsList, userId, userIdsList, userProvider);
-      return;
-    } else {
-      addUserToEvent(eventId, eventsList, userId, userIdsList, userProvider);
-      return;
-    }
-  }
-
-  bool eventIsFull(
-      int numberOfPlayersInEvent, int numberOfAllowed, bool hasUserJoined) {
     if (numberOfPlayersInEvent >= numberOfAllowed && !hasUserJoined) {
       showCustomToast("This event is full!", Icons.error, context);
-      return true;
+      return;
     }
-    return false;
+
+    if (eventsList.contains(_event.id)) {
+      removeUserFromEvent(
+          _event.id, eventsList, userId, userIdsList, userProvider);
+      return;
+    } else {
+      addUserToEvent(_event.id, eventsList, userId, userIdsList, userProvider);
+      return;
+    }
   }
 }
