@@ -62,11 +62,8 @@ class CreateEventWizard extends StatelessWidget {
               courtId: myProvider.courtId,
               userId: myProvider.userId,
               hoopUpUser: hoopUpUserProvider.user);
-              showCustomToast('Your event is created', Icons.approval , context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const BottomNavBar()),
-              );
+          showCustomToast('Your event is created', Icons.approval, context);
+          Navigator.pop(context);
         },
         steps: [
           CoolStep(
