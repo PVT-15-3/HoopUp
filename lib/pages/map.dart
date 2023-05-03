@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:my_app/pages/court_page.dart';
+
+import '../classes/address.dart';
+import '../classes/court.dart';
 
 DatabaseReference ref = FirebaseDatabase.instance.ref("/loc");
 
@@ -12,10 +16,6 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
-  String _nameOfEvent = "";
-
-  String _descriptionOfEvent = "";
-
   late GoogleMapController _googleMapController;
 
   @override
@@ -24,14 +24,35 @@ class _MapState extends State<Map> {
     super.dispose();
   }
 
+  final List<Court> _courtMarkers = [
+    Court(
+      position: const LatLng(59.41539988194249, 18.045802457670916),
+      name: 'Utomhusplanen Danderyd',
+      imageLink:
+          'https://stockholmbasket.se/wp-content/uploads/2022/06/IMG_3023-1.jpg',
+      courtType: 'PVC tiles',
+      address: Address(
+        'Rinkebyvägen 4',
+        'Danderyd',
+        18236,
+        59.41539988194249,
+        18.045802457670916,
+      ),
+    ),
+    Court(
+        position: const LatLng(59.31414212184781, 18.193681711645432),
+        name: 'Ektorps Streetcourt',
+        imageLink:
+            'https://stockholmbasket.se/wp-content/uploads/2022/06/Ektorp-streetcourt.jpg',
+        courtType: 'PVC tiles',
+        address: Address('Edinsvägen 4', 'Nacka', 13145, 59.31414212184781,
+            18.193681711645432)),
+    // Add more court markers here
+  ];
+
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(59.334591, 18.063240),
-    zoom: 12.5,
-  );
-
-  Marker _locationOfEvent = Marker(
-    markerId: const MarkerId('empty'),
-    position: _initialCameraPosition.target,
+    zoom: 10.3,
   );
 
   @override
@@ -42,83 +63,37 @@ class _MapState extends State<Map> {
       ),
       body: GoogleMap(
         myLocationButtonEnabled: false,
-        zoomControlsEnabled: false,
+        zoomControlsEnabled: true,
         initialCameraPosition: _initialCameraPosition,
         onMapCreated: (controller) => _googleMapController = controller,
-        markers: {
-          if (_locationOfEvent.markerId.value != "empty") _locationOfEvent,
-        },
-        onLongPress: _addMarker,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.black,
-        onPressed: () => _googleMapController.animateCamera(
-            CameraUpdate.newCameraPosition(
-                CameraPosition(target: _locationOfEvent.position, zoom: 15.0))),
-        child: const Icon(Icons.center_focus_strong),
-      ),
-    );
-  }
-
-  Future<void> _addMarker(LatLng pos) async {
-    await _showInputBox(context);
-    setState(() {
-      _locationOfEvent = Marker(
-        markerId: const MarkerId('origin'),
-        infoWindow:
-            InfoWindow(title: _nameOfEvent, snippet: _descriptionOfEvent),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        position: pos,
-      );
-    });
-    await ref.set({
-      "hjshda": pos.toString(),
-    });
-  }
-
-  Future<void> _showInputBox(BuildContext context) async {
-    final nameController = TextEditingController();
-    final descriptionController = TextEditingController();
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Create event'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter the name of the event...',
+        markers: _courtMarkers
+            .map(
+              (court) => Marker(
+                markerId: MarkerId(court.courtId),
+                position: court.position,
+                onTap: () {
+                  setState(() {
+                    court.isSelected = !court.isSelected;
+                  });
+                },
+                infoWindow: InfoWindow(
+                  title: court.name,
+                  snippet: court.address.toString(),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CourtPage(court: court),
+                      ),
+                    );
+                  },
                 ),
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueRed),
               ),
-              TextFormField(
-                controller: descriptionController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter a description of the event...',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              child: const Text('CANCEL'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            ElevatedButton(
-              child: const Text('OK'),
-              onPressed: () {
-                // Do something with the user's input
-                _nameOfEvent = nameController.text;
-                _descriptionOfEvent = descriptionController.text;
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+            )
+            .toSet(),
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
-import 'package:uuid/uuid.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../handlers/firebase_handler.dart';
 import 'address.dart';
 import 'event.dart';
@@ -8,49 +8,46 @@ final FirebaseDatabase database = FirebaseDatabase.instance;
 
 class Court {
   final String _courtId;
+  final LatLng _position;
   String _name;
   String _imageLink;
   String _courtType;
   Address _address;
+  bool isSelected = false;
   final List<Event> _events = [];
 
-  Court(
-      {required String name,
-      required String imageLink,
-      required String courtType,
-      required Address address}) // TODO unrequired
-      : _name = name,
+  Court({
+    required String name,
+    required String imageLink,
+    required String courtType,
+    required Address address,
+    required position,
+  })   // TODO unrequired
+  : _name = name,
+        _position = position,
         _imageLink = imageLink,
         _courtType = courtType,
         _address = address,
-        _courtId = const Uuid().v4() {
-    // TODO id borde inte sättas varje gång objektet skapas. Detta är en temporär lösning.
-    database.ref("courts/$_courtId").set({
-      "name": _name,
-      "imageLink": _imageLink,
-      "courtType": _courtType,
-      "address": _address.toJson(), //TODO Is this correct?
-    }).catchError((error) {
-      print("Failed to create Court: ${error.toString()}");
-    });
-  }
+        _courtId = position.toString();
 
   void addCourtToDatabase() async {
     await setFirebaseDataMap("courts/$courtId", {
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,
-      "address": _address.toJson(),
+      "address": _address.toJson()
     }).catchError((error) {
       print("Failed to create Court: ${error.toString()}");
     });
   }
 
   //Getters ---------------------------------------------------------------
-  get courtId => _courtId;
+  String get courtId => _courtId;
   String get name => _name;
   String get imageLink => _imageLink;
   String get courtType => _courtType;
+  Address get address => _address;
+  LatLng get position => _position;
 
   //Setters ---------------------------------------------------------------
   set name(String name) {
@@ -119,7 +116,7 @@ class Court {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is Court && _courtId == other.courtId();
+        other is Court && _courtId == other.courtId;
   }
 
   @override
