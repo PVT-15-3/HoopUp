@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
       getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
         user = hoopUpUser;
-        showCustomToast('Welcome, ${user?.username}', Icons.sports_basketball, context);
+        showCustomToast(
+            'Welcome, ${user?.username}', Icons.sports_basketball, context);
       });
     }
   }
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () {
               print("!!!!!!!!");
-              print(HoopUpUser.isUserSignedIn());
+              print(HoopUpUser.isSignedIn());
               print(userProvider.user);
               print("!!!!!!!!");
             },

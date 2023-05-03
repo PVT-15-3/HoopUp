@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/log_in_page.dart';
-import 'package:my_app/pages/sign_up_page.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 
@@ -10,40 +9,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!HoopUpUser.isUserSignedIn()) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('You are not logged in'),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LogInPage(),
-                  ),
-                );
-              },
-              child: const Text('Press here to log in'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignUpPage(),
-                  ),
-                );
-              },
-              child: const Text('Press here to sign up'),
-            ),
-          ],
-        ),
-      );
-    }
-    var userProvider = context.watch<HoopUpUserProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -51,7 +16,10 @@ class ProfilePage extends StatelessWidget {
           IconButton(
             onPressed: () {
               HoopUpUser.signOut();
-              userProvider.clearUser();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LogInPage()),
+              );
             },
             icon: const Icon(Icons.logout),
           ),
@@ -144,12 +112,12 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 100.0),
                 ElevatedButton(
-                
                   onPressed: () {
-                     HoopUpUser.signOut();
                     userProvider.user?.deleteAccount();
-                    userProvider.clearUser();
-                   
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LogInPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -157,7 +125,7 @@ class ProfilePage extends StatelessWidget {
                     shape: BeveledRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                ),
+                  ),
                   child: const Text('Delete account'),
                 ),
               ],

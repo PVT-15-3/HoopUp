@@ -115,6 +115,7 @@ class HoopUpUser {
       var user = _auth.currentUser;
       await removeFirebaseData("users/$id");
       await user?.delete();
+      await signOut();
       print("User deleted successfully");
     } catch (e) {
       print("Failed to delete user: ${e.toString()}");
@@ -137,7 +138,7 @@ class HoopUpUser {
 
   // static methods
 
-  static bool isUserSignedIn() {
+  static bool isSignedIn() {
     User? user = FirebaseAuth.instance.currentUser;
     return user != null;
   }

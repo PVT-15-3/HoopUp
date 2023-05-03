@@ -6,6 +6,7 @@ import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:my_app/providers/create_event_wizard_provider.dart';
 import 'package:provider/provider.dart';
+import 'classes/hoopup_user.dart';
 import 'pages/map.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
@@ -22,6 +23,14 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Widget startWidget() {
+    if(HoopUpUser.isSignedIn()){
+      return const BottomNavBar();
+    } else {
+      return LogInPage();
+    }
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: const BottomNavBar(),
+        home: startWidget(),
         routes: {
           '/map': (context) => const Map(),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),

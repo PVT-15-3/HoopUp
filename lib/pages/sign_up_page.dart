@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import '../handlers/login_handler.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class SignUpPage extends HookWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -59,7 +60,7 @@ class SignUpPage extends HookWidget {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';
                 }
-                 if (value.length < 6) {
+                if (value.length < 6) {
                   return 'Password must be at least 6 characters long';
                 }
                 return null;
@@ -86,16 +87,22 @@ class SignUpPage extends HookWidget {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  auth.signUpWithEmail(
+                  bool loginSuccess = await auth.signUpWithEmail(
                     email.value!,
                     password.value!,
                     username.value!,
                     context.read(),
                   );
-                  Navigator.pop(context);
+                  if (loginSuccess) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavBar()),
+                    );
+                  }
                 }
               },
               child: const Text('Submit'),

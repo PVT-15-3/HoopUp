@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/handlers/login_handler.dart';
+import 'package:my_app/pages/sign_up_page.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 class LogInPage extends StatelessWidget {
@@ -53,14 +55,30 @@ class LogInPage extends StatelessWidget {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  auth.signInWithEmail(email!, password!, context.read());
-                  Navigator.pop(context);
+                  if(await auth.signInWithEmail(email!, password!, context.read())) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavBar()),
+                    );
+                  }
                 }
               },
               child: const Text('Submit'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignUpPage(),
+                  ),
+                );
+              },
+              child: const Text('Press here to sign up'),
             ),
             TextButton(
               child: const Text('Forgot Password'),
