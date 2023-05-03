@@ -30,7 +30,7 @@ class _MapState extends State<Map> {
       name: 'Utomhusplanen Danderyd',
       imageLink:
           'https://stockholmbasket.se/wp-content/uploads/2022/06/IMG_3023-1.jpg',
-      courtType: 'PVC-plates',
+      courtType: 'PVC tiles',
       address: Address(
         'Rinkebyvägen 4',
         'Danderyd',
@@ -43,8 +43,8 @@ class _MapState extends State<Map> {
         position: const LatLng(59.31414212184781, 18.193681711645432),
         name: 'Ektorps Streetcourt',
         imageLink:
-            'https://stockholmbasket.se/wp-content/uploads/2022/06/IMG_3023-1.jpg',
-        courtType: 'Utomhus',
+            'https://stockholmbasket.se/wp-content/uploads/2022/06/Ektorp-streetcourt.jpg',
+        courtType: 'PVC tiles',
         address: Address('Edinsvägen 4', 'Nacka', 13145, 59.31414212184781,
             18.193681711645432)),
     // Add more court markers here
