@@ -90,13 +90,13 @@ class SignUpPage extends HookWidget {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  bool loginSuccess = await auth.signUpWithEmail(
+                  bool signUpSuccess = await auth.signUpWithEmail(
                     email.value!,
                     password.value!,
                     username.value!,
                     context.read(),
                   );
-                  if (loginSuccess) {
+                  if (signUpSuccess) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

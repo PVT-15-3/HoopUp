@@ -58,7 +58,9 @@ class LogInPage extends StatelessWidget {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  if(await auth.signInWithEmail(email!, password!, context.read())) {
+                  bool logInSuccess = await auth.signInWithEmail(
+                      email!, password!, context.read());
+                  if (logInSuccess) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

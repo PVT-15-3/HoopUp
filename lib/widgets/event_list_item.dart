@@ -34,13 +34,9 @@ class _EventListItemState extends State<EventListItem> {
   // Added type annotations for variables and return type
   Future<bool> _checkJoined() async {
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return false;
-    } else {
-      final Map userMap = await getMapFromFirebase("users", user.uid);
-      final List<dynamic> eventsList = userMap['events'] ?? [];
-      return eventsList.contains(widget.event.id);
-    }
+    final Map userMap = await getMapFromFirebase("users", user!.uid);
+    final List<dynamic> eventsList = userMap['events'] ?? [];
+    return eventsList.contains(widget.event.id);
   }
 
   @override
@@ -122,8 +118,7 @@ class _EventListItemState extends State<EventListItem> {
     HoopUpUserProvider userProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    if (eventIsFull(
-        numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
+    if (eventIsFull(numberOfPlayersInEvent, numberOfAllowed, hasUserJoined)) {
       return;
     }
 
