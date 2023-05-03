@@ -86,7 +86,7 @@ removeUserFromEvent(String eventId, List<String> eventsList, String userId,
   HoopUpUser? user = hoopUpUserProvider.user;
   user!.events = eventsList;
   // Remove the user's ID from the event's list of users
-  userIdsList.removeWhere((index) => index.contains(userId));
+  userIdsList.removeWhere((index) => index == userId);
   // Update the event's list of users in the database
   setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
