@@ -441,6 +441,36 @@ class CreateEventWizard extends StatelessWidget {
               return null;
             },
           ),
+          CoolStep(
+            title: "Step 4",
+            subtitle: "Confirm your event",
+            content: Builder(builder: (context) {
+              return Consumer<CreateEventWizardProvider>(
+                builder: (context, myProvider, _) {
+                  return Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Event Information',
+                        ),
+                        maxLines: 5,
+                        initialValue:
+                            'Event info: ${myProvider.eventDescription}\n'
+                            'Date and time: ${myProvider.eventDate.year}/${myProvider.eventDate.month}/${myProvider.eventDate.day} '
+                            '${myProvider.eventStartTime.hour.toString().padLeft(2, '0')}:${myProvider.eventStartTime.minute.toString().padLeft(2, '0')} - '
+                            '${myProvider.eventEndTime.hour.toString().padLeft(2, '0')}:${myProvider.eventEndTime.minute.toString().padLeft(2, '0')}'
+                            '\nThe event is for: ${myProvider.selectedGender}\n'
+                            'Participants: ${myProvider.numberOfParticipants}\n'
+                            'Skill level: ${myProvider.skillLevel}',
+                        readOnly: true,
+                      ),
+                    ],
+                  );
+                },
+              );
+            }),
+            validation: () {},
+          )
         ],
         config: const CoolStepperConfig(
           backText: 'PREVIOUS',
