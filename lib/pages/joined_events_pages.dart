@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/providers/firebase_provider.dart';
 import '../handlers/list_event_handler.dart';
-import 'package:provider/provider.dart';
 
 class JoinedEventsPage extends StatelessWidget {
   final bool showJoinedEvents;
-  late final FirebaseProvider firebaseProvider;
-  JoinedEventsPage({Key? key, required this.showJoinedEvents})
+  const JoinedEventsPage({Key? key, required this.showJoinedEvents})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    firebaseProvider = context.read<FirebaseProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(

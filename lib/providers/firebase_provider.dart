@@ -5,11 +5,10 @@ import 'package:my_app/classes/hoopup_user.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 
-final FirebaseDatabase database = FirebaseDatabase.instance;
-final DatabaseReference _eventsRef =
-    FirebaseDatabase.instance.ref().child('events');
-
 class FirebaseProvider with ChangeNotifier {
+  final FirebaseDatabase database = FirebaseDatabase.instance;
+  final DatabaseReference _eventsRef =
+      FirebaseDatabase.instance.ref().child('events');
   Future<void> updateFirebaseData(
       String path, Map<String, dynamic> data) async {
     try {

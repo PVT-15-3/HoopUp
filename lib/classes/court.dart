@@ -25,7 +25,7 @@ class Court {
         _address = address,
         _courtId = const Uuid().v4() {
     // TODO id borde inte sättas varje gång objektet skapas. Detta är en temporär lösning.
-    database.ref("courts/$_courtId").set({
+    firebaseProvider.setFirebaseDataMap("courts/$_courtId", {
       "name": _name,
       "imageLink": _imageLink,
       "courtType": _courtType,

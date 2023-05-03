@@ -29,6 +29,7 @@ class _EventListItemState extends State<EventListItem> {
   @override
   void initState() {
     super.initState();
+    _firebaseProvider = context.read<FirebaseProvider>();
     _hasUserJoined = _checkJoined();
   }
 
@@ -47,7 +48,6 @@ class _EventListItemState extends State<EventListItem> {
 
   @override
   Widget build(BuildContext context) {
-    _firebaseProvider = context.read<FirebaseProvider>();
     // Return a FutureBuilder that will build the UI based on the status of the _joinedFuture variable
     return FutureBuilder<bool>(
       future: _hasUserJoined,

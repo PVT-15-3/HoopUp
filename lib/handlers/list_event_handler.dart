@@ -18,12 +18,14 @@ class _ListEventHandlerState extends State<ListEventHandler> {
   final BehaviorSubject<List<Event>> _eventsController =
       BehaviorSubject<List<Event>>.seeded([]);
   late StreamSubscription<List<Event>> _eventsSubscription;
+  late final FirebaseProvider firebaseProvider;
+
   bool joined = false;
 
   @override
   void initState() {
     super.initState();
-    final firebaseProvider = context.read<FirebaseProvider>();
+    firebaseProvider = context.read<FirebaseProvider>();
     _eventsSubscription = firebaseProvider.eventsStream.listen((events) {
       _eventsController.sink.add(events);
     });
