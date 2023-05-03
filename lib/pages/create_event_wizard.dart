@@ -4,9 +4,11 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
+import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/create_event_wizard_provider.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class CreateEventWizard extends StatelessWidget {
   final TextEditingController eventNameController = TextEditingController();
@@ -60,6 +62,11 @@ class CreateEventWizard extends StatelessWidget {
               courtId: myProvider.courtId,
               userId: myProvider.userId,
               hoopUpUser: hoopUpUserProvider.user);
+              showCustomToast('Your event is created', Icons.approval , context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BottomNavBar()),
+              );
         },
         steps: [
           CoolStep(
