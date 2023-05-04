@@ -65,8 +65,8 @@ class CreateEventWizard extends StatelessWidget {
                 userId: wizardProvider.userId,
                 hoopUpUser: hoopUpUserProvider.user,
                 firebaseProvider: firebaseProvider);
-            myProvider.reset();
-          showCustomToast('Your event is created', Icons.approval, context);
+            wizardProvider.reset();
+            showCustomToast('Your event is created', Icons.approval, context);
           } on Exception catch (e) {
             showCustomToast("ERROR: $e", Icons.error, context);
             print("error when creating event: $e");
