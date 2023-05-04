@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
                 showJoinedEvents: true,
               ),
           '/join_event_page.dart': (context) =>
-              JoinedEventsPage(showJoinedEvents: false),
+              const JoinedEventsPage(showJoinedEvents: false),
         },
       ),
     );
