@@ -16,30 +16,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static HoopUpUser? user;
-  late final FirebaseProvider firebaseProvider;
-
-  // TODO: Put the provider here so that it can be used anywhere in the app
-
+  static HoopUpUser? _user;
+  late final FirebaseProvider _firebaseProvider;
+  
   @override
   void initState() {
     super.initState();
     final userProvider = context.read<HoopUpUserProvider>();
-    firebaseProvider = context.read<FirebaseProvider>();
+    _firebaseProvider = context.read<FirebaseProvider>();
     User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null && userProvider.user == null && user == null) {
-      firebaseProvider.getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
+    if (firebaseUser != null && userProvider.user == null && _user == null) {
+      _firebaseProvider.getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
-        user = hoopUpUser;
+        _user = hoopUpUser;
         showCustomToast(
-            'Welcome, ${user?.username}', Icons.sports_basketball, context);
+            'Welcome, ${_user?.username}', Icons.sports_basketball, context);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = context.watch<HoopUpUserProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('HoopUp'),
@@ -48,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               print("!!!!!!!!");
               print(HoopUpUser.isSignedIn());
-              print(userProvider.user);
+              print(_user);
               print("!!!!!!!!");
             },
             icon: const Icon(Icons.manage_accounts),
