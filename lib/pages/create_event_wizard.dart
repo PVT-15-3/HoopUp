@@ -62,6 +62,7 @@ class CreateEventWizard extends StatelessWidget {
               courtId: myProvider.courtId,
               userId: myProvider.userId,
               hoopUpUser: hoopUpUserProvider.user);
+          myProvider.reset();
           showCustomToast('Your event is created', Icons.approval, context);
           Navigator.pop(context);
         },

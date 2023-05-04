@@ -91,6 +91,21 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+    _eventDate = DateTime.now();
+    _eventStartTime = TimeOfDay.now();
+    _eventEndTime = TimeOfDay.now();
+    _numberOfParticipants = 2;
+    _selectedGender = 'Female';
+    _selectedAgeGroup = '13-17';
+    _skillLevel = 1;
+    _eventName = '';
+    _eventDescription = "";
+    _courtId = "LocationId1";
+    _userId = "";
+    notifyListeners();
+  }
+
   ValueNotifier<TimeOfDay> get eventEndTimeNotifier {
     return ValueNotifier<TimeOfDay>(_eventEndTime);
   }
