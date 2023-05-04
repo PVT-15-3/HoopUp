@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../handlers/firebase_handler.dart';
 import '../widgets/toaster.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,27 +17,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static HoopUpUser? user;
-  // TODO: Put the provider here so that it can be used anywhere in the app
+  static HoopUpUser? _user;
+  late final FirebaseProvider _firebaseProvider;
 
+  // runs every time the app reloads or you log in as a new user
   @override
   void initState() {
     super.initState();
+    _firebaseProvider = context.read<FirebaseProvider>();
     final userProvider = context.read<HoopUpUserProvider>();
     User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null && userProvider.user == null && user == null) {
-      getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
+    if (firebaseUser != null && userProvider.user == null && _user == null) {
+      _firebaseProvider
+          .getUserFromFirebase(firebaseUser.uid)
+          .then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
-        user = hoopUpUser;
+        _user = hoopUpUser;
         showCustomToast(
-            'Welcome, ${user?.username}', Icons.sports_basketball, context);
+            'Welcome, ${_user?.username}', Icons.sports_basketball, context);
       });
     }
+    removeOldEvents(
+        firebaseProvider: _firebaseProvider, hoopUpUserProvider: userProvider);
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = context.watch<HoopUpUserProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('HoopUp'),
@@ -45,7 +51,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               print("!!!!!!!!");
               print(HoopUpUser.isSignedIn());
-              print(userProvider.user);
+              print(_user);
               print("!!!!!!!!");
             },
             icon: const Icon(Icons.manage_accounts),

@@ -3,17 +3,20 @@ import 'package:my_app/handlers/login_handler.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
+import '../providers/firebase_provider.dart';
 
 class LogInPage extends StatelessWidget {
   LogInPage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+  late final FirebaseProvider firebaseProvider;
 
   @override
   Widget build(BuildContext context) {
+    firebaseProvider = context.read<FirebaseProvider>();
     String? email;
     String? password;
-    final Auth auth = Auth();
+    final Auth auth = Auth(firebaseProvider);
 
     return Scaffold(
       appBar: AppBar(

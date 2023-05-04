@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import '../handlers/login_handler.dart';
+import '../providers/firebase_provider.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 class SignUpPage extends HookWidget {
@@ -9,14 +10,15 @@ class SignUpPage extends HookWidget {
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
+    final firebaseProvider = context.read<FirebaseProvider>();
     final isEmailValid = useState(true);
     final email = useState<String?>(null);
     final password = useState<String?>(null);
     final username = useState<String?>(null);
+    final Auth auth = Auth(firebaseProvider);
 
     return Scaffold(
       appBar: AppBar(

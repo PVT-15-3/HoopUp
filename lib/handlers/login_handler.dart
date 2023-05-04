@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
-import '../handlers/firebase_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 
 class Auth {
+  final FirebaseProvider _firebaseProvider;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Auth(FirebaseProvider firebaseProvider)
+      : _firebaseProvider = firebaseProvider;
 
   Future<bool> signUpWithEmail(String email, String password, String username,
       HoopUpUserProvider hoopUpUserProvider) async {
@@ -18,6 +22,7 @@ class Auth {
         id: userCredential.user!.uid,
         photoUrl: null,
         gender: 'other',
+        firebaseProvider: _firebaseProvider,
       );
       hoopUpuser.addUserToDatabase();
 
@@ -36,7 +41,8 @@ class Auth {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = userCredential.user;
-      Map? userMap = await getMapFromFirebase('users', user!.uid);
+      Map? userMap =
+          await _firebaseProvider.getMapFromFirebase('users', user!.uid);
 
       HoopUpUser hoopUpuser = HoopUpUser(
         username: userMap['username'] ?? 'unknown',
@@ -44,10 +50,11 @@ class Auth {
         id: user.uid,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
+        firebaseProvider: _firebaseProvider,
       );
 
-      List<dynamic> dynamicList =
-          await getListFromFirebase('users/${hoopUpuser.id}', "events");
+      List<dynamic> dynamicList = await _firebaseProvider.getListFromFirebase(
+          'users/${hoopUpuser.id}', "events");
       List<String> eventsList =
           List<String>.from(dynamicList.map((event) => event.toString()));
       hoopUpuser.events = eventsList;
