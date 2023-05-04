@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:my_app/pages/court_page.dart';
 import 'package:provider/provider.dart';
-
 import '../classes/address.dart';
 import '../classes/court.dart';
 import '../providers/firebase_provider.dart';
-
-DatabaseReference ref = FirebaseDatabase.instance.ref("/loc");
 
 class Map extends StatefulWidget {
   const Map({Key? key}) : super(key: key);
