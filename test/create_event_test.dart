@@ -1,72 +1,67 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/hoopup_user.dart';
-import 'package:my_app/classes/time.dart';
-import 'package:my_app/pages/create_event_wizard.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockDatabase extends Mock implements FirebaseProvider {}
 
 void main() {
-  late HoopUpUserProvider userProvider;
-  late Event compareEvent;
+  late HoopUpUser sut;
+  late MockDatabase mockDatabase;
 
   setUp(() {
-    userProvider = HoopUpUserProvider();
-    compareEvent = Event(
-        name: "event",
-        description: "description",
-        creatorId: "creatorId",
-        time: Time(
-            startTime: DateTime.now(),
-            endTime: DateTime.now().add(const Duration(hours: 1))),
-        courtId: "courtId",
-        skillLevel: 5,
-        playerAmount: 6,
-        genderGroup: "All",
-        ageGroup: "13-17",
-        id: "id");
+    mockDatabase = MockDatabase();
   });
 
   void arrangeRealUser() {
-    userProvider.setUser(HoopUpUser(
+    sut = HoopUpUser(
         username: "Geoff",
         skillLevel: 5,
         id: "creatorId",
         photoUrl: "",
-        gender: "Male"));
+        gender: "Male",
+        firebaseProvider: mockDatabase);
   }
 
-  Widget createWidgetUnderTest() {
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (_) => userProvider,
-        child: CreateEventWizard(),
-      ),
-    );
-  }
-
-  group("All relevant create event information is on the page", () {
-    testWidgets("Start time exists and is now", (WidgetTester tester) async {
-      DateTime time = DateTime.now();
-      await tester.pumpWidget(createWidgetUnderTest());
-      expect(find.text("${time.hour}:${time.minute}"), findsOneWidget);
+  group("Testing constructor", () {
+    test(
+        "Test the constructor with valid arguments and verify that the object is created successfully.",
+        () {
+      arrangeRealUser();
+      // Verify that the object was created successfully
+      expect(sut.username, 'Geoff');
+      expect(sut.skillLevel, 5);
+      expect(sut.id, 'creatorId');
+      expect(sut.photoUrl, "");
+      expect(sut.gender, "Male");
     });
-    testWidgets("End time exists and is now plus 1 hour ahead",
-        (WidgetTester tester) async {
-      DateTime time = DateTime.now().add(const Duration(hours: 1));
-      await tester.pumpWidget(createWidgetUnderTest());
-      expect(find.text("${time.hour}:${time.minute}"), findsOneWidget);
-    });
-    testWidgets("Event name exists and is correct",
-        (WidgetTester tester) async {
-      await tester.pumpWidget(createWidgetUnderTest());
-      //expect(find.text(text), matcher)
+    test(
+        "Test the constructor with an invalid skill level argument (less than 0 or greater than 5) and verify that it throws an ArgumentError.",
+        () {
+      expect(
+          () => HoopUpUser(
+              username: 'John',
+              skillLevel: -1,
+              id: '123',
+              photoUrl: null,
+              gender: null,
+              firebaseProvider: mockDatabase),
+          throwsArgumentError);
     });
   });
 
-  group("Assurance tests", () {
-    testWidgets("Assure created event is the same as test event",
-        (WidgetTester tester) async {});
+  group("Test database communications functions", () {
+    test(
+        "Test the addUserToDatabase() method and verify that it calls the appropriate Firebase methods to store the user data.",
+        () {
+      arrangeRealUser();
+      verify(() => mockDatabase.setFirebaseDataMap("users/${sut.id}", {
+            "username": sut.username,
+            "skillLevel": sut.skillLevel,
+            "photoUrl": sut.photoUrl,
+            "gender": sut.gender
+          })).called(1);
+    });
   });
 }
