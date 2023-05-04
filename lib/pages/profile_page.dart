@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/log_in_page.dart';
+import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../providers/hoopup_user_provider.dart';
 
@@ -16,6 +17,7 @@ class ProfilePage extends StatelessWidget {
           IconButton(
             onPressed: () {
               HoopUpUser.signOut();
+              showCustomToast("You have logged out", Icons.logout, context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => LogInPage()),
@@ -28,14 +30,11 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Consumer<HoopUpUserProvider>(
           builder: (context, userProvider, child) {
-            HoopUpUser? user = userProvider.user;
-            int skillLevel = user!.skillLevel;
-            String? gender = user.gender;
+            HoopUpUser user = userProvider.user!;
+            int skillLevel = user.skillLevel;
+            String gender = user.gender;
 
             final controller = TextEditingController(text: user.username);
-            if (userProvider.user == null) {
-              return const Text('You are not logged in');
-            }
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -103,9 +102,14 @@ class ProfilePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     user.skillLevel = skillLevel;
-                    user.gender = gender!;
-                    if (controller.text.length >= 4) {
+                    user.gender = gender;
+                    if (controller.text.length >= 3) {
+                      // TODO: how long should a username be?
                       user.username = controller.text;
+                      showCustomToast("Profile updated", Icons.person, context);
+                    } else {
+                      showCustomToast(
+                          "Username is too short", Icons.warning, context);
                     }
                   },
                   child: const Text('Save'),
@@ -114,6 +118,8 @@ class ProfilePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     userProvider.user?.deleteAccount();
+                    showCustomToast(
+                        "You have deleted your account", Icons.delete, context);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => LogInPage()),

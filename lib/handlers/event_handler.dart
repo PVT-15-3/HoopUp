@@ -53,18 +53,19 @@ class EventHandler {
     event.addEventToDatabase();
     addCreatorToEvent(event, hoopUpUser!);
 
-    print('Event created:');
-    print('  Date: $eventDate');
-    print('  Start time: $eventStartTime');
-    print('  End time: $eventEndTime');
-    print('  Number of participants: $numberOfParticipants');
-    print('  Gender: $selectedGender');
-    print('  Age group: $selectedAgeGroup');
-    print('  Skill level: $skillLevel');
-    print('  Event name: $eventName');
-    print('  Event description: $eventDescription');
-    print('  Court ID: $courtId');
-    print('  User ID: $userId');
+    print('Event created:\n'
+      '  Date: $eventDate\n'
+      '  Start time: $eventStartTime\n'
+      '  End time: $eventEndTime\n'
+      '  Number of participants: $numberOfParticipants\n'
+      '  Gender: $selectedGender\n'
+      '  Age group: $selectedAgeGroup\n'
+      '  Skill level: $skillLevel\n'
+      '  Event name: $eventName\n'
+      '  Event description: $eventDescription\n'
+      '  Court ID: $courtId\n'
+      '  User ID: $userId');
+
   }
 }
 

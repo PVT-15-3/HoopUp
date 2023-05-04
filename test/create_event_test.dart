@@ -45,7 +45,7 @@ void main() {
               skillLevel: -1,
               id: '123',
               photoUrl: null,
-              gender: null,
+              gender: 'other',
               firebaseProvider: mockDatabase),
           throwsArgumentError);
     });

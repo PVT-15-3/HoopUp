@@ -7,9 +7,7 @@ import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/create_event_wizard_provider.dart';
-import '../widgets/bottom_nav_bar.dart';
 
 class CreateEventWizard extends StatelessWidget {
   final TextEditingController eventNameController = TextEditingController();
@@ -38,34 +36,40 @@ class CreateEventWizard extends StatelessWidget {
         onCompleted: () {
           // do something when the wizard is completed
           wizardProvider.userId = hoopUpUserProvider.user?.id;
-          print(wizardProvider.userId);
-          print(wizardProvider.eventName);
-          print(wizardProvider.eventDate.toString());
-          print(wizardProvider.eventStartTime.toString());
-          print(wizardProvider.eventEndTime.toString());
-          print(wizardProvider.numberOfParticipants.toString());
-          print(wizardProvider.selectedGender.toString());
-          print(wizardProvider.selectedAgeGroup.toString());
-          print(wizardProvider.skillLevel.toString());
-          print(wizardProvider.courtId.toString());
-          print(wizardProvider.eventName.toString());
-          print(wizardProvider.eventDescription.toString());
-          print('Steps completed!');
-          EventHandler().createEvent(
-              eventDate: wizardProvider.eventDate,
-              eventStartTime: wizardProvider.eventStartTime,
-              eventEndTime: wizardProvider.eventEndTime,
-              numberOfParticipants: wizardProvider.numberOfParticipants,
-              selectedGender: wizardProvider.selectedGender,
-              selectedAgeGroup: wizardProvider.selectedAgeGroup,
-              skillLevel: wizardProvider.skillLevel,
-              eventName: wizardProvider.eventName,
-              eventDescription: wizardProvider.eventDescription,
-              courtId: wizardProvider.courtId,
-              userId: wizardProvider.userId,
-              hoopUpUser: hoopUpUserProvider.user,
-              firebaseProvider: firebaseProvider);
-          showCustomToast('Your event is created', Icons.approval, context);
+          print('${wizardProvider.userId}\n'
+              '${wizardProvider.eventName}\n'
+              '${wizardProvider.eventDate}\n'
+              '${wizardProvider.eventStartTime}\n'
+              '${wizardProvider.eventEndTime}\n'
+              '${wizardProvider.numberOfParticipants}\n'
+              '${wizardProvider.selectedGender}\n'
+              '${wizardProvider.selectedAgeGroup}\n'
+              '${wizardProvider.skillLevel}\n'
+              '${wizardProvider.courtId}\n'
+              '${wizardProvider.eventName}\n'
+              '${wizardProvider.eventDescription}\n'
+              'Steps completed!');
+
+          try {
+            EventHandler().createEvent(
+                eventDate: wizardProvider.eventDate,
+                eventStartTime: wizardProvider.eventStartTime,
+                eventEndTime: wizardProvider.eventEndTime,
+                numberOfParticipants: wizardProvider.numberOfParticipants,
+                selectedGender: wizardProvider.selectedGender,
+                selectedAgeGroup: wizardProvider.selectedAgeGroup,
+                skillLevel: wizardProvider.skillLevel,
+                eventName: wizardProvider.eventName,
+                eventDescription: wizardProvider.eventDescription,
+                courtId: wizardProvider.courtId,
+                userId: wizardProvider.userId,
+                hoopUpUser: hoopUpUserProvider.user,
+                firebaseProvider: firebaseProvider);
+            showCustomToast('Your event is created', Icons.approval, context);
+          } on Exception catch (e) {
+            showCustomToast("ERROR: $e", Icons.error, context);
+            print("error when creating event: $e");
+          }
           Navigator.pop(context);
         },
         steps: [
@@ -471,7 +475,7 @@ class CreateEventWizard extends StatelessWidget {
                 },
               );
             }),
-            validation: () {},
+            validation: () {}, // TODO: WHAT TO DO HERE? SHOULD I REMOVE? (VIKTOR)
           )
         ],
         config: const CoolStepperConfig(
