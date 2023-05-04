@@ -146,7 +146,7 @@ class _EventListItemState extends State<EventListItem> {
       return;
     } else {
       addUserToEvent(_event.id, eventsList, _firebaseUser.uid, _userIdsList!,
-          userProvider);
+          userProvider, _firebaseProvider);
       return;
     }
   }

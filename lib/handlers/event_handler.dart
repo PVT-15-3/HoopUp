@@ -97,8 +97,13 @@ removeUserFromEvent(
   firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
 
-addUserToEvent(String eventId, List<String> eventsList, String userId,
-    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) {
+addUserToEvent(
+    String eventId,
+    List<String> eventsList,
+    String userId,
+    List<String> userIdsList,
+    HoopUpUserProvider hoopUpUserProvider,
+    FirebaseProvider firebaseProvider) {
   if (eventsList.contains(eventId)) {
     return;
   }
