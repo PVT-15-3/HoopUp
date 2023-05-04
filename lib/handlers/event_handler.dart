@@ -1,26 +1,26 @@
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import '../classes/hoopup_user.dart';
-import 'firebase_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
 
 class EventHandler {
-  void createEvent({
-    required DateTime eventDate,
-    required TimeOfDay eventStartTime,
-    required TimeOfDay eventEndTime,
-    required int numberOfParticipants,
-    required String selectedGender,
-    required String selectedAgeGroup,
-    required int skillLevel,
-    required String eventName,
-    required String eventDescription,
-    required String courtId,
-    required String? userId,
-    required HoopUpUser? hoopUpUser,
-  }) {
+  void createEvent(
+      {required DateTime eventDate,
+      required TimeOfDay eventStartTime,
+      required TimeOfDay eventEndTime,
+      required int numberOfParticipants,
+      required String selectedGender,
+      required String selectedAgeGroup,
+      required int skillLevel,
+      required String eventName,
+      required String eventDescription,
+      required String courtId,
+      required String? userId,
+      required HoopUpUser? hoopUpUser,
+      required FirebaseProvider firebaseProvider}) {
     // Implementation of event creation logic goes here
     DateTime startTime = DateTime(
       eventDate.year,
@@ -48,6 +48,7 @@ class EventHandler {
       genderGroup: selectedGender,
       ageGroup: selectedAgeGroup,
       id: const Uuid().v4(),
+      firebaseProvider: firebaseProvider,
     );
     event.addEventToDatabase();
     addCreatorToEvent(event, hoopUpUser!);
@@ -78,8 +79,13 @@ void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
   hoopUpUser.events = newEventsList;
 }
 
-removeUserFromEvent(String eventId, List<String> eventsList, String userId,
-    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) {
+removeUserFromEvent(
+    String eventId,
+    List<String> eventsList,
+    String userId,
+    List<String> userIdsList,
+    HoopUpUserProvider hoopUpUserProvider,
+    FirebaseProvider firebaseProvider) {
   // Remove the event ID from the user's list
   eventsList.remove(eventId);
   // Update the user's list of events in the database
@@ -88,7 +94,7 @@ removeUserFromEvent(String eventId, List<String> eventsList, String userId,
   // Remove the user's ID from the event's list of users
   userIdsList.removeWhere((index) => index == userId);
   // Update the event's list of users in the database
-  setFirebaseDataList('events/$eventId/userIds', userIdsList);
+  firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
 
 addUserToEvent(String eventId, List<String> eventsList, String userId,
@@ -104,5 +110,6 @@ addUserToEvent(String eventId, List<String> eventsList, String userId,
   // Add the user's ID to the event's list of users
   List<String> newUserIdsList = List.from(userIdsList)..add(userId);
   // Update the event's list of users in the database
-  setFirebaseDataList('events/$eventId/userIds', newUserIdsList);
+  firebaseProvider.setFirebaseDataList(
+      'events/$eventId/userIds', newUserIdsList);
 }

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../handlers/firebase_handler.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -12,15 +12,18 @@ class HoopUpUser {
   final String _id;
   List<String> _events = [];
   String? _photoUrl;
-  String? _gender; // can be "other", "male", "female"
+  String? _gender;
+  final FirebaseProvider _firebaseProvider;
 
   HoopUpUser(
       {required String username,
       required int skillLevel,
       required String id,
       required String? photoUrl,
-      required String? gender})
+      required String? gender,
+      required FirebaseProvider firebaseProvider})
       : _username = username,
+        _firebaseProvider = firebaseProvider,
         _skillLevel = skillLevel,
         _id = id,
         _photoUrl = photoUrl,
@@ -29,7 +32,7 @@ class HoopUpUser {
   }
 
   void addUserToDatabase() async {
-    await setFirebaseDataMap("users/$id", {
+    await _firebaseProvider.setFirebaseDataMap("users/$id", {
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
@@ -41,28 +44,29 @@ class HoopUpUser {
 
   set photoUrl(String? url) {
     _photoUrl = url;
-    updateFirebaseData("users/$id", {"photoUrl": url});
+    _firebaseProvider.updateFirebaseData("users/$id", {"photoUrl": url});
   }
 
   set gender(String? gender) {
     _gender = gender;
-    updateFirebaseData("users/$id", {"gender": gender});
+    _firebaseProvider.updateFirebaseData("users/$id", {"gender": gender});
   }
 
   set username(String username) {
     _username = username;
-    updateFirebaseData("users/$id", {"username": username});
+    _firebaseProvider.updateFirebaseData("users/$id", {"username": username});
   }
 
   set skillLevel(int skillLevel) {
     _validateSkillLevel(skillLevel);
     _skillLevel = skillLevel;
-    updateFirebaseData("users/$id", {"skillLevel": skillLevel});
+    _firebaseProvider
+        .updateFirebaseData("users/$id", {"skillLevel": skillLevel});
   }
 
   set events(List<String> events) {
     _events = events;
-    setFirebaseDataList('users/$id/events', events);
+    _firebaseProvider.setFirebaseDataList('users/$id/events', events);
   }
 
   // getters
@@ -113,7 +117,7 @@ class HoopUpUser {
   Future<void> deleteAccount() async {
     try {
       var user = _auth.currentUser;
-      await removeFirebaseData("users/$id");
+      await _firebaseProvider.removeFirebaseData("users/$id");
       await user?.delete();
       await signOut();
       print("User deleted successfully");
@@ -129,7 +133,8 @@ class HoopUpUser {
     if (pickedFile != null) {
       // Upload image to Firebase Storage
       final path = 'user_profiles/${DateTime.now().millisecondsSinceEpoch}';
-      await uploadFileToFirebaseStorage(File(pickedFile.path), path);
+      await _firebaseProvider.uploadFileToFirebaseStorage(
+          File(pickedFile.path), path);
       // Update user profile picture URL
       photoUrl =
           await FirebaseStorage.instance.ref().child(path).getDownloadURL();

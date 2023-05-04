@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
 import '../widgets/event_list_item.dart';
+import 'package:provider/provider.dart';
 
 class ListEventHandler extends StatefulWidget {
   final bool showJoinedEvents;
@@ -16,28 +17,16 @@ class ListEventHandler extends StatefulWidget {
 class _ListEventHandlerState extends State<ListEventHandler> {
   final BehaviorSubject<List<Event>> _eventsController =
       BehaviorSubject<List<Event>>.seeded([]);
-  late StreamSubscription<DatabaseEvent> _eventsSubscription;
+  late StreamSubscription<List<Event>> _eventsSubscription;
+  late final FirebaseProvider firebaseProvider;
 
-  late DatabaseReference _eventsRef;
   bool joined = false;
 
   @override
   void initState() {
     super.initState();
-    _eventsRef = FirebaseDatabase.instance.ref().child('events');
-
-    _eventsSubscription = _eventsRef.onValue.listen((event) {
-      DataSnapshot snapshot = event.snapshot;
-      List<Event> events = [];
-
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> eventsFromDatabaseMap = snapshot.value as Map;
-
-        eventsFromDatabaseMap.forEach((key, value) {
-          final event = Event.fromJson(value);
-          events.add(event);
-        });
-      }
+    firebaseProvider = context.read<FirebaseProvider>();
+    _eventsSubscription = firebaseProvider.eventsStream.listen((events) {
       _eventsController.sink.add(events);
     });
   }

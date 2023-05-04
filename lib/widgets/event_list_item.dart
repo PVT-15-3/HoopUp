@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
-import '../handlers/firebase_handler.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
@@ -29,17 +29,20 @@ class _EventListItemState extends State<EventListItem> {
   late List<String>? _userIdsList;
   late int _numberOfPlayersInEvent;
   final User _firebaseUser = FirebaseAuth.instance.currentUser!;
+  late final FirebaseProvider _firebaseProvider;
 
   @override
   void initState() {
     super.initState();
+    _firebaseProvider = context.read<FirebaseProvider>();
     _hasUserJoined = _checkJoined();
     _event = widget.event;
   }
 
   // Added type annotations for variables and return type
   Future<bool> _checkJoined() async {
-    final Map userMap = await getMapFromFirebase("users", _firebaseUser.uid);
+    final Map userMap =
+        await _firebaseProvider.getMapFromFirebase("users", _firebaseUser.uid);
     final List<dynamic> eventsList = userMap['events'] ?? [];
     return eventsList.contains(_event.id);
   }
@@ -108,7 +111,7 @@ class _EventListItemState extends State<EventListItem> {
   }
 
   Future<bool> loadDataFromFirebase() async {
-    _eventMap = await getMapFromFirebase("events", _event.id);
+    _eventMap = await _firebaseProvider.getMapFromFirebase("events", _event.id);
     _userIdsList = List.from(_eventMap['userIds'] ?? []);
     _numberOfPlayersInEvent = _userIdsList!.length;
     return true;
@@ -123,7 +126,8 @@ class _EventListItemState extends State<EventListItem> {
   }
 
   Future<void> _toggleEvent(bool hasUserJoined) async {
-    Map? userMap = await getMapFromFirebase("users", _firebaseUser.uid);
+    Map? userMap =
+        await _firebaseProvider.getMapFromFirebase("users", _firebaseUser.uid);
     List<String> eventsList = List.from(userMap['events'] ?? []);
     if (!mounted) {
       return;
@@ -138,7 +142,7 @@ class _EventListItemState extends State<EventListItem> {
 
     if (eventsList.contains(_event.id)) {
       removeUserFromEvent(_event.id, eventsList, _firebaseUser.uid,
-          _userIdsList!, userProvider);
+          _userIdsList!, userProvider, _firebaseProvider);
       return;
     } else {
       addUserToEvent(_event.id, eventsList, _firebaseUser.uid, _userIdsList!,
