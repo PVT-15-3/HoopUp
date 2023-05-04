@@ -79,7 +79,7 @@ void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
   hoopUpUser.events = newEventsList;
 }
 
-removeUserFromEvent(
+void removeUserFromEvent(
     String eventId,
     List<String> eventsList,
     List<String> userIdsList,
@@ -96,7 +96,7 @@ removeUserFromEvent(
   firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
 
-addUserToEvent(
+void addUserToEvent(
     String eventId,
     List<String> eventsList,
     List<String> userIdsList,
@@ -117,4 +117,35 @@ addUserToEvent(
   // Update the event's list of users in the database
   firebaseProvider.setFirebaseDataList(
       'events/$eventId/userIds', newUserIdsList);
+}
+
+void removeOldEvents(
+    {required FirebaseProvider firebaseProvider,
+    required HoopUpUserProvider hoopUpUserProvider}) async {
+  List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
+  for (final event in eventsList) {
+    if (event.time.endTime.millisecondsSinceEpoch <
+        DateTime.now().millisecondsSinceEpoch) {
+      firebaseProvider.removeFirebaseData('events/${event.id}');
+      print('Event ${event.id} removed because it has ended');
+    }
+  }
+  removeOldEventsFromUser(
+      eventsList: eventsList, hoopUpUserProvider: hoopUpUserProvider);
+}
+
+void removeOldEventsFromUser(
+    {required List<Event> eventsList,
+    required HoopUpUserProvider hoopUpUserProvider}) async {
+  HoopUpUser hoopUpUser = hoopUpUserProvider.user!;
+  List<String> validEventIds = [];
+  for (final eventId in hoopUpUser.events) {
+    if (eventsList.any((event) => event.id == eventId)) {
+      validEventIds.add(eventId);
+    } else {
+      print("Event $eventId removed from user ${hoopUpUser.username} because "
+          "it no longer exists");
+    }
+  }
+  hoopUpUser.events = validEventIds;
 }

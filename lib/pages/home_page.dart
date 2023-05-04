@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/providers/firebase_provider.dart';
@@ -18,21 +19,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static HoopUpUser? _user;
   late final FirebaseProvider _firebaseProvider;
-  
+
+  // runs every time the app reloads or you log in as a new user
   @override
   void initState() {
     super.initState();
-    final userProvider = context.read<HoopUpUserProvider>();
     _firebaseProvider = context.read<FirebaseProvider>();
+    final userProvider = context.read<HoopUpUserProvider>();
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null && userProvider.user == null && _user == null) {
-      _firebaseProvider.getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
+      _firebaseProvider
+          .getUserFromFirebase(firebaseUser.uid)
+          .then((hoopUpUser) {
         userProvider.setUser(hoopUpUser);
         _user = hoopUpUser;
         showCustomToast(
             'Welcome, ${_user?.username}', Icons.sports_basketball, context);
       });
     }
+    removeOldEvents(
+        firebaseProvider: _firebaseProvider, hoopUpUserProvider: userProvider);
   }
 
   @override

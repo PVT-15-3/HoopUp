@@ -120,6 +120,16 @@ class FirebaseProvider with ChangeNotifier {
     return user;
   }
 
+  Future<List<Event>> getAllEventsFromFirebase() async {
+    Map eventsMap = await getMapFromFirebase('events', '');
+    List<Event> eventsList = [];
+    eventsMap.forEach((key, value) {
+      Event event = Event.fromJson(value, this);
+      eventsList.add(event);
+    });
+    return eventsList;
+  }
+
   Stream<List<Event>> get eventsStream => _eventsRef.onValue.map((event) {
         DataSnapshot snapshot = event.snapshot;
         List<Event> events = [];
