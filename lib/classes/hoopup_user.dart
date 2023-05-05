@@ -86,6 +86,7 @@ class HoopUpUser {
   Map<String, dynamic> toJson() {
     return {
       'username': _username,
+      'gender': _gender,
       'skillLevel': _skillLevel,
       'id': _id,
       'photoUrl': _photoUrl
@@ -94,7 +95,7 @@ class HoopUpUser {
 
   @override
   String toString() =>
-      'User: $username, $skillLevel, $id, $photoUrl, $gender, $events';
+      'User: $username, $gender, $skillLevel, $id, $photoUrl, $events';
 
   // override equality operator
 
