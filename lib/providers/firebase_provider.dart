@@ -109,13 +109,15 @@ class FirebaseProvider with ChangeNotifier {
   Future<HoopUpUser> getUserFromFirebase(String id) async {
     Map? userMap = await getMapFromFirebase('users', id);
     notifyListeners();
-    return HoopUpUser(
+    HoopUpUser user = HoopUpUser(
         username: userMap['username'] ?? 'unknown',
         skillLevel: userMap['skillLevel'] ?? 0,
         id: id,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
         firebaseProvider: this);
+    user.events = userMap['events'].cast<String>();
+    return user;
   }
 
   Stream<List<Event>> get eventsStream => _eventsRef.onValue.map((event) {

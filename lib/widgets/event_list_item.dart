@@ -141,11 +141,11 @@ class _EventListItemState extends State<EventListItem> {
     }
 
     if (eventsList.contains(_event.id)) {
-      removeUserFromEvent(_event.id, eventsList, _firebaseUser.uid,
+      removeUserFromEvent(_event.id, eventsList,
           _userIdsList!, userProvider, _firebaseProvider);
       return;
     } else {
-      addUserToEvent(_event.id, eventsList, _firebaseUser.uid, _userIdsList!,
+      addUserToEvent(_event.id, eventsList, _userIdsList!,
           userProvider, _firebaseProvider);
       return;
     }

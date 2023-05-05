@@ -82,7 +82,6 @@ void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
 removeUserFromEvent(
     String eventId,
     List<String> eventsList,
-    String userId,
     List<String> userIdsList,
     HoopUpUserProvider hoopUpUserProvider,
     FirebaseProvider firebaseProvider) {
@@ -92,7 +91,7 @@ removeUserFromEvent(
   HoopUpUser? user = hoopUpUserProvider.user;
   user!.events = eventsList;
   // Remove the user's ID from the event's list of users
-  userIdsList.removeWhere((index) => index == userId);
+  userIdsList.removeWhere((index) => index == hoopUpUserProvider.user!.id);
   // Update the event's list of users in the database
   firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
 }
@@ -100,11 +99,11 @@ removeUserFromEvent(
 addUserToEvent(
     String eventId,
     List<String> eventsList,
-    String userId,
     List<String> userIdsList,
     HoopUpUserProvider hoopUpUserProvider,
     FirebaseProvider firebaseProvider) {
   if (eventsList.contains(eventId)) {
+    print("User is already in this event");
     return;
   }
   // Add the new event ID to the user's list
@@ -113,7 +112,8 @@ addUserToEvent(
   HoopUpUser? user = hoopUpUserProvider.user;
   user!.events = newEventsList;
   // Add the user's ID to the event's list of users
-  List<String> newUserIdsList = List.from(userIdsList)..add(userId);
+  List<String> newUserIdsList = List.from(userIdsList)
+    ..add(hoopUpUserProvider.user!.id);
   // Update the event's list of users in the database
   firebaseProvider.setFirebaseDataList(
       'events/$eventId/userIds', newUserIdsList);
