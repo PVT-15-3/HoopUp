@@ -67,7 +67,7 @@ class CreateEventWizard extends StatelessWidget {
                 firebaseProvider: firebaseProvider);
             showCustomToast('Your event is created', Icons.approval, context);
           } on Exception catch (e) {
-            showCustomToast("ERROR: $e", Icons.error, context);
+            showCustomToast(e.toString(), Icons.error, context);
             print("error when creating event: $e");
           }
           Navigator.pop(context);
@@ -258,7 +258,8 @@ class CreateEventWizard extends StatelessWidget {
               children: [
                 const Text("Select gender or all"),
                 Selector<CreateEventWizardProvider, String>(
-                  selector: (_, myProvider) => myProvider.selectedGender, // TODO: myProvider is not a good name...
+                  selector: (_, myProvider) => myProvider
+                      .selectedGender, // TODO: myProvider is not a good name...
                   builder: (_, selectedGender, __) {
                     return Row(
                       children: [
@@ -476,7 +477,8 @@ class CreateEventWizard extends StatelessWidget {
                 },
               );
             }),
-            validation: () {}, // TODO: WHAT TO DO HERE? SHOULD I REMOVE? (VIKTOR)
+            validation:
+                () {}, // TODO: WHAT TO DO HERE? SHOULD I REMOVE? (VIKTOR)
           )
         ],
         config: const CoolStepperConfig(

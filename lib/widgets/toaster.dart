@@ -16,7 +16,18 @@ void showCustomToast(String message, IconData icon, BuildContext context) {
       children: [
         Icon(icon, color: Colors.white),
         const SizedBox(width: 12.0),
-        Text(message, style: const TextStyle(color: Colors.white)),
+        message.length > 20
+            ? Expanded(
+                child: Text(
+                  message,
+                  style: const TextStyle(color: Colors.white),
+                  maxLines: null,
+                ),
+              )
+            : Text(
+                message,
+                style: const TextStyle(color: Colors.white),
+              ),
       ],
     ),
   );

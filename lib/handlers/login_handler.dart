@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/providers/firebase_provider.dart';
+import 'package:my_app/widgets/toaster.dart';
 
 class Auth {
   final FirebaseProvider _firebaseProvider;
@@ -10,7 +12,8 @@ class Auth {
   Auth(FirebaseProvider firebaseProvider)
       : _firebaseProvider = firebaseProvider;
 
-  Future<bool> signUpWithEmail(String email, String password, String username) async {
+  Future<bool> signUpWithEmail(String email, String password, String username,
+      BuildContext context) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -28,20 +31,23 @@ class Auth {
       print('User created: ${userCredential.user!.uid}');
       return true;
     } on FirebaseAuthException catch (e) {
-      throw AuthException(message: 'Failed to create user: ${e.message}');
+      showCustomToast(e.message!, Icons.error, context);
+      return false;
     }
   }
 
-  Future<bool> signInWithEmail(String email, String password) async {
+  Future<bool> signInWithEmail(String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = userCredential.user;
-      HoopUpUser hoopUpUser = await _firebaseProvider.getUserFromFirebase(user!.uid);
+      HoopUpUser hoopUpUser =
+          await _firebaseProvider.getUserFromFirebase(user!.uid);
       print('User signed in: ${hoopUpUser.username}');
       return true;
     } on FirebaseAuthException catch (e) {
-      throw AuthException(message: 'Failed to sign in user: ${e.message}');
+      showCustomToast(e.message!, Icons.error, context);
+      return false;
     }
   }
 

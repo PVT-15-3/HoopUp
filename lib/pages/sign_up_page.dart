@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../handlers/login_handler.dart';
 import '../providers/firebase_provider.dart';
@@ -97,6 +96,7 @@ class SignUpPage extends HookWidget {
                     email.value!,
                     password.value!,
                     username.value!,
+                    context,
                   );
                   if (signUpSuccess) {
                     Navigator.pushReplacement(
@@ -104,9 +104,6 @@ class SignUpPage extends HookWidget {
                       MaterialPageRoute(
                           builder: (context) => const BottomNavBar()),
                     );
-                  } else {
-                    showCustomToast("Something went wrong, try again",
-                        Icons.error, context);
                   }
                 }
               },
