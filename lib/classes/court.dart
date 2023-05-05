@@ -25,7 +25,7 @@ class Court {
       // required FirebaseProvider firebaseProvider,
       required position})
       : _name = name,
-       // _firebaseProvider = firebaseProvider,
+        // _firebaseProvider = firebaseProvider,
         _position = position,
         _imageLink = imageLink,
         _courtType = courtType,
@@ -55,8 +55,8 @@ class Court {
   //Setters ---------------------------------------------------------------
   set name(String name) {
     _name = name;
-   // _firebaseProvider.updateFirebaseData("courts/$_courtId", {"name": name});
-  } 
+    // _firebaseProvider.updateFirebaseData("courts/$_courtId", {"name": name});
+  }
 
   set imageLink(String imageLink) {
     _imageLink = imageLink;
@@ -72,24 +72,24 @@ class Court {
 
   set address(Address adress) {
     _address = adress;
-   // _firebaseProvider
-   //     .updateFirebaseData("courts/$_courtId", {"address": adress.toJson()});
+    // _firebaseProvider
+    //     .updateFirebaseData("courts/$_courtId", {"address": adress.toJson()});
   }
 
   //Functions ---------------------------------------------------------------
   void addEvent(Event event) {
     var id = event.id;
     _events.add(event);
-  //  _firebaseProvider.setFirebaseDataMap(
-  //      "courts/$_courtId/events/$id", event.toJson());
+    //  _firebaseProvider.setFirebaseDataMap(
+    //      "courts/$_courtId/events/$id", event.toJson());
   }
 
   void removeEvent(Event event) {
     int index = _events.indexOf(event);
     if (index >= 0) {
       _events.removeAt(index);
-   //   _firebaseProvider
-     //     .removeFirebaseData("courts/$_courtId/events/${event.id}");
+      //   _firebaseProvider
+      //     .removeFirebaseData("courts/$_courtId/events/${event.id}");
     }
   }
 
