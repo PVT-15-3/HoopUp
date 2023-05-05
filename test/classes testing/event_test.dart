@@ -54,6 +54,7 @@ void main() {
   }
 
   group('Event class tests', () {
+    //TODO Investigate this test error
     test('Testing getters are correct', () {
       // Arrange
       arrangeValidEvent();
@@ -145,7 +146,7 @@ void main() {
             'creatorId': sut.creatorId,
             'time': sut.time.toJson(),
             'courtId': sut.courtId,
-            'chat': sut.chat?.toJson(),
+            'chat': sut.chat.toJson(),
             'skillLevel': sut.skillLevel,
             'playerAmount': sut.playerAmount,
             'genderGroup': sut.genderGroup,
