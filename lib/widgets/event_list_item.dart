@@ -141,13 +141,13 @@ class _EventListItemState extends State<EventListItem> {
     }
 
     if (eventsList.contains(_event.id)) {
-      removeUserFromEvent(_event.id, eventsList,
-          _userIdsList!, userProvider, _firebaseProvider);
-      return;
+      removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
+          _firebaseProvider);
+      showCustomToast("You have canceled ${_event.name}", Icons.schedule, context);
     } else {
-      addUserToEvent(_event.id, eventsList, _userIdsList!,
-          userProvider, _firebaseProvider);
-      return;
+      addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
+          _firebaseProvider);
+      showCustomToast("You have joined ${_event.name}", Icons.schedule, context);
     }
   }
 }

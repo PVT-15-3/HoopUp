@@ -54,6 +54,8 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   bottom_navy_bar: ^6.0.0
   firebase_core: ^2.10.0
+  custom_info_window: ^1.0.1
+  clippy_flutter: ^1.1.1
 
 dev_dependencies:
   flutter_test:

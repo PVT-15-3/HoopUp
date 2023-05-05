@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
+import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/providers/firebase_provider.dart';
@@ -18,21 +19,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static HoopUpUser? _user;
   late final FirebaseProvider _firebaseProvider;
-  
+  late final HoopUpUserProvider _userProvider;
+  final User _firebaseUser = FirebaseAuth.instance.currentUser!;
+
+  // runs every time the app reloads or you log in as a new user
   @override
   void initState() {
     super.initState();
-    final userProvider = context.read<HoopUpUserProvider>();
     _firebaseProvider = context.read<FirebaseProvider>();
-    User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null && userProvider.user == null && _user == null) {
-      _firebaseProvider.getUserFromFirebase(firebaseUser.uid).then((hoopUpUser) {
-        userProvider.setUser(hoopUpUser);
+    _userProvider = context.read<HoopUpUserProvider>();
+    if (_user?.id != _firebaseUser.uid ||
+        (_userProvider.user == null && _user == null)) {
+      _firebaseProvider
+          .getUserFromFirebase(_firebaseUser.uid)
+          .then((hoopUpUser) {
+        _userProvider.setUser(hoopUpUser);
         _user = hoopUpUser;
         showCustomToast(
             'Welcome, ${_user?.username}', Icons.sports_basketball, context);
       });
     }
+    removeOldEvents(
+        firebaseProvider: _firebaseProvider,
+        hoopUpUserProvider: context.read<HoopUpUserProvider>());
   }
 
   @override
@@ -46,6 +55,9 @@ class _HomePageState extends State<HomePage> {
               print("!!!!!!!!");
               print(HoopUpUser.isSignedIn());
               print(_user);
+              print(FirebaseAuth.instance.currentUser?.uid);
+              showCustomToast(
+                  _user!.username, Icons.sports_basketball, context);
               print("!!!!!!!!");
             },
             icon: const Icon(Icons.manage_accounts),
