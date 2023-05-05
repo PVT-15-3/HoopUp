@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'address.dart';
 import 'event.dart';
@@ -9,6 +11,7 @@ class Court {
   String _imageLink;
   String _courtType;
   Address _address;
+  final int _numberOfHoops;
   bool isSelected = false;
   final List<Event> _events = [];
   // final FirebaseProvider _firebaseProvider;
@@ -18,6 +21,7 @@ class Court {
       required String imageLink,
       required String courtType,
       required Address address,
+      required int numberOfHoops,
       // required FirebaseProvider firebaseProvider,
       required position})
       : _name = name,
@@ -26,6 +30,7 @@ class Court {
         _imageLink = imageLink,
         _courtType = courtType,
         _address = address,
+        _numberOfHoops = numberOfHoops,
         _courtId = position.toString();
 
   /* void addCourtToDatabase() async {
@@ -45,6 +50,7 @@ class Court {
   String get courtType => _courtType;
   Address get address => _address;
   LatLng get position => _position;
+  int get numberOfHoops => _numberOfHoops;
 
   //Setters ---------------------------------------------------------------
   set name(String name) {

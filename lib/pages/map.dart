@@ -41,15 +41,20 @@ class _MapState extends State<Map> {
         59.41539988194249,
         18.045802457670916,
       ),
+      numberOfHoops: 6,
     ),
+
     Court(
-        position: const LatLng(59.31414212184781, 18.193681711645432),
-        name: 'Ektorps Streetcourt',
-        imageLink:
-            'https://stockholmbasket.se/wp-content/uploads/2022/06/Ektorp-streetcourt.jpg',
-        courtType: 'PVC tiles',
-        address: Address('Edinsvägen 4', 'Nacka', 13145, 59.31414212184781,
-            18.193681711645432)),
+      position: const LatLng(59.31414212184781, 18.193681711645432),
+      name: 'Ektorps Streetcourt',
+      imageLink:
+          'https://stockholmbasket.se/wp-content/uploads/2022/06/Ektorp-streetcourt.jpg',
+      courtType: 'PVC tiles',
+      address: Address('Edinsvägen 4', 'Nacka', 13145, 59.31414212184781,
+          18.193681711645432),
+      numberOfHoops: 6,
+    ),
+
     Court(
       position: const LatLng(59.31182915015506, 18.074395203696394),
       name: 'Åsö - Södermalm',
@@ -63,6 +68,7 @@ class _MapState extends State<Map> {
         59.31182915015506,
         18.074395203696394,
       ),
+      numberOfHoops: 2,
     ),
 
     Court(
@@ -73,6 +79,7 @@ class _MapState extends State<Map> {
       courtType: 'Synthetic rubber',
       address: Address('Hövdingsgatan 20', 'Hägersten', 12652,
           59.30782448316834, 17.994079119038222),
+      numberOfHoops: 2,
     ),
 
     Court(
@@ -88,6 +95,7 @@ class _MapState extends State<Map> {
         59.29402145383548,
         17.932262457670912,
       ),
+      numberOfHoops: 2,
     ),
 
     Court(
@@ -98,6 +106,7 @@ class _MapState extends State<Map> {
       courtType: 'Synthetic rubber',
       address: Address('Åvingegränd 29', 'Spånga', 16368, 59.39710830523342,
           17.90629260229956),
+      numberOfHoops: 2,
     ),
 
     Court(
@@ -108,6 +117,7 @@ class _MapState extends State<Map> {
       courtType: 'PVC tiles',
       address: Address(
           'Lötbacken', 'SKogås', 14230, 59.21683912857965, 18.149234026943972),
+      numberOfHoops: 1,
     ),
 
     Court(
@@ -118,6 +128,7 @@ class _MapState extends State<Map> {
       courtType: 'PVC tiles',
       address: Address('Idrottsstigen 15', 'Bro', 19731, 59.51779053942923,
           17.640217411044326),
+      numberOfHoops: 2,
     ),
 
     Court(
@@ -128,6 +139,31 @@ class _MapState extends State<Map> {
       courtType: 'Asfalt',
       address: Address('Bjursätragatan 50-52', 'Bandhagen', 12464,
           59.254592810710456, 18.031293796423572),
+      numberOfHoops: 2,
+    ),
+
+    
+    Court(
+      position: const LatLng(59.37829473768301, 17.93254852514142),
+      name: 'Rosa pantern - Rågsved',
+      imageLink:
+          'https://stockholmbasket.se/wp-content/uploads/2020/03/3.-Rissne-IP-1-1200-1024x683-1.jpg',
+          courtType: 'Asfalt',
+      address: Address('Mässvägen 1', 'Sundbyberg', 17459,
+          59.37829473768301, 17.93254852514142),
+      numberOfHoops: 4,
+    ),
+
+    
+    Court(
+      position: const LatLng(59.254592810710456, 18.031293796423572),
+      name: 'Rågdalen - Rågsved',
+      imageLink:
+          'https://stockholmbasket.se/wp-content/uploads/2022/06/Ragsved.jpeg',
+      courtType: 'Asfalt',
+      address: Address('Bjursätragatan 50-52', 'Bandhagen', 12464,
+          59.254592810710456, 18.031293796423572),
+      numberOfHoops: 2,
     ),
     // Add more court markers here
   ];
@@ -230,7 +266,8 @@ class _MapState extends State<Map> {
                               ),
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'More info',
