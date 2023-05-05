@@ -80,7 +80,7 @@ class Event {
   int get playerAmount => _playerAmount;
   String get ageGroup => _ageGroup;
   String get genderGroup => _genderGroup;
-  Chat? get chat => _chat;
+  Chat get chat => _chat;
   List<String> get usersIds => _usersIds;
 
   // Setters --------------------------------------------------------------

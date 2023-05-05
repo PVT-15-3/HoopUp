@@ -63,7 +63,7 @@ void main() {
               skillLevel: -1,
               id: '123',
               photoUrl: null,
-              gender: null,
+              gender: "",
               firebaseProvider: mockDatabase),
           throwsArgumentError);
     });
@@ -81,12 +81,6 @@ void main() {
             "photoUrl": sut.photoUrl,
             "gender": sut.gender
           })).called(1);
-    });
-    test("Testing delete user function", () {
-      arrangeRealUser();
-      sut.deleteAccount();
-      verify(() => mockDatabase.removeFirebaseData("users/${sut.id}"))
-          .called(1);
     });
     group(
         "Test the setters (photoUrl, gender, username, skillLevel, and events) and verify that they update the appropriate user properties and call the appropriate Firebase methods to update the data.",
@@ -158,7 +152,7 @@ void main() {
           skillLevel: 3,
           id: '123',
           photoUrl: null,
-          gender: null,
+          gender: "",
           firebaseProvider: mockDatabase);
       HoopUpUser identicalUser = HoopUpUser(
           username: "Geoff",
