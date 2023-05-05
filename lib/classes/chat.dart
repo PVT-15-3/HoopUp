@@ -19,7 +19,7 @@ class Chat {
 
   List<Message> get messages => _messages;
 
-  //Handle events
+  //Handle events --------------------------------------------------------
   void addMessage(Message message) {
     _messages.add(message);
     _firebaseProvider.setFirebaseDataMap(

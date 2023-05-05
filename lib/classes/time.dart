@@ -47,12 +47,12 @@ class Time {
   }
 
   String getFormattedStartTime() {
-  final formattedDate =
-      "${_startTime.day}/${_startTime.month}/${_startTime.year}";
-  final formattedStartTime = "${_startTime.hour}:${_startTime.minute}";
-  final formattedEndTime = "${_endTime.hour}:${_endTime.minute}";
-  return "$formattedDate $formattedStartTime - $formattedEndTime";
-}
+    final formattedDate =
+        "${_startTime.day}/${_startTime.month}/${_startTime.year}";
+    final formattedStartTime = "${_startTime.hour}:${_startTime.minute}";
+    final formattedEndTime = "${_endTime.hour}:${_endTime.minute}";
+    return "$formattedDate $formattedStartTime - $formattedEndTime";
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -63,9 +63,8 @@ class Time {
   }
 
   factory Time.fromJson(Map<dynamic, dynamic> json) {
-  final startTime = DateTime.parse(json['startTime']);
-  final endTime = DateTime.parse(json['endTime']);
-  return Time(startTime: startTime, endTime: endTime);
-}
-
+    final startTime = DateTime.parse(json['startTime']);
+    final endTime = DateTime.parse(json['endTime']);
+    return Time(startTime: startTime, endTime: endTime);
+  }
 }

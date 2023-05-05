@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'address.dart';
 import 'event.dart';
@@ -51,6 +49,7 @@ class Court {
   Address get address => _address;
   LatLng get position => _position;
   int get numberOfHoops => _numberOfHoops;
+  List<Event> get events => _events;
 
   //Setters ---------------------------------------------------------------
   set name(String name) {
