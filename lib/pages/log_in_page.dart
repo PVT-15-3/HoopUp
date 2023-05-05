@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/handlers/login_handler.dart';
 import 'package:my_app/pages/sign_up_page.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
+import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../providers/firebase_provider.dart';
 
@@ -13,7 +14,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    firebaseProvider = context.read<FirebaseProvider>();
+    final firebaseProvider = context.read<FirebaseProvider>();
     String? email;
     String? password;
     final Auth auth = Auth(firebaseProvider);
@@ -62,13 +63,16 @@ class LogInPage extends StatelessWidget {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   bool logInSuccess = await auth.signInWithEmail(
-                      email!, password!, context.read());
+                      email!, password!);
                   if (logInSuccess) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const BottomNavBar()),
                     );
+                  } else {
+                    showCustomToast(
+                        "Invalid e-mail or password", Icons.warning, context);
                   }
                 }
               },

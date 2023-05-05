@@ -10,8 +10,7 @@ class Auth {
   Auth(FirebaseProvider firebaseProvider)
       : _firebaseProvider = firebaseProvider;
 
-  Future<bool> signUpWithEmail(String email, String password, String username,
-      HoopUpUserProvider hoopUpUserProvider) async {
+  Future<bool> signUpWithEmail(String email, String password, String username) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -26,8 +25,6 @@ class Auth {
       );
       hoopUpuser.addUserToDatabase();
 
-      hoopUpUserProvider.setUser(hoopUpuser);
-
       print('User created: ${userCredential.user!.uid}');
       return true;
     } on FirebaseAuthException catch (e) {
@@ -35,31 +32,13 @@ class Auth {
     }
   }
 
-  Future<bool> signInWithEmail(String email, String password,
-      HoopUpUserProvider hoopUpUserProvider) async {
+  Future<bool> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = userCredential.user;
-      Map? userMap =
-          await _firebaseProvider.getMapFromFirebase('users', user!.uid);
-
-      HoopUpUser hoopUpuser = HoopUpUser(
-        username: userMap['username'] ?? 'unknown',
-        skillLevel: userMap['skillLevel'] ?? 0,
-        id: user.uid,
-        photoUrl: userMap['photoUrl'],
-        gender: userMap['gender'] ?? 'other',
-        firebaseProvider: _firebaseProvider,
-      );
-
-      List<dynamic> dynamicList = await _firebaseProvider.getListFromFirebase(
-          'users/${hoopUpuser.id}', "events");
-      List<String> eventsList =
-          List<String>.from(dynamicList.map((event) => event.toString()));
-      hoopUpuser.events = eventsList;
-      hoopUpUserProvider.setUser(hoopUpuser);
-      print('User signed in: ${user.uid}');
+      HoopUpUser hoopUpUser = await _firebaseProvider.getUserFromFirebase(user!.uid);
+      print('User signed in: ${hoopUpUser.username}');
       return true;
     } on FirebaseAuthException catch (e) {
       throw AuthException(message: 'Failed to sign in user: ${e.message}');

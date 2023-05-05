@@ -116,8 +116,20 @@ class FirebaseProvider with ChangeNotifier {
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
         firebaseProvider: this);
-    user.events = userMap['events'].cast<String>();
+    if (userMap['events'] != null) {
+      user.events = userMap['events'].cast<String>();
+    }
     return user;
+  }
+
+  Future<List<Event>> getAllEventsFromFirebase() async {
+    Map eventsMap = await getMapFromFirebase('events', '');
+    List<Event> eventsList = [];
+    eventsMap.forEach((key, value) {
+      Event event = Event.fromJson(value, this);
+      eventsList.add(event);
+    });
+    return eventsList;
   }
 
   Stream<List<Event>> get eventsStream => _eventsRef.onValue.map((event) {
