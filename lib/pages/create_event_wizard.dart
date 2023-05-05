@@ -93,7 +93,8 @@ class CreateEventWizard extends StatelessWidget {
                         wizardProvider.eventDate = date;
                       },
                       onConfirm: (date) {
-                        dateController.text = date.toString();
+                        dateController.text =
+                            DateFormat('yyyy-MM-dd').format(date);
                         wizardProvider.eventDate = date;
                       },
                       currentTime: DateTime.now(),
