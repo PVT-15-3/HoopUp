@@ -65,13 +65,13 @@ class CreateEventWizard extends StatelessWidget {
                 userId: wizardProvider.userId,
                 hoopUpUser: hoopUpUserProvider.user,
                 firebaseProvider: firebaseProvider);
-            wizardProvider.reset();
             showCustomToast('Your event is created', Icons.approval, context);
           } on Exception catch (e) {
             showCustomToast("ERROR: $e", Icons.error, context);
             print("error when creating event: $e");
           }
           Navigator.pop(context);
+          wizardProvider.reset();
         },
         steps: [
           CoolStep(
@@ -258,7 +258,7 @@ class CreateEventWizard extends StatelessWidget {
               children: [
                 const Text("Select gender or all"),
                 Selector<CreateEventWizardProvider, String>(
-                  selector: (_, myProvider) => myProvider.selectedGender,
+                  selector: (_, myProvider) => myProvider.selectedGender, // TODO: myProvider is not a good name...
                   builder: (_, selectedGender, __) {
                     return Row(
                       children: [

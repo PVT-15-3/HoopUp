@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
   late final FirebaseProvider _firebaseProvider;
   late final HoopUpUserProvider _userProvider;
   final User _firebaseUser = FirebaseAuth.instance.currentUser!;
+  bool _isLoading = true;
 
-  // runs every time the app reloads or you log in as a new user
   @override
   void initState() {
     super.initState();
@@ -30,74 +30,90 @@ class _HomePageState extends State<HomePage> {
     _userProvider = context.read<HoopUpUserProvider>();
     if (_user?.id != _firebaseUser.uid ||
         (_userProvider.user == null && _user == null)) {
-      _firebaseProvider
-          .getUserFromFirebase(_firebaseUser.uid)
-          .then((hoopUpUser) {
-        _userProvider.setUser(hoopUpUser);
-        _user = hoopUpUser;
-        showCustomToast(
-            'Welcome, ${_user?.username}', Icons.sports_basketball, context);
+      _initializeData();
+    } else {
+      setState(() {
+        _isLoading = false;
       });
     }
-    removeOldEvents(
-        firebaseProvider: _firebaseProvider,
-        hoopUpUserProvider: context.read<HoopUpUserProvider>());
+  }
+
+  void _initializeData() async {
+    await _firebaseProvider
+        .getUserFromFirebase(_firebaseUser.uid)
+        .then((hoopUpUser) {
+      _userProvider.setUser(hoopUpUser);
+      _user = hoopUpUser;
+    });
+    await removeOldEvents(
+        firebaseProvider: _firebaseProvider, hoopUpUserProvider: _userProvider);
+    setState(() {
+      _isLoading = false;
+    });
+    if (mounted) {
+      showCustomToast(
+          'Welcome, ${_user?.username}', Icons.sports_basketball, context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HoopUp'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              print("!!!!!!!!");
-              print(HoopUpUser.isSignedIn());
-              print(_user);
-              print(FirebaseAuth.instance.currentUser?.uid);
-              showCustomToast(
-                  _user!.username, Icons.sports_basketball, context);
-              print("!!!!!!!!");
-            },
-            icon: const Icon(Icons.manage_accounts),
-          ),
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 40),
-          Center(
-            child: ElevatedButton(
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('HoopUp'),
+          actions: [
+            IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateEventWizard(),
-                  ),
-                );
+                print("!!!!!!!!");
+                print(HoopUpUser.isSignedIn());
+                print(_user);
+                print(FirebaseAuth.instance.currentUser?.uid);
+                showCustomToast(
+                    _user!.username, Icons.sports_basketball, context);
+                print("!!!!!!!!");
               },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 60),
-              ),
-              child: const Text(
-                'Create Event',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              icon: const Icon(Icons.manage_accounts),
+            ),
+          ],
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 40),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateEventWizard(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 60),
+                ),
+                child: const Text(
+                  'Create Event',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 40),
-          const Expanded(
-            child: Center(
-              child: ListEventHandler(showJoinedEvents: false),
+            const SizedBox(height: 40),
+            const Expanded(
+              child: Center(
+                child: ListEventHandler(showJoinedEvents: false),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 }

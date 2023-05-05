@@ -62,8 +62,8 @@ class LogInPage extends StatelessWidget {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  bool logInSuccess = await auth.signInWithEmail(
-                      email!, password!);
+                  showCustomToast("Authenticating...", Icons.watch_later_outlined, context);
+                  bool logInSuccess = await auth.signInWithEmail(email!, password!);
                   if (logInSuccess) {
                     Navigator.pushReplacement(
                       context,

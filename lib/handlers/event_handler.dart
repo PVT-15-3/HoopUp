@@ -120,7 +120,7 @@ void addUserToEvent(
       'events/$eventId/userIds', newUserIdsList);
 }
 
-void removeOldEvents(
+Future<void> removeOldEvents(
     {required FirebaseProvider firebaseProvider,
     required HoopUpUserProvider hoopUpUserProvider}) async {
   List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
