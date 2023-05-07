@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
 class HoopUpUser {
   String _username;
   int _skillLevel;
@@ -117,9 +115,8 @@ class HoopUpUser {
 
   Future<void> deleteAccount() async {
     try {
-      var user = _auth.currentUser;
       await _firebaseProvider.removeFirebaseData("users/$id");
-      await user?.delete();
+      await FirebaseAuth.instance.currentUser?.delete();
       await signOut();
       print("User deleted successfully");
     } catch (e) {

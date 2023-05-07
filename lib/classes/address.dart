@@ -8,11 +8,11 @@ class Address {
   Address(this._street, this._city, this._postalCode, this._long, this._lat);
 
   //Getters ---------------------------------------------------------------
-  get street => _street;
-  get city => _city;
-  get postalCode => _postalCode;
-  get long => _long;
-  get lat => _lat;
+  String get street => _street;
+  String get city => _city;
+  int get postalCode => _postalCode;
+  double get long => _long;
+  double get lat => _lat;
 
   //Functions --------------------------------------------------------------
   Map<String, dynamic> toJson() {
@@ -23,6 +23,31 @@ class Address {
       'long': _long,
       'lat': _lat
     };
+  }
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      json['street'],
+      json['city'],
+      json['postalCode'],
+      json['long'],
+      json['lat'],
+    );
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(_street, _city, _postalCode, _long, _lat);
+  }
+
+  @override
+  bool operator ==(other) {
+    return other is Address &&
+        _street == other._street &&
+        _city == other._city &&
+        _postalCode == other._postalCode &&
+        _long == other._long &&
+        _lat == other._lat;
   }
 
   @override
