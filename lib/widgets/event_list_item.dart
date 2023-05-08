@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
-import '../pages/event_pages.dart';
+import '../pages/event_page.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';

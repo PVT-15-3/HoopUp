@@ -8,7 +8,7 @@ import '../providers/firebase_provider.dart';
 class ChatPage extends StatefulWidget {
   final Event event;
 
-  ChatPage({required this.event});
+  const ChatPage({super.key, required this.event});
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -34,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
   }
@@ -60,13 +60,13 @@ class _ChatPageState extends State<ChatPage> {
               if (snapshot.hasData) {
                 final List<Message> messages = snapshot.data!;
                 messages.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
-                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
                   _scrollController
                       .jumpTo(_scrollController.position.maxScrollExtent);
                 });
                 return SingleChildScrollView(
                   controller: _scrollController,
-                  physics: AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: messages.map((message) {
                       return ListTile(

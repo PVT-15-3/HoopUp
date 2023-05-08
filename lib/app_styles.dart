@@ -1,10 +1,17 @@
 import 'dart:ui';
 
 class Styles {
-  static const String fontName = 'Montserrat';
-  static const Color primaryColor = Color(0xFF151026);
-  static const Color secondaryColor = Color(0xFF232c51);
-  static const Color accentColor = Color(0xFFf64f59);
-  static const Color backgroundColor = Color(0xFFf5f5f7);
-  static const Color textColor = Color(0xFF3a3a3a);
+  static const String headerFont = 'Inter';
+  static const String subHeaderFont = 'Open Sans';
+
+
+  static const int fontSizeBig = 36;
+  static const int fontSizeMedium = 21;
+  static const int fontSizeSmall = 16;
+  static const int fontSizeSmallest = 12;
+
+  static const Color primaryColor = Color.fromRGBO(252, 128, 39, 1);
+  static const Color chatColor = Color.fromRGBO(254, 227, 207, 1);
+  static const Color textColor = Color.fromRGBO(69, 69, 69, 1);
+
 }

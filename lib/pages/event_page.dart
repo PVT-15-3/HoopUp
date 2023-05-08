@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_styles.dart';
 import '../classes/court.dart';
 import '../classes/event.dart';
 import '../providers/courts_provider.dart';
@@ -53,7 +54,7 @@ class EventPage extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.orange
+                        color: Styles.primaryColor,
                       ),
                       )
                   ),
