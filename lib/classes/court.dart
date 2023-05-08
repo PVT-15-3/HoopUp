@@ -43,7 +43,7 @@ class Court {
 
   //Getters ---------------------------------------------------------------
   String get courtId => _courtId;
-  String get name => _name;
+  String get name => _name; // TODO: Remove this getters?? (Viktor)
   String get imageLink => _imageLink;
   String get courtType => _courtType;
   Address get address => _address;
