@@ -8,6 +8,9 @@ class Chat {
   final List<Message> _messages = [];
   final FirebaseProvider _firebaseProvider;
 
+  Stream<List<Message>> get messageStream =>
+      _firebaseProvider.getChatMessageStream(_eventId);
+
   Chat({required String eventId, required FirebaseProvider firebaseProvider})
       : _eventId = eventId,
         _firebaseProvider = firebaseProvider,
@@ -18,6 +21,20 @@ class Chat {
   String get id => _id;
 
   List<Message> get messages => _messages;
+
+  factory Chat.fromFirebase(String eventId, Map<String, dynamic> data) {
+    List<Message> messages = [];
+    if (data['messages'] != null) {
+      messages = List.from(data['messages']).map((messageData) {
+        return Message.fromFirebase(messageData);
+      }).toList();
+    }
+
+    return Chat(
+      eventId: eventId,
+      firebaseProvider: FirebaseProvider(),
+    ).._messages.addAll(messages);
+  }
 
   //Handle events --------------------------------------------------------
   void addMessage(Message message) {

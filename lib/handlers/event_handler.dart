@@ -54,18 +54,17 @@ class EventHandler {
     addCreatorToEvent(event, hoopUpUser!);
 
     print('Event created:\n'
-      '  Date: $eventDate\n'
-      '  Start time: $eventStartTime\n'
-      '  End time: $eventEndTime\n'
-      '  Number of participants: $numberOfParticipants\n'
-      '  Gender: $selectedGender\n'
-      '  Age group: $selectedAgeGroup\n'
-      '  Skill level: $skillLevel\n'
-      '  Event name: $eventName\n'
-      '  Event description: $eventDescription\n'
-      '  Court ID: $courtId\n'
-      '  User ID: $userId');
-
+        '  Date: $eventDate\n'
+        '  Start time: $eventStartTime\n'
+        '  End time: $eventEndTime\n'
+        '  Number of participants: $numberOfParticipants\n'
+        '  Gender: $selectedGender\n'
+        '  Age group: $selectedAgeGroup\n'
+        '  Skill level: $skillLevel\n'
+        '  Event name: $eventName\n'
+        '  Event description: $eventDescription\n'
+        '  Court ID: $courtId\n'
+        '  User ID: $userId');
   }
 }
 

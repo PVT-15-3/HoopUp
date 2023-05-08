@@ -1,39 +1,43 @@
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'hoopup_user.dart';
 
 class Message {
   final String _id;
-  final HoopUpUser _user;
+  final String _username;
   final String _messageText;
-  final String _timeStamp;
+  final DateTime _timeStamp;
 
   Message({
-    required HoopUpUser user,
+    required String username,
     required String messageText,
+    required DateTime timeStamp,
   })  : _id = const Uuid().v4(),
-        _user = user,
+        _username = username,
         _messageText = messageText,
-        _timeStamp = DateFormat('MM-dd HH:mm:ss').format(DateTime.now());
+        _timeStamp = timeStamp;
 
   String get id => _id;
 
-  HoopUpUser get user => _user;
+  String get username => _username;
 
   String get messageText => _messageText;
 
-  String get timeStamp => _timeStamp;
+  DateTime get timeStamp => _timeStamp;
 
-  //set messageText(String text) => _messageText = text;
-
-  //set timeStamp(String timestamp) => _timeStamp = timestamp;
+  factory Message.fromFirebase(Map<String, dynamic> data) {
+    return Message(
+      username: data['username'] ?? '',
+      messageText: data['messageText'] ?? '',
+      timeStamp: DateFormat('MM-dd HH:mm:ss').parse(data['timeStamp'] ?? ''),
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
-      'user': {'username': _user.username},
+      'username': _username,
       'messageText': _messageText,
-      'timeStamp': _timeStamp,
+      'timeStamp': DateFormat('MM-dd HH:mm:ss').format(_timeStamp),
     };
   }
 }

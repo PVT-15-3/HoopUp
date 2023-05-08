@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
+import '../pages/chat_page.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
@@ -68,43 +69,71 @@ class _EventListItemState extends State<EventListItem> {
           final bool hasUserJoined = snapshot.data ?? false;
           // Build a Row widget with the event information and a button to join/cancel the event
           return FutureBuilder<bool>(
-              future: loadDataFromFirebase(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox.shrink();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: ListTile(
-                            title: Text(_event.name),
-                            subtitle: Text(_getSubtitleText()),
+            future: loadDataFromFirebase(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox.shrink();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: ListTile(
+                              title: Text(_event.name),
+                              subtitle: Text(_getSubtitleText()),
+                            ),
                           ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
-                          await _toggleEvent(hasUserJoined);
-                          setState(() {
-                            _hasUserJoined = _checkJoined();
-                          });
-                        },
-                        child: Text(
-                          hasUserJoined ? 'Cancel event' : 'Join event',
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                          ),
+                        Column(
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
+                                await _toggleEvent(hasUserJoined);
+                                setState(() {
+                                  _hasUserJoined = _checkJoined();
+                                });
+                              },
+                              child: Text(
+                                hasUserJoined ? 'Cancel event' : 'Join event',
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                            if (hasUserJoined)
+                              TextButton(
+                                onPressed: () {
+                                  // Navigate to the ChatPage
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ChatPage(event: widget.event),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Chat',
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-                      )
-                    ],
-                  );
-                }
-              });
+                      ],
+                    ),
+                  ],
+                );
+              }
+            },
+          );
         }
       },
     );
@@ -143,11 +172,13 @@ class _EventListItemState extends State<EventListItem> {
     if (eventsList.contains(_event.id)) {
       removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
-      showCustomToast("You have canceled ${_event.name}", Icons.schedule, context);
+      showCustomToast(
+          "You have canceled ${_event.name}", Icons.schedule, context);
     } else {
       addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
-      showCustomToast("You have joined ${_event.name}", Icons.schedule, context);
+      showCustomToast(
+          "You have joined ${_event.name}", Icons.schedule, context);
     }
   }
 }

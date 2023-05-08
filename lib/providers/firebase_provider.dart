@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
+import '../classes/message.dart';
 
 class FirebaseProvider with ChangeNotifier {
   final FirebaseDatabase database = FirebaseDatabase.instance;
@@ -147,4 +148,31 @@ class FirebaseProvider with ChangeNotifier {
         notifyListeners(); //TODO Correct use of notifyListeners()?
         return events;
       });
+
+  Stream<List<Message>> getChatMessageStream(String eventId) {
+    final chatMessagesRef = database.ref('events/$eventId/chat/messages');
+
+    return chatMessagesRef.onValue.map((event) {
+      DataSnapshot snapshot = event.snapshot;
+      List<Message> messages = [];
+
+      if (snapshot.value != null) {
+        Map<dynamic, dynamic> messagesFromDatabaseMap =
+            snapshot.value as Map<dynamic, dynamic>;
+
+        messagesFromDatabaseMap.forEach((key, value) {
+          if (value is Map<dynamic, dynamic>) {
+            // Convert the value to Map<String, dynamic>
+            Map<String, dynamic> messageData = Map<String, dynamic>.from(value);
+
+            final message = Message.fromFirebase(messageData);
+            messages.add(message);
+          }
+        });
+      }
+      messages.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+      notifyListeners();
+      return messages;
+    });
+  }
 }

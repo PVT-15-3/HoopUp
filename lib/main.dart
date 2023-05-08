@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   Widget startWidget() {
-    if(HoopUpUser.isSignedIn()){
+    if (HoopUpUser.isSignedIn()) {
       return const BottomNavBar();
     } else {
       return LogInPage();
