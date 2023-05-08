@@ -1,4 +1,5 @@
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 class Time {
   late final DateTime _startTime;
@@ -46,13 +47,23 @@ class Time {
     }
   }
 
-  String getFormattedStartTime() {
-    final formattedDate =
-        "${_startTime.day}/${_startTime.month}/${_startTime.year}";
-    final formattedStartTime = "${_startTime.hour}:${_startTime.minute}";
-    final formattedEndTime = "${_endTime.hour}:${_endTime.minute}";
-    return "$formattedDate $formattedStartTime - $formattedEndTime";
-  }
+  String getFormattedTimeAndDate() {
+  final formatter = DateFormat('HH:mm');
+  final formattedStartTime = formatter.format(_startTime);
+  final formattedEndTime = formatter.format(_endTime);
+  return "$formattedStartTime-$formattedEndTime ${getFormattedDate()}";
+}
+ String getFormattedDate() {
+  final formatter = DateFormat('yyyy-MM-dd');
+  return formatter.format(_startTime);
+}
+
+ String getFormattedStartAndEndTime() {
+  final formattedStartTime = "${_startTime.hour.toString().padLeft(2, '0')}:${_startTime.minute.toString().padLeft(2, '0')}";
+  final formattedEndTime = "${_endTime.hour.toString().padLeft(2, '0')}:${_endTime.minute.toString().padLeft(2, '0')}";
+  return "$formattedStartTime-$formattedEndTime";
+}
+
 
   Map<String, dynamic> toJson() {
     return {

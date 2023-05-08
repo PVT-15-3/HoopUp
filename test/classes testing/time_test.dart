@@ -48,7 +48,7 @@ void main() {
   });
 
   test('endTime setter should update the value and call validateEndTime()', () {
-    final newEndTime = DateTime.now().add(Duration(hours: 3));
+    final newEndTime = DateTime.now().add(const Duration(hours: 3));
     sut.endTime = newEndTime;
 
     String testEndTime = "${sut.startTime.hour}:${sut.startTime.minute}";
@@ -61,7 +61,7 @@ void main() {
   test(
       'validateStartTime() should throw an error if the start time is in the past',
       () {
-    final startTime = DateTime.now().subtract(Duration(days: 1));
+    final startTime = DateTime.now().subtract(const Duration(days: 1));
     final endTime = DateTime.now();
     expect(() => Time(startTime: startTime, endTime: endTime),
         throwsArgumentError);
@@ -78,7 +78,7 @@ void main() {
 
   test('getFormattedStartTime() should return a formatted string', () {
     arrangeTime();
-    final formattedStartTime = sut.getFormattedStartTime();
+    final formattedStartTime = sut.getFormattedTimeAndDate();
     final expected =
         "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().add(const Duration(hours: 1)).hour}:${DateTime.now().minute} - ${DateTime.now().add(const Duration(hours: 2)).hour}:${DateTime.now().minute}";
     expect(formattedStartTime, equals(expected));

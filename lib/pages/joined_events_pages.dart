@@ -9,19 +9,28 @@ class JoinedEventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Joined Events',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 100.0),
+            child: Center(
+              child: Text(
+                'MY BOOKINGS',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      body: ListEventHandler(
-        showJoinedEvents: showJoinedEvents,
+          Expanded(
+            child: ListEventHandler(
+              showJoinedEvents: showJoinedEvents,
+            ),
+          ),
+        ],
       ),
     );
   }

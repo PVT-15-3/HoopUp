@@ -31,8 +31,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const JoinedEventsPage(showJoinedEvents: true),
     const Map(),
+    const JoinedEventsPage(showJoinedEvents: true),
     const ProfilePage(),
   ];
 
@@ -53,15 +53,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
               activeColor: Colors.blue,
               inactiveColor: Colors.grey,
             ),
-            BottomNavyBarItem(
-              icon: const Icon(Icons.view_list),
-              title: const Text('Joined event'),
+             BottomNavyBarItem(
+              icon: const Icon(Icons.pin_drop),
+              title: const Text('Map'),
               activeColor: Colors.blue,
               inactiveColor: Colors.grey,
             ),
             BottomNavyBarItem(
-              icon: const Icon(Icons.map),
-              title: const Text('Map'),
+              icon: const Icon(Icons.sports_basketball),
+              title: const Text('Joined event'),
               activeColor: Colors.blue,
               inactiveColor: Colors.grey,
             ),

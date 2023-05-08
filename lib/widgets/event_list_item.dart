@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
-import '../pages/chat_page.dart';
+import '../pages/event_pages.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
@@ -76,22 +76,77 @@ class _EventListItemState extends State<EventListItem> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: ListTile(
-                              title: Text(_event.name),
-                              subtitle: Text(_getSubtitleText()),
+                return Card(
+                  elevation: 2.0,
+                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                  shadowColor: Colors.grey.withOpacity(0.8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
+                        child: ListTile(
+                          title: Text(
+                            _event.name.toUpperCase(),
+                            style: const TextStyle(
+                              fontFamily: 'Noto Sans',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
                             ),
                           ),
+                          subtitle: Text(
+                            _getSubtitleText(),
+                          ),
                         ),
-                        Column(
-                          children: [
-                            TextButton(
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (hasUserJoined)
+                            Container(
+                              height: 33.0,
+                              margin: const EdgeInsets.only(
+                                  top: 15.0, bottom: 15.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                border:
+                                    Border.all(color: Colors.orange, width: 2),
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  // Navigate to the ChatPage
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EventPage(event: _event),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'SHOW EVENT',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          const SizedBox(width: 30.0, height: 30.0),
+                          Container(
+                            height: 33.0,
+                            margin:
+                                const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              border:
+                                  Border.all(color: Colors.orange, width: 2),
+                            ),
+                            child: TextButton(
                               onPressed: () async {
                                 // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
                                 await _toggleEvent(hasUserJoined);
@@ -100,36 +155,18 @@ class _EventListItemState extends State<EventListItem> {
                                 });
                               },
                               child: Text(
-                                hasUserJoined ? 'Cancel event' : 'Join event',
+                                hasUserJoined ? 'CANCEL BOOKING' : 'JOIN EVENT',
                                 style: const TextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 14.0,
+                                  color: Colors.orange,
                                 ),
                               ),
                             ),
-                            if (hasUserJoined)
-                              TextButton(
-                                onPressed: () {
-                                  // Navigate to the ChatPage
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChatPage(event: widget.event),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Chat',
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
               }
             },
@@ -147,11 +184,8 @@ class _EventListItemState extends State<EventListItem> {
   }
 
   String _getSubtitleText() {
-    return 'Event info: ${_event.description}\n'
-        'Date and time: ${_event.time.getFormattedStartTime()}'
-        '\nThe event is for: ${_event.genderGroup}\n'
-        'Participants: $_numberOfPlayersInEvent / ${_event.playerAmount}\n'
-        'Skill level: ${_event.skillLevel}';
+    return 'Time: ${_event.time.getFormattedStartAndEndTime()}'
+        '\nDate: ${_event.time.getFormattedDate()}';
   }
 
   Future<void> _toggleEvent(bool hasUserJoined) async {

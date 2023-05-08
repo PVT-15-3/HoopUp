@@ -103,6 +103,11 @@ class Event {
     }
   }
 
+  @override
+  toString () {
+    return 'Event: $name, $description, $creatorId, $time, $courtId, $skillLevel, $playerAmount, $genderGroup, $ageGroup, $id';
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'name': _name,
@@ -130,8 +135,7 @@ class Event {
     final genderGroup = json['genderGroup'] as String;
     final ageGroup = json['ageGroup'] as String;
 
-    // This is only to get the event id. The chat is not used. Maybe we should change this. If we need to
-    // the chat in the fromJason method, we need to change the chat to a map in the Event class?
+    // This is only to get the event id. The chat is not used. Maybe we should change this.
     Map<dynamic, dynamic> chatJason = json['chat'] as Map<dynamic, dynamic>;
     final id = chatJason['eventId'] as String;
 
