@@ -478,8 +478,7 @@ class CreateEventWizard extends StatelessWidget {
                 },
               );
             }),
-            validation:
-                () {}, // TODO: WHAT TO DO HERE? SHOULD I REMOVE? (VIKTOR)
+            validation: () {}, // TODO: Add validation
           )
         ],
         config: const CoolStepperConfig(

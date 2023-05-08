@@ -52,7 +52,6 @@ class Address {
 
   @override
   String toString() {
-    // TODO: implement toString
     return "$_street, $_postalCode\n$_city";
   }
 }

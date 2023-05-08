@@ -39,7 +39,6 @@ void main() {
     );
   }
 
-//TODO after design has been completed, make sure to complete this test
   group("Testing Profile page", () {
     testWidgets("All nessecary components are on the page",
         (WidgetTester tester) async {

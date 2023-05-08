@@ -62,7 +62,7 @@ void main() {
         startTime: DateTime.now().add(const Duration(hours: 1)),
         endTime: DateTime.now().add(const Duration(hours: 2)),
       );
-      Chat testChat = Chat(eventId: sut.id, firebaseProvider: mockDatabase);
+      Chat? testChat = Chat(eventId: sut.id, firebaseProvider: mockDatabase);
 
       // Assert
       expect(sut.name, equals('Test event'));
