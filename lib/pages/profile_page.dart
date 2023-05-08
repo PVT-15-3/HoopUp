@@ -104,7 +104,6 @@ class ProfilePage extends StatelessWidget {
                     user.skillLevel = skillLevel;
                     user.gender = gender;
                     if (controller.text.length >= 3) {
-                      // TODO: how long should a username be?
                       user.username = controller.text;
                       showCustomToast("Profile updated", Icons.person, context);
                     } else {

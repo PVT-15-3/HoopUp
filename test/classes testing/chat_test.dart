@@ -49,7 +49,7 @@ void main() {
   }
 
   arrangeMessage() {
-    message = Message(user: user, messageText: "messageText");
+    message = Message(username: user.username, messageText: "messageText");
   }
 
   group('Chat tests', () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../classes/court.dart';
 
 class CreateEventWizardProvider extends ChangeNotifier {
   DateTime _eventDate = DateTime.now();
@@ -11,6 +12,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   String _eventName = '';
   String _eventDescription = "";
   String _courtId = "LocationId1";
+  Court? _court;
   String? _userId = "";
 
   DateTime get eventDate => _eventDate;
@@ -83,6 +85,13 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Court? get court => _court;
+
+  set court(Court? court) {
+    _court = court;
+    notifyListeners();
+  }
+
   String? get userId => _userId;
 
   set userId(String? userId) {
@@ -101,7 +110,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _eventName = '';
     _eventDescription = "";
     _courtId = "LocationId1";
-    _userId = "";
+    _court = null;
+    _userId = null;
     notifyListeners();
   }
 
