@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/app_styles.dart';
+import 'package:my_app/classes/court.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
 import '../pages/event_page.dart';
+import '../providers/courts_provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
@@ -12,8 +15,10 @@ import 'toaster.dart';
 class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
+  final List<Court> _courts = CourtProvider().courts;
+  late Court _court;
 
-  const EventListItem({
+  EventListItem({
     Key? key, // Added a Key? parameter for super constructor
     required this.event,
     required this.showJoinedEvents,
@@ -38,6 +43,11 @@ class _EventListItemState extends State<EventListItem> {
     _firebaseProvider = context.read<FirebaseProvider>();
     _hasUserJoined = _checkJoined();
     _event = widget.event;
+    for (Court court in widget._courts) {
+      if (court.courtId == _event.courtId) {
+        widget._court = court;
+      }
+    }
   }
 
   // Added type annotations for variables and return type
@@ -75,99 +85,10 @@ class _EventListItemState extends State<EventListItem> {
                 return const SizedBox.shrink();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
+              } else if (hasUserJoined) {
+                return returnMyBookingsView(hasUserJoined);
               } else {
-                return Card(
-                  elevation: 2.0,
-                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                  shadowColor: Colors.grey.withOpacity(0.8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
-                        child: ListTile(
-                          title: Text(
-                            _event.name.toUpperCase(),
-                            style: const TextStyle(
-                              fontFamily: 'Noto Sans',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          subtitle: Text(
-                            _getSubtitleText(),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (hasUserJoined)
-                            Container(
-                              height: 33.0,
-                              margin: const EdgeInsets.only(
-                                  top: 15.0, bottom: 15.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
-                                border:
-                                    Border.all(color: Colors.orange, width: 2),
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  // Navigate to the ChatPage
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventPage(event: _event),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  'SHOW EVENT',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.orange,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          const SizedBox(width: 30.0, height: 30.0),
-                          Container(
-                            height: 33.0,
-                            margin:
-                                const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              border:
-                                  Border.all(color: Colors.orange, width: 2),
-                            ),
-                            child: TextButton(
-                              onPressed: () async {
-                                // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
-                                await _toggleEvent(hasUserJoined);
-                                setState(() {
-                                  _hasUserJoined = _checkJoined();
-                                });
-                              },
-                              child: Text(
-                                hasUserJoined ? 'CANCEL BOOKING' : 'JOIN EVENT',
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+                return returnDiscoverGameView(hasUserJoined);
               }
             },
           );
@@ -188,7 +109,7 @@ class _EventListItemState extends State<EventListItem> {
         '\nDate: ${_event.time.getFormattedDate()}';
   }
 
-  Future<void> _toggleEvent(bool hasUserJoined) async {
+  Future<void> toggleEvent(bool hasUserJoined) async {
     Map? userMap =
         await _firebaseProvider.getMapFromFirebase("users", _firebaseUser.uid);
     List<String> eventsList = List.from(userMap['events'] ?? []);
@@ -214,5 +135,233 @@ class _EventListItemState extends State<EventListItem> {
       showCustomToast(
           "You have joined ${_event.name}", Icons.schedule, context);
     }
+  }
+
+  InkWell returnDiscoverGameView(hasUserJoined) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EventPage(event: _event),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 0.0,
+        margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 50.0),
+        shadowColor: Colors.grey.withOpacity(0.8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          children: [
+            Center(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
+                height: 150,
+                width: 340,
+                margin: const EdgeInsets.all(1.0),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(1),
+                      spreadRadius: -25,
+                      blurRadius: 20,
+                      offset: const Offset(0, 9),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    //TODO change to court image when court is implemented
+                    'https://stockholmbasket.se/wp-content/uploads/2020/03/Kvarnholmen.jpg',
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(30.0, 0, 16.0, 0.0),
+                  child: Text(
+                    //TODO change to court name when court is implemented
+                    'Kvarnholmen - Nacka'.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: Styles.fontSizeMedium,
+                      fontWeight: FontWeight.normal,
+                      color: Styles.discoverGametextColor,
+                      fontFamily: Styles.headerFont,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(0, 3.0),
+                          blurRadius: 5.0,
+                          color:Styles.shadowColor
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(27.0, 4, 16.0, 0.0),
+              child: Row(
+                children: [
+                  Row(
+                    children: List.generate(
+                      _event.skillLevel,
+                      (index) => const Icon(
+                        Icons.star_purple500_sharp,
+                        color: Styles.primaryColor,
+                        size: 25,
+                        shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(0, 3.0),
+                          blurRadius: 5.0,
+                          color: Styles.shadowColor
+                        ),
+                      ],
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.access_time,
+                        color: Styles.primaryColor,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(0, 3.0),
+                            blurRadius: 5.0,
+                            color:Styles.shadowColor
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _event.time.getFormattedTimeAndDate(),
+                        style: const TextStyle(
+                          fontSize: Styles.fontSizeSmallest,
+                          fontWeight: FontWeight.normal,
+                          color: Styles.discoverGametextColor,
+                          fontFamily: Styles.headerFont,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0, 3.0),
+                              blurRadius: 5.0,
+                              color:Styles.shadowColor
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card returnMyBookingsView(bool hasUserJoined) {
+    return Card(
+      elevation: 3.0,
+      margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 25.0),
+      shadowColor: Colors.grey.withOpacity(0.8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
+            child: ListTile(
+              title: Text(
+                _event.name.toUpperCase(),
+                style: const TextStyle(
+                  fontFamily: Styles.subHeaderFont,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Styles.fontSizeMedium,
+                  color: Styles.textColorMyBookings,
+                ),
+              ),
+              subtitle: Text(
+                _getSubtitleText(),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 30.5,
+                margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(color: Colors.orange, width: 1),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // Navigate to the ChatPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventPage(event: _event),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'SHOW EVENT',
+                    style: TextStyle(
+                      fontFamily: Styles.subHeaderFont,
+                      fontWeight: FontWeight.w600,
+                      fontSize: Styles.fontSizeSmallest,
+                      color: Styles.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 42.0, height: 30.0),
+              Container(
+                height: 30.5,
+                margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(color: Colors.orange, width: 1),
+                ),
+                child: TextButton(
+                  onPressed: () async {
+                    // Call the handleEvent function to join or cancel the event, and update the state to rebuild the UI
+                    await toggleEvent(hasUserJoined);
+                    setState(() {
+                      _hasUserJoined = _checkJoined();
+                    });
+                  },
+                  child: const Text(
+                    'CANCEL BOOKING',
+                    style: TextStyle(
+                      fontFamily: Styles.subHeaderFont,
+                      fontWeight: FontWeight.w600,
+                      fontSize: Styles.fontSizeSmallest,
+                      color: Styles.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

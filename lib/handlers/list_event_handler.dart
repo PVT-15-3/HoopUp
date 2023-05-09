@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_app/app_styles.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
@@ -42,22 +43,29 @@ class _ListEventHandlerState extends State<ListEventHandler> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           widget.showJoinedEvents
               ? const SizedBox.shrink()
-              : Container(
-                  color: Colors.orange,
-                  height: 70,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Join Events',
+              : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const Text(
+                    'DISCOVER GAME',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      fontSize: Styles.fontSizeBig,
+                      fontWeight: FontWeight.w800,
+                      color: Styles.discoverGameHeaderColor,
+                      fontFamily: Styles.headerFont,
                     ),
                   ),
-                ),
+                  IconButton(
+                    icon: const Icon(Icons.tune),
+                    color: Styles.primaryColor,
+                    onPressed: () {
+                      // Add your onPressed callback here
+                    },
+                  ),
+                ]),
           Expanded(
             child: Center(
               child: StreamBuilder<List<Event>>(

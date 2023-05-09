@@ -44,6 +44,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       return Scaffold(
         body: _pages[_currentIndex],
         bottomNavigationBar: BottomNavyBar(
+          containerHeight: 60,
+          iconSize: 30,
           selectedIndex: _currentIndex,
           onItemSelected: (index) => setState(() => _currentIndex = index),
           items: [

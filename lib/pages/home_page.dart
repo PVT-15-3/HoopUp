@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/app_styles.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
@@ -62,27 +63,11 @@ class _HomePageState extends State<HomePage> {
       return const Center(child: CircularProgressIndicator());
     } else {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('HoopUp'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                print("!!!!!!!!");
-                print(HoopUpUser.isSignedIn());
-                print(_user);
-                print(FirebaseAuth.instance.currentUser?.uid);
-                showCustomToast(
-                    _user!.username, Icons.sports_basketball, context);
-                print("!!!!!!!!");
-              },
-              icon: const Icon(Icons.manage_accounts),
-            ),
-          ],
-        ),
+        backgroundColor: Colors.white,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 70.0),
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -94,18 +79,24 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 60),
+                  minimumSize: const Size(220, 60),
+                  backgroundColor: Styles.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
                 ),
                 child: const Text(
-                  'Create Event',
+                  'CREATE GAME',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: Styles.fontSizeMedium,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontFamily: String.fromEnvironment('Rubik')
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             const Expanded(
               child: Center(
                 child: ListEventHandler(showJoinedEvents: false),

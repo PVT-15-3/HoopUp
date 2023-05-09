@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../handlers/list_event_handler.dart';
+import '/app_styles.dart';
 
 class JoinedEventsPage extends StatelessWidget {
   final bool showJoinedEvents;
@@ -9,18 +10,20 @@ class JoinedEventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 100.0),
+           const Padding(
+            padding: EdgeInsets.only(top: 90.0),
             child: Center(
               child: Text(
                 'MY BOOKINGS',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: Styles.fontSizeBig,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange,
+                  color: Styles.primaryColor,
+                  fontFamily: Styles.headerFont
                 ),
               ),
             ),
