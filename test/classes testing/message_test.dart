@@ -62,19 +62,19 @@ void main() {
       expect(sut1.id != sut2.id, isTrue);
     });
 
-    // test('toJson() returns a valid JSON object', () { // I commented this out for now (Viktor)
-    //   arrangeUsers();
-    //   arrangeMessages();
+    test('toJson() returns a valid JSON object', () { // I commented this out for now (Viktor)
+      arrangeUsers();
+      arrangeMessages();
 
-    //   final json = sut1.toJson();
+      final json = sut1.toJson();
 
-    //   expect(json['id'], isNotNull);
-    //   expect(json['user']['username'], equals('user1'));
-    //   expect(
-    //       json['messageText'],
-    //       equals(
-    //           'I hate rats. They locked me in a room. a rubber room. A rubber room with rats.'));
-    //   expect(json['timeStamp'], isNotNull);
-    // });
+      expect(json['id'], isNotNull);
+      expect(json['username'], equals('user1'));
+      expect(
+          json['messageText'],
+          equals(
+              'I hate rats. They locked me in a room. a rubber room. A rubber room with rats.'));
+      expect(json['timeStamp'], isNotNull);
+    });
   });
 }
