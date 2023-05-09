@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
+import '../app_styles.dart';
 import '../classes/court.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'court_page.dart';
@@ -101,7 +102,7 @@ class _MapState extends State<Map> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.blue,
+                                        color: Styles.primaryColor,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       padding: const EdgeInsets.all(8.0),
@@ -191,7 +192,7 @@ class _MapState extends State<Map> {
                     controller: _customInfoWindowController,
                     height: 100,
                     width: 220,
-                    offset: 50,
+                    offset: 30,
                   ),
                 ],
               ),

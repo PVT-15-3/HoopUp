@@ -59,6 +59,10 @@ class CourtPage extends StatelessWidget {
                     'Court type: ${court.courtType}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
+                  Text(
+                    'Number of hoops: ${court.numberOfHoops}',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   const SizedBox(height: 8.0),
                   Text(
                     court.address.toString(),
