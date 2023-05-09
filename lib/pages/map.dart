@@ -60,9 +60,6 @@ class _MapState extends State<Map> {
           if (snapshot.connectionState == ConnectionState.done) {
             // Initialization is complete, you can build your UI
             return Scaffold(
-              appBar: AppBar(
-                title: const Text('Map'),
-              ),
               body: Stack(
                 children: <Widget>[
                   GoogleMap(

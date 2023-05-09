@@ -89,21 +89,16 @@ class EventPage extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () async {
-                  FirebaseProvider firebaseProvider =
-                      context.read<FirebaseProvider>();
-                  Map eventMap = await firebaseProvider.getMapFromFirebase(
-                      "events", event.id);
-                  List<String> userIdsList =
-                      List.from(eventMap['userIds'] ?? []);
-                  HoopUpUserProvider hoopUpUserProvider =
-                      Provider.of<HoopUpUserProvider>(context, listen: false);
+                  await addUserToThisEvent(context);
 
-                  addUserToEvent(event.id, hoopUpUserProvider.user!.events,
-                      userIdsList, hoopUpUserProvider, firebaseProvider);
-                  showCustomToast(
-                      "You have joined ${event.name}", Icons.schedule, context);
-
-                  Navigator.pop(context);
+                  // Navigate back to the home page and reset the navigation stack
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/bottom_nav_bar',
+                    (route) =>
+                        false, // Remove all routes on top of the home page
+                  );
+                  // Call a method on the ChangeNotifier to trigger a state update
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -125,6 +120,19 @@ class EventPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  addUserToThisEvent(BuildContext context) async {
+    FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
+    Map eventMap =
+        await firebaseProvider.getMapFromFirebase("events", event.id);
+    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
+    HoopUpUserProvider hoopUpUserProvider =
+        Provider.of<HoopUpUserProvider>(context, listen: false);
+
+    addUserToEvent(event.id, hoopUpUserProvider.user!.events, userIdsList,
+        hoopUpUserProvider, firebaseProvider);
+    showCustomToast("You have joined ${event.name}", Icons.schedule, context);
   }
 
   Court? getCourt(String id) {

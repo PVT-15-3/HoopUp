@@ -199,10 +199,9 @@ class _EventListItemState extends State<EventListItem> {
                       fontFamily: Styles.headerFont,
                       shadows: <Shadow>[
                         Shadow(
-                          offset: Offset(0, 3.0),
-                          blurRadius: 5.0,
-                          color:Styles.shadowColor
-                        ),
+                            offset: Offset(0, 3.0),
+                            blurRadius: 5.0,
+                            color: Styles.shadowColor),
                       ],
                     ),
                   ),
@@ -221,12 +220,11 @@ class _EventListItemState extends State<EventListItem> {
                         color: Styles.primaryColor,
                         size: 25,
                         shadows: <Shadow>[
-                        Shadow(
-                          offset: Offset(0, 3.0),
-                          blurRadius: 5.0,
-                          color: Styles.shadowColor
-                        ),
-                      ],
+                          Shadow(
+                              offset: Offset(0, 3.0),
+                              blurRadius: 5.0,
+                              color: Styles.shadowColor),
+                        ],
                       ),
                     ),
                   ),
@@ -238,10 +236,9 @@ class _EventListItemState extends State<EventListItem> {
                         color: Styles.primaryColor,
                         shadows: <Shadow>[
                           Shadow(
-                            offset: Offset(0, 3.0),
-                            blurRadius: 5.0,
-                            color:Styles.shadowColor
-                          ),
+                              offset: Offset(0, 3.0),
+                              blurRadius: 5.0,
+                              color: Styles.shadowColor),
                         ],
                       ),
                       const SizedBox(width: 8),
@@ -254,10 +251,9 @@ class _EventListItemState extends State<EventListItem> {
                           fontFamily: Styles.headerFont,
                           shadows: <Shadow>[
                             Shadow(
-                              offset: Offset(0, 3.0),
-                              blurRadius: 5.0,
-                              color:Styles.shadowColor
-                            ),
+                                offset: Offset(0, 3.0),
+                                blurRadius: 5.0,
+                                color: Styles.shadowColor),
                           ],
                         ),
                       )

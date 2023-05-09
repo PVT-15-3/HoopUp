@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
         ),
         home: startWidget(),
         routes: {
+          '/bottom_nav_bar': (context) => const BottomNavBar(),
           '/map': (context) => const Map(),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
               ),
           '/join_event_page.dart': (context) =>
               const JoinedEventsPage(showJoinedEvents: false),
+
         },
       ),
     );
