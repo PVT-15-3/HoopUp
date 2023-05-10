@@ -18,7 +18,7 @@ class EventHandler {
       required String eventName,
       required String eventDescription,
       required String courtId,
-      required String? userId,
+      required String userId,
       required HoopUpUser? hoopUpUser,
       required FirebaseProvider firebaseProvider}) {
     // Implementation of event creation logic goes here

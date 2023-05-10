@@ -36,7 +36,7 @@ class CreateEventWizard extends StatelessWidget {
         showErrorSnackbar: true,
         onCompleted: () {
           // do something when the wizard is completed
-          wizardProvider.userId = hoopUpUserProvider.user?.id;
+          wizardProvider.userId = hoopUpUserProvider.user!.id;
           print('${wizardProvider.userId}\n'
               '${wizardProvider.eventName}\n'
               '${wizardProvider.eventDate}\n'

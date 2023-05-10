@@ -13,7 +13,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   String _eventDescription = "";
   String _courtId = "LocationId1";
   Court? _court;
-  String? _userId = "";
+  String _userId = "";
 
   DateTime get eventDate => _eventDate;
 
@@ -92,9 +92,9 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? get userId => _userId;
+  String get userId => _userId;
 
-  set userId(String? userId) {
+  set userId(String userId) {
     _userId = userId;
     notifyListeners();
   }
@@ -111,7 +111,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _eventDescription = "";
     _courtId = "LocationId1";
     _court = null;
-    _userId = null;
+    _userId;
     notifyListeners();
   }
 

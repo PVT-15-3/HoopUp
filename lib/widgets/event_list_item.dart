@@ -16,7 +16,7 @@ class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
   final List<Court> _courts = CourtProvider().courts;
-  late Court _court;
+  late final Court _court;
 
   EventListItem({
     Key? key, // Added a Key? parameter for super constructor
@@ -143,7 +143,7 @@ class _EventListItemState extends State<EventListItem> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventPage(event: _event),
+            builder: (context) => EventPage(event: _event, hasUserJoined: hasUserJoined),
           ),
         );
       },
@@ -177,7 +177,7 @@ class _EventListItemState extends State<EventListItem> {
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
                     //TODO change to court image when court is implemented
-                    'https://stockholmbasket.se/wp-content/uploads/2020/03/Kvarnholmen.jpg',
+                    widget._court.imageLink,
                     height: MediaQuery.of(context).size.height * 0.4,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -191,7 +191,7 @@ class _EventListItemState extends State<EventListItem> {
                   padding: const EdgeInsets.fromLTRB(30.0, 0, 16.0, 0.0),
                   child: Text(
                     //TODO change to court name when court is implemented
-                    'Kvarnholmen - Nacka'.toUpperCase(),
+                    widget._court.name.toUpperCase(),
                     style: const TextStyle(
                       fontSize: Styles.fontSizeMedium,
                       fontWeight: FontWeight.normal,
@@ -312,7 +312,7 @@ class _EventListItemState extends State<EventListItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EventPage(event: _event),
+                        builder: (context) => EventPage(event: _event, hasUserJoined: hasUserJoined),
                       ),
                     );
                   },

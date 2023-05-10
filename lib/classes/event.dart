@@ -5,7 +5,7 @@ import 'package:my_app/providers/firebase_provider.dart';
 class Event {
   final String _name;
   final String _description;
-  final String? _creatorId;
+  final String _creatorId;
   late Chat _chat;
   final Time _time;
   final String _courtId;
@@ -20,7 +20,7 @@ class Event {
   Event({
     required String name,
     required String description,
-    required String? creatorId,
+    required String creatorId,
     required Time time,
     required String courtId,
     required int skillLevel,
@@ -72,7 +72,7 @@ class Event {
 
   String get name => _name;
   String get description => _description;
-  String? get creatorId => _creatorId as String;
+  String get creatorId => _creatorId;
   String get id => _id;
   Time get time => _time;
   String get courtId => _courtId;

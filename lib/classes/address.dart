@@ -52,6 +52,6 @@ class Address {
 
   @override
   String toString() {
-    return "$_street, $_postalCode\n$_city";
+    return "$_street, $_postalCode, $_city";
   }
 }

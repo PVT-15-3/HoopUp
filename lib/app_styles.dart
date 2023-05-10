@@ -3,6 +3,7 @@ import 'dart:ui';
 class Styles {
   static const String headerFont = 'Inter';
   static const String subHeaderFont = 'Open Sans';
+  static const String fontForNameFont = 'Roboto';
 
   static const double fontSizeBig = 30.0;
   static const double fontSizeMedium = 20.0;
