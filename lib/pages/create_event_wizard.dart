@@ -383,9 +383,9 @@ class CreateEventWizard extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Map()));
+                        .push(MaterialPageRoute(builder: (context) => Map(showSelectOption: true)));
                   },
-                  child: Text('Choose location'),
+                  child: const Text('Choose location'),
                 )
               ],
             ),
@@ -452,7 +452,9 @@ class CreateEventWizard extends StatelessWidget {
                 },
               );
             }),
-            validation: () {}, // TODO: Add validation
+            validation: () {
+              return null;
+            }, // TODO: Add validation
           )
         ],
         config: const CoolStepperConfig(

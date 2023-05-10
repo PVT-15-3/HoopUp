@@ -29,7 +29,7 @@ class Court {
         _courtType = courtType,
         _address = address,
         _numberOfHoops = numberOfHoops,
-        _courtId = position.toString();
+        _courtId = '${position.latitude.toString()}${position.longitude.toString()}';
 
   /* void addCourtToDatabase() async {
     _firebaseProvider.setFirebaseDataMap("courts/$courtId", {

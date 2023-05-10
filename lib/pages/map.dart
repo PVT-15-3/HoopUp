@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
 import 'package:custom_info_window/custom_info_window.dart';
+import '../providers/create_event_wizard_provider.dart';
 import 'court_page.dart';
 import 'package:flutter/services.dart';
 
 class Map extends StatefulWidget {
-  const Map({Key? key}) : super(key: key);
+  bool showSelectOption;
+
+  Map({Key? key, required this.showSelectOption}) : super(key: key);
 
   @override
   _MapState createState() => _MapState();
@@ -86,6 +90,15 @@ class _MapState extends State<Map> {
                             _customInfoWindowController.addInfoWindow!(
                               GestureDetector(
                                 onTap: () {
+                                  if (widget.showSelectOption) {
+                                    final CreateEventWizardProvider
+                                        wizardProvider =
+                                        Provider.of<CreateEventWizardProvider>(
+                                            context,
+                                            listen: false);
+                                    wizardProvider.court = court;
+                                    Navigator.pop(context);
+                                  } else {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -93,6 +106,7 @@ class _MapState extends State<Map> {
                                           CourtPage(court: court),
                                     ),
                                   );
+                                  }
                                 },
                                 child: ListView(
                                   shrinkWrap: true,
@@ -156,7 +170,9 @@ class _MapState extends State<Map> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            'More info',
+                                            widget.showSelectOption
+                                                ? 'Select'
+                                                : 'More info',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
@@ -167,10 +183,15 @@ class _MapState extends State<Map> {
                                           const SizedBox(
                                             width: 8.0,
                                           ),
-                                          const Icon(
-                                            Icons.info,
-                                            color: Colors.black,
-                                          ),
+                                          widget.showSelectOption
+                                              ? const Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.black,
+                                                )
+                                              : const Icon(
+                                                  Icons.info,
+                                                  color: Colors.black,
+                                                ),
                                         ],
                                       ),
                                     ),

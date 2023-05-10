@@ -31,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Map(),
+    Map(showSelectOption: false),
     const JoinedEventsPage(showJoinedEvents: true),
     const ProfilePage(),
   ];
