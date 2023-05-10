@@ -13,7 +13,7 @@ class Time {
         _startTime = startTime,
         _endTime = endTime {
     // _validateStartTime();  // causes issues with loading the times from the database (viktor)
-    // _validateEndTime();
+    // _validateEndTime();    // causes issues with loading the times from the database (viktor)
   }
 
   // Getters

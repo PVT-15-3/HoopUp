@@ -152,7 +152,6 @@ class Event {
       id: id,
       firebaseProvider: firebaseHandler,
     );
-
     return event;
   }
 }
