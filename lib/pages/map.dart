@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
+import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
@@ -98,6 +99,8 @@ class _MapState extends State<Map> {
                                             listen: false);
                                     wizardProvider.court = court;
                                     Navigator.pop(context);
+                                    showCustomToast(
+                                        'Court selected', Icons.check_circle, context);
                                   } else {
                                   Navigator.push(
                                     context,
