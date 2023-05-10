@@ -12,6 +12,8 @@ import '../providers/hoopup_user_provider.dart';
 import '../handlers/event_handler.dart';
 import 'toaster.dart';
 
+// TODO: Borde vi ta bort alla skuggor, de är lite konstiga
+
 class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;

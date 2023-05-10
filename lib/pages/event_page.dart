@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
 import '../classes/event.dart';
+import '../handlers/share_event_handler.dart';
 import '../providers/courts_provider.dart';
 import '../handlers/event_handler.dart';
 import '../providers/firebase_provider.dart';
@@ -23,9 +24,8 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   late String _creatorName = '';
-    late int _numberOfPlayersInEvent = 0;
-    late final FirebaseProvider _firebaseProvider;
-  
+  late int _numberOfPlayersInEvent = 0;
+  late final FirebaseProvider _firebaseProvider;
 
   @override
   void initState() {
@@ -35,29 +35,30 @@ class _EventPageState extends State<EventPage> {
     loadAmountOfUsersFirebase();
   }
 
- Court? _getCourt(String id) {
+  Court? _getCourt(String id) {
     for (Court court in widget._courts) {
       if (court.courtId == id) {
         return court;
       }
     }
     return null;
- }
+  }
 
   void _getCreatorName() async {
     FirebaseProvider firebaseProvider = FirebaseProvider();
-    Map userMap =
-        await firebaseProvider.getMapFromFirebase("users", widget.event.creatorId);
+    Map userMap = await firebaseProvider.getMapFromFirebase(
+        "users", widget.event.creatorId);
     String name = userMap['username'];
     setState(() {
       _creatorName = name;
     });
   }
 
-    loadAmountOfUsersFirebase() async {
+  loadAmountOfUsersFirebase() async {
     Map eventMap = await _firebaseProvider.getMapFromFirebase("events", widget.event.id);
     List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
-    _numberOfPlayersInEvent = userIdsList.length; return true;
+    _numberOfPlayersInEvent = userIdsList.length;
+    return true;
   }
 
   @override
@@ -140,33 +141,28 @@ class _EventPageState extends State<EventPage> {
                         children: [
                           Row(
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.person,
+                              Row(children: [
+                                const Icon(
+                                  Icons.person,
+                                  color: Styles.textColorMyBookings,
+                                ),
+                                const SizedBox(width: 8.0),
+                                Text(
+                                  _creatorName,
+                                  style: const TextStyle(
+                                    fontSize: Styles.fontSizeMedium,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: Styles.fontForNameFont,
                                     color: Styles.textColorMyBookings,
                                   ),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    _creatorName,
-                                    style: const TextStyle(
-                                      fontSize: Styles.fontSizeMedium,
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: Styles.fontForNameFont,
-                                      color: Styles.textColorMyBookings,
-                                    ),
-                                  ),
-                              
-                                ]
-                              ),
+                                ),
+                              ]),
                               const Spacer(),
                               Row(
                                 children: [
                                   const SizedBox(width: 8),
                                   Text(
-                                    '$_numberOfPlayersInEvent/${widget.event.playerAmount.toString()}'
-                                    
-                                  )
+                                      '$_numberOfPlayersInEvent/${widget.event.playerAmount.toString()}')
                                 ],
                               ),
                             ],
@@ -182,6 +178,13 @@ class _EventPageState extends State<EventPage> {
                               color: Colors.black,
                             ),
                           ),
+                          TextButton(
+                            onPressed: () {
+                              ShareEventHandler.shareEvent(
+                                  widget.event, courtOfTheEvent);
+                            },
+                            child: const Icon(Icons.share),
+                          )
                         ],
                       ),
                     ),
@@ -236,9 +239,9 @@ class _EventPageState extends State<EventPage> {
     HoopUpUserProvider hoopUpUserProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    addUserToEvent(widget.event.id, hoopUpUserProvider.user!.events, userIdsList,
-        hoopUpUserProvider, firebaseProvider);
-    showCustomToast("You have joined ${widget.event.name}", Icons.schedule, context);
+    addUserToEvent(widget.event.id, hoopUpUserProvider.user!.events,
+        userIdsList, hoopUpUserProvider, firebaseProvider);
+    showCustomToast(
+        "You have joined ${widget.event.name}", Icons.schedule, context);
   }
-
 }
