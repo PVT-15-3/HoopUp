@@ -62,7 +62,7 @@ class CreateEventWizard extends StatelessWidget {
                 skillLevel: wizardProvider.skillLevel,
                 eventName: wizardProvider.eventName,
                 eventDescription: wizardProvider.eventDescription,
-                courtId: wizardProvider.courtId,
+                courtId: wizardProvider.court!.courtId,
                 userId: wizardProvider.userId,
                 hoopUpUser: hoopUpUserProvider.user,
                 firebaseProvider: firebaseProvider);
