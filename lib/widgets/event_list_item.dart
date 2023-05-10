@@ -43,11 +43,6 @@ class _EventListItemState extends State<EventListItem> {
     _firebaseProvider = context.read<FirebaseProvider>();
     _hasUserJoined = _checkJoined();
     _event = widget.event;
-    for (Court court in widget._courts) {
-      if (court.courtId == _event.courtId) {
-        widget._court = court;
-      }
-    }
   }
 
   // Added type annotations for variables and return type
@@ -79,7 +74,7 @@ class _EventListItemState extends State<EventListItem> {
           final bool hasUserJoined = snapshot.data ?? false;
           // Build a Row widget with the event information and a button to join/cancel the event
           return FutureBuilder<bool>(
-            future: loadDataFromFirebase(),
+            future: loadAsyncData(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox.shrink();
@@ -97,10 +92,15 @@ class _EventListItemState extends State<EventListItem> {
     );
   }
 
-  Future<bool> loadDataFromFirebase() async {
+  Future<bool> loadAsyncData() async {
     _eventMap = await _firebaseProvider.getMapFromFirebase("events", _event.id);
     _userIdsList = List.from(_eventMap['userIds'] ?? []);
     _numberOfPlayersInEvent = _userIdsList!.length;
+    for (Court court in widget._courts) {
+      if (court.courtId == _event.courtId) {
+        widget._court = court;
+      }
+    }
     return true;
   }
 
@@ -143,7 +143,8 @@ class _EventListItemState extends State<EventListItem> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventPage(event: _event, hasUserJoined: hasUserJoined),
+            builder: (context) =>
+                EventPage(event: _event, hasUserJoined: hasUserJoined),
           ),
         );
       },
@@ -175,7 +176,7 @@ class _EventListItemState extends State<EventListItem> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
+                  child: Image.asset(
                     //TODO change to court image when court is implemented
                     widget._court.imageLink,
                     height: MediaQuery.of(context).size.height * 0.4,
@@ -312,7 +313,8 @@ class _EventListItemState extends State<EventListItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EventPage(event: _event, hasUserJoined: hasUserJoined),
+                        builder: (context) => EventPage(
+                            event: _event, hasUserJoined: hasUserJoined),
                       ),
                     );
                   },

@@ -84,7 +84,7 @@ class _EventPageState extends State<EventPage> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: Image.network(
+                child: Image.asset(
                   courtOfTheEvent.imageLink,
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: double.infinity,
