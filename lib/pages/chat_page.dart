@@ -15,8 +15,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  TextEditingController _messageController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   void _sendMessage(String username) {
     String messageText = _messageController.text.trim();
@@ -84,13 +84,13 @@ class _ChatPageState extends State<ChatPage> {
             },
           )),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter your message...',
                     ),
                   ),

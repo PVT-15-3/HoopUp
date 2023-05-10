@@ -77,7 +77,7 @@ class Court {
 
   //Functions ---------------------------------------------------------------
   void addEvent(Event event) {
-    var id = event.id;
+    //var id = event.id;
     _events.add(event);
     //  _firebaseProvider.setFirebaseDataMap(
     //      "courts/$_courtId/events/$id", event.toJson());

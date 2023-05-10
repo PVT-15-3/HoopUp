@@ -102,7 +102,7 @@ class _MapState extends State<Map> {
                                         color: Styles.primaryColor,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(4.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -150,7 +150,7 @@ class _MapState extends State<Map> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(4.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -187,7 +187,7 @@ class _MapState extends State<Map> {
                   ),
                   CustomInfoWindow(
                     controller: _customInfoWindowController,
-                    height: 100,
+                    height: 110,
                     width: 220,
                     offset: 30,
                   ),

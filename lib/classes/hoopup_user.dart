@@ -70,15 +70,10 @@ class HoopUpUser {
   // getters
 
   String? get photoUrl => _photoUrl;
-
   String get gender => _gender;
-
   String get username => _username;
-
   List<String> get events => _events;
-
   String get id => _id;
-
   int get skillLevel => _skillLevel;
 
   Map<String, dynamic> toJson() {
