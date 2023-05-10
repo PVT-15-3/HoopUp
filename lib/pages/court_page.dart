@@ -46,7 +46,7 @@ class CourtPage extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
+                      child: Image.asset(
                         court.imageLink,
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: double.infinity,

@@ -74,7 +74,7 @@ void main() {
       expect(sut.position.longitude, 0.0);
       expect(sut.isSelected, false);
       expect(sut.events, []);
-      expect(sut.courtId, 'LatLng(0.0, 0.0)');
+      expect(sut.courtId, '0.00.0');
     });
 
     test('Court setters should update properties correctly', () {
