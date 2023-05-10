@@ -8,6 +8,7 @@ import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../providers/create_event_wizard_provider.dart';
+import 'package:my_app/pages/map.dart';
 
 class CreateEventWizard extends StatelessWidget {
   final TextEditingController eventNameController = TextEditingController();
@@ -379,40 +380,13 @@ class CreateEventWizard extends StatelessWidget {
                     );
                   },
                 ),
-                const Text("Choose a location"),
-                Selector<CreateEventWizardProvider, String>(
-                  selector: (_, myProvider) => myProvider.courtId,
-                  builder: (_, selectedLocationId, __) {
-                    return DropdownButton<String>(
-                      value: selectedLocationId,
-                      onChanged: (value) {
-                        wizardProvider.courtId = value!;
-                      },
-                      items: const [
-                        DropdownMenuItem(
-                          value: "LocationId1",
-                          child: Text("LocationId1"),
-                        ),
-                        DropdownMenuItem(
-                          value: "LocationId2",
-                          child: Text("LocationId2"),
-                        ),
-                        DropdownMenuItem(
-                          value: "LocationId3",
-                          child: Text("LocationId3"),
-                        ),
-                        DropdownMenuItem(
-                          value: "LocationId4",
-                          child: Text("LocationId4"),
-                        ),
-                        DropdownMenuItem(
-                          value: "LocationId5",
-                          child: Text("LocationId5"),
-                        ),
-                      ],
-                    );
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Map()));
                   },
-                ),
+                  child: Text('Choose location'),
+                )
               ],
             ),
             validation: () {
