@@ -8,7 +8,7 @@ import 'package:my_app/pages/sign_up_page.dart';
 import 'package:my_app/providers/create_event_wizard_provider.dart';
 import 'package:provider/provider.dart';
 import 'classes/hoopup_user.dart';
-import 'pages/map.dart';
+import 'pages/map_page.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         home: startWidget(),
         routes: {
           '/bottom_nav_bar': (context) => const BottomNavBar(),
-          '/map': (context) => Map(showSelectOption: false),
+          '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),

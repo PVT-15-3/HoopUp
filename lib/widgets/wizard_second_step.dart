@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:my_app/pages/map.dart';
+import 'package:my_app/pages/map_page.dart';
 
 import '../providers/create_event_wizard_provider.dart';
 
@@ -139,7 +138,7 @@ class WizardSecondStep extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Map(showSelectOption: true)));
+                builder: (context) => MapPage(showSelectOption: true)));
           },
           child: const Text('Choose location'),
         )

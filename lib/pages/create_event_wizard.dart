@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class CreateEventWizard extends StatelessWidget {
-  CreateEventWizard({super.key});
+  const CreateEventWizard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class CreateEventWizard extends StatelessWidget {
           CoolStep(
             title: 'CREATE GAME',
             subtitle: "",
-            content: WizardSecondStep(),
+            content: const WizardSecondStep(),
             validation: () {
               return null;
             },
