@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:cool_stepper/cool_stepper.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:cool_stepper_reloaded/cool_stepper_reloaded.dart';
 import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/widgets/toaster.dart';
+import 'package:my_app/widgets/wizard_first_Step.dart';
+import 'package:my_app/widgets/wizard_fourth_step.dart';
+import 'package:my_app/widgets/wizard_second_step.dart';
+import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
 import '../providers/create_event_wizard_provider.dart';
-import 'package:my_app/pages/map.dart';
 
 class CreateEventWizard extends StatelessWidget {
-  final TextEditingController eventNameController = TextEditingController();
-  final TextEditingController eventDescriptionController =
-      TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController playerAmountController =
-      TextEditingController(text: '2');
-
   CreateEventWizard({super.key});
 
   @override
@@ -28,29 +22,21 @@ class CreateEventWizard extends StatelessWidget {
         Provider.of<HoopUpUserProvider>(context, listen: false);
     final firebaseProvider = context.read<FirebaseProvider>();
 
+    TextEditingController dateController = TextEditingController();
+    TextEditingController eventNameController = TextEditingController();
+    TextEditingController eventDescriptionController = TextEditingController();
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('My Wizard'),
+        backgroundColor: Colors.white,
       ),
       body: CoolStepper(
+        isHeaderEnabled: false,
         showErrorSnackbar: true,
         onCompleted: () {
           // do something when the wizard is completed
           wizardProvider.userId = hoopUpUserProvider.user!.id;
-          print('${wizardProvider.userId}\n'
-              '${wizardProvider.eventName}\n'
-              '${wizardProvider.eventDate}\n'
-              '${wizardProvider.eventStartTime}\n'
-              '${wizardProvider.eventEndTime}\n'
-              '${wizardProvider.numberOfParticipants}\n'
-              '${wizardProvider.selectedGender}\n'
-              '${wizardProvider.selectedAgeGroup}\n'
-              '${wizardProvider.skillLevel}\n'
-              '${wizardProvider.courtId}\n'
-              '${wizardProvider.eventName}\n'
-              '${wizardProvider.eventDescription}\n'
-              'Steps completed!');
-
           try {
             EventHandler().createEvent(
                 eventDate: wizardProvider.eventDate,
@@ -60,7 +46,7 @@ class CreateEventWizard extends StatelessWidget {
                 selectedGender: wizardProvider.selectedGender,
                 selectedAgeGroup: wizardProvider.selectedAgeGroup,
                 skillLevel: wizardProvider.skillLevel,
-                eventName: wizardProvider.eventName,
+                eventName: wizardProvider.court!.name,
                 eventDescription: wizardProvider.eventDescription,
                 courtId: wizardProvider.court!.courtId,
                 userId: wizardProvider.userId,
@@ -76,145 +62,9 @@ class CreateEventWizard extends StatelessWidget {
         },
         steps: [
           CoolStep(
-            title: 'Step 1',
-            subtitle: 'Please select date, time-span, and player amount',
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(
-                      context,
-                      showTitleActions: true,
-                      minTime: DateTime.now(),
-                      maxTime: DateTime(2099, 12, 31),
-                      onChanged: (date) {
-                        dateController.text =
-                            DateFormat('yyyy-MM-dd').format(date);
-                        wizardProvider.eventDate = date;
-                      },
-                      onConfirm: (date) {
-                        dateController.text =
-                            DateFormat('yyyy-MM-dd').format(date);
-                        wizardProvider.eventDate = date;
-                      },
-                      currentTime: DateTime.now(),
-                    );
-                  },
-                  child: IgnorePointer(
-                    child: TextFormField(
-                      controller: dateController,
-                      decoration: const InputDecoration(
-                        labelText: 'Date',
-                        suffixIcon: Icon(Icons.calendar_today),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Consumer<CreateEventWizardProvider>(
-                      builder: (context, provider, _) => ElevatedButton(
-                        onPressed: () async {
-                          TimeOfDay? selectedTime = await showTimePicker(
-                            context: context,
-                            initialTime: provider.eventStartTime,
-                            builder: (context, child) {
-                              return MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(alwaysUse24HourFormat: true),
-                                child: child ?? Container(),
-                              );
-                            },
-                          );
-                          if (selectedTime != null) {
-                            provider.eventStartTime = selectedTime;
-                          }
-                        },
-                        child: Text(
-                          DateFormat.Hm().format(DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            provider.eventStartTime.hour,
-                            provider.eventStartTime.minute,
-                          )),
-                        ),
-                      ),
-                    ),
-                    Consumer<CreateEventWizardProvider>(
-                      builder: (context, provider, _) => ElevatedButton(
-                        onPressed: () async {
-                          TimeOfDay? selectedTime = await showTimePicker(
-                            context: context,
-                            initialTime: provider.eventEndTime,
-                            builder: (context, child) {
-                              return MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(alwaysUse24HourFormat: true),
-                                child: child ?? Container(),
-                              );
-                            },
-                          );
-                          if (selectedTime != null) {
-                            provider.eventEndTime = selectedTime;
-                          }
-                        },
-                        child: Text(
-                          DateFormat.Hm().format(DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            provider.eventEndTime.hour,
-                            provider.eventEndTime.minute,
-                          )),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Player Amount:'),
-                    SizedBox(
-                      width: 120,
-                      child: Consumer<CreateEventWizardProvider>(
-                        builder: (context, provider, _) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                int amount = provider.numberOfParticipants;
-                                amount--;
-                                if (amount < 2) amount = 2;
-                                provider.numberOfParticipants = amount;
-                                playerAmountController.text = amount.toString();
-                              },
-                            ),
-                            Text(provider.numberOfParticipants.toString()),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                int amount = provider.numberOfParticipants;
-                                amount++;
-                                if (amount > 20) amount = 20;
-                                provider.numberOfParticipants = amount;
-                                playerAmountController.text = amount.toString();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            title: 'CREATE GAME',
+            subtitle: '',
+            content: WizardFirstStep(dateController: dateController),
             validation: () {
               if (dateController.text.isEmpty) {
                 return 'Please enter a date';
@@ -253,166 +103,18 @@ class CreateEventWizard extends StatelessWidget {
             },
           ),
           CoolStep(
-            title: "Step 2",
-            subtitle: "Customize your game",
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Select gender or all"),
-                Selector<CreateEventWizardProvider, String>(
-                  selector: (_, myProvider) => myProvider
-                      .selectedGender, // TODO: myProvider is not a good name...
-                  builder: (_, selectedGender, __) {
-                    return Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedGender = "Female";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedGender == "Female" ? Colors.blue : null,
-                          ),
-                          child: const Text("Female"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedGender = "Male";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedGender == "Male" ? Colors.blue : null,
-                          ),
-                          child: const Text("Male"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedGender = "Other";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedGender == "Other" ? Colors.blue : null,
-                          ),
-                          child: const Text("Other"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedGender = "All";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedGender == "All" ? Colors.blue : null,
-                          ),
-                          child: const Text("All"),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                const Text("Select age group"),
-                Selector<CreateEventWizardProvider, String>(
-                  selector: (_, myProvider) => myProvider.selectedAgeGroup,
-                  builder: (_, selectedAgeGroup, __) {
-                    return Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedAgeGroup = "13-17";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedAgeGroup == "13-17"
-                                ? Colors.blue
-                                : null,
-                          ),
-                          child: const Text("13-17"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedAgeGroup = "18+";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedAgeGroup == "18+" ? Colors.blue : null,
-                          ),
-                          child: const Text("18+"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedAgeGroup = "55+";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedAgeGroup == "55+" ? Colors.blue : null,
-                          ),
-                          child: const Text("55+"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            wizardProvider.selectedAgeGroup = "All";
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                selectedAgeGroup == "All" ? Colors.blue : null,
-                          ),
-                          child: const Text("All"),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                const Text("Select skill level"),
-                Selector<CreateEventWizardProvider, int>(
-                  selector: (_, myProvider) => myProvider.skillLevel,
-                  builder: (_, skillLevel, __) {
-                    return Row(
-                      children: List.generate(
-                        5,
-                        (index) => InkWell(
-                          onTap: () {
-                            wizardProvider.skillLevel = index + 1;
-                          },
-                          child: Icon(
-                            index < skillLevel ? Icons.star : Icons.star_border,
-                            color: Colors.yellow,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Map(showSelectOption: true)));
-                  },
-                  child: const Text('Choose location'),
-                )
-              ],
-            ),
+            title: 'CREATE GAME',
+            subtitle: "",
+            content: WizardSecondStep(),
             validation: () {
               return null;
             },
           ),
           CoolStep(
-            title: "Step 3",
-            subtitle: "Please name and describe your event",
-            content: Column(
-              children: [
-                const Text("Event name"),
-                TextField(
-                  controller: eventNameController,
-                  onChanged: (value) {
-                    wizardProvider.eventName = value;
-                  },
-                ),
-                const Text("Event description"),
-                TextField(
-                  controller: eventDescriptionController,
-                  onChanged: (value) {
-                    wizardProvider.eventDescription = value;
-                  },
-                ),
-              ],
+            title: 'CREATE GAME',
+            subtitle: "",
+            content: WizardThirdStep(
+              eventDescriptionController: eventDescriptionController,
             ),
             validation: () {
               if (eventNameController.text.isEmpty) {
@@ -425,44 +127,21 @@ class CreateEventWizard extends StatelessWidget {
             },
           ),
           CoolStep(
-            title: "Step 4",
-            subtitle: "Confirm your event",
-            content: Builder(builder: (context) {
-              return Consumer<CreateEventWizardProvider>(
-                builder: (context, myProvider, _) {
-                  return Column(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Event Information',
-                        ),
-                        maxLines: 5,
-                        initialValue:
-                            'Event info: ${myProvider.eventDescription}\n'
-                            'Date and time: ${myProvider.eventDate.year}/${myProvider.eventDate.month}/${myProvider.eventDate.day} '
-                            '${myProvider.eventStartTime.hour.toString().padLeft(2, '0')}:${myProvider.eventStartTime.minute.toString().padLeft(2, '0')} - '
-                            '${myProvider.eventEndTime.hour.toString().padLeft(2, '0')}:${myProvider.eventEndTime.minute.toString().padLeft(2, '0')}'
-                            '\nThe event is for: ${myProvider.selectedGender}\n'
-                            'Participants: ${myProvider.numberOfParticipants}\n'
-                            'Skill level: ${myProvider.skillLevel}',
-                        readOnly: true,
-                      ),
-                    ],
-                  );
-                },
-              );
-            }),
+            title: 'CREATE GAME',
+            subtitle: "",
+            content: WizardFourthStep(),
             validation: () {
               return null;
-            }, // TODO: Add validation
+            },
           )
         ],
         config: const CoolStepperConfig(
-          backText: 'PREVIOUS',
-          nextText: 'NEXT',
-          stepText: 'STEP',
-          ofText: 'OF',
-        ),
+            backText: 'PREVIOUS',
+            nextText: 'NEXT',
+            stepText: 'STEP',
+            ofText: 'OF',
+            headerColor: Colors.white,
+            icon: Icon(null)),
       ),
     );
   }

@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  cool_stepper_reloaded:
+    dependency: "direct main"
+    description:
+      name: cool_stepper_reloaded
+      sha256: "8fcb0e7d25365cea03c58b2df01912e558ee6f6bbfa379c6093b1554ab089b2c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.6"
   coverage:
     dependency: transitive
     description:
