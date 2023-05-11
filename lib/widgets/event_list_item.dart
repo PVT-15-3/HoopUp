@@ -106,9 +106,46 @@ class _EventListItemState extends State<EventListItem> {
     return true;
   }
 
-  String _getSubtitleText() {
-    return 'Time: ${_event.time.getFormattedStartAndEndTime()}'
-        '\nDate: ${_event.time.getFormattedDate()}';
+  TextSpan _getSubtitleText() {
+    final timeText = TextSpan(
+      text: 'Time: ',
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeSmall,
+      ),
+      children: [
+        TextSpan(
+          text: _event.time.getFormattedStartAndEndTime(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    final dateText = TextSpan(
+      text: '\nDate: ',
+      style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeSmall,
+      ),
+      children: [
+        TextSpan(
+          text: _event.time.getFormattedDate(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    return TextSpan(
+      children: [timeText, dateText],
+    );
   }
 
   Future<void> toggleEvent(bool hasUserJoined) async {
@@ -286,7 +323,7 @@ class _EventListItemState extends State<EventListItem> {
             padding: const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
             child: ListTile(
               title: Text(
-                _event.name.toUpperCase(),
+                widget._court.name.toUpperCase(),
                 style: const TextStyle(
                   fontFamily: Styles.subHeaderFont,
                   fontWeight: FontWeight.bold,
@@ -294,7 +331,7 @@ class _EventListItemState extends State<EventListItem> {
                   color: Styles.textColorMyBookings,
                 ),
               ),
-              subtitle: Text(
+              subtitle: Text.rich(
                 _getSubtitleText(),
               ),
             ),

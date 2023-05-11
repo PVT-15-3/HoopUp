@@ -10,16 +10,16 @@ import '../providers/create_event_wizard_provider.dart';
 import 'court_page.dart';
 import 'package:flutter/services.dart';
 
-class Map extends StatefulWidget {
+class MapPage extends StatefulWidget {
   bool showSelectOption;
 
-  Map({Key? key, required this.showSelectOption}) : super(key: key);
+  MapPage({Key? key, required this.showSelectOption}) : super(key: key);
 
   @override
-  _MapState createState() => _MapState();
+  _MapPageState createState() => _MapPageState();
 }
 
-class _MapState extends State<Map> {
+class _MapPageState extends State<MapPage> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
