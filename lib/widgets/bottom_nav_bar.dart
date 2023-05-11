@@ -33,7 +33,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     MapPage(showSelectOption: false),
     const JoinedEventsPage(showJoinedEvents: true),
-    const ProfilePage(),
+    ProfilePage(),
   ];
 
   @override
@@ -55,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               activeColor: Colors.blue,
               inactiveColor: Colors.grey,
             ),
-             BottomNavyBarItem(
+            BottomNavyBarItem(
               icon: const Icon(Icons.pin_drop),
               title: const Text('Map'),
               activeColor: Colors.blue,

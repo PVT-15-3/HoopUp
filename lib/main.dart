@@ -50,17 +50,16 @@ class MyApp extends StatelessWidget {
         home: startWidget(),
         routes: {
           '/bottom_nav_bar': (context) => const BottomNavBar(),
-          '/map': (context) =>  MapPage(showSelectOption: false),
+          '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => LogInPage(),
-          '/profile_page.dart': (context) => const ProfilePage(),
+          '/profile_page.dart': (context) => ProfilePage(),
           '/list_events_handler.dart': (context) => const ListEventHandler(
                 showJoinedEvents: true,
               ),
           '/join_event_page.dart': (context) =>
               const JoinedEventsPage(showJoinedEvents: false),
-
         },
       ),
     );
