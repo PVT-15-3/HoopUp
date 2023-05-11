@@ -33,7 +33,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => userProvider),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         home: ProfilePage(),
       ),
     );
