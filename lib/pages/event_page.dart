@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -47,7 +46,6 @@ class _EventPageState extends State<EventPage> {
     final Uint8List markerIconBytes = markerIconData.buffer.asUint8List();
     customMarkerIcon = BitmapDescriptor.fromBytes(markerIconBytes);
   }
-
 
   Court? _getCourt(String id) {
     for (Court court in widget._courts) {
@@ -354,6 +352,10 @@ class _EventPageState extends State<EventPage> {
                           child: TextButton(
                             onPressed: () async {
                               await addUserToThisEvent(context);
+                              showCustomToast(
+                                  "You have joined a game at ${courtOfTheEvent.name}",
+                                  Icons.schedule,
+                                  context);
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 '/bottom_nav_bar',
@@ -399,7 +401,5 @@ class _EventPageState extends State<EventPage> {
 
     addUserToEvent(widget.event.id, hoopUpUserProvider.user!.events,
         userIdsList, hoopUpUserProvider, firebaseProvider);
-    showCustomToast(
-        "You have joined ${widget.event.name}", Icons.schedule, context);
   }
 }

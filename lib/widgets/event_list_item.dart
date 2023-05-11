@@ -167,12 +167,12 @@ class _EventListItemState extends State<EventListItem> {
       removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
       showCustomToast(
-          "You have canceled ${_event.name}", Icons.schedule, context);
+          "You have canceled your game at ${widget._court.name}", Icons.schedule, context);
     } else {
       addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
       showCustomToast(
-          "You have joined ${_event.name}", Icons.schedule, context);
+          "You have joined a game at ${widget._court.name}", Icons.schedule, context);
     }
   }
 
@@ -189,7 +189,7 @@ class _EventListItemState extends State<EventListItem> {
       },
       child: Card(
         elevation: 0.0,
-        margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 50.0),
+        margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 25.0),
         shadowColor: Colors.grey.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),

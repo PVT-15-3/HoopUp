@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_app/app_styles.dart';
 import '../classes/court.dart';
 
 class CourtPage extends StatelessWidget {
@@ -10,8 +11,10 @@ class CourtPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(court.name),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -19,17 +22,22 @@ class CourtPage extends StatelessWidget {
           children: [
             // Display court information here
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Text(
-                      court.name,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 7.0),
+                    child: Center(
+                      child: Text(court.name,
+                          style: const TextStyle(
+                            fontSize: Styles.fontSizeBig,
+                            fontWeight: FontWeight.bold,
+                            color: Styles.discoverGametextColor,
+                            fontFamily: Styles.headerFont,
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.28,
                     width: double.infinity,
@@ -54,29 +62,70 @@ class CourtPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Court type: ${court.courtType}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    'Number of hoops: ${court.numberOfHoops}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    court.address.toString(),
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  const SizedBox(height: 5.0),
+                  Card(
+                    elevation: 0.0,
+                    margin: const EdgeInsets.all(3),
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Flooring: ${court.courtType}',
+                                style: const TextStyle(
+                                  fontSize: Styles.fontSizeSmall,
+                                  fontWeight: FontWeight.w600,
+                                  color: Styles.discoverGametextColor,
+                                  fontFamily: Styles.subHeaderFont,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                'Number of Hoops: ${court.numberOfHoops}',
+                                style: const TextStyle(
+                                  fontSize: Styles.fontSizeSmall,
+                                  fontWeight: FontWeight.w600,
+                                  color: Styles.discoverGametextColor,
+                                  fontFamily: Styles.subHeaderFont,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Adress: ${court.address.toString()}',
+                                style: const TextStyle(
+                                  fontSize: Styles.fontSizeSmall,
+                                  fontWeight: FontWeight.w600,
+                                  color: Styles.discoverGametextColor,
+                                  fontFamily: Styles.subHeaderFont,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 0.0),
             // Display court location on a map
             Container(
               height: MediaQuery.of(context).size.height * 0.35,
               width: double.infinity,
-              margin: const EdgeInsets.all(17.0),
+              margin: const EdgeInsets.fromLTRB(17.0, 0.0, 17.0, 0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
