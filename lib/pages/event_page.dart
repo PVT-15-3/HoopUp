@@ -75,21 +75,25 @@ class _EventPageState extends State<EventPage> {
   }
 
   Icon getGenderIcon() {
+    const double iconSize = 20.0;
     if (widget.event.genderGroup == 'female') {
       return const Icon(
         Icons.female,
         color: Styles.primaryColor,
+        size: iconSize,
       );
     }
     if (widget.event.genderGroup == 'male') {
       return const Icon(
         Icons.male,
         color: Styles.primaryColor,
+        size: iconSize,
       );
     }
     return const Icon(
       Icons.transgender,
       color: Styles.primaryColor,
+      size: iconSize,
     );
   }
 
@@ -173,13 +177,14 @@ class _EventPageState extends State<EventPage> {
                   const SizedBox(height: 14.0),
                   Card(
                     elevation: 10.0,
+                    margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     shadowColor: Colors.grey.withOpacity(0.5),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 25.0),
+                          horizontal: 10.0, vertical: 25.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -233,11 +238,11 @@ class _EventPageState extends State<EventPage> {
                                     (index) => const Icon(
                                       Icons.star_purple500_sharp,
                                       color: Styles.primaryColor,
-                                      size: 23,
+                                      size: 20,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10.0),
+                                const SizedBox(width: 7.0),
                                 Row(
                                   children: [
                                     getGenderIcon(),
@@ -245,13 +250,13 @@ class _EventPageState extends State<EventPage> {
                                     Text(
                                       widget.event.ageGroup,
                                       style: const TextStyle(
-                                        fontSize: Styles.fontSizeMedium,
+                                        fontSize: Styles.fontSizeSmall,
                                         fontWeight: FontWeight.normal,
                                         fontFamily: Styles.subHeaderFont,
                                         color: Styles.primaryColor,
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: 7),
                                     TextButton(
                                       style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(0.0),

@@ -117,9 +117,6 @@ class CreateEventWizard extends StatelessWidget {
               eventDescriptionController: eventDescriptionController,
             ),
             validation: () {
-              if (eventNameController.text.isEmpty) {
-                return 'Please enter a name';
-              }
               if (eventDescriptionController.text.isEmpty) {
                 return 'Please enter a description';
               }
