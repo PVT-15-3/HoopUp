@@ -189,7 +189,7 @@ class _EventListItemState extends State<EventListItem> {
       },
       child: Card(
         elevation: 0.0,
-        margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 25.0),
+        margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         shadowColor: Colors.grey.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -281,7 +281,7 @@ class _EventListItemState extends State<EventListItem> {
                               color: Styles.shadowColor),
                         ],
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
                       Text(
                         _event.time.getFormattedTimeAndDate(),
                         style: const TextStyle(
