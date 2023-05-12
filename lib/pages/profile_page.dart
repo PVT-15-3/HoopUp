@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
               String gender = user.gender;
               int age = user.age;
               String? email = FirebaseAuth.instance.currentUser!.email;
+              String? photoUrl = user.photoUrl;
 
               List<Widget> stars = List.generate(
                 skillLevel,
@@ -58,7 +59,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       //Profile picture
                       const CircleAvatar(
                         radius: 50,
-                        backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                        //TODO fix photoUrl
+                        backgroundImage: AssetImage(""),
                       ),
                       const SizedBox(height: 20),
 
@@ -81,7 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         //Email
                         TextFormField(
                           readOnly: true,
-                          //TODO Email
                           initialValue: email,
                           decoration: const InputDecoration(
                             labelText: "E-mail",
@@ -94,7 +95,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         //Age
                         TextFormField(
                           readOnly: true,
-                          //TODO Age
                           initialValue: "$age",
                           decoration: const InputDecoration(
                             labelText: "Age",
@@ -120,15 +120,22 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
+                  //Temporary logout button
+                  ElevatedButton(
+                      onPressed: () {
+                        HoopUpUser.signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LogInPage()),
+                        );
+                      },
+                      child: const Text('Log out')),
+
                   //Edit Profile Button
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
                         isEditable = true;
-                        nameController.text = 'John Doe';
-                        emailController.text = 'john.doe@example.com';
-                        dobController.text = '1990';
-                        genderController.text = 'Male';
                       });
                     },
                     child: const Text('Edit Profile'),
@@ -172,7 +179,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: const [
                         CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                          //TODO Fix photo URL
+                          backgroundImage: AssetImage(""),
                         ),
                         Text("Edit picture"),
                       ],
