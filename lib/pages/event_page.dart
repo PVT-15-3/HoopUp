@@ -15,7 +15,7 @@ import '../widgets/toaster.dart';
 
 class EventPage extends StatefulWidget {
   final Event event;
-  final List<Court> _courts = CourtProvider().courts;
+  final Set<Court> _courts = CourtProvider().courts;
   final bool hasUserJoined;
 
   EventPage({Key? key, required this.event, required this.hasUserJoined})
@@ -179,7 +179,7 @@ class _EventPageState extends State<EventPage> {
                     shadowColor: Colors.grey.withOpacity(0.5),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 17.0, vertical: 25.0),
+                          horizontal: 15.0, vertical: 25.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -237,7 +237,7 @@ class _EventPageState extends State<EventPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 10.0),
                                 Row(
                                   children: [
                                     getGenderIcon(),
@@ -251,8 +251,13 @@ class _EventPageState extends State<EventPage> {
                                         color: Styles.primaryColor,
                                       ),
                                     ),
-                                    const SizedBox(width: 2),
+                                    const SizedBox(width: 10),
                                     TextButton(
+                                      style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.all(0.0),
+                                        minimumSize: const Size(0, 0),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
                                       onPressed: () {
                                         showModalBottomSheet(
                                           context: context,

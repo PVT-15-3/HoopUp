@@ -12,13 +12,13 @@ import '../providers/courts_provider.dart';
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
-  List<Court> get courtMarkers => _courtMarkers;
+  Set<Court> get courtMarkers => _courtMarkers;
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-late List<Court> _courtMarkers;
+late Set<Court> _courtMarkers;
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
