@@ -116,7 +116,8 @@ class FirebaseProvider with ChangeNotifier {
         id: id,
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
-        firebaseProvider: this);
+        firebaseProvider: this,
+        age: userMap['age']);
     if (userMap['events'] != null) {
       user.events = userMap['events'].cast<String>();
     }

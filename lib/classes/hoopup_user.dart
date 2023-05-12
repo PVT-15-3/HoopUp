@@ -11,6 +11,7 @@ class HoopUpUser {
   List<String> _events = [];
   String? _photoUrl;
   String _gender;
+  int _age;
   final FirebaseProvider _firebaseProvider;
 
   HoopUpUser(
@@ -19,12 +20,14 @@ class HoopUpUser {
       required String id,
       required String? photoUrl,
       required String gender,
+      required int age,
       required FirebaseProvider firebaseProvider})
       : _username = username,
         _firebaseProvider = firebaseProvider,
         _skillLevel = skillLevel,
         _id = id,
         _photoUrl = photoUrl,
+        _age = age,
         _gender = gender {
     _validateSkillLevel(skillLevel);
   }
@@ -34,7 +37,8 @@ class HoopUpUser {
       "username": _username,
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
-      "gender": _gender
+      "gender": _gender,
+      "age": _age,
     });
   }
 
@@ -67,6 +71,11 @@ class HoopUpUser {
     _firebaseProvider.setFirebaseDataList('users/$id/events', events);
   }
 
+  set age(int age) {
+    _age = age;
+    _firebaseProvider.updateFirebaseData("users/$id", {"age": age});
+  }
+
   // getters
 
   String? get photoUrl => _photoUrl;
@@ -75,6 +84,7 @@ class HoopUpUser {
   List<String> get events => _events;
   String get id => _id;
   int get skillLevel => _skillLevel;
+  int get age => _age;
 
   Map<String, dynamic> toJson() {
     return {
