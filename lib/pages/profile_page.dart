@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/log_in_page.dart';
@@ -36,14 +37,15 @@ class _ProfilePageState extends State<ProfilePage> {
               String name = user.username;
               int skillLevel = user.skillLevel;
               String gender = user.gender;
+              int age = user.age;
+              String? email = FirebaseAuth.instance.currentUser!.email;
+              String? photoUrl = user.photoUrl;
 
-              // Generate a list of star icons based on the skill level
               List<Widget> stars = List.generate(
                 skillLevel,
                 //TODO change orage to uniform color
                 (index) => const Icon(Icons.star, color: Colors.orange),
               );
-              // Add empty star icons to fill up the rest of the row
               while (stars.length < 5) {
                 stars.add(const Icon(Icons.star_border, color: Colors.grey));
               }
@@ -57,7 +59,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       //Profile picture
                       const CircleAvatar(
                         radius: 50,
-                        backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                        //TODO fix photoUrl
+                        backgroundImage: AssetImage(""),
                       ),
                       const SizedBox(height: 20),
 
@@ -80,8 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         //Email
                         TextFormField(
                           readOnly: true,
-                          //TODO Email
-                          initialValue: name,
+                          initialValue: email,
                           decoration: const InputDecoration(
                             labelText: "E-mail",
                             border: OutlineInputBorder(),
@@ -93,8 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         //Age
                         TextFormField(
                           readOnly: true,
-                          //TODO Age
-                          initialValue: "18",
+                          initialValue: "$age",
                           decoration: const InputDecoration(
                             labelText: "Age",
                             border: OutlineInputBorder(),
@@ -119,15 +120,22 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
+                  //Temporary logout button
+                  ElevatedButton(
+                      onPressed: () {
+                        HoopUpUser.signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LogInPage()),
+                        );
+                      },
+                      child: const Text('Log out')),
+
                   //Edit Profile Button
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
                         isEditable = true;
-                        nameController.text = 'John Doe';
-                        emailController.text = 'john.doe@example.com';
-                        dobController.text = '1990';
-                        genderController.text = 'Male';
                       });
                     },
                     child: const Text('Edit Profile'),
@@ -151,6 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
               String username = user.username;
               int skillLevel = user.skillLevel;
               String gender = user.gender;
+              int age = user.age;
 
               final controller = TextEditingController(text: username);
               return Column(
@@ -170,7 +179,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: const [
                         CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                          //TODO Fix photo URL
+                          backgroundImage: AssetImage(""),
                         ),
                         Text("Edit picture"),
                       ],
@@ -194,23 +204,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 20),
 
                         //Edit email
-                        TextField(
-                          controller: controller,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            labelText: 'E-mail',
-                            hintText: "this is my email address smile",
-                          ),
-                        ),
-                        const SizedBox(height: 20),
 
                         //Edit age
                         TextField(
                           controller: controller,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            labelText: 'Age',
-                            hintText: "18",
+                            labelText: "Age",
+                            hintText: "$age",
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -220,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           controller: controller,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            labelText: 'E-mail',
+                            labelText: 'Gender',
                             hintText: gender,
                           ),
                         ),
