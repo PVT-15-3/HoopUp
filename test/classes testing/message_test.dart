@@ -24,22 +24,28 @@ void main() {
         id: "id",
         photoUrl: "photoUrl",
         gender: "gender",
-        firebaseProvider: mockDatabase);
+        firebaseProvider: mockDatabase,
+        age: 18);
     user2 = HoopUpUser(
         username: "user2",
         skillLevel: 1,
         id: "id",
         photoUrl: "photoUrl",
         gender: "gender",
-        firebaseProvider: mockDatabase);
+        firebaseProvider: mockDatabase,
+        age: 18);
   }
 
   arrangeMessages() {
     sut1 = Message(
         username: user1.username,
         messageText:
-            "I hate rats. They locked me in a room. a rubber room. A rubber room with rats.", timeStamp: DateTime.now());
-    sut2 = Message(username: user2.username, messageText: "What?", timeStamp: DateTime.now());
+            "I hate rats. They locked me in a room. a rubber room. A rubber room with rats.",
+        timeStamp: DateTime.now());
+    sut2 = Message(
+        username: user2.username,
+        messageText: "What?",
+        timeStamp: DateTime.now());
   }
 
   group('Message', () {
@@ -62,7 +68,8 @@ void main() {
       expect(sut1.id != sut2.id, isTrue);
     });
 
-    test('toJson() returns a valid JSON object', () { // I commented this out for now (Viktor)
+    test('toJson() returns a valid JSON object', () {
+      // I commented this out for now (Viktor)
       arrangeUsers();
       arrangeMessages();
 
