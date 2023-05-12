@@ -75,8 +75,7 @@ class CourtPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
+                         
                               Text(
                                 'Flooring: ${court.courtType}',
                                 style: const TextStyle(
@@ -86,7 +85,7 @@ class CourtPage extends StatelessWidget {
                                   fontFamily: Styles.subHeaderFont,
                                 ),
                               ),
-                              const Spacer(),
+                             
                               Text(
                                 'Number of Hoops: ${court.numberOfHoops}',
                                 style: const TextStyle(
@@ -96,8 +95,6 @@ class CourtPage extends StatelessWidget {
                                   fontFamily: Styles.subHeaderFont,
                                 ),
                               ),
-                            ],
-                          ),
                           const SizedBox(height: 15.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

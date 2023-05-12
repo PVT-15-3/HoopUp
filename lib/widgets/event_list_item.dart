@@ -17,7 +17,7 @@ import 'toaster.dart';
 class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
-  final List<Court> _courts = CourtProvider().courts;
+  final Set<Court> _courts = CourtProvider().courts;
   late final Court _court;
 
   EventListItem({
@@ -340,7 +340,7 @@ class _EventListItemState extends State<EventListItem> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 30.5,
+                height: 33,
                 margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -370,7 +370,7 @@ class _EventListItemState extends State<EventListItem> {
               ),
               const SizedBox(width: 42.0, height: 30.0),
               Container(
-                height: 30.5,
+                height: 33,
                 margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),

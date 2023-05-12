@@ -54,6 +54,7 @@ dependencies:
   clippy_flutter: ^1.1.1
   cool_stepper_reloaded: ^3.2.6
   share_plus: ^7.0.0
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_test:
