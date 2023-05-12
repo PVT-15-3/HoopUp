@@ -81,7 +81,8 @@ void main() {
             "username": sut.username,
             "skillLevel": sut.skillLevel,
             "photoUrl": sut.photoUrl,
-            "gender": sut.gender
+            "gender": sut.gender,
+            "age": sut.age,
           })).called(1);
     });
     group(
