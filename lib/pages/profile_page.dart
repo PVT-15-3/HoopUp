@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
-import 'package:my_app/pages/log_in_page.dart';
+import 'package:my_app/pages/Starting_page.dart';
 import 'package:my_app/widgets/editable_fields_for_profile_and_login_pages.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
@@ -41,10 +41,12 @@ class _ProfilePageState extends State<ProfilePage> {
               List<Widget> stars = List.generate(
                 skillLevel,
                 //TODO change orage to uniform color
-                (index) => const Icon(Icons.star, color: Colors.orange),
+                (index) =>
+                    const Icon(size: 30, Icons.star, color: Colors.orange),
               );
               while (stars.length < 5) {
-                stars.add(const Icon(Icons.star_border, color: Colors.grey));
+                stars.add(const Icon(
+                    size: 30, Icons.star_border, color: Colors.grey));
               }
 
               return Column(
@@ -56,7 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       //Profile picture
                       CircleAvatar(
                         radius: 50,
-                        //TODO fix photoUrl
                         backgroundImage: NetworkImage(photoUrl),
                       ),
                       const SizedBox(height: 20),
@@ -126,9 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ElevatedButton(
                       onPressed: () {
                         HoopUpUser.signOut();
-                        Navigator.push(
+                        Navigator.pop(
                           context,
-                          MaterialPageRoute(builder: (context) => LogInPage()),
+                          MaterialPageRoute(builder: (context) => StartPage()),
                         );
                       },
                       child: const Text('Log out')),

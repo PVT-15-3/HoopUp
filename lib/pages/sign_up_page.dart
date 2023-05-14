@@ -21,8 +21,10 @@ class SignUpPage extends HookWidget {
     final Auth auth = Auth(firebaseProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
       ),
       body: Form(
         key: _formKey,

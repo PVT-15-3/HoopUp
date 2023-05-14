@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:my_app/widgets/int_controller.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 
 import '../classes/hoopup_user.dart';
+import '../handlers/login_handler.dart';
+import '../providers/firebase_provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'bottom_nav_bar.dart';
 
@@ -54,9 +57,15 @@ class _EditableFieldsState extends State<EditableFields> {
     super.initState();
     final userProvider = context.read<HoopUpUserProvider>();
     if (userProvider.user == null) {
-      //TODO fix this for login
+      //For Sign up page, no existing user
       loggedIn = false;
-      photoUrl = "";
+      skillLevel = 0;
+      final firebaseProvider = context.read<FirebaseProvider>();
+      final isEmailValid = useState(true);
+      final email = useState<String?>(null);
+      final password = useState<String?>(null);
+      final username = useState<String?>(null);
+      final Auth auth = Auth(firebaseProvider);
     } else {
       //For profile page, there exists a user.
       loggedIn = true;
@@ -163,7 +172,7 @@ class _EditableFieldsState extends State<EditableFields> {
                 const SizedBox(height: 20),
 
                 //Edit User name ------------------------------------------
-                TextField(
+                TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
@@ -175,7 +184,7 @@ class _EditableFieldsState extends State<EditableFields> {
                 const SizedBox(height: 20),
 
                 //Edit email -----------------------------------------------
-                TextField(
+                TextFormField(
                   controller: emailController,
                   enabled: !loggedIn,
                   decoration: InputDecoration(
@@ -192,7 +201,7 @@ class _EditableFieldsState extends State<EditableFields> {
                 const SizedBox(height: 20),
 
                 //Edit age -------------------------------------------------
-                TextField(
+                TextFormField(
                   controller: ageController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -210,7 +219,7 @@ class _EditableFieldsState extends State<EditableFields> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pop(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const BottomNavBar()),
@@ -233,24 +242,27 @@ class _EditableFieldsState extends State<EditableFields> {
               const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (nameController.text.length >= 3) {
-                    if (ageController.getIntValue() >= 13) {
-                      user.skillLevel = skillLevel;
-                      user.gender = gender;
-                      user.age = ageController.getIntValue();
-                      user.username = nameController.text;
-                      user.photoUrl = photoUrl;
-                      showCustomToast("Profile updated", Icons.person, context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BottomNavBar()),
-                      );
+                  if (loggedIn) {
+                    if (nameController.text.length >= 3) {
+                      if (ageController.getIntValue() >= 13) {
+                        user.skillLevel = skillLevel;
+                        user.gender = gender;
+                        user.age = ageController.getIntValue();
+                        user.username = nameController.text;
+                        user.photoUrl = photoUrl;
+                        showCustomToast(
+                            "Profile updated", Icons.person, context);
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBar()),
+                        );
+                      }
+                    } else {
+                      showCustomToast(
+                          "Username is too short", Icons.warning, context);
                     }
-                  } else {
-                    showCustomToast(
-                        "Username is too short", Icons.warning, context);
-                  }
+                  } else {}
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
