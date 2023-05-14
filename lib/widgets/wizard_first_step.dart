@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/providers/courts_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +130,7 @@ class WizardFirstStep extends StatelessWidget {
           child: TextButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Map(showSelectOption: true),
+                builder: (context) => MapPage(showSelectOption: true),
               ));
             },
             style: TextButton.styleFrom(
