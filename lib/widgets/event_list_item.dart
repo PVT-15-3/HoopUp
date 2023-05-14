@@ -17,7 +17,7 @@ import 'toaster.dart';
 class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
-  final List<Court> _courts = CourtProvider().courts;
+  final Set<Court> _courts = CourtProvider().courts;
   late final Court _court;
 
   EventListItem({
@@ -106,9 +106,46 @@ class _EventListItemState extends State<EventListItem> {
     return true;
   }
 
-  String _getSubtitleText() {
-    return 'Time: ${_event.time.getFormattedStartAndEndTime()}'
-        '\nDate: ${_event.time.getFormattedDate()}';
+  TextSpan _getSubtitleText() {
+    final timeText = TextSpan(
+      text: 'Time: ',
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeSmall,
+      ),
+      children: [
+        TextSpan(
+          text: _event.time.getFormattedStartAndEndTime(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    final dateText = TextSpan(
+      text: '\nDate: ',
+      style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeSmall,
+      ),
+      children: [
+        TextSpan(
+          text: _event.time.getFormattedDate(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    return TextSpan(
+      children: [timeText, dateText],
+    );
   }
 
   Future<void> toggleEvent(bool hasUserJoined) async {
@@ -130,12 +167,12 @@ class _EventListItemState extends State<EventListItem> {
       removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
       showCustomToast(
-          "You have canceled ${_event.name}", Icons.schedule, context);
+          "You have canceled your game at ${widget._court.name}", Icons.schedule, context);
     } else {
       addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
       showCustomToast(
-          "You have joined ${_event.name}", Icons.schedule, context);
+          "You have joined a game at ${widget._court.name}", Icons.schedule, context);
     }
   }
 
@@ -152,7 +189,7 @@ class _EventListItemState extends State<EventListItem> {
       },
       child: Card(
         elevation: 0.0,
-        margin: const EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 50.0),
+        margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         shadowColor: Colors.grey.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -244,7 +281,7 @@ class _EventListItemState extends State<EventListItem> {
                               color: Styles.shadowColor),
                         ],
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
                       Text(
                         _event.time.getFormattedTimeAndDate(),
                         style: const TextStyle(
@@ -286,7 +323,7 @@ class _EventListItemState extends State<EventListItem> {
             padding: const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
             child: ListTile(
               title: Text(
-                _event.name.toUpperCase(),
+                widget._court.name.toUpperCase(),
                 style: const TextStyle(
                   fontFamily: Styles.subHeaderFont,
                   fontWeight: FontWeight.bold,
@@ -294,7 +331,7 @@ class _EventListItemState extends State<EventListItem> {
                   color: Styles.textColorMyBookings,
                 ),
               ),
-              subtitle: Text(
+              subtitle: Text.rich(
                 _getSubtitleText(),
               ),
             ),
@@ -303,7 +340,7 @@ class _EventListItemState extends State<EventListItem> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 30.5,
+                height: 33,
                 margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -333,7 +370,7 @@ class _EventListItemState extends State<EventListItem> {
               ),
               const SizedBox(width: 42.0, height: 30.0),
               Container(
-                height: 30.5,
+                height: 33,
                 margin: const EdgeInsets.only(top: 22.0, bottom: 22.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),

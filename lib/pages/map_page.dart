@@ -9,20 +9,24 @@ import 'package:custom_info_window/custom_info_window.dart';
 import '../providers/create_event_wizard_provider.dart';
 import 'court_page.dart';
 import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 
-class Map extends StatefulWidget {
+class MapPage extends StatefulWidget {
   bool showSelectOption;
 
-  Map({Key? key, required this.showSelectOption}) : super(key: key);
+  MapPage({Key? key, required this.showSelectOption}) : super(key: key);
 
   @override
-  _MapState createState() => _MapState();
+  _MapPageState createState() => _MapPageState();
 }
 
-class _MapState extends State<Map> {
+class _MapPageState extends State<MapPage> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
-
+  final Set<Court> _courtMarkers = const BottomNavBar().courtMarkers;
+  final Location location = Location();
+  final Set<Marker> _markers = {};
+  late LatLng _currentPosition;
   BitmapDescriptor? customMarkerIcon;
 
   @override
@@ -37,6 +41,48 @@ class _MapState extends State<Map> {
   void initState() {
     super.initState();
     _initialization = _initialize();
+      _getCurrentLocation();
+  }
+ Future<void> _getCurrentLocation() async {
+    try {
+      final hasPermission = await location.hasPermission();
+      if (hasPermission == PermissionStatus.granted) {
+        final locationData = await location.getLocation();
+        _currentPosition =
+            LatLng(locationData.latitude!, locationData.longitude!);
+        final marker = Marker(
+          markerId: const MarkerId('current_location'),
+          position: _currentPosition,
+          infoWindow: const InfoWindow(
+            title: 'Current Location',
+          ),
+        );
+        setState(() {
+          _markers.add(marker);
+        });
+      } else {
+        final permission = await location.requestPermission();
+        if (permission == PermissionStatus.granted) {
+          final locationData = await location.getLocation();
+          _currentPosition =
+              LatLng(locationData.latitude!, locationData.longitude!);
+          final marker = Marker(
+            markerId: const MarkerId('current_location'),
+            position: _currentPosition,
+            infoWindow: const InfoWindow(
+              title: 'Current Location',
+            ),
+          );
+          setState(() {
+            _markers.add(marker);
+          });
+        } else {
+          _currentPosition = const LatLng(59.349821, 17.952483);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> _initialize() async {
@@ -49,8 +95,6 @@ class _MapState extends State<Map> {
     final Uint8List markerIconBytes = markerIconData.buffer.asUint8List();
     customMarkerIcon = BitmapDescriptor.fromBytes(markerIconBytes);
   }
-
-  final List<Court> _courtMarkers = const BottomNavBar().courtMarkers;
 
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(59.349821, 17.952483),
@@ -71,6 +115,7 @@ class _MapState extends State<Map> {
                     onTap: (position) {
                       _customInfoWindowController.hideInfoWindow!();
                     },
+                    myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: true,
                     onCameraMove: (position) {
@@ -80,7 +125,8 @@ class _MapState extends State<Map> {
                       _customInfoWindowController.googleMapController =
                           controller;
                     },
-                    markers: Set<Marker>.of(
+                    
+                    markers: 
                       _courtMarkers.map(
                         (court) => Marker(
                           markerId: MarkerId(court.courtId),
@@ -205,10 +251,9 @@ class _MapState extends State<Map> {
                             );
                           },
                         ),
-                      ),
-                    ),
+                      ).toSet()..addAll(_markers),
                     initialCameraPosition: _initialCameraPosition,
-                  ),
+                    ),
                   CustomInfoWindow(
                     controller: _customInfoWindowController,
                     height: 110,

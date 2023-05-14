@@ -3,7 +3,7 @@ import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/home_page.dart';
 import 'package:my_app/pages/log_in_page.dart';
-import 'package:my_app/pages/map.dart';
+import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import '../classes/court.dart';
@@ -12,13 +12,13 @@ import '../providers/courts_provider.dart';
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
-  List<Court> get courtMarkers => _courtMarkers;
+  Set<Court> get courtMarkers => _courtMarkers;
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-late List<Court> _courtMarkers;
+late Set<Court> _courtMarkers;
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
@@ -31,9 +31,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    Map(showSelectOption: false),
+    MapPage(showSelectOption: false),
     const JoinedEventsPage(showJoinedEvents: true),
-    const ProfilePage(),
+    ProfilePage(),
   ];
 
   @override
@@ -55,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               activeColor: Colors.blue,
               inactiveColor: Colors.grey,
             ),
-             BottomNavyBarItem(
+            BottomNavyBarItem(
               icon: const Icon(Icons.pin_drop),
               title: const Text('Map'),
               activeColor: Colors.blue,

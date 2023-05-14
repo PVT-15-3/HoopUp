@@ -13,7 +13,7 @@ class CourtProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Court> _courts = [
+  Set<Court> _courts = <Court>{
     Court(
       position: const LatLng(59.41539988194249, 18.045802457670916),
       name: 'Utomhusplanen Danderyd',
@@ -177,12 +177,21 @@ class CourtProvider extends ChangeNotifier {
           18.02265152337728),
       numberOfHoops: 2,
     ),
+    Court(
+      position: const LatLng(59.323065057417715, 17.915055714487504),
+      name: 'Kärsögården',
+      imageLink: 'assets/karson.jpg',
+      courtType: 'PVC tiles',
+      address: Address('Brostugans väg', 'Drottningholm', 17893,
+          59.323065057417715, 17.915055714487504),
+      numberOfHoops: 4,
+    ),
     // Add more court markers here
-  ];
+  };
 
-  List<Court> get courts => _courts;
+  Set<Court> get courts => _courts;
 
-  void setCourts(List<Court> courts) {
+  void setCourts(Set<Court> courts) {
     _courts = courts;
     notifyListeners();
   }

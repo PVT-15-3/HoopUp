@@ -21,7 +21,8 @@ void main() {
         id: "id",
         photoUrl: "photoUrl",
         gender: "gender",
-        firebaseProvider: mockDatabase);
+        firebaseProvider: mockDatabase,
+        age: 18);
 
     when(() => mockDatabase.setFirebaseDataMap(any(), any()))
         .thenAnswer((_) async {
@@ -49,7 +50,10 @@ void main() {
   }
 
   arrangeMessage() {
-    message = Message(username: user.username, messageText: "messageText", timeStamp: DateTime.now());
+    message = Message(
+        username: user.username,
+        messageText: "messageText",
+        timeStamp: DateTime.now());
   }
 
   group('Chat tests', () {

@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreateEventWizard(),
+                      builder: (context) => const CreateEventWizard(),
                     ),
                   );
                 },
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: Styles.fontSizeMedium,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                    fontFamily: String.fromEnvironment('Rubik')
+                    fontFamily: Styles.buttonFont,
                   ),
                 ),
               ),
