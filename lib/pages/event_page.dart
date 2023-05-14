@@ -261,7 +261,8 @@ class _EventPageState extends State<EventPage> {
                                       style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(0.0),
                                         minimumSize: const Size(0, 0),
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
                                       ),
                                       onPressed: () {
                                         showModalBottomSheet(
@@ -341,8 +342,11 @@ class _EventPageState extends State<EventPage> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => ChatPage(
-                                                  event: widget.event)),
+                                            builder: (context) => ChatPage(
+                                              event: widget.event,
+                                              court: courtOfTheEvent,
+                                            ),
+                                          ),
                                         );
                                       },
                                     ),
