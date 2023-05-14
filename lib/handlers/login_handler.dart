@@ -21,7 +21,7 @@ class Auth {
         username: username,
         skillLevel: 0,
         id: userCredential.user!.uid,
-        photoUrl: null,
+        photoUrl: "https://i.redd.it/q5qc3clyt6ya1.png",
         gender: 'other',
         firebaseProvider: _firebaseProvider,
         age: 0,

@@ -63,7 +63,7 @@ void main() {
               username: 'John',
               skillLevel: -1,
               id: '123',
-              photoUrl: null,
+              photoUrl: "",
               gender: "",
               firebaseProvider: mockDatabase,
               age: 18),
@@ -154,7 +154,7 @@ void main() {
           username: 'John',
           skillLevel: 3,
           id: '123',
-          photoUrl: null,
+          photoUrl: "",
           gender: "",
           firebaseProvider: mockDatabase,
           age: 18);

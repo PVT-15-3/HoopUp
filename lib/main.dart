@@ -13,7 +13,7 @@ import 'pages/map_page.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
-import 'pages/log_in_page.dart';
+import 'pages/Starting_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     if (HoopUpUser.isSignedIn()) {
       return const BottomNavBar();
     } else {
-      return LogInPage();
+      return StartPage();
     }
   }
 
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
-          '/log_in_page.dart': (context) => LogInPage(),
+          '/log_in_page.dart': (context) => StartPage(),
           '/profile_page.dart': (context) => ProfilePage(),
           '/list_events_handler.dart': (context) => const ListEventHandler(
                 showJoinedEvents: true,

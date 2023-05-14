@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/home_page.dart';
-import 'package:my_app/pages/log_in_page.dart';
+import 'package:my_app/pages/Starting_page.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -39,7 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     if (!HoopUpUser.isSignedIn()) {
-      return LogInPage();
+      return StartPage();
     } else {
       return Scaffold(
         body: _pages[_currentIndex],
