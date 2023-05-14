@@ -99,16 +99,16 @@ class _MapState extends State<Map> {
                                             listen: false);
                                     wizardProvider.court = court;
                                     Navigator.pop(context);
-                                    showCustomToast(
-                                        'Court selected', Icons.check_circle, context);
+                                    showCustomToast('Court selected',
+                                        Icons.check_circle, context);
                                   } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          CourtPage(court: court),
-                                    ),
-                                  );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CourtPage(court: court),
+                                      ),
+                                    );
                                   }
                                 },
                                 child: ListView(

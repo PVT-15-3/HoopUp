@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/providers/courts_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:my_app/pages/map.dart';
 
+import '../classes/court.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class WizardFirstStep extends StatelessWidget {
@@ -14,14 +18,41 @@ class WizardFirstStep extends StatelessWidget {
   final TextEditingController playerAmountController =
       TextEditingController(text: '2');
 
+  Widget hourMinute(Function(TimeOfDay) onTimeChange) {
+    return TimePickerSpinner(
+      spacing: 10,
+      minutesInterval: 1,
+      normalTextStyle: const TextStyle(
+        fontSize: 30,
+        color: Color(0xFF959595),
+        fontFamily: "Open Sans",
+        fontStyle: FontStyle.normal,
+        letterSpacing: 0.1,
+      ),
+      highlightedTextStyle: const TextStyle(
+        fontSize: 30,
+        color: Color(0xFFFC8027),
+        fontFamily: "Open Sans",
+        fontStyle: FontStyle.normal,
+        letterSpacing: 0.1,
+      ),
+      onTimeChange: (time) {
+        final timeOfDay = TimeOfDay.fromDateTime(time);
+        onTimeChange(timeOfDay);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final CreateEventWizardProvider wizardProvider =
         Provider.of<CreateEventWizardProvider>(context, listen: false);
+    final CourtProvider courtProvider =
+        Provider.of<CourtProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 25),
         const Center(
           child: Text(
             'CREATE GAME',
@@ -51,135 +82,338 @@ class WizardFirstStep extends StatelessWidget {
             ),
           ),
         ),
-        InkWell(
-          onTap: () {
-            DatePicker.showDatePicker(
-              context,
-              showTitleActions: true,
-              minTime: DateTime.now(),
-              maxTime: DateTime(2099, 12, 31),
-              onChanged: (date) {
-                dateController.text = DateFormat('yyyy-MM-dd').format(date);
-                wizardProvider.eventDate = date;
+        const SizedBox(height: 10),
+        Center(
+          child: Container(
+            width: 318,
+            height: 32,
+            margin: const EdgeInsets.only(
+              top: 10,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF0F0F0),
+              border: Border.all(
+                color: const Color(0xFFD1D1D1),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Consumer2<CreateEventWizardProvider, CourtProvider>(
+              builder: (context, wizardProvider, courtProvider, _) {
+                return DropdownButton<Court>(
+                  isExpanded: true,
+                  value: wizardProvider.court,
+                  items: [
+                    const DropdownMenuItem<Court>(
+                      value: null,
+                      child: Text('Select court from list'),
+                    ),
+                    ...courtProvider.courts.map((Court court) {
+                      return DropdownMenuItem<Court>(
+                        value: court,
+                        child: Text(court.name),
+                      );
+                    }).toList(),
+                  ],
+                  onChanged: (Court? newCourt) {
+                    wizardProvider.court = newCourt;
+                    wizardProvider.wizardFirstStepSelected = true;
+                  },
+                  underline: Container(),
+                );
               },
-              onConfirm: (date) {
-                dateController.text = DateFormat('yyyy-MM-dd').format(date);
-                wizardProvider.eventDate = date;
-              },
-              currentTime: DateTime.now(),
-            );
-          },
-          child: IgnorePointer(
-            child: TextFormField(
-              controller: dateController,
-              decoration: const InputDecoration(
-                labelText: 'Date',
-                suffixIcon: Icon(Icons.calendar_today),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Center(
+          child: TextButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Map(showSelectOption: true),
+              ));
+            },
+            style: TextButton.styleFrom(
+              primary: const Color(0xFFFC8027),
+              textStyle: const TextStyle(
+                fontFamily: 'Open Sans',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                height: 1.78,
+                letterSpacing: 0.1,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Choose from map'),
+                Icon(
+                  Icons.place,
+                  color: Color(0xFFFC8027),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Center(
+          child: Container(
+            width: 379,
+            height: 0.5,
+            margin: const EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              border: Border.all(color: const Color(0xFFA4A4A4), width: 0.5),
+            ),
+          ),
+        ),
+        Consumer<CreateEventWizardProvider>(
+          builder: (context, wizardProvider, _) => Opacity(
+            opacity: wizardProvider.wizardFirstStepSelected ? 1.0 : 0.5,
+            child: const Center(
+              child: Text(
+                'Select day and time for your game',
+                style: TextStyle(
+                  fontFamily: 'Open Sans',
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  height: 1.6,
+                  letterSpacing: 0.1,
+                  color: Color(0xFF2D2D2D),
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Consumer<CreateEventWizardProvider>(
-              builder: (context, provider, _) => ElevatedButton(
-                onPressed: () async {
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    context: context,
-                    initialTime: provider.eventStartTime,
-                    builder: (context, child) {
-                      return MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(alwaysUse24HourFormat: true),
-                        child: child ?? Container(),
-                      );
-                    },
-                  );
-                  if (selectedTime != null) {
-                    provider.eventStartTime = selectedTime;
-                  }
-                },
-                child: Text(
-                  DateFormat.Hm().format(DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    provider.eventStartTime.hour,
-                    provider.eventStartTime.minute,
-                  )),
+        Consumer<CreateEventWizardProvider>(
+          builder: (context, wizardProvider, _) {
+            final daysInMonth = List<int>.generate(
+              DateTime(wizardProvider.selectedYear,
+                      wizardProvider.selectedMonth + 1, 0)
+                  .day,
+              (index) => index + 1,
+            );
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DropdownButton<int>(
+                  value: wizardProvider.wizardFirstStepSelected
+                      ? wizardProvider.selectedYear
+                      : null,
+                  disabledHint: Text(DateTime.now().year.toString()),
+                  onChanged: wizardProvider.wizardFirstStepSelected
+                      ? (value) {
+                          wizardProvider.setSelectedYear(value!);
+                        }
+                      : null,
+                  items: List.generate(10, (index) => index + 2022)
+                      .map((year) => DropdownMenuItem<int>(
+                            value: year,
+                            child: Text(year.toString()),
+                          ))
+                      .toList(),
                 ),
-              ),
-            ),
-            Consumer<CreateEventWizardProvider>(
-              builder: (context, provider, _) => ElevatedButton(
-                onPressed: () async {
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    context: context,
-                    initialTime: provider.eventEndTime,
-                    builder: (context, child) {
-                      return MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(alwaysUse24HourFormat: true),
-                        child: child ?? Container(),
-                      );
-                    },
-                  );
-                  if (selectedTime != null) {
-                    provider.eventEndTime = selectedTime;
-                  }
-                },
-                child: Text(
-                  DateFormat.Hm().format(DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                    provider.eventEndTime.hour,
-                    provider.eventEndTime.minute,
-                  )),
+                const SizedBox(width: 20),
+                DropdownButton<int>(
+                  value: wizardProvider.wizardFirstStepSelected
+                      ? wizardProvider.selectedMonth
+                      : null,
+                  disabledHint: Text(DateTime.now().month.toString()),
+                  onChanged: wizardProvider.wizardFirstStepSelected
+                      ? (value) {
+                          wizardProvider.setSelectedMonth(value!);
+                        }
+                      : null,
+                  items: List.generate(12, (index) => index + 1)
+                      .map((month) => DropdownMenuItem<int>(
+                            value: month,
+                            child: Text(month.toString()),
+                          ))
+                      .toList(),
                 ),
-              ),
-            )
-          ],
+                const SizedBox(width: 20),
+                DropdownButton<int>(
+                  value: wizardProvider.wizardFirstStepSelected
+                      ? wizardProvider.selectedDay
+                      : null,
+                  disabledHint: Text(DateTime.now().day.toString()),
+                  onChanged: wizardProvider.wizardFirstStepSelected
+                      ? (value) {
+                          wizardProvider.setSelectedDay(value!);
+                        }
+                      : null,
+                  items: daysInMonth
+                      .map((day) => DropdownMenuItem<int>(
+                            value: day,
+                            child: Text(day.toString()),
+                          ))
+                      .toList(),
+                ),
+              ],
+            );
+          },
         ),
         const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Player Amount:'),
-            SizedBox(
-              width: 120,
-              child: Consumer<CreateEventWizardProvider>(
-                builder: (context, provider, _) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        Consumer<CreateEventWizardProvider>(
+          builder: (context, wizardProvider, _) => Opacity(
+            opacity: wizardProvider.wizardFirstStepSelected ? 1.0 : 0.5,
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.7,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: () {
-                        int amount = provider.numberOfParticipants;
-                        amount--;
-                        if (amount < 2) amount = 2;
-                        provider.numberOfParticipants = amount;
-                        playerAmountController.text = amount.toString();
-                      },
+                    Container(
+                      width: 69,
+                      height: 32,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Start time',
+                        style: TextStyle(
+                          fontFamily: 'Open Sans',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          height: 1.14,
+                          letterSpacing: 0.1,
+                          color: Color(0xFF2D2D2D),
+                        ),
+                      ),
                     ),
-                    Text(provider.numberOfParticipants.toString()),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        int amount = provider.numberOfParticipants;
-                        amount++;
-                        if (amount > 20) amount = 20;
-                        provider.numberOfParticipants = amount;
-                        playerAmountController.text = amount.toString();
-                      },
+                    Container(
+                      width: 69,
+                      height: 32,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'End time',
+                        style: TextStyle(
+                          fontFamily: 'Open Sans',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          height: 1.14,
+                          letterSpacing: 0.1,
+                          color: Color(0xFF2D2D2D),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-          ],
+          ),
+        ),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 56,
+                height: 32,
+                margin: const EdgeInsets.only(right: 20),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Hour',
+                  style: TextStyle(
+                    fontFamily: 'Open Sans',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.14,
+                    letterSpacing: 0.1,
+                    color: Color(0xFF959595),
+                  ),
+                ),
+              ),
+              Container(
+                width: 56,
+                height: 32,
+                margin: const EdgeInsets.only(right: 20),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Minutes',
+                  style: TextStyle(
+                    fontFamily: 'Open Sans',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.14,
+                    letterSpacing: 0.1,
+                    color: Color(0xFF959595),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Container(
+                width: 56,
+                height: 32,
+                margin: const EdgeInsets.only(right: 20),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Hour',
+                  style: TextStyle(
+                    fontFamily: 'Open Sans',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.14,
+                    letterSpacing: 0.1,
+                    color: Color(0xFF959595),
+                  ),
+                ),
+              ),
+              Container(
+                width: 56,
+                height: 32,
+                alignment: Alignment.center,
+                child: const Text(
+                  'Minutes',
+                  style: TextStyle(
+                    fontFamily: 'Open Sans',
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.14,
+                    letterSpacing: 0.1,
+                    color: Color(0xFF959595),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              hourMinute((time) {
+                wizardProvider.eventStartTime = time;
+              }),
+              const SizedBox(width: 70),
+              hourMinute((time) {
+                wizardProvider.eventEndTime = time;
+              }),
+              const SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+        ),
+        Center(
+          child: Container(
+            width: 379,
+            height: 0.5,
+            margin: const EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              border: Border.all(color: const Color(0xFFA4A4A4), width: 0.5),
+            ),
+          ),
         ),
       ],
     );

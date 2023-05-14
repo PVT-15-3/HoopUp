@@ -4,6 +4,15 @@ import 'package:my_app/classes/court.dart';
 import '../classes/address.dart';
 
 class CourtProvider extends ChangeNotifier {
+  Court? _selectedCourt;
+
+  Court? get selectedCourt => _selectedCourt;
+
+  set selectedCourt(Court? value) {
+    _selectedCourt = value;
+    notifyListeners();
+  }
+
   List<Court> _courts = [
     Court(
       position: const LatLng(59.41539988194249, 18.045802457670916),
