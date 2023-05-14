@@ -30,6 +30,8 @@ class CreateEventWizard extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        elevation: 0.0,
+        shadowColor: Colors.white,
       ),
       body: CoolStepper(
         isHeaderEnabled: false,
@@ -66,9 +68,6 @@ class CreateEventWizard extends StatelessWidget {
             subtitle: '',
             content: WizardFirstStep(dateController: dateController),
             validation: () {
-              if (dateController.text.isEmpty) {
-                return 'Please enter a date';
-              }
               if (wizardProvider.numberOfParticipants < 2 ||
                   wizardProvider.numberOfParticipants > 20) {
                 return 'Please select a number of players between 2 and 20';
@@ -99,6 +98,9 @@ class CreateEventWizard extends StatelessWidget {
               if (endTime.isBefore(startTime.add(const Duration(hours: 1)))) {
                 return 'End time must be at least 1 hour after start time.';
               }
+              if (wizardProvider.court == null) {
+                return "Please select a court";
+              }
               return null;
             },
           ),
@@ -107,6 +109,12 @@ class CreateEventWizard extends StatelessWidget {
             subtitle: "",
             content: const WizardSecondStep(),
             validation: () {
+              if (wizardProvider.selectedGender.isEmpty) {
+                return "Please select an option for gender";
+              }
+              if (wizardProvider.selectedAgeGroup.isEmpty) {
+                return "Please select an option for age groups";
+              }
               return null;
             },
           ),
@@ -137,6 +145,7 @@ class CreateEventWizard extends StatelessWidget {
             nextText: 'NEXT',
             stepText: 'STEP',
             ofText: 'OF',
+            finalText: 'CONFIRM',
             headerColor: Colors.white,
             icon: Icon(null)),
       ),

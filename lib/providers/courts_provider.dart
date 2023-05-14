@@ -4,6 +4,15 @@ import 'package:my_app/classes/court.dart';
 import '../classes/address.dart';
 
 class CourtProvider extends ChangeNotifier {
+  Court? _selectedCourt;
+
+  Court? get selectedCourt => _selectedCourt;
+
+  set selectedCourt(Court? value) {
+    _selectedCourt = value;
+    notifyListeners();
+  }
+
   Set<Court> _courts = <Court>{
     Court(
       position: const LatLng(59.41539988194249, 18.045802457670916),
@@ -173,7 +182,8 @@ class CourtProvider extends ChangeNotifier {
       name: 'Kärsögården',
       imageLink: 'assets/karson.jpg',
       courtType: 'PVC tiles',
-      address: Address('Brostugans väg', 'Drottningholm', 17893, 59.323065057417715, 17.915055714487504),
+      address: Address('Brostugans väg', 'Drottningholm', 17893,
+          59.323065057417715, 17.915055714487504),
       numberOfHoops: 4,
     ),
     // Add more court markers here
