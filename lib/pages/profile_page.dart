@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
               String gender = user.gender;
               int age = user.age;
               String? email = FirebaseAuth.instance.currentUser!.email;
-              String? photoUrl = user.photoUrl;
+              String photoUrl = user.photoUrl as String;
 
               List<Widget> stars = List.generate(
                 skillLevel,
@@ -54,10 +54,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                     children: [
                       //Profile picture
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 50,
                         //TODO fix photoUrl
-                        backgroundImage: AssetImage(""),
+                        backgroundImage: NetworkImage(photoUrl),
                       ),
                       const SizedBox(height: 20),
 
@@ -154,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        body: const EditableFields(),
+        body: EditableFields(),
       );
     }
   }

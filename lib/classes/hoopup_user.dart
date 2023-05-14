@@ -9,7 +9,7 @@ class HoopUpUser {
   int _skillLevel;
   final String _id;
   List<String> _events = [];
-  String? _photoUrl;
+  String _photoUrl;
   String _gender;
   int _age;
   final FirebaseProvider _firebaseProvider;
@@ -18,7 +18,7 @@ class HoopUpUser {
       {required String username,
       required int skillLevel,
       required String id,
-      required String? photoUrl,
+      required String photoUrl,
       required String gender,
       required int age,
       required FirebaseProvider firebaseProvider})
@@ -44,7 +44,7 @@ class HoopUpUser {
 
   // setters
 
-  set photoUrl(String? url) {
+  set photoUrl(String url) {
     _photoUrl = url;
     _firebaseProvider.updateFirebaseData("users/$id", {"photoUrl": url});
   }
@@ -78,7 +78,7 @@ class HoopUpUser {
 
   // getters
 
-  String? get photoUrl => _photoUrl;
+  String get photoUrl => _photoUrl;
   String get gender => _gender;
   String get username => _username;
   List<String> get events => _events;
