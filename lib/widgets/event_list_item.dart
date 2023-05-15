@@ -239,8 +239,8 @@ class _EventListItemState extends State<EventListItem> {
                       fontFamily: Styles.headerFont,
                       shadows: <Shadow>[
                         Shadow(
-                            offset: Offset(0, 3.0),
-                            blurRadius: 5.0,
+                            offset: Offset(0, 2.0),
+                            blurRadius: 4.0,
                             color: Styles.shadowColor),
                       ],
                     ),
@@ -261,8 +261,8 @@ class _EventListItemState extends State<EventListItem> {
                         size: 25,
                         shadows: <Shadow>[
                           Shadow(
-                              offset: Offset(0, 3.0),
-                              blurRadius: 5.0,
+                              offset: Offset(0, 4.0),
+                              blurRadius: 15.0,
                               color: Styles.shadowColor),
                         ],
                       ),
@@ -274,12 +274,12 @@ class _EventListItemState extends State<EventListItem> {
                       const Icon(
                         Icons.access_time,
                         color: Styles.primaryColor,
-                        shadows: <Shadow>[
-                          Shadow(
-                              offset: Offset(0, 3.0),
-                              blurRadius: 5.0,
-                              color: Styles.shadowColor),
-                        ],
+                        // shadows: <Shadow>[
+                        //   Shadow(
+                        //       offset: Offset(0, 3.0),
+                        //       blurRadius: 5.0,
+                        //       color: Styles.shadowColor),
+                        // ],
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -289,12 +289,12 @@ class _EventListItemState extends State<EventListItem> {
                           fontWeight: FontWeight.normal,
                           color: Styles.discoverGametextColor,
                           fontFamily: Styles.headerFont,
-                          shadows: <Shadow>[
-                            Shadow(
-                                offset: Offset(0, 3.0),
-                                blurRadius: 5.0,
-                                color: Styles.shadowColor),
-                          ],
+                          // shadows: <Shadow>[
+                          //   Shadow(
+                          //       offset: Offset(0, 3.0),
+                          //       blurRadius: 5.0,
+                          //       color: Styles.shadowColor),
+                          // ],
                         ),
                       )
                     ],
