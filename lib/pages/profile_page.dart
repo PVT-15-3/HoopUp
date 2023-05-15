@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/Starting_page.dart';
-import 'package:my_app/widgets/editable_fields_for_profile_and_login_pages.dart';
-import 'package:my_app/widgets/toaster.dart';
+import 'package:my_app/widgets/editable_fields_for_profile.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -69,7 +69,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       //Profile picture
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(photoUrl),
+                        backgroundImage: photoUrl != ""
+                            ? NetworkImage(photoUrl)
+                            : const AssetImage('assets/logo.png')
+                                as ImageProvider<Object>,
                       ),
                       const SizedBox(height: 20),
 
@@ -143,12 +146,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      minimumSize: const Size(100, 60),
+                      minimumSize: const Size(180, 70),
                       elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     child: const Text(
-                      'EDIT PROFILE',
+                      'EDIT\nPROFILE',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
+                        fontFamily: Styles.mainFont,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.black,
