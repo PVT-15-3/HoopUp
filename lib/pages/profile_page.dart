@@ -2,12 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/Starting_page.dart';
-import 'package:my_app/widgets/editable_fields_for_profile_and_login_pages.dart';
-import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
-import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
+import '../widgets/editable_fields_for_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
