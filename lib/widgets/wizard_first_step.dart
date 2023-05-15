@@ -20,7 +20,8 @@ class WizardFirstStep extends StatelessWidget {
   Widget hourMinute(Function(TimeOfDay) onTimeChange) {
     return TimePickerSpinner(
       spacing: 10,
-      minutesInterval: 1,
+      minutesInterval: 5,
+      isForce2Digits: true,
       normalTextStyle: const TextStyle(
         fontSize: 30,
         color: Color(0xFF959595),

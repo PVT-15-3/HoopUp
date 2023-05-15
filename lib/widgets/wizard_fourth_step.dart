@@ -28,7 +28,7 @@ class WizardFourthStep extends StatelessWidget {
           builder: (context, wizardProvider, _) {
             return Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 const Center(
@@ -45,7 +45,7 @@ class WizardFourthStep extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 const Center(
@@ -62,7 +62,7 @@ class WizardFourthStep extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(

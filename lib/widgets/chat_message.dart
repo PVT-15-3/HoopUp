@@ -7,11 +7,13 @@ import '../providers/hoopup_user_provider.dart';
 
 class ChatMessage extends StatelessWidget {
   final String username;
+  final String userId;
   final String messageText;
   final DateTime timestamp;
 
   const ChatMessage({
     required this.username,
+    required this.userId,
     required this.messageText,
     required this.timestamp,
   });
@@ -21,7 +23,7 @@ class ChatMessage extends StatelessWidget {
     final HoopUpUserProvider hoopUpUserProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    bool isCurrentUser = username == hoopUpUserProvider.user!.username;
+    bool isCurrentUser = userId == hoopUpUserProvider.user!.id;
 
     TextStyle usernameStyle = const TextStyle(
       fontFamily: 'Open Sans',

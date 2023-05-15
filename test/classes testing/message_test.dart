@@ -39,11 +39,13 @@ void main() {
   arrangeMessages() {
     sut1 = Message(
         username: user1.username,
+        userId: user1.id,
         messageText:
             "I hate rats. They locked me in a room. a rubber room. A rubber room with rats.",
         timeStamp: DateTime.now());
     sut2 = Message(
         username: user2.username,
+        userId: user2.id,
         messageText: "What?",
         timeStamp: DateTime.now());
   }

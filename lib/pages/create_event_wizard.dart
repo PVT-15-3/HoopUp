@@ -141,7 +141,10 @@ class CreateEventWizard extends StatelessWidget {
           )
         ],
         config: const CoolStepperConfig(
-            backText: 'PREVIOUS',
+            nextTextStyle: TextStyle(color: Color(0xFFFC8027), fontSize: 20),
+            backTextStyle: TextStyle(color: Color(0xFFFC8027), fontSize: 20),
+            stepOfTextStyle: TextStyle(color: Color(0xFFFC8027)),
+            backText: 'BACK',
             nextText: 'NEXT',
             stepText: 'STEP',
             ofText: 'OF',
