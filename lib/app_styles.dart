@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 class Styles {
+  static const String mainFont = 'Open Sans';
+  static const String chatFont = 'Roboto';
   static const String headerFont = 'Inter';
   static const String subHeaderFont = 'Open Sans';
   static const String fontForNameFont = 'Roboto';
