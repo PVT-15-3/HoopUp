@@ -219,7 +219,7 @@ class _EditableFieldsState extends State<EditableFields> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const BottomNavBar()),
@@ -252,11 +252,14 @@ class _EditableFieldsState extends State<EditableFields> {
                         user.photoUrl = photoUrl;
                         showCustomToast(
                             "Profile updated", Icons.person, context);
-                        Navigator.pop(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const BottomNavBar()),
                         );
+                      } else {
+                        showCustomToast(
+                            "Age too small", Icons.warning, context);
                       }
                     } else {
                       showCustomToast(

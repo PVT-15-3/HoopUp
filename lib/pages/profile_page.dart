@@ -26,6 +26,17 @@ class _ProfilePageState extends State<ProfilePage> {
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    HoopUpUser.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StartPage()),
+                    );
+                  },
+                  icon: const Icon(Icons.logout)),
+            ],
           ),
           body: Center(
             child: Consumer<HoopUpUserProvider>(
@@ -123,17 +134,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
-                  //Temporary logout button
-                  ElevatedButton(
-                      onPressed: () {
-                        HoopUpUser.signOut();
-                        Navigator.pop(
-                          context,
-                          MaterialPageRoute(builder: (context) => StartPage()),
-                        );
-                      },
-                      child: const Text('Log out')),
-
                   //Edit Profile Button
                   ElevatedButton(
                     onPressed: () {
@@ -141,7 +141,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         isEditable = true;
                       });
                     },
-                    child: const Text('Edit Profile'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      minimumSize: const Size(100, 60),
+                      elevation: 5,
+                    ),
+                    child: const Text(
+                      'EDIT PROFILE',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ],
               );
