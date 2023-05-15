@@ -133,7 +133,7 @@ void main() {
         courtType: 'testCourtType',
         address: Address('123 Main St', 'Springfield', 12345, 0, 0),
         numberOfHoops: 2,
-        position: LatLng(0, 0),
+        position: const LatLng(0, 0),
       );
       final court2 = Court(
         name: 'Test Court 2',
@@ -141,7 +141,7 @@ void main() {
         courtType: 'testCourtType2',
         address: Address('123 Main St', 'Springfield', 11115, 5, 5),
         numberOfHoops: 3,
-        position: LatLng(1, 1),
+        position: const LatLng(1, 1),
       );
       final court3 = Court(
         name: 'Test Court',
@@ -149,7 +149,7 @@ void main() {
         courtType: 'testCourtType',
         address: Address('123 Main St', 'Springfield', 12345, 0, 0),
         numberOfHoops: 2,
-        position: LatLng(0, 0),
+        position: const LatLng(0, 0),
       );
       expect(court1 == court2, isFalse);
       expect(court1 == court3, isTrue);

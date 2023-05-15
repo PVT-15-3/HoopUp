@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/home_page.dart';
-import 'package:my_app/pages/Starting_page.dart';
+import 'package:my_app/pages/starting_page.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -33,7 +33,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     MapPage(showSelectOption: false),
     const JoinedEventsPage(showJoinedEvents: true),
-    ProfilePage(),
+    const ProfilePage(),
   ];
 
   @override

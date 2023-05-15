@@ -96,7 +96,7 @@ class WizardFourthStep extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              '${String.fromCharCode(0x2605) * wizardProvider.skillLevel}',
+                              String.fromCharCode(0x2605) * wizardProvider.skillLevel,
                           style: const TextStyle(
                             color: Colors.orange,
                             fontSize: 30,
@@ -104,7 +104,7 @@ class WizardFourthStep extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              '${String.fromCharCode(0x2606) * (5 - wizardProvider.skillLevel)}',
+                              String.fromCharCode(0x2606) * (5 - wizardProvider.skillLevel),
                           style: const TextStyle(
                             fontSize: 30,
                             color: Colors.orange,

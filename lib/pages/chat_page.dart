@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToBottom();
     });
   }
@@ -90,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
                 if (snapshot.hasData) {
                   final List<Message> messages = snapshot.data!;
                   messages.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     _scrollToBottom();
                   });
                   return SingleChildScrollView(
@@ -119,7 +119,7 @@ class _ChatPageState extends State<ChatPage> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xFFFEE3CF),
+                color: const Color(0xFFFEE3CF),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(
@@ -127,17 +127,15 @@ class _ChatPageState extends State<ChatPage> {
                   Expanded(
                     child: TextField(
                       controller: _messageController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Enter your message...',
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.all(10.0),
+                        contentPadding: EdgeInsets.all(10.0),
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: Container(
-                      child: Icon(Icons.chat_bubble_outline_outlined),
-                    ),
+                    icon: const Icon(Icons.chat_bubble_outline_outlined),
                     onPressed: () => _sendMessage(
                         hoopUpUserProvider.user!.username,
                         hoopUpUserProvider.user!.id),

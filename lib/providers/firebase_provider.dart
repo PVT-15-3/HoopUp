@@ -16,7 +16,7 @@ class FirebaseProvider with ChangeNotifier {
       await database.ref(path).update(data);
       notifyListeners();
     } catch (error) {
-      print("Failed to update ${data.keys} : ${error.toString()}");
+      debugPrint("Failed to update ${data.keys} : ${error.toString()}");
       rethrow;
     }
   }
@@ -27,7 +27,7 @@ class FirebaseProvider with ChangeNotifier {
       await database.ref(path).set(data);
       notifyListeners();
     } catch (error) {
-      print("Failed to set ${data.keys} : ${error.toString()}");
+      debugPrint("Failed to set ${data.keys} : ${error.toString()}");
       rethrow;
     }
   }
@@ -37,7 +37,7 @@ class FirebaseProvider with ChangeNotifier {
       await database.ref(path).set(data);
       notifyListeners();
     } catch (error) {
-      print(
+      debugPrint(
           "Failed to set a list of ${data.length} items : ${error.toString()}");
       rethrow;
     }
@@ -48,7 +48,7 @@ class FirebaseProvider with ChangeNotifier {
       await database.ref(path).remove();
       notifyListeners();
     } catch (error) {
-      print("Failed to remove $path : ${error.toString()}");
+      debugPrint("Failed to remove $path : ${error.toString()}");
       rethrow;
     }
   }
@@ -58,11 +58,11 @@ class FirebaseProvider with ChangeNotifier {
     final task = firebaseStorageRef.putFile(file);
     notifyListeners();
     task.snapshotEvents.listen((TaskSnapshot snapshot) {
-      print('Upload completed: ${snapshot.bytesTransferred} bytes transferred');
+      debugPrint('Upload completed: ${snapshot.bytesTransferred} bytes transferred');
     }, onError: (Object e) {
-      print(e.toString());
+      debugPrint(e.toString());
     });
-    await task.whenComplete(() => print('File uploaded to Firebase Storage.'));
+    await task.whenComplete(() => debugPrint('File uploaded to Firebase Storage.'));
   }
 
   Future<Map> getMapFromFirebase(String path, String resource) async {
@@ -76,11 +76,11 @@ class FirebaseProvider with ChangeNotifier {
         map = snapshot.value! as Map<dynamic, dynamic>;
       } else {
         // Event not found
-        print('User not found');
+        debugPrint('User not found');
       }
     }).catchError((error) {
       // Error occurred while fetching event data
-      print('Error: $error');
+      debugPrint('Error: $error');
     });
     notifyListeners();
     return map;
@@ -97,11 +97,11 @@ class FirebaseProvider with ChangeNotifier {
         list = snapshot.value! as List<dynamic>;
       } else {
         // Event not found
-        print('User not found');
+        debugPrint('User not found');
       }
     }).catchError((error) {
       // Error occurred while fetching event data
-      print('Error: $error');
+      debugPrint('Error: $error');
     });
     notifyListeners();
     return list;

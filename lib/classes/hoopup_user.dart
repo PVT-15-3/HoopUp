@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -123,9 +124,9 @@ class HoopUpUser {
       await _firebaseProvider.removeFirebaseData("users/$id");
       await FirebaseAuth.instance.currentUser?.delete();
       await signOut();
-      print("User deleted successfully");
+      debugPrint("User deleted successfully");
     } catch (e) {
-      print("Failed to delete user: ${e.toString()}");
+      debugPrint("Failed to delete user: ${e.toString()}");
     }
   }
 

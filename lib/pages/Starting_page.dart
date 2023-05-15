@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/sign_up_page.dart';
-import 'package:my_app/widgets/bottom_nav_bar.dart';
 import '../providers/firebase_provider.dart';
 import 'login_page.dart';
 

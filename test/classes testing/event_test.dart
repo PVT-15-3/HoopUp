@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_app/classes/chat.dart';
 import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/time.dart';
 import 'package:my_app/providers/firebase_provider.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:my_app/widgets/wizard_second_step.dart';
 import '../providers/create_event_wizard_provider.dart';
 import 'basketball_slider.dart';
 
@@ -118,10 +117,10 @@ class WizardThirdStep extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Container(
+        const SizedBox(
           width: 179,
           height: 32,
-          child: const Text(
+          child: Text(
             'Other information',
             style: TextStyle(
               fontFamily: 'Open Sans',
@@ -138,7 +137,7 @@ class WizardThirdStep extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: TextField(
             controller: eventDescriptionController,

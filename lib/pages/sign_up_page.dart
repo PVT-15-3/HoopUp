@@ -17,7 +17,7 @@ class SignUpPage extends StatefulHookWidget {
 
 class _SignUpPage extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  late final firebaseProvider;
+  late final FirebaseProvider firebaseProvider;
   late final Auth auth;
   late int skillLevel;
   late String gender;

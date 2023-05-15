@@ -81,7 +81,7 @@ class _MapPageState extends State<MapPage> {
         }
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

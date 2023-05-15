@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:intl/intl.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/providers/courts_provider.dart';
 import 'package:provider/provider.dart';
@@ -135,8 +132,7 @@ class WizardFirstStep extends StatelessWidget {
               ));
             },
             style: TextButton.styleFrom(
-              primary: const Color(0xFFFC8027),
-              textStyle: const TextStyle(
+              foregroundColor: const Color(0xFFFC8027), textStyle: const TextStyle(
                 fontFamily: 'Open Sans',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w600,
@@ -262,7 +258,7 @@ class WizardFirstStep extends StatelessWidget {
           builder: (context, wizardProvider, _) => Opacity(
             opacity: wizardProvider.wizardFirstStepSelected ? 1.0 : 0.5,
             child: Center(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width / 1.7,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -13,7 +13,7 @@ import 'pages/map_page.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
-import 'pages/Starting_page.dart';
+import 'pages/starting_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
@@ -53,10 +53,10 @@ class MyApp extends StatelessWidget {
         routes: {
           '/bottom_nav_bar': (context) => const BottomNavBar(),
           '/map': (context) => MapPage(showSelectOption: false),
-          '/create_event_wizard.dart': (context) => CreateEventWizard(),
+          '/create_event_wizard.dart': (context) => const CreateEventWizard(),
           '/sign_up_page.dart': (context) => SignUpPage(),
           '/log_in_page.dart': (context) => StartPage(),
-          '/profile_page.dart': (context) => ProfilePage(),
+          '/profile_page.dart': (context) => const ProfilePage(),
           '/list_events_handler.dart': (context) => const ListEventHandler(
                 showJoinedEvents: true,
               ),

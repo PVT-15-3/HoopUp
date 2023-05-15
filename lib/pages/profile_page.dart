@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
-import 'package:my_app/pages/Starting_page.dart';
+import 'package:my_app/pages/starting_page.dart';
 import 'package:my_app/widgets/editable_fields_for_profile_and_login_pages.dart';
-import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -47,13 +47,12 @@ class _ProfilePageState extends State<ProfilePage> {
               String gender = user.gender;
               int age = user.age;
               String? email = FirebaseAuth.instance.currentUser!.email;
-              String photoUrl = user.photoUrl as String;
+              String photoUrl = user.photoUrl;
 
               List<Widget> stars = List.generate(
                 skillLevel,
-                //TODO change orage to uniform color
-                (index) =>
-                    const Icon(size: 30, Icons.star, color: Colors.orange),
+                (index) => const Icon(
+                    size: 30, Icons.star, color: Styles.primaryColor),
               );
               while (stars.length < 5) {
                 stars.add(const Icon(
@@ -63,27 +62,26 @@ class _ProfilePageState extends State<ProfilePage> {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                      child: Column(
+                  Column(
                     children: [
-                      //Profile picture
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(photoUrl),
-                      ),
-                      const SizedBox(height: 20),
+                  //Profile picture
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(photoUrl),
+                  ),
+                  const SizedBox(height: 20),
 
-                      //Name
-                      Text(name),
+                  //Name
+                  Text(name),
 
-                      //SkillLevel
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: stars,
-                      ),
-                      const SizedBox(height: 40),
+                  //SkillLevel
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: stars,
+                  ),
+                  const SizedBox(height: 40),
                     ],
-                  )),
+                  ),
 
                   Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 80, 0),
