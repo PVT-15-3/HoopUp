@@ -633,7 +633,7 @@ class WizardSecondStep extends StatelessWidget {
         ),
         Center(
           child: Selector<CreateEventWizardProvider, int>(
-            selector: (_, myProvider) => myProvider.skillLevel,
+            selector: (_, wizardProvider) => wizardProvider.skillLevel,
             builder: (_, skillLevel, __) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,

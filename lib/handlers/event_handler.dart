@@ -1,3 +1,4 @@
+import 'package:my_app/classes/message.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import '../classes/hoopup_user.dart';
 import 'package:my_app/providers/firebase_provider.dart';
@@ -50,8 +51,21 @@ class EventHandler {
       id: const Uuid().v4(),
       firebaseProvider: firebaseProvider,
     );
+    DateTime dateTime = DateTime(
+      eventDate.year,
+      eventDate.month,
+      eventDate.day,
+      eventStartTime.hour,
+      eventStartTime.minute,
+    );
+    Message message = Message(
+      username: hoopUpUser!.username,
+      messageText: eventDescription,
+      timeStamp: dateTime,
+    );
     event.addEventToDatabase();
-    addCreatorToEvent(event, hoopUpUser!);
+    event.chat.addMessage(message);
+    addCreatorToEvent(event, hoopUpUser);
 
     print('Event created:\n'
         '  Date: $eventDate\n'
