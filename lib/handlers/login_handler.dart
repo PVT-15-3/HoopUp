@@ -12,19 +12,19 @@ class Auth {
       : _firebaseProvider = firebaseProvider;
 
   Future<bool> signUpWithEmail(String email, String password, String username,
-      BuildContext context) async {
+      String gender, int age, int skillLevel, BuildContext context) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
       HoopUpUser hoopUpuser = HoopUpUser(
         username: username,
-        skillLevel: 0,
+        skillLevel: skillLevel,
         id: userCredential.user!.uid,
         photoUrl: "https://i.redd.it/q5qc3clyt6ya1.png",
-        gender: 'other',
+        gender: gender,
+        age: age,
         firebaseProvider: _firebaseProvider,
-        age: 0,
       );
       hoopUpuser.addUserToDatabase();
 

@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:my_app/app_styles.dart';
 import 'package:my_app/widgets/int_controller.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
-
 import '../classes/hoopup_user.dart';
-import '../handlers/login_handler.dart';
-import '../providers/firebase_provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'bottom_nav_bar.dart';
 
@@ -25,7 +22,6 @@ class _EditableFieldsState extends State<EditableFields> {
   late String gender;
   late int age;
   late final String photoUrl;
-  late bool loggedIn;
   late String email;
   late List<Widget> stars;
 
@@ -40,7 +36,7 @@ class _EditableFieldsState extends State<EditableFields> {
         child: Icon(
           size: 30,
           index < skillLevel ? Icons.star : Icons.star_border,
-          color: index < skillLevel ? Colors.orange : Colors.grey,
+          color: index < skillLevel ? Styles.primaryColor : Colors.grey,
         ),
         onTap: () {
           setState(() {
@@ -56,30 +52,16 @@ class _EditableFieldsState extends State<EditableFields> {
   void initState() {
     super.initState();
     final userProvider = context.read<HoopUpUserProvider>();
-    if (userProvider.user == null) {
-      //For Sign up page, no existing user
-      loggedIn = false;
-      skillLevel = 0;
-      final firebaseProvider = context.read<FirebaseProvider>();
-      final isEmailValid = useState(true);
-      final email = useState<String?>(null);
-      final password = useState<String?>(null);
-      final username = useState<String?>(null);
-      final Auth auth = Auth(firebaseProvider);
-    } else {
-      //For profile page, there exists a user.
-      loggedIn = true;
-      user = userProvider.user!;
-      username = user.username;
-      skillLevel = user.skillLevel;
-      gender = user.gender;
-      age = user.age;
-      photoUrl = user.photoUrl;
-      email = FirebaseAuth.instance.currentUser?.email as String;
-      nameController.text = username;
-      emailController.text = email;
-      ageController.setIntValue(age);
-    }
+    user = userProvider.user!;
+    username = user.username;
+    skillLevel = user.skillLevel;
+    gender = user.gender;
+    age = user.age;
+    photoUrl = user.photoUrl;
+    email = FirebaseAuth.instance.currentUser?.email as String;
+    nameController.text = username;
+    emailController.text = email;
+    ageController.setIntValue(age);
 
     generateStars();
   }
@@ -133,8 +115,10 @@ class _EditableFieldsState extends State<EditableFields> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              gender == "Male" ? Colors.orange : Colors.white,
+                          backgroundColor: Colors.white,
+                          shadowColor: gender == "Male"
+                              ? Styles.primaryColor
+                              : Colors.white,
                           minimumSize: const Size(90, 50),
                           elevation: 5,
                         ),
@@ -147,8 +131,10 @@ class _EditableFieldsState extends State<EditableFields> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              gender == "Female" ? Colors.orange : Colors.white,
+                          backgroundColor: Colors.white,
+                          shadowColor: gender == "Female"
+                              ? Styles.primaryColor
+                              : Colors.white,
                           minimumSize: const Size(90, 50),
                           elevation: 5,
                         ),
@@ -161,8 +147,10 @@ class _EditableFieldsState extends State<EditableFields> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              gender == "Other" ? Colors.orange : Colors.white,
+                          backgroundColor: Colors.white,
+                          shadowColor: gender == "Other"
+                              ? Styles.primaryColor
+                              : Colors.white,
                           minimumSize: const Size(90, 50),
                           elevation: 5,
                         ),
@@ -186,10 +174,10 @@ class _EditableFieldsState extends State<EditableFields> {
                 //Edit email -----------------------------------------------
                 TextFormField(
                   controller: emailController,
-                  enabled: !loggedIn,
+                  enabled: false,
                   decoration: InputDecoration(
                       fillColor: Colors.black12,
-                      filled: loggedIn,
+                      filled: true,
                       border: const OutlineInputBorder(
                           borderSide:
                               BorderSide(color: Colors.orange, width: 2.0)),
@@ -242,30 +230,27 @@ class _EditableFieldsState extends State<EditableFields> {
               const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (loggedIn) {
-                    if (nameController.text.length >= 3) {
-                      if (ageController.getIntValue() >= 13) {
-                        user.skillLevel = skillLevel;
-                        user.gender = gender;
-                        user.age = ageController.getIntValue();
-                        user.username = nameController.text;
-                        user.photoUrl = photoUrl;
-                        showCustomToast(
-                            "Profile updated", Icons.person, context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BottomNavBar()),
-                        );
-                      } else {
-                        showCustomToast(
-                            "Age too small", Icons.warning, context);
-                      }
+                  if (nameController.text.length >= 3) {
+                    if (ageController.getIntValue() >= 13) {
+                      user.skillLevel = skillLevel;
+                      user.gender = gender;
+                      user.age = ageController.getIntValue();
+                      user.username = nameController.text;
+                      user.photoUrl = photoUrl;
+                      showCustomToast("Profile updated", Icons.person, context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BottomNavBar()),
+                      );
                     } else {
                       showCustomToast(
-                          "Username is too short", Icons.warning, context);
+                          "You need to be over 13", Icons.warning, context);
                     }
-                  } else {}
+                  } else {
+                    showCustomToast(
+                        "Username is too short", Icons.warning, context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
