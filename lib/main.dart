@@ -13,7 +13,7 @@ import 'pages/map_page.dart';
 import 'pages/profile_page.dart';
 import 'services/firebase_options.dart';
 import 'providers/hoopup_user_provider.dart';
-import 'pages/starting_page.dart';
+import 'pages/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
