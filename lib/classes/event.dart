@@ -92,8 +92,8 @@ class Event {
   // Validate inputs -----------------------------------------------------
 
   void _validateSkillLevel(int skillLevel) {
-    if (skillLevel < 1 || skillLevel > 5) {
-      throw ArgumentError('Skill level should be between 1 and 5');
+    if (skillLevel < 0 || skillLevel > 5) {
+      throw ArgumentError('Skill level should be between 0 and 5');
     }
   }
 
@@ -104,7 +104,7 @@ class Event {
   }
 
   @override
-  toString () {
+  toString() {
     return 'Event: $name, $description, $creatorId, $time, $courtId, $skillLevel, $playerAmount, $genderGroup, $ageGroup, $id';
   }
 
