@@ -60,6 +60,7 @@ class EventHandler {
     );
     Message message = Message(
       username: hoopUpUser!.username,
+      userId: hoopUpUser.id,
       messageText: eventDescription,
       timeStamp: dateTime,
     );

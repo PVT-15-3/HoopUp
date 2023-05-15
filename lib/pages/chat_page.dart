@@ -22,11 +22,12 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  void _sendMessage(String username) {
+  void _sendMessage(String username, String userId) {
     String messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       Message message = Message(
         username: username,
+        userId: userId,
         messageText: messageText,
         timeStamp: DateTime.now(),
       );
@@ -99,6 +100,7 @@ class _ChatPageState extends State<ChatPage> {
                       children: messages.map<Widget>((message) {
                         return ChatMessage(
                           username: message.username,
+                          userId: message.userId,
                           messageText: message.messageText,
                           timestamp: message.timeStamp,
                         );
@@ -136,8 +138,9 @@ class _ChatPageState extends State<ChatPage> {
                     icon: Container(
                       child: Icon(Icons.chat_bubble_outline_outlined),
                     ),
-                    onPressed: () =>
-                        _sendMessage(hoopUpUserProvider.user!.username),
+                    onPressed: () => _sendMessage(
+                        hoopUpUserProvider.user!.username,
+                        hoopUpUserProvider.user!.id),
                   ),
                 ],
               ),
