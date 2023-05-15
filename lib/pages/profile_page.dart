@@ -24,13 +24,14 @@ class _ProfilePageState extends State<ProfilePage> {
       return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.white,
             actions: <Widget>[
               IconButton(
                   onPressed: () {
                     HoopUpUser.signOut();
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => StartPage()),
                     );
@@ -101,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   //TODO change color
-                                  color: Colors.orange,
+                                  color: Styles.primaryColor,
                                 ),
                               ),
                               contentPadding: EdgeInsets.symmetric(
@@ -173,6 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
