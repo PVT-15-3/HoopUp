@@ -38,129 +38,135 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: const Icon(Icons.logout)),
             ],
           ),
-          body: Center(
-            child: Consumer<HoopUpUserProvider>(
-                builder: (context, userProvider, child) {
-              HoopUpUser user = userProvider.user!;
-              String name = user.username;
-              int skillLevel = user.skillLevel;
-              String gender = user.gender;
-              int age = user.age;
-              String? email = FirebaseAuth.instance.currentUser!.email;
-              String photoUrl = user.photoUrl;
+          body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Center(
+              child: Consumer<HoopUpUserProvider>(
+                  builder: (context, userProvider, child) {
+                HoopUpUser user = userProvider.user!;
+                String name = user.username;
+                int skillLevel = user.skillLevel;
+                String gender = user.gender;
+                int age = user.age;
+                String? email = FirebaseAuth.instance.currentUser!.email;
+                String photoUrl = user.photoUrl;
 
-              List<Widget> stars = List.generate(
-                skillLevel,
-                (index) => const Icon(
-                    size: 30, Icons.star, color: Styles.primaryColor),
-              );
-              while (stars.length < 5) {
-                stars.add(const Icon(
-                    size: 30, Icons.star_border, color: Colors.grey));
-              }
+                List<Widget> stars = List.generate(
+                  skillLevel,
+                  (index) => const Icon(
+                      size: 30, Icons.star, color: Styles.primaryColor),
+                );
+                while (stars.length < 5) {
+                  stars.add(const Icon(
+                      size: 30, Icons.star_border, color: Colors.grey));
+                }
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    children: [
-                      //Profile picture
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(photoUrl),
-                      ),
-                      const SizedBox(height: 20),
-
-                  //Name
-                  Text(name),
-
-                  //SkillLevel
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: stars,
-                  ),
-                  const SizedBox(height: 40),
-                    ],
-                  ),
-
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(80, 0, 80, 0),
-                    child: Column(
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Column(
                       children: [
-                        //Email
-                        TextFormField(
-                          readOnly: true,
-                          initialValue: email,
-                          decoration: const InputDecoration(
-                            labelText: "E-mail",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                //TODO change color
-                                color: Colors.orange,
-                              ),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 0),
-                          ),
+                        //Profile picture
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: photoUrl != ""
+                              ? NetworkImage(photoUrl)
+                              : const AssetImage('assets/logo.png')
+                                  as ImageProvider<Object>,
                         ),
                         const SizedBox(height: 20),
-                        //Age
-                        TextFormField(
-                          readOnly: true,
-                          initialValue: "$age",
-                          decoration: const InputDecoration(
-                            labelText: "Age",
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 0),
-                          ),
+
+                        //Name
+                        Text(name),
+
+                        //SkillLevel
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: stars,
                         ),
-                        const SizedBox(height: 20),
-                        //Gender
-                        TextFormField(
-                          readOnly: true,
-                          initialValue: gender,
-                          decoration: const InputDecoration(
-                            labelText: "Gender",
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 0),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 40),
                       ],
                     ),
-                  ),
 
-                  //Edit Profile Button
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        isEditable = true;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      minimumSize: const Size(180, 70),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(80, 0, 80, 0),
+                      child: Column(
+                        children: [
+                          //Email
+                          TextFormField(
+                            readOnly: true,
+                            initialValue: email,
+                            decoration: const InputDecoration(
+                              labelText: "E-mail",
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  //TODO change color
+                                  color: Colors.orange,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          //Age
+                          TextFormField(
+                            readOnly: true,
+                            initialValue: "$age",
+                            decoration: const InputDecoration(
+                              labelText: "Age",
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          //Gender
+                          TextFormField(
+                            readOnly: true,
+                            initialValue: gender,
+                            decoration: const InputDecoration(
+                              labelText: "Gender",
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
                     ),
-                    child: const Text(
-                      'EDIT\nPROFILE',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: Styles.mainFont,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.black,
+
+                    //Edit Profile Button
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isEditable = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size(180, 70),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: const Text(
+                        'EDIT\nPROFILE',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: Styles.mainFont,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            }),
+                  ],
+                );
+              }),
+            ),
           ));
       //Editable values --------------------------------------------------------------------------
     } else {

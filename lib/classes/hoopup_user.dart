@@ -130,21 +130,6 @@ class HoopUpUser {
     }
   }
 
-  void pickProfilePicture() async {
-    // Open gallery to select an image
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      // Upload image to Firebase Storage
-      final path = 'user_profiles/${DateTime.now().millisecondsSinceEpoch}';
-      await _firebaseProvider.uploadFileToFirebaseStorage(
-          File(pickedFile.path), path);
-      // Update user profile picture URL
-      photoUrl =
-          await FirebaseStorage.instance.ref().child(path).getDownloadURL();
-    }
-  }
-
   // static methods
 
   static bool isSignedIn() {

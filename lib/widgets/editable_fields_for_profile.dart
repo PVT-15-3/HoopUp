@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/widgets/int_controller.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../classes/hoopup_user.dart';
+import '../providers/firebase_provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import 'bottom_nav_bar.dart';
 
@@ -21,9 +26,10 @@ class _EditableFieldsState extends State<EditableFields> {
   late int skillLevel;
   late String gender;
   late int age;
-  late final String photoUrl;
+  late String photoUrl;
   late String email;
   late List<Widget> stars;
+  late FirebaseProvider firebaseProvider;
 
   final nameController = TextEditingController();
   final ageController = IntEditingController();
@@ -52,6 +58,7 @@ class _EditableFieldsState extends State<EditableFields> {
   void initState() {
     super.initState();
     final userProvider = context.read<HoopUpUserProvider>();
+    firebaseProvider = context.read<FirebaseProvider>();
     user = userProvider.user!;
     username = user.username;
     skillLevel = user.skillLevel;
@@ -77,7 +84,21 @@ class _EditableFieldsState extends State<EditableFields> {
             //Edit picture ---------------------------------------------------
             ElevatedButton(
               onPressed: () async {
-                user.pickProfilePicture();
+                final pickedFile =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (pickedFile != null) {
+                  final path =
+                      'user_profiles/${DateTime.now().millisecondsSinceEpoch}';
+                  await firebaseProvider.uploadFileToFirebaseStorage(
+                      File(pickedFile.path), path);
+                  final newPhotoUrl = await FirebaseStorage.instance
+                      .ref()
+                      .child(path)
+                      .getDownloadURL();
+                  setState(() {
+                    photoUrl = newPhotoUrl;
+                  });
+                }
               },
               style: ButtonStyle(
                 backgroundColor:
