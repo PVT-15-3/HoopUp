@@ -21,14 +21,14 @@ class Auth {
         username: username,
         skillLevel: skillLevel,
         id: userCredential.user!.uid,
-        photoUrl: "https://i.redd.it/q5qc3clyt6ya1.png",
+        photoUrl: "",
         gender: gender,
         age: age,
         firebaseProvider: _firebaseProvider,
       );
       hoopUpuser.addUserToDatabase();
 
-      print('User created: ${userCredential.user!.uid}');
+      debugPrint('User created: ${userCredential.user!.uid}');
       return true;
     } on FirebaseAuthException catch (e) {
       showCustomToast(e.message!, Icons.error, context);
@@ -44,7 +44,7 @@ class Auth {
       User? user = userCredential.user;
       HoopUpUser hoopUpUser =
           await _firebaseProvider.getUserFromFirebase(user!.uid);
-      print('User signed in: ${hoopUpUser.username}');
+      debugPrint('User signed in: ${hoopUpUser.username}');
       return true;
     } on FirebaseAuthException catch (e) {
       showCustomToast(e.message!, Icons.error, context);
@@ -55,7 +55,7 @@ class Auth {
   Future<void> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      print('Password reset email sent to $email');
+      debugPrint('Password reset email sent to $email');
     } on FirebaseException catch (e) {
       throw AuthException(
           message:

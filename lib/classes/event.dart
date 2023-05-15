@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'chat.dart';
 import 'time.dart';
 import 'package:my_app/providers/firebase_provider.dart';
@@ -64,7 +65,7 @@ class Event {
         'ageGroup': _ageGroup,
       });
     } on Exception catch (e) {
-      print("Failed to add event to database: $e");
+      debugPrint("Failed to add event to database: $e");
     }
   }
 

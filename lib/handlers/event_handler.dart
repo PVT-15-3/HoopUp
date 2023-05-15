@@ -68,7 +68,7 @@ class EventHandler {
     event.chat.addMessage(message);
     addCreatorToEvent(event, hoopUpUser);
 
-    print('Event created:\n'
+    debugPrint('Event created:\n'
         '  Date: $eventDate\n'
         '  Start time: $eventStartTime\n'
         '  End time: $eventEndTime\n'
@@ -118,7 +118,7 @@ void addUserToEvent(
     HoopUpUserProvider hoopUpUserProvider,
     FirebaseProvider firebaseProvider) {
   if (eventsList.contains(eventId)) {
-    print("User is already in this event");
+    debugPrint("User is already in this event");
     return;
   }
   // Add the new event ID to the user's list
@@ -142,7 +142,7 @@ Future<void> removeOldEvents(
     if (event.time.endTime.millisecondsSinceEpoch <
         DateTime.now().millisecondsSinceEpoch) {
       firebaseProvider.removeFirebaseData('events/${event.id}');
-      print('Event ${event.id} removed because it has ended');
+      debugPrint('Event ${event.id} removed because it has ended');
     }
   }
   removeOldEventsFromUser(
@@ -158,7 +158,7 @@ void removeOldEventsFromUser(
     if (eventsList.any((event) => event.id == eventId)) {
       validEventIds.add(eventId);
     } else {
-      print("Event $eventId removed from user ${hoopUpUser.username} because "
+      debugPrint("Event $eventId removed from user ${hoopUpUser.username} because "
           "it no longer exists");
     }
   }

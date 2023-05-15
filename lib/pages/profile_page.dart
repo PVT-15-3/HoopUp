@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/Starting_page.dart';
-import 'package:my_app/widgets/editable_fields_for_profile_and_login_pages.dart';
-import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
+import '../widgets/editable_fields_for_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -47,13 +47,12 @@ class _ProfilePageState extends State<ProfilePage> {
               String gender = user.gender;
               int age = user.age;
               String? email = FirebaseAuth.instance.currentUser!.email;
-              String photoUrl = user.photoUrl as String;
+              String photoUrl = user.photoUrl;
 
               List<Widget> stars = List.generate(
                 skillLevel,
-                //TODO change orage to uniform color
-                (index) =>
-                    const Icon(size: 30, Icons.star, color: Colors.orange),
+                (index) => const Icon(
+                    size: 30, Icons.star, color: Styles.primaryColor),
               );
               while (stars.length < 5) {
                 stars.add(const Icon(
@@ -63,8 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                      child: Column(
+                  Column(
                     children: [
                       //Profile picture
                       CircleAvatar(
@@ -73,17 +71,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const SizedBox(height: 20),
 
-                      //Name
-                      Text(name),
+                  //Name
+                  Text(name),
 
-                      //SkillLevel
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: stars,
-                      ),
-                      const SizedBox(height: 40),
+                  //SkillLevel
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: stars,
+                  ),
+                  const SizedBox(height: 40),
                     ],
-                  )),
+                  ),
 
                   Container(
                     margin: const EdgeInsets.fromLTRB(80, 0, 80, 0),
@@ -143,12 +141,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      minimumSize: const Size(100, 60),
+                      minimumSize: const Size(180, 70),
                       elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     child: const Text(
-                      'EDIT PROFILE',
+                      'EDIT\nPROFILE',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
+                        fontFamily: Styles.mainFont,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.black,
