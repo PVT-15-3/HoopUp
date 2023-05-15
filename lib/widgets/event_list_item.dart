@@ -187,7 +187,7 @@ class _EventListItemState extends State<EventListItem> {
       },
       child: Card(
         elevation: 0.0,
-        margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+        margin: const EdgeInsets.fromLTRB(22.0, 0.0, 22.0, 24.0),
         shadowColor: Colors.grey.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -197,7 +197,7 @@ class _EventListItemState extends State<EventListItem> {
             Center(
               child: Container(
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
-                height: 150,
+                height: 155,
                 width: 340,
                 margin: const EdgeInsets.all(1.0),
                 decoration: BoxDecoration(

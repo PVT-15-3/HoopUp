@@ -142,7 +142,7 @@ class _EditableFieldsState extends State<EditableFields> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            minimumSize: const Size(90, 50),
+                            minimumSize: const Size(85, 44),
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -154,7 +154,7 @@ class _EditableFieldsState extends State<EditableFields> {
                                 )),
                           ),
                           child: const Text("MALE")),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 18),
                       ElevatedButton(
                           onPressed: () {
                             setState(() {
@@ -163,7 +163,7 @@ class _EditableFieldsState extends State<EditableFields> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            minimumSize: const Size(90, 50),
+                           minimumSize: const Size(85, 44),
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -175,7 +175,7 @@ class _EditableFieldsState extends State<EditableFields> {
                                 )),
                           ),
                           child: const Text("FEMALE")),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 18),
                       ElevatedButton(
                           onPressed: () {
                             setState(() {
@@ -184,7 +184,7 @@ class _EditableFieldsState extends State<EditableFields> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            minimumSize: const Size(90, 50),
+                           minimumSize: const Size(85, 44),
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
