@@ -7,6 +7,8 @@ import 'package:rxdart/subjects.dart';
 import '../widgets/event_list_item.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/filter_events.dart';
+
 class ListEventHandler extends StatefulWidget {
   final bool showJoinedEvents;
   const ListEventHandler({super.key, required this.showJoinedEvents});
@@ -48,8 +50,8 @@ class _ListEventHandlerState extends State<ListEventHandler> {
         children: [
           widget.showJoinedEvents
               ? const SizedBox.shrink()
-              : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Text(
+              : Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                  Text(
                     'DISCOVER GAME',
                     style: TextStyle(
                       fontSize: Styles.fontSizeBig,
@@ -58,13 +60,7 @@ class _ListEventHandlerState extends State<ListEventHandler> {
                       fontFamily: Styles.headerFont,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.tune),
-                    color: Styles.primaryColor,
-                    onPressed: () {
-                      // Add your onPressed callback here
-                    },
-                  ),
+              FilterIconButton(),
                 ]),
           Expanded(
             child: Center(

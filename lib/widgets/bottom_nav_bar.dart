@@ -6,6 +6,7 @@ import 'package:my_app/pages/start_page.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import '../app_styles.dart';
 import '../classes/court.dart';
 import '../providers/courts_provider.dart';
 
@@ -52,25 +53,25 @@ class _BottomNavBarState extends State<BottomNavBar> {
             BottomNavyBarItem(
               icon: const Icon(Icons.home),
               title: const Text('Home'),
-              activeColor: Colors.blue,
+              activeColor: Styles.primaryColor,
               inactiveColor: Colors.grey,
             ),
             BottomNavyBarItem(
               icon: const Icon(Icons.pin_drop),
               title: const Text('Map'),
-              activeColor: Colors.blue,
+              activeColor: Styles.primaryColor,
               inactiveColor: Colors.grey,
             ),
             BottomNavyBarItem(
               icon: const Icon(Icons.sports_basketball),
-              title: const Text('Joined event'),
-              activeColor: Colors.blue,
+              title: const Text('Bookings'),
+              activeColor: Styles.primaryColor,
               inactiveColor: Colors.grey,
             ),
             BottomNavyBarItem(
               icon: const Icon(Icons.person),
               title: const Text('Profile'),
-              activeColor: Colors.blue,
+              activeColor: Styles.primaryColor,
               inactiveColor: Colors.grey,
             ),
           ],

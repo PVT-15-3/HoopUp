@@ -76,14 +76,14 @@ class _EventPageState extends State<EventPage> {
 
   Icon getGenderIcon() {
     const double iconSize = 20.0;
-    if (widget.event.genderGroup == 'female') {
+    if (widget.event.genderGroup == 'Female') {
       return const Icon(
         Icons.female,
         color: Styles.primaryColor,
         size: iconSize,
       );
     }
-    if (widget.event.genderGroup == 'male') {
+    if (widget.event.genderGroup == 'Male') {
       return const Icon(
         Icons.male,
         color: Styles.primaryColor,

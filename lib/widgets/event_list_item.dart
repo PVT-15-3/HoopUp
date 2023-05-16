@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/classes/court.dart';
+import 'package:my_app/handlers/filter_handler.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
 import '../classes/event.dart';
@@ -69,6 +70,11 @@ class _EventListItemState extends State<EventListItem> {
         } else if (snapshot.data != widget.showJoinedEvents) {
           // If the snapshot data is not equal to the showJoinedEvents variable, return an empty SizedBox widget
           return const SizedBox.shrink();
+          
+        } else if (!FilterHandler.filterEvent(_event, context) &&
+            !widget.showJoinedEvents) {
+          // If the event does not pass the filter and the user has not joined the event, return an empty SizedBox widget
+          return const SizedBox.shrink();
         } else {
           // Otherwise, get the value of the joined variable from the snapshot data
           final bool hasUserJoined = snapshot.data ?? false;
@@ -126,7 +132,7 @@ class _EventListItemState extends State<EventListItem> {
     final dateText = TextSpan(
       text: '\nDate: ',
       style: const TextStyle(
-          fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.bold,
         fontFamily: Styles.subHeaderFont,
         color: Styles.discoverGametextColor,
         fontSize: Styles.fontSizeSmall,
@@ -164,13 +170,13 @@ class _EventListItemState extends State<EventListItem> {
     if (eventsList.contains(_event.id)) {
       removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
-      showCustomToast(
-          "You have canceled your game at ${widget._court.name}", Icons.schedule, context);
+      showCustomToast("You have canceled your game at ${widget._court.name}",
+          Icons.schedule, context);
     } else {
       addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
           _firebaseProvider);
-      showCustomToast(
-          "You have joined a game at ${widget._court.name}", Icons.schedule, context);
+      showCustomToast("You have joined a game at ${widget._court.name}",
+          Icons.schedule, context);
     }
   }
 

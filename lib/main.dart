@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/providers/courts_provider.dart';
+import 'package:my_app/providers/filter_provider.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/handlers/list_event_handler.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => FilterProvider()),
         ChangeNotifierProvider(create: (_) => HoopUpUserProvider()),
         ChangeNotifierProvider(create: (_) => CreateEventWizardProvider()),
         ChangeNotifierProvider(create: (_) => FirebaseProvider()),

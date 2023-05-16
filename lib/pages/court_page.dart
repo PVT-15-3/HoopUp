@@ -86,6 +86,7 @@ class CourtPage extends StatelessWidget {
                                 ),
                               ),
                              
+                              const SizedBox(height: 4.0),
                               Text(
                                 'Number of Hoops: ${court.numberOfHoops}',
                                 style: const TextStyle(
@@ -95,12 +96,12 @@ class CourtPage extends StatelessWidget {
                                   fontFamily: Styles.subHeaderFont,
                                 ),
                               ),
-                          const SizedBox(height: 15.0),
+                          const SizedBox(height: 4.0),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'Adress: ${court.address.toString()}',
+                                'Adress: ${court.address.toStringDivided()}',
                                 style: const TextStyle(
                                   fontSize: Styles.fontSizeSmall,
                                   fontWeight: FontWeight.w600,
