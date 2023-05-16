@@ -199,7 +199,7 @@ class _SignUpPage extends State<SignUpPage> {
                       ),
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Username',
+                          labelText: 'Username*',
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
                       validator: (value) {
@@ -226,7 +226,7 @@ class _SignUpPage extends State<SignUpPage> {
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "Age",
+                          labelText: "Age*",
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
                       validator: (value) {
@@ -256,7 +256,7 @@ class _SignUpPage extends State<SignUpPage> {
                                 BorderSide(color: Colors.orange, width: 2.0)),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 12),
-                        labelText: 'Email',
+                        labelText: 'Email*',
                         errorText: isEmailValid.value
                             ? null
                             : 'Please enter a valid email',
@@ -291,7 +291,7 @@ class _SignUpPage extends State<SignUpPage> {
                         border: OutlineInputBorder(),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                        labelText: 'Password',
+                        labelText: 'Password*',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
