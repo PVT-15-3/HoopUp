@@ -11,6 +11,7 @@ class FilterProvider with ChangeNotifier {
   bool _isAge36To50Selected = false;
   final bool _isAllAgeSelected = false;
   bool _isAge50plusSelected = false;
+  int _skillLevel = 1;
 
   bool get isMaleSelected => _isMaleSelected;
   bool get isFemaleSelected => _isFemaleSelected;
@@ -22,6 +23,13 @@ class FilterProvider with ChangeNotifier {
   bool get isAge36To50Selected => _isAge36To50Selected;
   bool get isAllAgeSelected => _isAllAgeSelected;
   bool get isAge50plusSelected => _isAge50plusSelected;
+  int get skillLevel => _skillLevel;
+
+  set skillLevel(int value) {
+    _skillLevel = value;
+    print ('$_skillLevel skill Level');
+    notifyListeners();
+  }
 
   void toggleMaleSelected(bool value) {
     _isMaleSelected = value;
@@ -60,6 +68,11 @@ class FilterProvider with ChangeNotifier {
       selectedAge.add('50+');
     }
     return selectedAge;
+  }
+  List<int> getSelectedSKillLevel() {
+    List<int> selectedSkillLevel = [];
+      selectedSkillLevel.add(_skillLevel);
+    return selectedSkillLevel;
   }
 
   void toggleFemaleSelected(bool value) {

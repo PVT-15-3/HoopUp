@@ -253,7 +253,7 @@ class _EventListItemState extends State<EventListItem> {
               ],
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(27.0, 4, 16.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 4, 16.0, 0.0),
               child: Row(
                 children: [
                   Row(
@@ -285,7 +285,7 @@ class _EventListItemState extends State<EventListItem> {
                         //       color: Styles.shadowColor),
                         // ],
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 3),
                       Text(
                         _event.time.getFormattedTimeAndDate(),
                         style: const TextStyle(

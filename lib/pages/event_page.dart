@@ -74,6 +74,48 @@ class _EventPageState extends State<EventPage> {
     return true;
   }
 
+  TextSpan _getSubtitleText() {
+    final timeText = TextSpan(
+      text: 'Time: ',
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeMedium,
+      ),
+      children: [
+        TextSpan(
+          text: widget.event.time.getFormattedStartAndEndTime(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    final dateText = TextSpan(
+      text: '\nDate: ',
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.discoverGametextColor,
+        fontSize: Styles.fontSizeMedium,
+      ),
+      children: [
+        TextSpan(
+          text: widget.event.time.getFormattedDate(),
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+
+    return TextSpan(
+      children: [timeText, dateText],
+    );
+  }
+
   Icon getGenderIcon() {
     const double iconSize = 20.0;
     if (widget.event.genderGroup == 'Female') {
@@ -86,6 +128,13 @@ class _EventPageState extends State<EventPage> {
     if (widget.event.genderGroup == 'Male') {
       return const Icon(
         Icons.male,
+        color: Styles.primaryColor,
+        size: iconSize,
+      );
+    }
+    if (widget.event.genderGroup == 'All') {
+      return const Icon(
+        Icons.group,
         color: Styles.primaryColor,
         size: iconSize,
       );
@@ -160,21 +209,77 @@ class _EventPageState extends State<EventPage> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 0.0),
-                          Text(
-                            courtOfTheEvent.address.toString(),
-                            style: const TextStyle(
-                              fontSize: Styles.fontSizeSmall,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: Styles.headerFont,
-                              color: Colors.grey,
+                          InkWell(
+                            onTap: () => showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.35,
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.all(17.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        blurRadius: 8.0,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                        target: courtOfTheEvent.position,
+                                        zoom: 15,
+                                      ),
+                                      markers: {
+                                        Marker(
+                                          markerId:
+                                              MarkerId(courtOfTheEvent.courtId),
+                                          position: courtOfTheEvent.position,
+                                          icon: customMarkerIcon ??
+                                              BitmapDescriptor.defaultMarker,
+                                          infoWindow: InfoWindow(
+                                            title: courtOfTheEvent.name,
+                                            snippet: courtOfTheEvent.address
+                                                .toString(),
+                                          ),
+                                        ),
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                            textAlign: TextAlign.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  courtOfTheEvent.address.toString(),
+                                  style: const TextStyle(
+                                    fontSize: Styles.fontSizeSmall,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: Styles.headerFont,
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  color: Colors.blueGrey,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14.0),
                   Card(
                     elevation: 10.0,
                     margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
@@ -211,150 +316,193 @@ class _EventPageState extends State<EventPage> {
                               Row(
                                 children: [
                                   Text(
-                                      '$_numberOfPlayersInEvent/${widget.event.playerAmount.toString()} players')
+                                    '$_numberOfPlayersInEvent/${widget.event.playerAmount.toString()} players',
+                                    style: const TextStyle(
+                                      fontSize: Styles.fontSizeSmall,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: Styles.subHeaderFont,
+                                      color: Styles.textColorMyBookings,
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          Text(
-                            'Hey!\nI plan to start a game at ${courtOfTheEvent.name} tomorrow the ${widget.event.time.getFormattedDate()} at the time ${widget.event.time.getFormattedStartAndEndTime()}.\n'
-                            '\nAnyone with the skill level ${widget.event.skillLevel} is welcome!',
-                            style: const TextStyle(
-                              fontSize: Styles.fontSizeMedium,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: Styles.subHeaderFont,
-                              color: Styles.textColor,
+                          Center(
+                            child: Text.rich(
+                              _getSubtitleText(),
                             ),
                           ),
-                          Container(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 4, 10.0, 0.0),
-                            child: Row(
-                              children: [
-                                Row(
-                                  children: List.generate(
-                                    widget.event.skillLevel,
-                                    (index) => const Icon(
-                                      Icons.star_purple500_sharp,
-                                      color: Styles.primaryColor,
-                                      size: 20,
-                                    ),
+                          const SizedBox(height: 12.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Skill Level: ',
+                                style: TextStyle(
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.textColor,
+                                ),
+                              ),
+                              Row(
+                                children: List.generate(
+                                  widget.event.skillLevel,
+                                  (index) => const Icon(
+                                    Icons.star_purple500_sharp,
+                                    color: Styles.primaryColor,
+                                    size: 23,
                                   ),
                                 ),
-                                const SizedBox(width: 7.0),
-                                Row(
-                                  children: [
-                                    getGenderIcon(),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      widget.event.ageGroup,
-                                      style: const TextStyle(
-                                        fontSize: Styles.fontSizeSmall,
-                                        fontWeight: FontWeight.normal,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 7.0, height: 12.0),
+                          Row(
+                            children: [
+                              const Text(
+                                'Gender: ',
+                                style: TextStyle(
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.textColor,
+                                ),
+                              ),
+                              widget.event.genderGroup == 'All'
+                                  ? const Text(
+                                      'All',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: Styles.fontSizeMedium,
                                         fontFamily: Styles.subHeaderFont,
                                         color: Styles.primaryColor,
                                       ),
-                                    ),
-                                    const SizedBox(width: 7),
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        padding: const EdgeInsets.all(0.0),
-                                        minimumSize: const Size(0, 0),
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.35,
-                                              width: double.infinity,
-                                              margin:
-                                                  const EdgeInsets.all(17.0),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    blurRadius: 8.0,
-                                                    offset: const Offset(0, 3),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: GoogleMap(
-                                                  initialCameraPosition:
-                                                      CameraPosition(
-                                                    target: courtOfTheEvent
-                                                        .position,
-                                                    zoom: 15,
-                                                  ),
-                                                  markers: {
-                                                    Marker(
-                                                      markerId: MarkerId(
-                                                          courtOfTheEvent
-                                                              .courtId),
-                                                      position: courtOfTheEvent
-                                                          .position,
-                                                      icon: customMarkerIcon ??
-                                                          BitmapDescriptor
-                                                              .defaultMarker,
-                                                      infoWindow: InfoWindow(
-                                                        title: courtOfTheEvent
-                                                            .name,
-                                                        snippet: courtOfTheEvent
-                                                            .address
-                                                            .toString(),
-                                                      ),
-                                                    ),
-                                                  },
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Show on map',
-                                        style: TextStyle(
-                                          fontSize: Styles.fontSizeSmallest,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: Styles.subHeaderFont,
-                                          color: Styles.discoverGametextColor,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                          Icons.chat_bubble_outline_rounded),
-                                      color: Styles.primaryColor,
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ChatPage(
-                                              event: widget.event,
-                                              court: courtOfTheEvent,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
+                                    )
+                                  : getGenderIcon(),
+                            ],
                           ),
+                          const SizedBox(width: 10),
+                          Row(
+                            children: [
+                              const Text(
+                                'Age: ',
+                                style: TextStyle(
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.textColor,
+                                ),
+                              ),
+                              Text(
+                                widget.event.ageGroup,
+                                style: const TextStyle(
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.primaryColor,
+                                ),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(
+                                    Icons.chat_bubble_outline_rounded),
+                                color: Styles.primaryColor,
+                                iconSize: 35,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                        event: widget.event,
+                                        court: courtOfTheEvent,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+
+                          // TextButton(
+                          //   style: TextButton.styleFrom(
+                          //     padding: const EdgeInsets.all(0.0),
+                          //     minimumSize: const Size(0, 0),
+                          //     tapTargetSize:
+                          //         MaterialTapTargetSize.shrinkWrap,
+                          //   ),
+                          // onPressed: () {
+                          //   showModalBottomSheet(
+                          //     context: context,
+                          //     builder: (BuildContext context) {
+                          //       return Container(
+                          //         height: MediaQuery.of(context)
+                          //                 .size
+                          //                 .height *
+                          //             0.35,
+                          //         width: double.infinity,
+                          //         margin:
+                          //             const EdgeInsets.all(17.0),
+                          //         decoration: BoxDecoration(
+                          //           borderRadius:
+                          //               BorderRadius.circular(10.0),
+                          //           boxShadow: [
+                          //             BoxShadow(
+                          //               color: Colors.grey
+                          //                   .withOpacity(0.5),
+                          //               blurRadius: 8.0,
+                          //               offset: const Offset(0, 3),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //         child: ClipRRect(
+                          //           borderRadius:
+                          //               BorderRadius.circular(10.0),
+                          //           child: GoogleMap(
+                          //             initialCameraPosition:
+                          //                 CameraPosition(
+                          //               target: courtOfTheEvent
+                          //                   .position,
+                          //               zoom: 15,
+                          //             ),
+                          //             markers: {
+                          //               Marker(
+                          //                 markerId: MarkerId(
+                          //                     courtOfTheEvent
+                          //                         .courtId),
+                          //                 position: courtOfTheEvent
+                          //                     .position,
+                          //                 icon: customMarkerIcon ??
+                          //                     BitmapDescriptor
+                          //                         .defaultMarker,
+                          //                 infoWindow: InfoWindow(
+                          //                   title: courtOfTheEvent
+                          //                       .name,
+                          //                   snippet: courtOfTheEvent
+                          //                       .address
+                          //                       .toString(),
+                          //                 ),
+                          //               ),
+                          //             },
+                          //           ),
+                          //         ),
+                          //       );
+                          //     },
+                          //   );
+                          // },
+                          // child: const Text(
+                          //   'Show on map',
+                          //   style: TextStyle(
+                          //     fontSize: Styles.fontSizeSmallest,
+                          //     fontWeight: FontWeight.normal,
+                          //     fontFamily: Styles.subHeaderFont,
+                          //     color: Styles.discoverGametextColor,
+                          //     decoration: TextDecoration.underline,
+                          //   ),
+                          // ),
+                          // ),
                         ],
                       ),
                     ),

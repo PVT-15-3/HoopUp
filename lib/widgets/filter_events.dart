@@ -100,6 +100,53 @@ class FilterIconButton extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Skill level',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Styles.primaryColor),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Selector<FilterProvider, int>(
+                          selector: (_, FilterProvider) =>
+                              FilterProvider.skillLevel,
+                          builder: (_, skillLevel, __) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: List.generate(
+                                5,
+                                (index) => InkWell(
+                                  onTap: () {
+                                    Provider.of<FilterProvider>(context,
+                                            listen: false)
+                                        .skillLevel = index + 1;
+                                  },
+                                  child: SizedBox(
+                                    width: 30,
+                                    height: 49,
+                                    child: Icon(
+                                      index < skillLevel
+                                          ? Icons.star
+                                          : Icons.star_border,
+                                      color: const Color(0xFFFC8027),
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(

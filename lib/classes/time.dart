@@ -51,7 +51,7 @@ class Time {
   final formatter = DateFormat('HH:mm');
   final formattedStartTime = formatter.format(_startTime);
   final formattedEndTime = formatter.format(_endTime);
-  return "$formattedStartTime-$formattedEndTime  |  ${getFormattedDate()}";
+  return "$formattedStartTime-$formattedEndTime | ${getFormattedDate()}";
 }
  String getFormattedDate() {
   final formatter = DateFormat('yyyy-MM-dd');
