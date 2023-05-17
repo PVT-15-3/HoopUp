@@ -37,9 +37,9 @@ class Chat {
   }
 
   //Handle events --------------------------------------------------------
-  void addMessage(Message message) {
+  Future<void> addMessage(Message message) async {
     _messages.add(message);
-    _firebaseProvider.setFirebaseDataMap(
+    await _firebaseProvider.setFirebaseDataMap(
         "events/$_eventId/chat/messages/${message.id}", message.toJson());
   }
 

@@ -39,28 +39,29 @@ class CreateEventWizard extends StatelessWidget {
         onCompleted: () {
           // do something when the wizard is completed
           wizardProvider.userId = hoopUpUserProvider.user!.id;
-          try {
-            EventHandler().createEvent(
-                eventDate: wizardProvider.eventDate,
-                eventStartTime: wizardProvider.eventStartTime,
-                eventEndTime: wizardProvider.eventEndTime,
-                numberOfParticipants: wizardProvider.numberOfParticipants,
-                selectedGender: wizardProvider.selectedGender,
-                selectedAgeGroup: wizardProvider.selectedAgeGroup,
-                skillLevel: wizardProvider.skillLevel,
-                eventName: wizardProvider.court!.name,
-                eventDescription: wizardProvider.eventDescription,
-                courtId: wizardProvider.court!.courtId,
-                userId: wizardProvider.userId,
-                hoopUpUser: hoopUpUserProvider.user,
-                firebaseProvider: firebaseProvider);
+          EventHandler()
+              .createEvent(
+                  eventDate: wizardProvider.eventDate,
+                  eventStartTime: wizardProvider.eventStartTime,
+                  eventEndTime: wizardProvider.eventEndTime,
+                  numberOfParticipants: wizardProvider.numberOfParticipants,
+                  selectedGender: wizardProvider.selectedGender,
+                  selectedAgeGroup: wizardProvider.selectedAgeGroup,
+                  skillLevel: wizardProvider.skillLevel,
+                  eventName: wizardProvider.court!.name,
+                  eventDescription: wizardProvider.eventDescription,
+                  courtId: wizardProvider.court!.courtId,
+                  userId: wizardProvider.userId,
+                  hoopUpUser: hoopUpUserProvider.user,
+                  firebaseProvider: firebaseProvider)
+              .then((_) {
             showCustomToast('Your event is created', Icons.approval, context);
-          } on Exception catch (e) {
+            wizardProvider.reset();
+            Navigator.pop(context);
+          }).catchError((e) {
             showCustomToast(e.toString(), Icons.error, context);
             debugPrint("error when creating event: $e");
-          }
-          Navigator.pop(context);
-          wizardProvider.reset();
+          });
         },
         steps: [
           CoolStep(

@@ -208,18 +208,18 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _courtId = "";
     _court = null;
     _userId;
-    bool _wizardFirstStepSelected = true;
-    int selectedYear = DateTime.now().year;
-    int selectedMonth = DateTime.now().month;
-    int selectedDay = DateTime.now().day;
-    List<int> daysInMonth = [];
-    int selectedStartHour = TimeOfDay.now().hour;
-    int selectedStartMinute = TimeOfDay.now().minute;
-    int selectedEndHour = TimeOfDay.now().hour;
-    int selectedEndMinute = TimeOfDay.now().minute;
-    bool _genderAllSelected = false;
-    bool _ageGroupAllSelected = false;
-    bool _skillLevelAllSelected = false;
+    _wizardFirstStepSelected = true;
+    selectedYear = DateTime.now().year;
+    selectedMonth = DateTime.now().month;
+    selectedDay = DateTime.now().day;
+    daysInMonth = [];
+    selectedStartHour = TimeOfDay.now().hour;
+    selectedStartMinute = TimeOfDay.now().minute;
+    selectedEndHour = TimeOfDay.now().hour;
+    selectedEndMinute = TimeOfDay.now().minute;
+    _genderAllSelected = false;
+    _ageGroupAllSelected = false;
+    _skillLevelAllSelected = false;
 
     notifyListeners();
   }
