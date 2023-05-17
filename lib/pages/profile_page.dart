@@ -205,7 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        body: EditableFields(),
+        body: const EditableFields(),
       );
     }
   }

@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           '/bottom_nav_bar': (context) => const BottomNavBar(),
           '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => const CreateEventWizard(),
-          '/sign_up_page.dart': (context) => SignUpPage(),
+          '/sign_up_page.dart': (context) => const SignUpPage(),
           '/log_in_page.dart': (context) => StartPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
           '/list_events_handler.dart': (context) => const ListEventHandler(

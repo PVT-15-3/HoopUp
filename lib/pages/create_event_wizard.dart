@@ -57,7 +57,7 @@ class CreateEventWizard extends StatelessWidget {
             showCustomToast('Your event is created', Icons.approval, context);
           } on Exception catch (e) {
             showCustomToast(e.toString(), Icons.error, context);
-            print("error when creating event: $e");
+            debugPrint("error when creating event: $e");
           }
           Navigator.pop(context);
           wizardProvider.reset();

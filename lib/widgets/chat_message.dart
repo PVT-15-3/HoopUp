@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +44,7 @@ class ChatMessage extends StatelessWidget {
     );
 
     Color messageBackgroundColor =
-        isCurrentUser ? Color(0xFFFF984B) : Color(0xFFFEE3CF);
+        isCurrentUser ? const Color(0xFFFF984B) : const Color(0xFFFEE3CF);
 
     DateFormat timestampFormat = DateFormat('MMM dd, yyyy HH:mm');
 
@@ -57,8 +56,8 @@ class ChatMessage extends StatelessWidget {
           child: ListTile(
             title: Row(
               children: [
-                if (!isCurrentUser) Icon(Icons.person_pin),
-                SizedBox(width: 4),
+                if (!isCurrentUser) const Icon(Icons.person_pin),
+                const SizedBox(width: 4),
                 Expanded(
                   child: Align(
                     alignment: isCurrentUser
@@ -70,7 +69,7 @@ class ChatMessage extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isCurrentUser) Icon(Icons.person_pin),
+                if (isCurrentUser) const Icon(Icons.person_pin),
               ],
             ),
             subtitle: Tooltip(
@@ -85,7 +84,7 @@ class ChatMessage extends StatelessWidget {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 1.5,
                       ),
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         color: messageBackgroundColor,
                         borderRadius: BorderRadius.circular(8.0),
