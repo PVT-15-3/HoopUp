@@ -21,154 +21,180 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     //Normal page --------------------------------------------------------------------------
     if (!isEditable) {
-      return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
+      return LayoutBuilder(builder: (context, constraints) {
+        return Scaffold(
             backgroundColor: Colors.white,
-            actions: <Widget>[
-              IconButton(
-                  onPressed: () {
-                    HoopUpUser.signOut();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartPage()),
-                    );
-                  },
-                  icon: const Icon(Icons.logout)),
-            ],
-          ),
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Center(
-              child: Consumer<HoopUpUserProvider>(
-                  builder: (context, userProvider, child) {
-                HoopUpUser user = userProvider.user!;
-                String name = user.username;
-                int skillLevel = user.skillLevel;
-                String gender = user.gender;
-                int age = user.age;
-                String? email = FirebaseAuth.instance.currentUser!.email;
-                String photoUrl = user.photoUrl;
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0.0,
+              backgroundColor: Colors.white,
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () {
+                      HoopUpUser.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartPage()),
+                      );
+                    },
+                    icon: const Icon(Icons.logout)),
+              ],
+            ),
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Center(
+                child: Consumer<HoopUpUserProvider>(
+                    builder: (context, userProvider, child) {
+                  HoopUpUser user = userProvider.user!;
+                  String name = user.username;
+                  int skillLevel = user.skillLevel;
+                  String gender = user.gender;
+                  int age = user.age;
+                  String? email = FirebaseAuth.instance.currentUser!.email;
+                  String photoUrl = user.photoUrl;
 
-                List<Widget> stars = List.generate(
-                  skillLevel,
-                  (index) => const Icon(
-                      size: 30, Icons.star, color: Styles.primaryColor),
-                );
-                while (stars.length < 5) {
-                  stars.add(const Icon(
-                      size: 30, Icons.star_border, color: Colors.grey));
-                }
+                  List<Widget> stars = List.generate(
+                    skillLevel,
+                    (index) => Icon(
+                        size: constraints.maxWidth * 0.08,
+                        Icons.star,
+                        color: Styles.primaryColor),
+                  );
+                  while (stars.length < 5) {
+                    stars.add(Icon(
+                        size: constraints.maxWidth * 0.08,
+                        Icons.star_border,
+                        color: Colors.grey));
+                  }
 
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      children: [
-                        //Profile picture
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: photoUrl != ""
-                              ? NetworkImage(photoUrl)
-                              : const AssetImage('assets/logo.png')
-                                  as ImageProvider<Object>,
-                        ),
-                        const SizedBox(height: 20),
-
-                        //Name
-                        Text(name),
-
-                        //SkillLevel
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: stars,
-                        ),
-                        const SizedBox(height: 40),
-                      ],
-                    ),
-
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(80, 0, 80, 0),
-                      child: Column(
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
                         children: [
-                          //Email
-                          TextFormField(
-                            readOnly: true,
-                            initialValue: email,
-                            decoration: const InputDecoration(
-                              labelText: "E-mail",
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  //TODO change color
-                                  color: Styles.primaryColor,
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 0),
+                          //Profile picture
+                          CircleAvatar(
+                            radius: constraints.maxWidth * 0.15,
+                            backgroundImage: photoUrl != ""
+                                ? NetworkImage(photoUrl)
+                                : const AssetImage('assets/logo.png')
+                                    as ImageProvider<Object>,
+                          ),
+                          SizedBox(height: constraints.maxHeight * 0.02),
+
+                          //Name
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: constraints.maxHeight * 0.04,
+                              fontFamily: Styles.mainFont,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          //Age
-                          TextFormField(
-                            readOnly: true,
-                            initialValue: "$age",
-                            decoration: const InputDecoration(
-                              labelText: "Age",
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 0),
-                            ),
+
+                          //SkillLevel
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: stars,
                           ),
-                          const SizedBox(height: 20),
-                          //Gender
-                          TextFormField(
-                            readOnly: true,
-                            initialValue: gender,
-                            decoration: const InputDecoration(
-                              labelText: "Gender",
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 0),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: constraints.maxHeight * 0.05),
                         ],
                       ),
-                    ),
 
-                    //Edit Profile Button
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isEditable = true;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        minimumSize: const Size(180, 70),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(constraints.maxWidth * 0.15,
+                            0, constraints.maxWidth * 0.15, 0),
+                        child: Column(
+                          children: [
+                            //Email
+                            TextFormField(
+                              style: TextStyle(
+                                fontSize: constraints.maxHeight * 0.02,
+                                fontFamily: Styles.mainFont,
+                              ),
+                              readOnly: true,
+                              initialValue: email,
+                              decoration: const InputDecoration(
+                                labelText: "E-mail",
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Styles.primaryColor,
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 0),
+                              ),
+                            ),
+                            SizedBox(height: constraints.maxWidth * 0.05),
+                            //Age
+                            TextFormField(
+                              style: TextStyle(
+                                fontSize: constraints.maxHeight * 0.02,
+                                fontFamily: Styles.mainFont,
+                              ),
+                              readOnly: true,
+                              initialValue: "$age",
+                              decoration: const InputDecoration(
+                                labelText: "Age",
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 0),
+                              ),
+                            ),
+                            SizedBox(height: constraints.maxWidth * 0.05),
+                            //Gender
+                            TextFormField(
+                              style: TextStyle(
+                                fontSize: constraints.maxHeight * 0.02,
+                                fontFamily: Styles.mainFont,
+                              ),
+                              readOnly: true,
+                              initialValue: gender,
+                              decoration: const InputDecoration(
+                                labelText: "Gender",
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 0),
+                              ),
+                            ),
+                            SizedBox(height: constraints.maxWidth * 0.05),
+                          ],
                         ),
                       ),
-                      child: const Text(
-                        'EDIT\nPROFILE',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: Styles.mainFont,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
+
+                      //Edit Profile Button
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isEditable = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          minimumSize: Size(constraints.maxWidth * 0.5,
+                              constraints.maxHeight * 0.1),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: Text(
+                          'EDIT\nPROFILE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: Styles.mainFont,
+                            fontWeight: FontWeight.bold,
+                            fontSize: constraints.maxWidth * 0.05,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              }),
-            ),
-          ));
+                    ],
+                  );
+                }),
+              ),
+            ));
+      });
       //Editable values --------------------------------------------------------------------------
     } else {
       return Scaffold(
