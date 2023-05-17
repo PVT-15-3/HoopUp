@@ -117,7 +117,7 @@ class _EventPageState extends State<EventPage> {
   }
 
   Icon getGenderIcon() {
-    const double iconSize = 20.0;
+    const double iconSize = 25.0;
     if (widget.event.genderGroup == 'Female') {
       return const Icon(
         Icons.female,
@@ -425,84 +425,6 @@ class _EventPageState extends State<EventPage> {
                               ),
                             ],
                           ),
-
-                          // TextButton(
-                          //   style: TextButton.styleFrom(
-                          //     padding: const EdgeInsets.all(0.0),
-                          //     minimumSize: const Size(0, 0),
-                          //     tapTargetSize:
-                          //         MaterialTapTargetSize.shrinkWrap,
-                          //   ),
-                          // onPressed: () {
-                          //   showModalBottomSheet(
-                          //     context: context,
-                          //     builder: (BuildContext context) {
-                          //       return Container(
-                          //         height: MediaQuery.of(context)
-                          //                 .size
-                          //                 .height *
-                          //             0.35,
-                          //         width: double.infinity,
-                          //         margin:
-                          //             const EdgeInsets.all(17.0),
-                          //         decoration: BoxDecoration(
-                          //           borderRadius:
-                          //               BorderRadius.circular(10.0),
-                          //           boxShadow: [
-                          //             BoxShadow(
-                          //               color: Colors.grey
-                          //                   .withOpacity(0.5),
-                          //               blurRadius: 8.0,
-                          //               offset: const Offset(0, 3),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //         child: ClipRRect(
-                          //           borderRadius:
-                          //               BorderRadius.circular(10.0),
-                          //           child: GoogleMap(
-                          //             initialCameraPosition:
-                          //                 CameraPosition(
-                          //               target: courtOfTheEvent
-                          //                   .position,
-                          //               zoom: 15,
-                          //             ),
-                          //             markers: {
-                          //               Marker(
-                          //                 markerId: MarkerId(
-                          //                     courtOfTheEvent
-                          //                         .courtId),
-                          //                 position: courtOfTheEvent
-                          //                     .position,
-                          //                 icon: customMarkerIcon ??
-                          //                     BitmapDescriptor
-                          //                         .defaultMarker,
-                          //                 infoWindow: InfoWindow(
-                          //                   title: courtOfTheEvent
-                          //                       .name,
-                          //                   snippet: courtOfTheEvent
-                          //                       .address
-                          //                       .toString(),
-                          //                 ),
-                          //               ),
-                          //             },
-                          //           ),
-                          //         ),
-                          //       );
-                          //     },
-                          //   );
-                          // },
-                          // child: const Text(
-                          //   'Show on map',
-                          //   style: TextStyle(
-                          //     fontSize: Styles.fontSizeSmallest,
-                          //     fontWeight: FontWeight.normal,
-                          //     fontFamily: Styles.subHeaderFont,
-                          //     color: Styles.discoverGametextColor,
-                          //     decoration: TextDecoration.underline,
-                          //   ),
-                          // ),
-                          // ),
                         ],
                       ),
                     ),
@@ -527,7 +449,7 @@ class _EventPageState extends State<EventPage> {
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: Styles.primaryColor,
-                              minimumSize: const Size(100, 45),
+                              minimumSize: const Size(130, 60),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               ),
@@ -536,7 +458,7 @@ class _EventPageState extends State<EventPage> {
                               'JOIN GAME',
                               style: TextStyle(
                                 fontFamily: Styles.buttonFont,
-                                fontSize: Styles.fontSizeSmall,
+                                fontSize: 20,
                               ),
                             ),
                           ),

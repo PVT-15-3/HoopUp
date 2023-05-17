@@ -37,7 +37,7 @@ class StartPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  minimumSize: const Size(100, 52),
+                  minimumSize: const Size(100, 55),
                   padding: const EdgeInsets.fromLTRB(52, 20, 52, 20),
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -65,9 +65,9 @@ class StartPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    minimumSize: const Size(100, 52),
+                    minimumSize: const Size(100, 55),
                     elevation: 5,
-                    padding: const EdgeInsets.fromLTRB(52, 20, 52, 20),
+                    padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     )),

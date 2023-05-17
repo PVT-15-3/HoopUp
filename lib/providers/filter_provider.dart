@@ -70,7 +70,9 @@ class FilterProvider with ChangeNotifier {
   }
   List<int> getSelectedSKillLevel() {
     List<int> selectedSkillLevel = [];
-      selectedSkillLevel.add(_skillLevel);
+    for(int i = 1; i <= _skillLevel; i++){
+      selectedSkillLevel.add(i);
+    }
     return selectedSkillLevel;
   }
 
