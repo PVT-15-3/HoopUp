@@ -232,7 +232,7 @@ class _EventListItemState extends State<EventListItem> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 0, 16.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0.0),
                   child: Text(
                     //TODO change to court name when court is implemented
                     widget._court.name.toUpperCase(),

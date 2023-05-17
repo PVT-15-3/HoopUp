@@ -108,7 +108,7 @@ class _SignUpPage extends State<SignUpPage> {
               const SizedBox(height: 20),
 
               Container(
-                  margin: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                   child: Column(children: [
                     //Edit gender ----------------------------------------------
                     Row(

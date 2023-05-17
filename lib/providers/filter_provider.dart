@@ -11,7 +11,8 @@ class FilterProvider with ChangeNotifier {
   bool _isAge36To50Selected = false;
   final bool _isAllAgeSelected = false;
   bool _isAge50plusSelected = false;
-  int _skillLevel = 1;
+  //TODO: Ska vara det som implementeras som "All" i create event wizard
+  int _skillLevel = 5;
 
   bool get isMaleSelected => _isMaleSelected;
   bool get isFemaleSelected => _isFemaleSelected;
@@ -71,7 +72,9 @@ class FilterProvider with ChangeNotifier {
   }
   List<int> getSelectedSKillLevel() {
     List<int> selectedSkillLevel = [];
-      selectedSkillLevel.add(_skillLevel);
+    for(int i = 1; i <= _skillLevel; i++){
+      selectedSkillLevel.add(i);
+    }
     return selectedSkillLevel;
   }
 
