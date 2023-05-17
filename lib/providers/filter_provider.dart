@@ -11,7 +11,7 @@ class FilterProvider with ChangeNotifier {
   bool _isAge36To50Selected = false;
   final bool _isAllAgeSelected = false;
   bool _isAge50plusSelected = false;
-  int _skillLevel = 1;
+  int _skillLevel = 5;
 
   bool get isMaleSelected => _isMaleSelected;
   bool get isFemaleSelected => _isFemaleSelected;
@@ -27,7 +27,6 @@ class FilterProvider with ChangeNotifier {
 
   set skillLevel(int value) {
     _skillLevel = value;
-    print ('$_skillLevel skill Level');
     notifyListeners();
   }
 

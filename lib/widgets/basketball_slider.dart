@@ -6,7 +6,7 @@ class BasketballSlider extends StatefulWidget {
   final double value;
   final ValueChanged<double>? onChanged;
 
-  const BasketballSlider({
+  const BasketballSlider({super.key, 
     required this.min,
     required this.max,
     required this.value,

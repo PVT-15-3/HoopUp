@@ -239,14 +239,12 @@ class _SignUpPage extends State<SignUpPage> {
                           setState(() {
                             dateOfBirth.value = pickedDate;
                           });
-                          print(_selectedDate);
-                          print(dateOfBirth.value.year);
                           String formattedDate =
                               DateFormat('yyyy-MM-dd').format(_selectedDate);
                           birthdayController.text = formattedDate;
                         } else {
-                          print("nul");
-                          
+                          showCustomToast("Pick a date",
+                              Icons.warning_amber_outlined, context);
                         }
                       },
                     ),
@@ -320,7 +318,8 @@ class _SignUpPage extends State<SignUpPage> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          DateTime thresholdDate = DateTime.now().subtract(const Duration(days: 13 * 365));
+                          DateTime thresholdDate = DateTime.now()
+                              .subtract(const Duration(days: 13 * 365));
                           if (dateOfBirth.value.isAfter(thresholdDate)) {
                             showCustomToast(
                                 "You must be at least 13 years old to use HoopUp",
