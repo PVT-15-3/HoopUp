@@ -1,8 +1,5 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 
 class HoopUpUser {
@@ -12,7 +9,7 @@ class HoopUpUser {
   List<String> _events = [];
   String _photoUrl;
   String _gender;
-  int _age;
+  DateTime _dateOfBirth;
   final FirebaseProvider _firebaseProvider;
 
   HoopUpUser(
@@ -21,14 +18,14 @@ class HoopUpUser {
       required String id,
       required String photoUrl,
       required String gender,
-      required int age,
+      required DateTime dateOfBirth,
       required FirebaseProvider firebaseProvider})
       : _username = username,
         _firebaseProvider = firebaseProvider,
         _skillLevel = skillLevel,
         _id = id,
         _photoUrl = photoUrl,
-        _age = age,
+        _dateOfBirth = dateOfBirth,
         _gender = gender {
     _validateSkillLevel(skillLevel);
   }
@@ -39,7 +36,7 @@ class HoopUpUser {
       "skillLevel": _skillLevel,
       "photoUrl": _photoUrl,
       "gender": _gender,
-      "age": _age,
+      "dateOfBirth": _dateOfBirth.millisecondsSinceEpoch,
     });
   }
 
@@ -72,9 +69,9 @@ class HoopUpUser {
     _firebaseProvider.setFirebaseDataList('users/$id/events', events);
   }
 
-  set age(int age) {
-    _age = age;
-    _firebaseProvider.updateFirebaseData("users/$id", {"age": age});
+  set dateOfBirth(DateTime dateOfBirth) {
+    _dateOfBirth = dateOfBirth;
+    _firebaseProvider.updateFirebaseData("users/$id", {"dateOfBirth": dateOfBirth});
   }
 
   // getters
@@ -85,7 +82,7 @@ class HoopUpUser {
   List<String> get events => _events;
   String get id => _id;
   int get skillLevel => _skillLevel;
-  int get age => _age;
+  DateTime get dateOfBirth => _dateOfBirth;
 
   Map<String, dynamic> toJson() {
     return {

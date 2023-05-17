@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../handlers/login_handler.dart';
 import '../providers/firebase_provider.dart';
 import '../widgets/bottom_nav_bar.dart';
-import '../widgets/int_controller.dart';
 import '../widgets/toaster.dart';
 
 class SignUpPage extends StatefulHookWidget {
-  SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SignUpPage();
@@ -24,8 +24,9 @@ class _SignUpPage extends State<SignUpPage> {
   late List<Widget> stars;
 
   final nameController = TextEditingController();
-  final ageController = IntEditingController();
   final emailController = TextEditingController();
+  final birthdayController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -62,7 +63,7 @@ class _SignUpPage extends State<SignUpPage> {
     final email = useState<String?>(null);
     final password = useState<String?>(null);
     final username = useState<String?>(null);
-    final age = useState<int>(0);
+    final dateOfBirth = useState<DateTime>(DateTime(0));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -107,7 +108,7 @@ class _SignUpPage extends State<SignUpPage> {
               const SizedBox(height: 20),
 
               Container(
-                  margin: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                   child: Column(children: [
                     //Edit gender ----------------------------------------------
                     Row(
@@ -218,28 +219,33 @@ class _SignUpPage extends State<SignUpPage> {
                     const SizedBox(height: 20),
 
                     //Edit age -------------------------------------------------
-                    TextFormField(
-                      controller: ageController,
-                      style: const TextStyle(
-                        fontFamily: Styles.mainFont,
-                      ),
-                      keyboardType: TextInputType.number,
+                    TextField(
+                      controller: birthdayController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "Age*",
+                          labelText: 'Date of birth*',
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter an age';
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: _selectedDate,
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (pickedDate != null) {
+                          _selectedDate = pickedDate;
+                          setState(() {
+                            dateOfBirth.value = pickedDate;
+                          });
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(_selectedDate);
+                          birthdayController.text = formattedDate;
+                        } else {
+                          showCustomToast("Pick a date",
+                              Icons.warning_amber_outlined, context);
                         }
-                        if (int.parse(value) < 13) {
-                          return 'You need to be 13 or over to create an account';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        age.value = int.parse(value as String);
                       },
                     ),
                     const SizedBox(height: 20),
@@ -312,6 +318,15 @@ class _SignUpPage extends State<SignUpPage> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          DateTime thresholdDate = DateTime.now()
+                              .subtract(const Duration(days: 13 * 365));
+                          if (dateOfBirth.value.isAfter(thresholdDate)) {
+                            showCustomToast(
+                                "You must be at least 13 years old to use HoopUp",
+                                Icons.warning,
+                                context);
+                            return;
+                          }
                           if (skillLevel != 0 && gender != "") {
                             _formKey.currentState!.save();
                             bool signUpSuccess = await auth.signUpWithEmail(
@@ -319,14 +334,11 @@ class _SignUpPage extends State<SignUpPage> {
                               password.value!,
                               username.value!,
                               gender,
-                              age.value,
+                              dateOfBirth.value,
                               skillLevel,
                               context,
                             );
                             if (signUpSuccess) {
-                              // ignore: use_build_context_synchronously
-                              showCustomToast(
-                                  "Profile updated", Icons.person, context);
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,

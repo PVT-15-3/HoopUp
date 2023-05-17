@@ -25,7 +25,7 @@ void main() {
         photoUrl: "photoUrl",
         gender: "gender",
         firebaseProvider: mockDatabase,
-        age: 18);
+        dateOfBirth: DateTime(2005));
     user2 = HoopUpUser(
         username: "user2",
         skillLevel: 1,
@@ -33,7 +33,7 @@ void main() {
         photoUrl: "photoUrl",
         gender: "gender",
         firebaseProvider: mockDatabase,
-        age: 18);
+        dateOfBirth: DateTime(2005));
   }
 
   arrangeMessages() {

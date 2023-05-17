@@ -22,7 +22,7 @@ void main() {
         photoUrl: "photoUrl",
         gender: "gender",
         firebaseProvider: mockDatabase,
-        age: 18);
+        dateOfBirth: DateTime(2005));
 
     when(() => mockDatabase.setFirebaseDataMap(any(), any()))
         .thenAnswer((_) async {

@@ -10,8 +10,10 @@ class FilterHandler {
     // Filtreringslogik baserat på valda alternativ
     bool isGenderFilter = true;
     bool isAgeFilter = true;
+    bool isSkillLevelFilter = true;
     List<String> selectedGenders = filterProvider.getSelectedGenders();
     List<String> selectedAges = filterProvider.getSelectedAge();
+    List<int> selectedSkillLevel = filterProvider.getSelectedSKillLevel();
 
     // Filtrera baserat på kön
     if (selectedGenders.isNotEmpty) {
@@ -22,7 +24,10 @@ class FilterHandler {
     if (selectedAges.isNotEmpty) {
       isAgeFilter = selectedAges.contains(event.ageGroup);
     }
-    
-    return isGenderFilter && isAgeFilter;
+
+    if(selectedSkillLevel.isNotEmpty){
+      isSkillLevelFilter = selectedSkillLevel.contains(event.skillLevel);
+    }
+    return isGenderFilter && isAgeFilter && isSkillLevelFilter;
   }
 }

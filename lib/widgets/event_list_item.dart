@@ -232,28 +232,27 @@ class _EventListItemState extends State<EventListItem> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 0, 16.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0.0),
                   child: Text(
-                    //TODO change to court name when court is implemented
                     widget._court.name.toUpperCase(),
                     style: const TextStyle(
                       fontSize: Styles.fontSizeMedium,
                       fontWeight: FontWeight.normal,
                       color: Styles.discoverGametextColor,
                       fontFamily: Styles.headerFont,
-                      shadows: <Shadow>[
-                        Shadow(
-                            offset: Offset(0, 2.0),
-                            blurRadius: 4.0,
-                            color: Styles.shadowColor),
-                      ],
+                      // shadows: <Shadow>[
+                      //   Shadow(
+                      //       offset: Offset(0, 2.0),
+                      //       blurRadius: 4.0,
+                      //       color: Styles.shadowColor),
+                      // ],
                     ),
                   ),
                 ),
               ],
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(27.0, 4, 16.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 4, 16.0, 0.0),
               child: Row(
                 children: [
                   Row(
@@ -265,8 +264,8 @@ class _EventListItemState extends State<EventListItem> {
                         size: 25,
                         shadows: <Shadow>[
                           Shadow(
-                              offset: Offset(0, 4.0),
-                              blurRadius: 15.0,
+                              offset: Offset(0, 10.0),
+                              blurRadius: 25.0,
                               color: Styles.shadowColor),
                         ],
                       ),
@@ -285,7 +284,7 @@ class _EventListItemState extends State<EventListItem> {
                         //       color: Styles.shadowColor),
                         // ],
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 3),
                       Text(
                         _event.time.getFormattedTimeAndDate(),
                         style: const TextStyle(

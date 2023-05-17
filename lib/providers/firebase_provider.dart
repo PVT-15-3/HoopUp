@@ -58,11 +58,13 @@ class FirebaseProvider with ChangeNotifier {
     final task = firebaseStorageRef.putFile(file);
     notifyListeners();
     task.snapshotEvents.listen((TaskSnapshot snapshot) {
-      debugPrint('Upload completed: ${snapshot.bytesTransferred} bytes transferred');
+      debugPrint(
+          'Upload completed: ${snapshot.bytesTransferred} bytes transferred');
     }, onError: (Object e) {
       debugPrint(e.toString());
     });
-    await task.whenComplete(() => debugPrint('File uploaded to Firebase Storage.'));
+    await task
+        .whenComplete(() => debugPrint('File uploaded to Firebase Storage.'));
   }
 
   Future<Map> getMapFromFirebase(String path, String resource) async {
@@ -117,7 +119,7 @@ class FirebaseProvider with ChangeNotifier {
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
         firebaseProvider: this,
-        age: userMap['age']);
+        dateOfBirth: DateTime.fromMillisecondsSinceEpoch(userMap['dateOfBirth']));
     if (userMap['events'] != null) {
       user.events = userMap['events'].cast<String>();
     }

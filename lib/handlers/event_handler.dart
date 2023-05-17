@@ -8,7 +8,7 @@ import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
 
 class EventHandler {
-  void createEvent(
+  Future<void> createEvent(
       {required DateTime eventDate,
       required TimeOfDay eventStartTime,
       required TimeOfDay eventEndTime,
@@ -21,7 +21,7 @@ class EventHandler {
       required String courtId,
       required String userId,
       required HoopUpUser? hoopUpUser,
-      required FirebaseProvider firebaseProvider}) {
+      required FirebaseProvider firebaseProvider}) async {
     // Implementation of event creation logic goes here
     DateTime startTime = DateTime(
       eventDate.year,
@@ -64,8 +64,8 @@ class EventHandler {
       messageText: eventDescription,
       timeStamp: dateTime,
     );
-    event.addEventToDatabase();
-    event.chat.addMessage(message);
+    await event.addEventToDatabase();
+    await event.chat.addMessage(message);
     addCreatorToEvent(event, hoopUpUser);
 
     debugPrint('Event created:\n'
