@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   String name = user.username;
                   int skillLevel = user.skillLevel;
                   String gender = user.gender;
-                  int age = user.age;
+                  DateTime dateOfBirth = user.dateOfBirth;
                   String? email = FirebaseAuth.instance.currentUser!.email;
                   String photoUrl = user.photoUrl;
 
@@ -133,7 +133,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 fontFamily: Styles.mainFont,
                               ),
                               readOnly: true,
-                              initialValue: "$age",
+                              initialValue:
+                                  "${DateTime.now().year - dateOfBirth.year}",
                               decoration: const InputDecoration(
                                 labelText: "Age",
                                 border: OutlineInputBorder(),

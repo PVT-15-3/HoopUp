@@ -40,7 +40,7 @@ void main() {
         photoUrl: "",
         gender: "Male",
         firebaseProvider: mockDatabase,
-        age: 18);
+        dateOfBirth: DateTime(2005));
   }
 
   group("Testing constructor", () {
@@ -66,7 +66,7 @@ void main() {
               photoUrl: "",
               gender: "",
               firebaseProvider: mockDatabase,
-              age: 18),
+              dateOfBirth: DateTime(2005)),
           throwsArgumentError);
     });
   });
@@ -82,7 +82,7 @@ void main() {
             "skillLevel": sut.skillLevel,
             "photoUrl": sut.photoUrl,
             "gender": sut.gender,
-            "age": sut.age,
+            "dateOfBirth": sut.dateOfBirth,
           })).called(1);
     });
     group(
@@ -157,7 +157,7 @@ void main() {
           photoUrl: "",
           gender: "",
           firebaseProvider: mockDatabase,
-          age: 18);
+          dateOfBirth: DateTime(2005));
       HoopUpUser identicalUser = HoopUpUser(
           username: "Geoff",
           skillLevel: 5,
@@ -165,7 +165,7 @@ void main() {
           photoUrl: "",
           gender: "Male",
           firebaseProvider: mockDatabase,
-          age: 18);
+          dateOfBirth: DateTime(2005));
       expect(otherUser == sut, false);
       expect(identicalUser == sut, true);
     });

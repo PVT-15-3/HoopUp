@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/app_styles.dart';
-import 'package:my_app/widgets/int_controller.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../classes/hoopup_user.dart';
@@ -14,7 +13,7 @@ import '../providers/hoopup_user_provider.dart';
 import 'bottom_nav_bar.dart';
 
 class EditableFields extends StatefulWidget {
-  EditableFields({Key? key}) : super(key: key);
+  const EditableFields({Key? key}) : super(key: key);
 
   @override
   State<EditableFields> createState() => _EditableFieldsState();
@@ -25,14 +24,14 @@ class _EditableFieldsState extends State<EditableFields> {
   late String username;
   late int skillLevel;
   late String gender;
-  late int age;
+  late DateTime dateOfBirth;
   late String photoUrl;
   late String email;
   late List<Widget> stars;
   late FirebaseProvider firebaseProvider;
 
   final nameController = TextEditingController();
-  final ageController = IntEditingController();
+  final birthDayController = TextEditingController();
   final emailController = TextEditingController();
 
   void generateStars() {
@@ -63,13 +62,12 @@ class _EditableFieldsState extends State<EditableFields> {
     username = user.username;
     skillLevel = user.skillLevel;
     gender = user.gender;
-    age = user.age;
+    dateOfBirth = user.dateOfBirth;
     photoUrl = user.photoUrl;
     email = FirebaseAuth.instance.currentUser?.email as String;
     nameController.text = username;
     emailController.text = email;
-    ageController.setIntValue(age);
-
+    birthDayController.text = "${DateTime.now().year - dateOfBirth.year}";
     generateStars();
   }
 
@@ -260,12 +258,17 @@ class _EditableFieldsState extends State<EditableFields> {
 
                     //Edit age -------------------------------------------------
                     TextFormField(
-                      controller: ageController,
+                      controller: birthDayController,
+                      enabled: false,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          labelText: "Age",
-                          hintText: "$age",
+                       decoration: InputDecoration(
+                          fillColor: Colors.black12,
+                          filled: true,
+                          border: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.orange, width: 2.0)),
+                          labelText: 'Age',
+                          hintText: birthDayController.text,
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
                     ),
@@ -304,10 +307,11 @@ class _EditableFieldsState extends State<EditableFields> {
                   ElevatedButton(
                     onPressed: () {
                       if (nameController.text.length >= 3) {
-                        if (ageController.getIntValue() >= 13) {
+                        if (user.dateOfBirth.year >= 13) {
                           user.skillLevel = skillLevel;
                           user.gender = gender;
-                          user.age = ageController.getIntValue();
+                          user.dateOfBirth =
+                              DateTime.parse(birthDayController.text);
                           user.username = nameController.text;
                           user.photoUrl = photoUrl;
                           showCustomToast(
