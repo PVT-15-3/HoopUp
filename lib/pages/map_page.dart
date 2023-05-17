@@ -41,9 +41,10 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     _initialization = _initialize();
-      _getCurrentLocation();
+    _getCurrentLocation();
   }
- Future<void> _getCurrentLocation() async {
+
+  Future<void> _getCurrentLocation() async {
     try {
       final hasPermission = await location.hasPermission();
       if (hasPermission == PermissionStatus.granted) {
@@ -125,135 +126,140 @@ class _MapPageState extends State<MapPage> {
                       _customInfoWindowController.googleMapController =
                           controller;
                     },
-                    
-                    markers: 
-                      _courtMarkers.map(
-                        (court) => Marker(
-                          markerId: MarkerId(court.courtId),
-                          position: court.position,
-                          icon: customMarkerIcon ??
-                              BitmapDescriptor.defaultMarker,
-                          onTap: () {
-                            _customInfoWindowController.addInfoWindow!(
-                              GestureDetector(
-                                onTap: () {
-                                  if (widget.showSelectOption) {
-                                    final CreateEventWizardProvider
-                                        wizardProvider =
-                                        Provider.of<CreateEventWizardProvider>(
-                                            context,
-                                            listen: false);
-                                    wizardProvider.court = court;
-                                    Navigator.pop(context);
-                                    showCustomToast('Court selected',
-                                        Icons.check_circle, context);
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            CourtPage(court: court),
+                    markers: _courtMarkers
+                        .map(
+                          (court) => Marker(
+                            markerId: MarkerId(court.courtId),
+                            position: court.position,
+                            icon: customMarkerIcon ??
+                                BitmapDescriptor.defaultMarker,
+                            onTap: () {
+                              _customInfoWindowController.addInfoWindow!(
+                                GestureDetector(
+                                  onTap: () {
+                                    if (widget.showSelectOption) {
+                                      final CreateEventWizardProvider
+                                          wizardProvider = Provider.of<
+                                                  CreateEventWizardProvider>(
+                                              context,
+                                              listen: false);
+                                      wizardProvider.court = court;
+                                      wizardProvider
+                                          .wizardFirstStepMapSelected = true;
+                                      Navigator.pop(context);
+                                      showCustomToast('Court selected',
+                                          Icons.check_circle, context);
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              CourtPage(court: court),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Styles.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.sports_basketball,
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                            const SizedBox(
+                                              width: 8.0,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                court.name,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                      color: Colors.white,
+                                                    ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    );
-                                  }
-                                },
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Styles.primaryColor,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.sports_basketball,
-                                            color: Colors.white,
-                                            size: 30,
-                                          ),
-                                          const SizedBox(
-                                            width: 8.0,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              court.name,
+                                      // Container(
+                                      //   decoration: BoxDecoration(
+                                      //     color: Colors.white,
+                                      //     borderRadius: BorderRadius.circular(4),
+                                      //   ),
+                                      //   padding: const EdgeInsets.all(8.0),
+                                      //   child: Text(
+                                      //     court.address.toString(),
+                                      //     style: Theme.of(context)
+                                      //         .textTheme
+                                      //         .titleMedium!
+                                      //         .copyWith(
+                                      //           color: Colors.black,
+                                      //         ),
+                                      //   ),
+                                      // ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              widget.showSelectOption
+                                                  ? 'Select'
+                                                  : 'More info',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleLarge!
+                                                  .titleMedium!
                                                   .copyWith(
-                                                    color: Colors.white,
+                                                    color: Colors.black,
                                                   ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    // Container(
-                                    //   decoration: BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     borderRadius: BorderRadius.circular(4),
-                                    //   ),
-                                    //   padding: const EdgeInsets.all(8.0),
-                                    //   child: Text(
-                                    //     court.address.toString(),
-                                    //     style: Theme.of(context)
-                                    //         .textTheme
-                                    //         .titleMedium!
-                                    //         .copyWith(
-                                    //           color: Colors.black,
-                                    //         ),
-                                    //   ),
-                                    // ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
+                                            const SizedBox(
+                                              width: 8.0,
+                                            ),
                                             widget.showSelectOption
-                                                ? 'Select'
-                                                : 'More info',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8.0,
-                                          ),
-                                          widget.showSelectOption
-                                              ? const Icon(
-                                                  Icons.check_circle,
-                                                  color: Colors.black,
-                                                )
-                                              : const Icon(
-                                                  Icons.info,
-                                                  color: Colors.black,
-                                                ),
-                                        ],
+                                                ? const Icon(
+                                                    Icons.check_circle,
+                                                    color: Colors.black,
+                                                  )
+                                                : const Icon(
+                                                    Icons.info,
+                                                    color: Colors.black,
+                                                  ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              court.position,
-                            );
-                          },
-                        ),
-                      ).toSet()..addAll(_markers),
+                                court.position,
+                              );
+                            },
+                          ),
+                        )
+                        .toSet()
+                      ..addAll(_markers),
                     initialCameraPosition: _initialCameraPosition,
-                    ),
+                  ),
                   CustomInfoWindow(
                     controller: _customInfoWindowController,
                     height: 110,
