@@ -261,15 +261,14 @@ class _EditableFieldsState extends State<EditableFields> {
                       controller: birthDayController,
                       enabled: false,
                       keyboardType: TextInputType.number,
-                       decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           fillColor: Colors.black12,
                           filled: true,
-                          border: const OutlineInputBorder(
+                          border: OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.orange, width: 2.0)),
                           labelText: 'Age',
-                          hintText: birthDayController.text,
-                          contentPadding: const EdgeInsets.symmetric(
+                          contentPadding: EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
                     ),
                     const SizedBox(height: 20),
@@ -307,24 +306,17 @@ class _EditableFieldsState extends State<EditableFields> {
                   ElevatedButton(
                     onPressed: () {
                       if (nameController.text.length >= 3) {
-                        if (user.dateOfBirth.year >= 13) {
-                          user.skillLevel = skillLevel;
-                          user.gender = gender;
-                          user.dateOfBirth =
-                              DateTime.parse(birthDayController.text);
-                          user.username = nameController.text;
-                          user.photoUrl = photoUrl;
-                          showCustomToast(
-                              "Profile updated", Icons.person, context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BottomNavBar()),
-                          );
-                        } else {
-                          showCustomToast(
-                              "You need to be over 13", Icons.warning, context);
-                        }
+                        user.skillLevel = skillLevel;
+                        user.gender = gender;
+                        user.username = nameController.text;
+                        user.photoUrl = photoUrl;
+                        showCustomToast(
+                            "Profile updated", Icons.person, context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBar()),
+                        );
                       } else {
                         showCustomToast(
                             "Username is too short", Icons.warning, context);
