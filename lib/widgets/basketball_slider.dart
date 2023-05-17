@@ -7,6 +7,7 @@ class BasketballSlider extends StatefulWidget {
   final ValueChanged<double>? onChanged;
 
   const BasketballSlider({
+    super.key,
     required this.min,
     required this.max,
     required this.value,
@@ -36,7 +37,7 @@ class _BasketballSliderState extends State<BasketballSlider> {
         children: [
           Container(
             height: 40,
-            width: 220,
+            width: 320,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
@@ -87,8 +88,11 @@ class _BasketballSliderState extends State<BasketballSlider> {
   double _calculateSliderPosition() {
     const sliderWidth = 320;
     final range = widget.max - widget.min;
-    final percentage = (_currentValue - widget.min) / range;
+    final percentage = ((_currentValue - widget.min) / range).clamp(0.0, 1.0);
 
-    return (sliderWidth) * percentage;
+    const availableWidth = sliderWidth - 44;
+    final position = availableWidth * percentage;
+
+    return position + 22;
   }
 }

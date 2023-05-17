@@ -4,12 +4,21 @@ import 'package:provider/provider.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class WizardSecondStep extends StatelessWidget {
-  const WizardSecondStep({super.key});
+  const WizardSecondStep({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final CreateEventWizardProvider wizardProvider =
         Provider.of<CreateEventWizardProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      bool isGenderSelected = wizardProvider.wizardSecondStepGenderSelected;
+      bool isAgeGroupSelected = wizardProvider.wizardSecondStepAgeGroupSelected;
+      bool isSkillLevelSelected =
+          wizardProvider.wizardSecondStepSkillLevelSelected;
+      wizardProvider.updateColorSecondStep(
+          isGenderSelected, isAgeGroupSelected, isSkillLevelSelected);
+    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -84,9 +93,17 @@ class WizardSecondStep extends StatelessWidget {
                       if (value == true) {
                         wizardProvider.selectedGender = 'All';
                         wizardProvider.genderAllSelected = true;
+                        wizardProvider.wizardSecondStepGenderSelected = true;
+                        wizardProvider.onGenderSelectedChanged(true);
+                        print(wizardProvider.wizardSecondStepAgeGroupSelected
+                            .toString());
                       } else {
                         wizardProvider.selectedGender = '';
                         wizardProvider.genderAllSelected = false;
+                        wizardProvider.wizardSecondStepGenderSelected = false;
+                        wizardProvider.onGenderSelectedChanged(false);
+                        print(wizardProvider.wizardSecondStepAgeGroupSelected
+                            .toString());
                       }
                     },
                   );
@@ -123,6 +140,10 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedGender = 'Male';
                     wizardProvider.genderAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onGenderSelectedChanged(true);
+                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                        .toString());
                   },
                   child: Container(
                     width: 69,
@@ -174,6 +195,10 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedGender = 'Female';
                     wizardProvider.genderAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onGenderSelectedChanged(true);
+                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                        .toString());
                   },
                   child: Container(
                     width: 69,
@@ -225,6 +250,10 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedGender = 'Other';
                     wizardProvider.genderAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onGenderSelectedChanged(true);
+                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                        .toString());
                   },
                   child: Container(
                     width: 69,
@@ -302,9 +331,13 @@ class WizardSecondStep extends StatelessWidget {
                       if (value == true) {
                         wizardProvider.selectedAgeGroup = 'All';
                         wizardProvider.ageGroupAllSelected = true;
+                        wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                        wizardProvider.onAgeSelectedChanged(true);
                       } else {
                         wizardProvider.selectedAgeGroup = '';
                         wizardProvider.ageGroupAllSelected = false;
+                        wizardProvider.wizardSecondStepAgeGroupSelected = false;
+                        wizardProvider.onAgeSelectedChanged(false);
                       }
                     },
                   );
@@ -341,6 +374,8 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedAgeGroup = '13-17';
                     wizardProvider.ageGroupAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
                     width: 39.3,
@@ -386,6 +421,8 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedAgeGroup = '18-25';
                     wizardProvider.ageGroupAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
                     width: 39.3,
@@ -431,6 +468,8 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedAgeGroup = '26-35';
                     wizardProvider.ageGroupAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
                     width: 39.3,
@@ -476,6 +515,8 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedAgeGroup = '36-50';
                     wizardProvider.ageGroupAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
                     width: 39.3,
@@ -521,6 +562,8 @@ class WizardSecondStep extends StatelessWidget {
                   onTap: () {
                     wizardProvider.selectedAgeGroup = '50+';
                     wizardProvider.ageGroupAllSelected = false;
+                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
+                    wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
                     width: 39.3,
@@ -593,14 +636,20 @@ class WizardSecondStep extends StatelessWidget {
               Consumer<CreateEventWizardProvider>(
                 builder: (context, wizardProvider, _) {
                   return Checkbox(
-                    value: wizardProvider.ageGroupAllSelected,
+                    value: wizardProvider.skillLevelAllSelected,
                     onChanged: (bool? value) {
                       if (value == true) {
-                        wizardProvider.selectedAgeGroup = 'All';
-                        wizardProvider.ageGroupAllSelected = true;
+                        wizardProvider.skillLevel = 0;
+                        wizardProvider.skillLevelAllSelected = true;
+                        wizardProvider.wizardSecondStepSkillLevelSelected =
+                            true;
+                        wizardProvider.onSkillLevelSelectedChanged(true);
                       } else {
-                        wizardProvider.selectedAgeGroup = '';
-                        wizardProvider.ageGroupAllSelected = false;
+                        wizardProvider.skillLevel = 1;
+                        wizardProvider.wizardSecondStepSkillLevelSelected =
+                            true;
+                        wizardProvider.skillLevelAllSelected = false;
+                        wizardProvider.onSkillLevelSelectedChanged(true);
                       }
                     },
                   );
@@ -641,6 +690,9 @@ class WizardSecondStep extends StatelessWidget {
                   (index) => InkWell(
                     onTap: () {
                       wizardProvider.skillLevel = index + 1;
+                      wizardProvider.skillLevelAllSelected = false;
+                      wizardProvider.wizardSecondStepSkillLevelSelected = true;
+                      wizardProvider.onSkillLevelSelectedChanged(true);
                     },
                     child: SizedBox(
                       width: 45,

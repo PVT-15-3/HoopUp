@@ -14,7 +14,11 @@ class CreateEventWizardProvider extends ChangeNotifier {
   String _courtId = "";
   Court? _court;
   String _userId = "";
-  bool _wizardFirstStepSelected = true;
+  bool _wizardFirstStepMapSelected = false;
+  bool _wizardFirstStepTimeSelected = false;
+  bool _wizardSecondStepGenderSelected = false;
+  bool _wizardSecondStepAgeGroupSelected = false;
+  bool _wizardSecondStepSkillLevelSelected = false;
   int selectedYear = DateTime.now().year;
   int selectedMonth = DateTime.now().month;
   int selectedDay = DateTime.now().day;
@@ -26,6 +30,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   bool _genderAllSelected = false;
   bool _ageGroupAllSelected = false;
   bool _skillLevelAllSelected = false;
+  Color? _color;
 
   DateTime get eventDate => _eventDate;
 
@@ -35,7 +40,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   }
 
   void updateEventDate() {
-    if (wizardFirstStepSelected) {
+    if (wizardFirstStepMapSelected) {
       _eventDate = DateTime(selectedYear, selectedMonth, selectedDay);
       notifyListeners();
     }
@@ -118,12 +123,44 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get wizardFirstStepSelected {
-    return _wizardFirstStepSelected;
+  bool get wizardFirstStepMapSelected {
+    return _wizardFirstStepMapSelected;
   }
 
-  set wizardFirstStepSelected(bool value) {
-    _wizardFirstStepSelected = value;
+  set wizardFirstStepMapSelected(bool value) {
+    _wizardFirstStepMapSelected = value;
+    notifyListeners();
+  }
+
+  bool get wizardFirstStepTimeSelected {
+    return _wizardFirstStepTimeSelected;
+  }
+
+  set wizardFirstStepTimeSelected(bool value) {
+    _wizardFirstStepTimeSelected = value;
+    notifyListeners();
+  }
+
+  bool get wizardSecondStepGenderSelected => _wizardSecondStepGenderSelected;
+
+  set wizardSecondStepGenderSelected(bool value) {
+    _wizardSecondStepGenderSelected = value;
+    notifyListeners();
+  }
+
+  bool get wizardSecondStepAgeGroupSelected =>
+      _wizardSecondStepAgeGroupSelected;
+
+  set wizardSecondStepAgeGroupSelected(bool value) {
+    _wizardSecondStepAgeGroupSelected = value;
+    notifyListeners();
+  }
+
+  bool get wizardSecondStepSkillLevelSelected =>
+      _wizardSecondStepSkillLevelSelected;
+
+  set wizardSecondStepSkillLevelSelected(bool value) {
+    _wizardSecondStepSkillLevelSelected = value;
     notifyListeners();
   }
 
@@ -146,6 +183,78 @@ class CreateEventWizardProvider extends ChangeNotifier {
   set skillLevelAllSelected(bool value) {
     _skillLevelAllSelected = value;
     notifyListeners();
+  }
+
+  Color? get color => _color;
+
+  set color(Color? value) {
+    _color = value;
+    notifyListeners();
+  }
+
+  void updateColorFirstStep(bool isMapSelected, bool isTimeSelected) {
+    bool wizardFirstStepComplete = isMapSelected && isTimeSelected;
+    color = wizardFirstStepComplete ? Color(0xFFFC8027) : Color(0xFF959595);
+  }
+
+  void onMapSelectedChanged(bool newValue) {
+    wizardFirstStepMapSelected = newValue;
+    updateColorFirstStep(
+        wizardFirstStepMapSelected, wizardFirstStepTimeSelected);
+  }
+
+  void onTimeSelectedChanged() {
+    DateTime now = DateTime.now();
+    DateTime startTime = DateTime(
+      eventDate.year,
+      eventDate.month,
+      eventDate.day,
+      eventStartTime.hour,
+      eventStartTime.minute,
+    );
+
+    DateTime thirtyMinutesFromNow = now.add(const Duration(minutes: 30));
+    bool isStartTimeValid =
+        startTime.isAfter(thirtyMinutesFromNow) && startTime.isAfter(now);
+
+    DateTime endTime = DateTime(
+      eventDate.year,
+      eventDate.month,
+      eventDate.day,
+      eventEndTime.hour,
+      eventEndTime.minute,
+    );
+    bool isEndTimeValid =
+        endTime.isAfter(startTime.add(const Duration(hours: 1)));
+
+    wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
+    updateColorFirstStep(
+        wizardFirstStepMapSelected, wizardFirstStepTimeSelected);
+  }
+
+  void onGenderSelectedChanged(bool newValue) {
+    wizardSecondStepGenderSelected = newValue;
+    updateColorSecondStep(wizardSecondStepGenderSelected,
+        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
+  }
+
+  void onAgeSelectedChanged(bool newValue) {
+    wizardSecondStepAgeGroupSelected = newValue;
+    updateColorSecondStep(wizardSecondStepGenderSelected,
+        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
+  }
+
+  void onSkillLevelSelectedChanged(bool newValue) {
+    wizardSecondStepSkillLevelSelected = newValue;
+    updateColorSecondStep(wizardSecondStepGenderSelected,
+        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
+  }
+
+  void updateColorSecondStep(bool isGenderSelected, bool isAgeGroupSelected,
+      bool isSkillLevelSelected) {
+    bool wizardSecondStageComplete =
+        isGenderSelected && isAgeGroupSelected && isSkillLevelSelected;
+    color = wizardSecondStageComplete ? Color(0xFFFC8027) : Color(0xFF959595);
   }
 
   void setSelectedMonth(int month) {
@@ -208,7 +317,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _courtId = "";
     _court = null;
     _userId;
-    bool _wizardFirstStepSelected = true;
+    bool _wizardFirstStepMapSelected = false;
     int selectedYear = DateTime.now().year;
     int selectedMonth = DateTime.now().month;
     int selectedDay = DateTime.now().day;
@@ -220,6 +329,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     bool _genderAllSelected = false;
     bool _ageGroupAllSelected = false;
     bool _skillLevelAllSelected = false;
+    Color? _color = null;
 
     notifyListeners();
   }

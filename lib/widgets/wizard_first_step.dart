@@ -116,7 +116,7 @@ class WizardFirstStep extends StatelessWidget {
                   ],
                   onChanged: (Court? newCourt) {
                     wizardProvider.court = newCourt;
-                    wizardProvider.wizardFirstStepSelected = true;
+                    wizardProvider.onMapSelectedChanged(true);
                   },
                   underline: Container(),
                 );
@@ -133,7 +133,8 @@ class WizardFirstStep extends StatelessWidget {
               ));
             },
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFFFC8027), textStyle: const TextStyle(
+              foregroundColor: const Color(0xFFFC8027),
+              textStyle: const TextStyle(
                 fontFamily: 'Open Sans',
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w600,
@@ -166,24 +167,19 @@ class WizardFirstStep extends StatelessWidget {
             ),
           ),
         ),
-        Consumer<CreateEventWizardProvider>(
-          builder: (context, wizardProvider, _) => Opacity(
-            opacity: wizardProvider.wizardFirstStepSelected ? 1.0 : 0.5,
-            child: const Center(
-              child: Text(
-                'Select day and time for your game',
-                style: TextStyle(
-                  fontFamily: 'Open Sans',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  height: 1.6,
-                  letterSpacing: 0.1,
-                  color: Color(0xFF2D2D2D),
-                ),
-                textAlign: TextAlign.center,
-              ),
+        const Center(
+          child: Text(
+            'Select day and time for your game',
+            style: TextStyle(
+              fontFamily: 'Open Sans',
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              height: 1.6,
+              letterSpacing: 0.1,
+              color: Color(0xFF2D2D2D),
             ),
+            textAlign: TextAlign.center,
           ),
         ),
         Consumer<CreateEventWizardProvider>(
@@ -198,15 +194,10 @@ class WizardFirstStep extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownButton<int>(
-                  value: wizardProvider.wizardFirstStepSelected
-                      ? wizardProvider.selectedYear
-                      : null,
-                  disabledHint: Text(DateTime.now().year.toString()),
-                  onChanged: wizardProvider.wizardFirstStepSelected
-                      ? (value) {
-                          wizardProvider.setSelectedYear(value!);
-                        }
-                      : null,
+                  value: wizardProvider.selectedYear,
+                  onChanged: (value) {
+                    wizardProvider.setSelectedYear(value!);
+                  },
                   items: List.generate(10, (index) => index + 2022)
                       .map((year) => DropdownMenuItem<int>(
                             value: year,
@@ -216,15 +207,10 @@ class WizardFirstStep extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 DropdownButton<int>(
-                  value: wizardProvider.wizardFirstStepSelected
-                      ? wizardProvider.selectedMonth
-                      : null,
-                  disabledHint: Text(DateTime.now().month.toString()),
-                  onChanged: wizardProvider.wizardFirstStepSelected
-                      ? (value) {
-                          wizardProvider.setSelectedMonth(value!);
-                        }
-                      : null,
+                  value: wizardProvider.selectedMonth,
+                  onChanged: (value) {
+                    wizardProvider.setSelectedMonth(value!);
+                  },
                   items: List.generate(12, (index) => index + 1)
                       .map((month) => DropdownMenuItem<int>(
                             value: month,
@@ -234,15 +220,10 @@ class WizardFirstStep extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 DropdownButton<int>(
-                  value: wizardProvider.wizardFirstStepSelected
-                      ? wizardProvider.selectedDay
-                      : null,
-                  disabledHint: Text(DateTime.now().day.toString()),
-                  onChanged: wizardProvider.wizardFirstStepSelected
-                      ? (value) {
-                          wizardProvider.setSelectedDay(value!);
-                        }
-                      : null,
+                  value: wizardProvider.selectedDay,
+                  onChanged: (value) {
+                    wizardProvider.setSelectedDay(value!);
+                  },
                   items: daysInMonth
                       .map((day) => DropdownMenuItem<int>(
                             value: day,
@@ -255,52 +236,47 @@ class WizardFirstStep extends StatelessWidget {
           },
         ),
         const SizedBox(height: 20),
-        Consumer<CreateEventWizardProvider>(
-          builder: (context, wizardProvider, _) => Opacity(
-            opacity: wizardProvider.wizardFirstStepSelected ? 1.0 : 0.5,
-            child: Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 1.7,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 69,
-                      height: 32,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Start time',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          height: 1.14,
-                          letterSpacing: 0.1,
-                          color: Color(0xFF2D2D2D),
-                        ),
-                      ),
+        Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 1.7,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 69,
+                  height: 32,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Start time',
+                    style: TextStyle(
+                      fontFamily: 'Open Sans',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF2D2D2D),
                     ),
-                    Container(
-                      width: 69,
-                      height: 32,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'End time',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          height: 1.14,
-                          letterSpacing: 0.1,
-                          color: Color(0xFF2D2D2D),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Container(
+                  width: 69,
+                  height: 32,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'End time',
+                    style: TextStyle(
+                      fontFamily: 'Open Sans',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF2D2D2D),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -391,25 +367,17 @@ class WizardFirstStep extends StatelessWidget {
             children: [
               hourMinute((time) {
                 wizardProvider.eventStartTime = time;
+                wizardProvider.onTimeSelectedChanged();
+                print(wizardProvider.eventStartTime.toString());
               }),
               const SizedBox(width: 70),
               hourMinute((time) {
                 wizardProvider.eventEndTime = time;
+                wizardProvider.onTimeSelectedChanged();
+                print(wizardProvider.eventEndTime.toString());
               }),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
             ],
-          ),
-        ),
-        Center(
-          child: Container(
-            width: 379,
-            height: 0.5,
-            margin: const EdgeInsets.only(top: 20),
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFFA4A4A4), width: 0.5),
-            ),
           ),
         ),
       ],
