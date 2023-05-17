@@ -82,7 +82,7 @@ void main() {
             "skillLevel": sut.skillLevel,
             "photoUrl": sut.photoUrl,
             "gender": sut.gender,
-            "dateOfBirth": sut.dateOfBirth,
+            "dateOfBirth": sut.dateOfBirth.millisecondsSinceEpoch,
           })).called(1);
     });
     group(
