@@ -234,19 +234,18 @@ class _EventListItemState extends State<EventListItem> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(30.0, 0, 16.0, 0.0),
                   child: Text(
-                    //TODO change to court name when court is implemented
                     widget._court.name.toUpperCase(),
                     style: const TextStyle(
                       fontSize: Styles.fontSizeMedium,
                       fontWeight: FontWeight.normal,
                       color: Styles.discoverGametextColor,
                       fontFamily: Styles.headerFont,
-                      shadows: <Shadow>[
-                        Shadow(
-                            offset: Offset(0, 2.0),
-                            blurRadius: 4.0,
-                            color: Styles.shadowColor),
-                      ],
+                      // shadows: <Shadow>[
+                      //   Shadow(
+                      //       offset: Offset(0, 2.0),
+                      //       blurRadius: 4.0,
+                      //       color: Styles.shadowColor),
+                      // ],
                     ),
                   ),
                 ),
@@ -265,8 +264,8 @@ class _EventListItemState extends State<EventListItem> {
                         size: 25,
                         shadows: <Shadow>[
                           Shadow(
-                              offset: Offset(0, 4.0),
-                              blurRadius: 15.0,
+                              offset: Offset(0, 10.0),
+                              blurRadius: 25.0,
                               color: Styles.shadowColor),
                         ],
                       ),
