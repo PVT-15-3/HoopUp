@@ -58,10 +58,8 @@ class CreateEventWizard extends StatelessWidget {
                   .then((_) {
                 showCustomToast(
                     'Your event is created', Icons.approval, context);
-              });
-              Future.delayed(const Duration(milliseconds: 750), () {
-                Navigator.pop(context);
                 wizardProvider.reset();
+                Navigator.pop(context);
               }).catchError((e) {
                 showCustomToast(e.toString(), Icons.error, context);
                 debugPrint("error when creating event: $e");
