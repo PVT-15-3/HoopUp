@@ -447,17 +447,21 @@ class _EventPageState extends State<EventPage> {
                       : Center(
                           child: TextButton(
                             onPressed: () {
-                              addUserToThisEvent(context).then((_) {
-                                showCustomToast(
-                                  "You have joined a game at ${courtOfTheEvent.name}",
-                                  Icons.schedule,
-                                  context);
-                               Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BottomNavBar(currentIndex: 2,)),
-                        );
-                            },
+                              addUserToThisEvent(context).then(
+                                (_) {
+                                  showCustomToast(
+                                      "You have joined a game at ${courtOfTheEvent.name}",
+                                      Icons.schedule,
+                                      context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavBar(
+                                              currentIndex: 2,
+                                            )),
+                                  );
+                                },
                               );
                             },
                             style: TextButton.styleFrom(

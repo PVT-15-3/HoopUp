@@ -59,6 +59,13 @@ class FilterIconButton extends StatelessWidget {
                             filterProvider.toggleOtherSelected(value!);
                           },
                         ),
+                        CheckboxListTile(
+                          title: const Text('Gender category "All"'),
+                          value: filterProvider.isGenderAllSelected,
+                          onChanged: (value) {
+                            filterProvider.toggleGenderAllSelected(value!);
+                          },
+                        ),
                         const SizedBox(height: 16),
                         const Text('AGE',
                             style: TextStyle(
@@ -99,6 +106,13 @@ class FilterIconButton extends StatelessWidget {
                             filterProvider.toggleAge50plusSelected(value!);
                           },
                         ),
+                        CheckboxListTile(
+                          title: const Text('Age category "All"'),
+                          value: filterProvider.isAgeAllSelected,
+                          onChanged: (value) {
+                            filterProvider.toggleAgeAllSelected(value!);
+                          },
+                        ),
                         const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -114,84 +128,21 @@ class FilterIconButton extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Consumer<FilterProvider>(
-                          builder: (context, FilterProvider, _) {
-                            return Row(
-                              children: [
-                                Checkbox(
-                                  value: FilterProvider.allSkillLevelSelected,
-                                  onChanged: (bool? value) {
-                                    if (value == true) {
-                                      FilterProvider.skillLevel = 6;
-                                      FilterProvider.allSkillLevelSelected =
-                                          true;
-                                      FilterProvider.skillLevelAllSelected =
-                                          false;
-                                    } else {
-                                      FilterProvider.skillLevel = 0;
-                                      FilterProvider.allSkillLevelSelected =
-                                          false;
-                                    }
-                                  },
-                                ),
-                                const SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    'Show all skill levels',
-                                    style: TextStyle(
-                                      fontFamily: Styles.mainFont,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: Styles.fontSizeSmallest,
-                                      height: 1.6,
-                                      letterSpacing: 0.1,
-                                      color: Color(0xFFA9A9A9),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        Consumer<FilterProvider>(
-                          builder: (context, FilterProvider, _) {
-                            return Row(
-                              children: [
-                                Checkbox(
-                                  value: FilterProvider.skillLevelAllSelected,
-                                  onChanged: (bool? value) {
-                                    if (value == true) {
-                                      FilterProvider.skillLevel = 0;
-                                      FilterProvider.skillLevelAllSelected =
-                                          true;
-                                      FilterProvider.allSkillLevelSelected =
-                                          false;
-                                    } else {
-                                      FilterProvider.skillLevel = 0;
-                                      FilterProvider.skillLevelAllSelected =
-                                          false;
-                                    }
-                                  },
-                                ),
-                                const SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    'Show games with the skill level "All"',
-                                    style: TextStyle(
-                                      fontFamily: Styles.mainFont,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: Styles.fontSizeSmallest,
-                                      height: 1.6,
-                                      letterSpacing: 0.1,
-                                      color: Color(0xFFA9A9A9),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
+                        CheckboxListTile(
+                          title: const Text('Skill Level category "All"'),
+                          value: filterProvider.isSkillLevelAllSelected,
+                          onChanged: (bool? value) {
+                            if (value == true) {
+                              filterProvider.skillLevel = 0;
+                              filterProvider.isSkillLevelAllSelected = true;
+                            } else {
+                              filterProvider.skillLevel = 0;
+                              filterProvider.isSkillLevelAllSelected = false;
+                            }
                           },
                         ),
                         const SizedBox(
-                        height: 10,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -225,10 +176,7 @@ class FilterIconButton extends StatelessWidget {
                                           .skillLevel = index + 1;
                                       Provider.of<FilterProvider>(context,
                                               listen: false)
-                                          .skillLevelAllSelected = false;
-                                          Provider.of<FilterProvider>(context,
-                                              listen: false)
-                                          .allSkillLevelSelected = false;
+                                          .isSkillLevelAllSelected = false;
                                     },
                                     child: SizedBox(
                                       width: 30,
@@ -251,6 +199,27 @@ class FilterIconButton extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            ElevatedButton(style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Styles.primaryColor,
+                                minimumSize: const Size(70, 35),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                // Apply clear filter logic here
+                                filterProvider.clearFilters();
+                              },
+                              child: const Text(
+                                'CLEAR FILTERS',
+                                style: TextStyle(
+                                  fontFamily: Styles.buttonFont,
+                                  fontSize: Styles.fontSizeSmall,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
                             ElevatedButton(
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.white,
