@@ -50,6 +50,7 @@ class Event {
 
   addEventToDatabase() {
     try {
+      _usersIds.add(_creatorId);
       _time.validateStartTime();
       _time.validateEndTime();
       _firebaseProvider.setFirebaseDataMap("events/$_id", {
@@ -63,6 +64,7 @@ class Event {
         'playerAmount': _playerAmount,
         'genderGroup': _genderGroup,
         'ageGroup': _ageGroup,
+        'userIds': _usersIds,
       });
     } on Exception catch (e) {
       debugPrint("Failed to add event to database: $e");

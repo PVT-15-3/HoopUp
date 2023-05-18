@@ -58,7 +58,7 @@ class EventHandler {
       timeStamp: DateTime.now(),
     );
     await event.addEventToDatabase();
-    if(message.messageText.isNotEmpty) {
+    if (message.messageText.isNotEmpty) {
       await event.chat.addMessage(message);
     }
     addCreatorToEvent(event, hoopUpUser);
@@ -79,14 +79,18 @@ class EventHandler {
 }
 
 void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
-  // Add the user's ID to the event's list of users
-  List<String> userIdsList = event.usersIds;
-  List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
-  event.userIds = newUserIdsList;
-  // Add the event ID to the user's list of events
-  List<String> eventsList = hoopUpUser.events;
-  List<String> newEventsList = List.from(eventsList)..add(event.id);
-  hoopUpUser.events = newEventsList;
+  if (!event.usersIds.contains(hoopUpUser.id)) {
+    // Add the user's ID to the event's list of users
+    List<String> userIdsList = event.usersIds;
+    List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
+    event.userIds = newUserIdsList;
+  }
+  if (!hoopUpUser.events.contains(event.id)) {
+    // Add the event ID to the user's list of events
+    List<String> eventsList = hoopUpUser.events;
+    List<String> newEventsList = List.from(eventsList)..add(event.id);
+    hoopUpUser.events = newEventsList;
+  }
 }
 
 void removeUserFromEvent(
@@ -122,6 +126,9 @@ void addUserToEvent(
   HoopUpUser? user = hoopUpUserProvider.user;
   user!.events = newEventsList;
   // Add the user's ID to the event's list of users
+  if (userIdsList.contains(user.id)) {
+    return;
+  }
   List<String> newUserIdsList = List.from(userIdsList)
     ..add(hoopUpUserProvider.user!.id);
   // Update the event's list of users in the database
