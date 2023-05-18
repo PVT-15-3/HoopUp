@@ -17,7 +17,7 @@ class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
   final Set<Court> _courts = CourtProvider().courts;
-  late Court _court;
+  late final Court _court;
 
   EventListItem({
     Key? key, // Added a Key? parameter for super constructor
@@ -70,7 +70,6 @@ class _EventListItemState extends State<EventListItem> {
         } else if (snapshot.data != widget.showJoinedEvents) {
           // If the snapshot data is not equal to the showJoinedEvents variable, return an empty SizedBox widget
           return const SizedBox.shrink();
-          
         } else if (!FilterHandler.filterEvent(_event, context) &&
             !widget.showJoinedEvents) {
           // If the event does not pass the filter and the user has not joined the event, return an empty SizedBox widget
@@ -255,22 +254,32 @@ class _EventListItemState extends State<EventListItem> {
               padding: const EdgeInsets.fromLTRB(20.0, 4, 16.0, 0.0),
               child: Row(
                 children: [
-                  Row(
-                    children: List.generate(
-                      _event.skillLevel,
-                      (index) => const Icon(
-                        Icons.star_purple500_sharp,
-                        color: Styles.primaryColor,
-                        size: 25,
-                        shadows: <Shadow>[
-                          Shadow(
-                              offset: Offset(0, 10.0),
-                              blurRadius: 25.0,
-                              color: Styles.shadowColor),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _event.skillLevel != 0
+                      ? Row(
+                          children: List.generate(
+                            _event.skillLevel,
+                            (index) => const Icon(
+                              Icons.star_purple500_sharp,
+                              color: Styles.primaryColor,
+                              size: 25,
+                              shadows: <Shadow>[
+                                Shadow(
+                                    offset: Offset(0, 10.0),
+                                    blurRadius: 25.0,
+                                    color: Styles.shadowColor),
+                              ],
+                            ),
+                          ),
+                        )
+                      : const Text(
+                          "All skill levels",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Styles.fontSizeSmall,
+                            fontFamily: Styles.subHeaderFont,
+                            color: Styles.primaryColor,
+                          ),
+                        ),
                   const Spacer(),
                   Row(
                     children: [

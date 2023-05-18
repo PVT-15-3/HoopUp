@@ -360,7 +360,7 @@ class _SignUpPage extends State<SignUpPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const BottomNavBar()),
+                                    builder: (context) => const BottomNavBar(currentIndex: 0)),
                               );
                             }
                           } else {

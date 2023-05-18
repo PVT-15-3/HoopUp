@@ -114,6 +114,101 @@ class FilterIconButton extends StatelessWidget {
                             ),
                           ],
                         ),
+                        Consumer<FilterProvider>(
+                          builder: (context, FilterProvider, _) {
+                            return Row(
+                              children: [
+                                Checkbox(
+                                  value: FilterProvider.allSkillLevelSelected,
+                                  onChanged: (bool? value) {
+                                    if (value == true) {
+                                      FilterProvider.skillLevel = 6;
+                                      FilterProvider.allSkillLevelSelected =
+                                          true;
+                                      FilterProvider.skillLevelAllSelected =
+                                          false;
+                                    } else {
+                                      FilterProvider.skillLevel = 0;
+                                      FilterProvider.allSkillLevelSelected =
+                                          false;
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    'Show all skill levels',
+                                    style: TextStyle(
+                                      fontFamily: Styles.mainFont,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: Styles.fontSizeSmallest,
+                                      height: 1.6,
+                                      letterSpacing: 0.1,
+                                      color: Color(0xFFA9A9A9),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        Consumer<FilterProvider>(
+                          builder: (context, FilterProvider, _) {
+                            return Row(
+                              children: [
+                                Checkbox(
+                                  value: FilterProvider.skillLevelAllSelected,
+                                  onChanged: (bool? value) {
+                                    if (value == true) {
+                                      FilterProvider.skillLevel = 0;
+                                      FilterProvider.skillLevelAllSelected =
+                                          true;
+                                      FilterProvider.allSkillLevelSelected =
+                                          false;
+                                    } else {
+                                      FilterProvider.skillLevel = 0;
+                                      FilterProvider.skillLevelAllSelected =
+                                          false;
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    'Show events with the skill level "All"',
+                                    style: TextStyle(
+                                      fontFamily: Styles.mainFont,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: Styles.fontSizeSmallest,
+                                      height: 1.6,
+                                      letterSpacing: 0.1,
+                                      color: Color(0xFFA9A9A9),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                        height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Or chose a specific skill level below:',
+                              style: TextStyle(
+                                fontFamily: Styles.mainFont,
+                                fontWeight: FontWeight.w600,
+                                fontSize: Styles.fontSizeSmallest,
+                                height: 1.6,
+                                letterSpacing: 0.1,
+                                color: Color(0xFFA9A9A9),
+                              ),
+                            ),
+                          ],
+                        ),
                         Center(
                           child: Selector<FilterProvider, int>(
                             selector: (_, FilterProvider) =>
@@ -128,6 +223,12 @@ class FilterIconButton extends StatelessWidget {
                                       Provider.of<FilterProvider>(context,
                                               listen: false)
                                           .skillLevel = index + 1;
+                                      Provider.of<FilterProvider>(context,
+                                              listen: false)
+                                          .skillLevelAllSelected = false;
+                                          Provider.of<FilterProvider>(context,
+                                              listen: false)
+                                          .allSkillLevelSelected = false;
                                     },
                                     child: SizedBox(
                                       width: 30,
@@ -164,7 +265,9 @@ class FilterIconButton extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const BottomNavBar()),
+                                      builder: (context) => const BottomNavBar(
+                                            currentIndex: 0,
+                                          )),
                                 );
                               },
                               child: const Text(

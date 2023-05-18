@@ -11,7 +11,8 @@ import '../classes/court.dart';
 import '../providers/courts_provider.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  final int currentIndex;
+  const BottomNavBar({super.key, required this.currentIndex});
 
   Set<Court> get courtMarkers => _courtMarkers;
 
@@ -27,6 +28,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.currentIndex;
     _courtMarkers = CourtProvider().courts;
   }
 

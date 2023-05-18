@@ -11,7 +11,9 @@ class FilterProvider with ChangeNotifier {
   bool _isAge36To50Selected = false;
   final bool _isAllAgeSelected = false;
   bool _isAge50plusSelected = false;
-  int _skillLevel = 5;
+  int _skillLevel = 6;
+  bool _skillLevelAllSelected = false;
+  bool _allSkillLevelSelected = true;
 
   bool get isMaleSelected => _isMaleSelected;
   bool get isFemaleSelected => _isFemaleSelected;
@@ -24,14 +26,26 @@ class FilterProvider with ChangeNotifier {
   bool get isAllAgeSelected => _isAllAgeSelected;
   bool get isAge50plusSelected => _isAge50plusSelected;
   int get skillLevel => _skillLevel;
+  bool get skillLevelAllSelected => _skillLevelAllSelected;
+  bool get allSkillLevelSelected => _allSkillLevelSelected;
 
   set skillLevel(int value) {
     _skillLevel = value;
     notifyListeners();
   }
 
+  set skillLevelAllSelected(bool value) {
+    _skillLevelAllSelected = value;
+    notifyListeners();
+  }
+
   void toggleMaleSelected(bool value) {
     _isMaleSelected = value;
+    notifyListeners();
+  }
+
+  set allSkillLevelSelected(bool value) {
+    _allSkillLevelSelected = value;
     notifyListeners();
   }
 
@@ -68,10 +82,14 @@ class FilterProvider with ChangeNotifier {
     }
     return selectedAge;
   }
+
   List<int> getSelectedSKillLevel() {
     List<int> selectedSkillLevel = [];
-    for(int i = 1; i <= _skillLevel; i++){
-      selectedSkillLevel.add(i);
+    List<int> allSkillLevel = [0, 1, 2, 3, 4, 5];
+    if (_allSkillLevelSelected) {
+      selectedSkillLevel.addAll(allSkillLevel);
+    } else {
+      selectedSkillLevel.add(_skillLevel);
     }
     return selectedSkillLevel;
   }

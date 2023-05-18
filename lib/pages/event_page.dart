@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/pages/chat_page.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
@@ -451,11 +452,11 @@ class _EventPageState extends State<EventPage> {
                                   "You have joined a game at ${courtOfTheEvent.name}",
                                   Icons.schedule,
                                   context);
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/bottom_nav_bar',
-                                (route) => false,
-                              );
+                               Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBar(currentIndex: 2,)),
+                        );
                             },
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.white,

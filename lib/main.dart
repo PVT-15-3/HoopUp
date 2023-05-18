@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   Widget startWidget() {
     if (HoopUpUser.isSignedIn()) {
-      return const BottomNavBar();
+      return const BottomNavBar(currentIndex: 0,);
     } else {
       return StartPage();
     }
@@ -53,7 +53,8 @@ class MyApp extends StatelessWidget {
         ),
         home: startWidget(),
         routes: {
-          '/bottom_nav_bar': (context) => const BottomNavBar(),
+          '/home_page_route_my_bookings': (context) => const BottomNavBar(currentIndex: 2,),
+          '/bottom_nav_bar': (context) => const BottomNavBar(currentIndex: 0,),
           '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => const CreateEventWizard(),
           '/sign_up_page.dart': (context) => const SignUpPage(),

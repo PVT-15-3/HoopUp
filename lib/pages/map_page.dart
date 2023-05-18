@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:my_app/widgets/bottom_nav_bar.dart';
+import 'package:my_app/providers/courts_provider.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
@@ -23,7 +23,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
-  final Set<Court> _courtMarkers = const BottomNavBar().courtMarkers;
+  final Set<Court> _courtMarkers = CourtProvider().courts;
   final Location location = Location();
   final Set<Marker> _markers = {};
   late LatLng _currentPosition;
