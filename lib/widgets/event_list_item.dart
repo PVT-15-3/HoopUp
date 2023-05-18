@@ -17,7 +17,7 @@ class EventListItem extends StatefulWidget {
   final Event event;
   final bool showJoinedEvents;
   final Set<Court> _courts = CourtProvider().courts;
-  late final Court _court;
+  late Court _court;
 
   EventListItem({
     Key? key, // Added a Key? parameter for super constructor
