@@ -347,16 +347,27 @@ class _EventPageState extends State<EventPage> {
                                   color: Styles.textColor,
                                 ),
                               ),
-                              Row(
-                                children: List.generate(
-                                  widget.event.skillLevel,
-                                  (index) => const Icon(
-                                    Icons.star_purple500_sharp,
+                              if (widget.event.skillLevel == 0)
+                                const Text(
+                                  'All',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Styles.fontSizeMedium,
+                                    fontFamily: Styles.subHeaderFont,
                                     color: Styles.primaryColor,
-                                    size: 23,
+                                  ),
+                                )
+                              else
+                                Row(
+                                  children: List.generate(
+                                    widget.event.skillLevel,
+                                    (index) => const Icon(
+                                      Icons.star_purple500_sharp,
+                                      color: Styles.primaryColor,
+                                      size: 23,
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                           const SizedBox(width: 7.0, height: 12.0),

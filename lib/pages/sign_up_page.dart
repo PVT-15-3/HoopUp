@@ -226,26 +226,35 @@ class _SignUpPage extends State<SignUpPage> {
                           labelText: 'Date of birth*',
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 0, horizontal: 12)),
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
+                      onTap: () {
+                        showDatePicker(
                           context: context,
                           initialDate: _selectedDate,
                           firstDate: DateTime(1900),
                           lastDate: DateTime.now(),
-                        );
+                        ).then((pickedDate) {
+                          if (pickedDate != null) {
+                            // Check if the pickedDate is a valid date
+                            if (pickedDate.year < 1900 ||
+                                pickedDate.year > DateTime.now().year) {
+                              showCustomToast("Invalid date",
+                                  Icons.warning_amber_outlined, context);
+                              return;
+                            }
 
-                        if (pickedDate != null) {
-                          _selectedDate = pickedDate;
-                          setState(() {
-                            dateOfBirth.value = pickedDate;
-                          });
-                          String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(_selectedDate);
-                          birthdayController.text = formattedDate;
-                        } else {
-                          showCustomToast("Pick a date",
-                              Icons.warning_amber_outlined, context);
-                        }
+                            setState(() {
+                              _selectedDate = pickedDate;
+                              dateOfBirth.value = pickedDate;
+                            });
+
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(_selectedDate);
+                            birthdayController.text = formattedDate;
+                          } else {
+                            showCustomToast("Pick a date",
+                                Icons.warning_amber_outlined, context);
+                          }
+                        });
                       },
                     ),
                     const SizedBox(height: 20),
@@ -317,16 +326,23 @@ class _SignUpPage extends State<SignUpPage> {
                     //SaveButton ---------------------------------------------------
                     ElevatedButton(
                       onPressed: () async {
+                        if (dateOfBirth.value == DateTime(0)) {
+                          showCustomToast("Please select a valid date of birth",
+                              Icons.warning, context);
+                          return;
+                        }
+
+                        DateTime thresholdDate = DateTime.now()
+                            .subtract(const Duration(days: 13 * 365));
+
+                        if (dateOfBirth.value.isAfter(thresholdDate)) {
+                          showCustomToast(
+                              "You must be at least 13 years old to use HoopUp",
+                              Icons.warning,
+                              context);
+                          return;
+                        }
                         if (_formKey.currentState!.validate()) {
-                          DateTime thresholdDate = DateTime.now()
-                              .subtract(const Duration(days: 13 * 365));
-                          if (dateOfBirth.value.isAfter(thresholdDate)) {
-                            showCustomToast(
-                                "You must be at least 13 years old to use HoopUp",
-                                Icons.warning,
-                                context);
-                            return;
-                          }
                           if (skillLevel != 0 && gender != "") {
                             _formKey.currentState!.save();
                             bool signUpSuccess = await auth.signUpWithEmail(
@@ -338,6 +354,7 @@ class _SignUpPage extends State<SignUpPage> {
                               skillLevel,
                               context,
                             );
+
                             if (signUpSuccess) {
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
