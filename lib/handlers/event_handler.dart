@@ -51,18 +51,11 @@ class EventHandler {
       id: const Uuid().v4(),
       firebaseProvider: firebaseProvider,
     );
-    DateTime dateTime = DateTime(
-      eventDate.year,
-      eventDate.month,
-      eventDate.day,
-      eventStartTime.hour,
-      eventStartTime.minute,
-    );
     Message message = Message(
       username: hoopUpUser!.username,
       userId: hoopUpUser.id,
       messageText: eventDescription,
-      timeStamp: dateTime,
+      timeStamp: DateTime.now(),
     );
     await event.addEventToDatabase();
     if(message.messageText.isNotEmpty) {

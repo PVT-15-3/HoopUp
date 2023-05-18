@@ -446,9 +446,9 @@ class _EventPageState extends State<EventPage> {
                       ? const SizedBox.shrink()
                       : Center(
                           child: TextButton(
-                            onPressed: () async {
-                              await addUserToThisEvent(context);
-                              showCustomToast(
+                            onPressed: () {
+                              addUserToThisEvent(context).then((_) {
+                                showCustomToast(
                                   "You have joined a game at ${courtOfTheEvent.name}",
                                   Icons.schedule,
                                   context);
@@ -457,6 +457,8 @@ class _EventPageState extends State<EventPage> {
                           MaterialPageRoute(
                               builder: (context) => const BottomNavBar(currentIndex: 2,)),
                         );
+                            },
+                              );
                             },
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.white,
@@ -487,15 +489,22 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
-  addUserToThisEvent(BuildContext context) async {
+  addUserToThisEvent(BuildContext context) {
     FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
-    Map eventMap =
-        await firebaseProvider.getMapFromFirebase("events", widget.event.id);
-    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
-    HoopUpUserProvider hoopUpUserProvider =
-        Provider.of<HoopUpUserProvider>(context, listen: false);
+    return firebaseProvider
+        .getMapFromFirebase("events", widget.event.id)
+        .then((eventMap) {
+      List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
+      HoopUpUserProvider hoopUpUserProvider =
+          Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    addUserToEvent(widget.event.id, hoopUpUserProvider.user!.events,
-        userIdsList, hoopUpUserProvider, firebaseProvider);
+      addUserToEvent(
+        widget.event.id,
+        hoopUpUserProvider.user!.events,
+        userIdsList,
+        hoopUpUserProvider,
+        firebaseProvider,
+      );
+    });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/providers/courts_provider.dart';
@@ -368,13 +367,13 @@ class WizardFirstStep extends StatelessWidget {
               hourMinute((time) {
                 wizardProvider.eventStartTime = time;
                 wizardProvider.onTimeSelectedChanged();
-                print(wizardProvider.eventStartTime.toString());
+                debugPrint(wizardProvider.eventStartTime.toString());
               }),
               const SizedBox(width: 70),
               hourMinute((time) {
                 wizardProvider.eventEndTime = time;
                 wizardProvider.onTimeSelectedChanged();
-                print(wizardProvider.eventEndTime.toString());
+                debugPrint(wizardProvider.eventEndTime.toString());
               }),
               const SizedBox(width: 20),
             ],

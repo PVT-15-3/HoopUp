@@ -194,7 +194,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
 
   void updateColorFirstStep(bool isMapSelected, bool isTimeSelected) {
     bool wizardFirstStepComplete = isMapSelected && isTimeSelected;
-    color = wizardFirstStepComplete ? Color(0xFFFC8027) : Color(0xFF959595);
+    color = wizardFirstStepComplete ? const Color(0xFFFC8027) : const Color(0xFF959595);
   }
 
   void onMapSelectedChanged(bool newValue) {
@@ -254,7 +254,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
       bool isSkillLevelSelected) {
     bool wizardSecondStageComplete =
         isGenderSelected && isAgeGroupSelected && isSkillLevelSelected;
-    color = wizardSecondStageComplete ? Color(0xFFFC8027) : Color(0xFF959595);
+    color = wizardSecondStageComplete ? const Color(0xFFFC8027) : const Color(0xFF959595);
   }
 
   void setSelectedMonth(int month) {
