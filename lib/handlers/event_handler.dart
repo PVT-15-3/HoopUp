@@ -51,21 +51,16 @@ class EventHandler {
       id: const Uuid().v4(),
       firebaseProvider: firebaseProvider,
     );
-    DateTime dateTime = DateTime(
-      eventDate.year,
-      eventDate.month,
-      eventDate.day,
-      eventStartTime.hour,
-      eventStartTime.minute,
-    );
     Message message = Message(
       username: hoopUpUser!.username,
       userId: hoopUpUser.id,
       messageText: eventDescription,
-      timeStamp: dateTime,
+      timeStamp: DateTime.now(),
     );
     await event.addEventToDatabase();
-    await event.chat.addMessage(message);
+    if (message.messageText.isNotEmpty) {
+      await event.chat.addMessage(message);
+    }
     addCreatorToEvent(event, hoopUpUser);
 
     debugPrint('Event created:\n'
@@ -84,14 +79,18 @@ class EventHandler {
 }
 
 void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
-  // Add the user's ID to the event's list of users
-  List<String> userIdsList = event.usersIds;
-  List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
-  event.userIds = newUserIdsList;
-  // Add the event ID to the user's list of events
-  List<String> eventsList = hoopUpUser.events;
-  List<String> newEventsList = List.from(eventsList)..add(event.id);
-  hoopUpUser.events = newEventsList;
+  if (!event.usersIds.contains(hoopUpUser.id)) {
+    // Add the user's ID to the event's list of users
+    List<String> userIdsList = event.usersIds;
+    List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
+    event.userIds = newUserIdsList;
+  }
+  if (!hoopUpUser.events.contains(event.id)) {
+    // Add the event ID to the user's list of events
+    List<String> eventsList = hoopUpUser.events;
+    List<String> newEventsList = List.from(eventsList)..add(event.id);
+    hoopUpUser.events = newEventsList;
+  }
 }
 
 void removeUserFromEvent(
@@ -127,6 +126,9 @@ void addUserToEvent(
   HoopUpUser? user = hoopUpUserProvider.user;
   user!.events = newEventsList;
   // Add the user's ID to the event's list of users
+  if (userIdsList.contains(user.id)) {
+    return;
+  }
   List<String> newUserIdsList = List.from(userIdsList)
     ..add(hoopUpUserProvider.user!.id);
   // Update the event's list of users in the database
@@ -158,7 +160,8 @@ void removeOldEventsFromUser(
     if (eventsList.any((event) => event.id == eventId)) {
       validEventIds.add(eventId);
     } else {
-      debugPrint("Event $eventId removed from user ${hoopUpUser.username} because "
+      debugPrint(
+          "Event $eventId removed from user ${hoopUpUser.username} because "
           "it no longer exists");
     }
   }

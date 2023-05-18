@@ -3,6 +3,7 @@ import 'package:cool_stepper_reloaded/cool_stepper_reloaded.dart';
 import 'package:my_app/handlers/event_handler.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/toaster.dart';
 import 'package:my_app/widgets/wizard_first_Step.dart';
 import 'package:my_app/widgets/wizard_fourth_step.dart';
@@ -40,29 +41,36 @@ class CreateEventWizard extends StatelessWidget {
             showErrorSnackbar: true,
             onCompleted: () {
               wizardProvider.userId = hoopUpUserProvider.user!.id;
-              try {
-                EventHandler().createEvent(
-                    eventDate: wizardProvider.eventDate,
-                    eventStartTime: wizardProvider.eventStartTime,
-                    eventEndTime: wizardProvider.eventEndTime,
-                    numberOfParticipants: wizardProvider.numberOfParticipants,
-                    selectedGender: wizardProvider.selectedGender,
-                    selectedAgeGroup: wizardProvider.selectedAgeGroup,
-                    skillLevel: wizardProvider.skillLevel,
-                    eventName: wizardProvider.court!.name,
-                    eventDescription: wizardProvider.eventDescription,
-                    courtId: wizardProvider.court!.courtId,
-                    userId: wizardProvider.userId,
-                    hoopUpUser: hoopUpUserProvider.user,
-                    firebaseProvider: firebaseProvider);
+              EventHandler()
+                  .createEvent(
+                      eventDate: wizardProvider.eventDate,
+                      eventStartTime: wizardProvider.eventStartTime,
+                      eventEndTime: wizardProvider.eventEndTime,
+                      numberOfParticipants: wizardProvider.numberOfParticipants,
+                      selectedGender: wizardProvider.selectedGender,
+                      selectedAgeGroup: wizardProvider.selectedAgeGroup,
+                      skillLevel: wizardProvider.skillLevel,
+                      eventName: wizardProvider.court!.name,
+                      eventDescription: wizardProvider.eventDescription,
+                      courtId: wizardProvider.court!.courtId,
+                      userId: wizardProvider.userId,
+                      hoopUpUser: hoopUpUserProvider.user,
+                      firebaseProvider: firebaseProvider)
+                  .then((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(
+                            currentIndex: 2,
+                          )),
+                );
                 showCustomToast(
                     'Your event is created', Icons.approval, context);
-              } on Exception catch (e) {
+                wizardProvider.reset();
+              }).catchError((e) {
                 showCustomToast(e.toString(), Icons.error, context);
-                print("error when creating event: $e");
-              }
-              Navigator.pop(context);
-              wizardProvider.reset();
+                debugPrint("error when creating event: $e");
+              });
             },
             steps: [
               CoolStep(

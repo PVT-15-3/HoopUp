@@ -95,14 +95,14 @@ class WizardSecondStep extends StatelessWidget {
                         wizardProvider.genderAllSelected = true;
                         wizardProvider.wizardSecondStepGenderSelected = true;
                         wizardProvider.onGenderSelectedChanged(true);
-                        print(wizardProvider.wizardSecondStepAgeGroupSelected
+                        debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
                             .toString());
                       } else {
                         wizardProvider.selectedGender = '';
                         wizardProvider.genderAllSelected = false;
                         wizardProvider.wizardSecondStepGenderSelected = false;
                         wizardProvider.onGenderSelectedChanged(false);
-                        print(wizardProvider.wizardSecondStepAgeGroupSelected
+                        debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
                             .toString());
                       }
                     },
@@ -142,7 +142,7 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.genderAllSelected = false;
                     wizardProvider.wizardSecondStepAgeGroupSelected = true;
                     wizardProvider.onGenderSelectedChanged(true);
-                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                    debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
                         .toString());
                   },
                   child: Container(
@@ -197,7 +197,7 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.genderAllSelected = false;
                     wizardProvider.wizardSecondStepAgeGroupSelected = true;
                     wizardProvider.onGenderSelectedChanged(true);
-                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                    debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
                         .toString());
                   },
                   child: Container(
@@ -252,7 +252,7 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.genderAllSelected = false;
                     wizardProvider.wizardSecondStepAgeGroupSelected = true;
                     wizardProvider.onGenderSelectedChanged(true);
-                    print(wizardProvider.wizardSecondStepAgeGroupSelected
+                    debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
                         .toString());
                   },
                   child: Container(

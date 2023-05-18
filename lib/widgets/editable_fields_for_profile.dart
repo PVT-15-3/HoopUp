@@ -282,7 +282,7 @@ class _EditableFieldsState extends State<EditableFields> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BottomNavBar()),
+                            builder: (context) => const BottomNavBar(currentIndex: 3,)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -315,7 +315,7 @@ class _EditableFieldsState extends State<EditableFields> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BottomNavBar()),
+                              builder: (context) => const BottomNavBar(currentIndex: 3,)),
                         );
                       } else {
                         showCustomToast(

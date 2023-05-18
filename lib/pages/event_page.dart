@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/pages/chat_page.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
@@ -347,16 +348,27 @@ class _EventPageState extends State<EventPage> {
                                   color: Styles.textColor,
                                 ),
                               ),
-                              Row(
-                                children: List.generate(
-                                  widget.event.skillLevel,
-                                  (index) => const Icon(
-                                    Icons.star_purple500_sharp,
+                              if (widget.event.skillLevel == 0)
+                                const Text(
+                                  'All',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Styles.fontSizeMedium,
+                                    fontFamily: Styles.subHeaderFont,
                                     color: Styles.primaryColor,
-                                    size: 23,
+                                  ),
+                                )
+                              else
+                                Row(
+                                  children: List.generate(
+                                    widget.event.skillLevel,
+                                    (index) => const Icon(
+                                      Icons.star_purple500_sharp,
+                                      color: Styles.primaryColor,
+                                      size: 23,
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                           const SizedBox(width: 7.0, height: 12.0),
@@ -434,16 +446,18 @@ class _EventPageState extends State<EventPage> {
                       ? const SizedBox.shrink()
                       : Center(
                           child: TextButton(
-                            onPressed: () async {
-                              await addUserToThisEvent(context);
-                              showCustomToast(
+                            onPressed: () {
+                              addUserToThisEvent(context).then((_) {
+                                showCustomToast(
                                   "You have joined a game at ${courtOfTheEvent.name}",
                                   Icons.schedule,
                                   context);
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/bottom_nav_bar',
-                                (route) => false,
+                               Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBar(currentIndex: 2,)),
+                        );
+                            },
                               );
                             },
                             style: TextButton.styleFrom(
@@ -475,15 +489,22 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
-  addUserToThisEvent(BuildContext context) async {
+  addUserToThisEvent(BuildContext context) {
     FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
-    Map eventMap =
-        await firebaseProvider.getMapFromFirebase("events", widget.event.id);
-    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
-    HoopUpUserProvider hoopUpUserProvider =
-        Provider.of<HoopUpUserProvider>(context, listen: false);
+    return firebaseProvider
+        .getMapFromFirebase("events", widget.event.id)
+        .then((eventMap) {
+      List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
+      HoopUpUserProvider hoopUpUserProvider =
+          Provider.of<HoopUpUserProvider>(context, listen: false);
 
-    addUserToEvent(widget.event.id, hoopUpUserProvider.user!.events,
-        userIdsList, hoopUpUserProvider, firebaseProvider);
+      addUserToEvent(
+        widget.event.id,
+        hoopUpUserProvider.user!.events,
+        userIdsList,
+        hoopUpUserProvider,
+        firebaseProvider,
+      );
+    });
   }
 }
