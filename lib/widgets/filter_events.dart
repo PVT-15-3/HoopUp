@@ -175,7 +175,7 @@ class FilterIconButton extends StatelessWidget {
                                 const SizedBox(
                                   width: 200,
                                   child: Text(
-                                    'Show events with the skill level "All"',
+                                    'Show games with the skill level "All"',
                                     style: TextStyle(
                                       fontFamily: Styles.mainFont,
                                       fontWeight: FontWeight.w600,
