@@ -150,6 +150,7 @@ void main() {
             'playerAmount': sut.playerAmount,
             'genderGroup': sut.genderGroup,
             'ageGroup': sut.ageGroup,
+            'userIds': sut.usersIds,
           })).called(1);
     });
     test(

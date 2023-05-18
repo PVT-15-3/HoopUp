@@ -56,20 +56,23 @@ class CreateEventWizard extends StatelessWidget {
                       userId: wizardProvider.userId,
                       hoopUpUser: hoopUpUserProvider.user,
                       firebaseProvider: firebaseProvider)
-                  .then((_) {
+                  .catchError((e) {
+                showCustomToast(e.toString(), Icons.error, context);
+                debugPrint("error when creating event: $e");
+              }).then((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const BottomNavBar(
-                            currentIndex: 2,
-                          )),
+                    builder: (context) => const BottomNavBar(
+                      currentIndex: 2,
+                    ),
+                  ),
                 );
                 showCustomToast(
                     'Your event is created', Icons.approval, context);
+              });
+              Future.delayed(const Duration(seconds: 1), () {
                 wizardProvider.reset();
-              }).catchError((e) {
-                showCustomToast(e.toString(), Icons.error, context);
-                debugPrint("error when creating event: $e");
               });
             },
             steps: [
