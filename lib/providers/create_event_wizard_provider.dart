@@ -18,7 +18,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   bool _wizardFirstStepTimeSelected = false;
   bool _wizardSecondStepGenderSelected = false;
   bool _wizardSecondStepAgeGroupSelected = false;
-  bool _wizardSecondStepSkillLevelSelected = false;
+  bool _wizardSecondStepSkillLevelSelected = true;
   int selectedYear = DateTime.now().year;
   int selectedMonth = DateTime.now().month;
   int selectedDay = DateTime.now().day;
@@ -321,7 +321,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _wizardFirstStepTimeSelected = false;
     _wizardSecondStepGenderSelected = false;
     _wizardSecondStepAgeGroupSelected = false;
-    _wizardSecondStepSkillLevelSelected = false;
+    _wizardSecondStepSkillLevelSelected = true;
     selectedYear = DateTime.now().year;
     selectedMonth = DateTime.now().month;
     selectedDay = DateTime.now().day;
