@@ -11,7 +11,9 @@ import '../classes/court.dart';
 import '../providers/courts_provider.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  final int? initialIndex;
+
+  const BottomNavBar({Key? key, this.initialIndex}) : super(key: key);
 
   Set<Court> get courtMarkers => _courtMarkers;
 
@@ -28,6 +30,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     _courtMarkers = CourtProvider().courts;
+
+    // Set the initial index if provided
+    if (widget.initialIndex != null) {
+      _currentIndex = widget.initialIndex!;
+    }
   }
 
   final List<Widget> _pages = [

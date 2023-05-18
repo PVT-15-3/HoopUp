@@ -10,6 +10,7 @@ import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
 import '../providers/create_event_wizard_provider.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class CreateEventWizard extends StatelessWidget {
   const CreateEventWizard({super.key});
@@ -56,10 +57,16 @@ class CreateEventWizard extends StatelessWidget {
                       hoopUpUser: hoopUpUserProvider.user,
                       firebaseProvider: firebaseProvider)
                   .then((_) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(
+                       initialIndex: 2
+                      ),
+                    ));
                 showCustomToast(
                     'Your event is created', Icons.approval, context);
                 wizardProvider.reset();
-                Navigator.pop(context);
               }).catchError((e) {
                 showCustomToast(e.toString(), Icons.error, context);
                 debugPrint("error when creating event: $e");
