@@ -11,7 +11,6 @@ import '../classes/court.dart';
 import '../providers/courts_provider.dart';
 
 class BottomNavBar extends StatefulWidget {
-<<<<<<< HEAD
   final int currentIndex;
   const BottomNavBar({super.key, required this.currentIndex});
 
