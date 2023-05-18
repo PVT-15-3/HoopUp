@@ -65,7 +65,9 @@ class EventHandler {
       timeStamp: dateTime,
     );
     await event.addEventToDatabase();
-    await event.chat.addMessage(message);
+    if(message.messageText.isNotEmpty) {
+      await event.chat.addMessage(message);
+    }
     addCreatorToEvent(event, hoopUpUser);
 
     debugPrint('Event created:\n'
@@ -158,7 +160,8 @@ void removeOldEventsFromUser(
     if (eventsList.any((event) => event.id == eventId)) {
       validEventIds.add(eventId);
     } else {
-      debugPrint("Event $eventId removed from user ${hoopUpUser.username} because "
+      debugPrint(
+          "Event $eventId removed from user ${hoopUpUser.username} because "
           "it no longer exists");
     }
   }
