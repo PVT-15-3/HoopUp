@@ -29,6 +29,7 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage> {
   BitmapDescriptor? customMarkerIcon;
   late String _creatorName = '';
+  late String _creatorPhotoUrl = '';
   late int _numberOfPlayersInEvent = 0;
   late int _numberOfChatMessages = 0;
   late final FirebaseProvider _firebaseProvider;
@@ -38,6 +39,7 @@ class _EventPageState extends State<EventPage> {
     _firebaseProvider = context.read<FirebaseProvider>();
     super.initState();
     _getCreatorName();
+    _getCreatorPhotoUrl();
     _loadCustomMarkerIcon();
     loadAmountOfUsersFirebase();
     loadAmountOfChatMessages();
@@ -74,6 +76,16 @@ class _EventPageState extends State<EventPage> {
     String name = userMap['username'];
     setState(() {
       _creatorName = name;
+    });
+  }
+
+  void _getCreatorPhotoUrl() async {
+    FirebaseProvider firebaseProvider = FirebaseProvider();
+    Map<dynamic, dynamic> userMap = await firebaseProvider.getMapFromFirebase(
+        "users", widget.event.creatorId);
+    String photoUrl = userMap['photoUrl'];
+    setState(() {
+      _creatorPhotoUrl = photoUrl;
     });
   }
 
@@ -306,23 +318,34 @@ class _EventPageState extends State<EventPage> {
                         children: [
                           Row(
                             children: [
-                              Row(children: [
-                                const Icon(
-                                  Icons.person_pin,
-                                  color: Styles.textColorMyBookings,
-                                  size: 50,
-                                ),
-                                const SizedBox(width: 8.0),
-                                Text(
-                                  _creatorName,
-                                  style: const TextStyle(
-                                    fontSize: Styles.fontSizeMedium,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: Styles.fontForNameFont,
-                                    color: Styles.textColorMyBookings,
+                              Row(
+                                children: [
+                                  if (_creatorPhotoUrl.isNotEmpty)
+                                    CircleAvatar(
+                                      backgroundImage: _creatorPhotoUrl != ""
+                                          ? NetworkImage(_creatorPhotoUrl)
+                                          : const AssetImage('assets/logo.png')
+                                              as ImageProvider<Object>,
+                                      radius: 25,
+                                    )
+                                  else
+                                    const Icon(
+                                      Icons.person_pin,
+                                      color: Styles.textColorMyBookings,
+                                      size: 50,
+                                    ),
+                                  const SizedBox(width: 8.0),
+                                  Text(
+                                    _creatorName,
+                                    style: const TextStyle(
+                                      fontSize: Styles.fontSizeMedium,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: Styles.fontForNameFont,
+                                      color: Styles.textColorMyBookings,
+                                    ),
                                   ),
-                                ),
-                              ]),
+                                ],
+                              ),
                               const Spacer(),
                               Row(
                                 children: [
@@ -489,7 +512,8 @@ class _EventPageState extends State<EventPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    actionsPadding: const EdgeInsets.only(bottom: 15.0),
+                                    actionsPadding:
+                                        const EdgeInsets.only(bottom: 15.0),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
