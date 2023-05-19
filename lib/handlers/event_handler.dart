@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
+import 'package:synchronized/synchronized.dart';
 
 class EventHandler {
+  final Lock appLock = Lock();
   Future<void> createEvent(
       {required DateTime eventDate,
       required TimeOfDay eventStartTime,
@@ -57,11 +59,13 @@ class EventHandler {
       messageText: eventDescription,
       timeStamp: DateTime.now(),
     );
-    await event.addEventToDatabase();
-    if (message.messageText.isNotEmpty) {
-      await event.chat.addMessage(message);
-    }
-    addCreatorToEvent(event, hoopUpUser);
+    await appLock.synchronized(() async {
+      await event.addEventToDatabase();
+      if (message.messageText.isNotEmpty) {
+        await event.chat.addMessage(message);
+      }
+      addCreatorToEvent(event, hoopUpUser);
+    }, timeout: const Duration(seconds: 5));
 
     debugPrint('Event created:\n'
         '  Date: $eventDate\n'
