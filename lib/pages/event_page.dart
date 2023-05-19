@@ -447,29 +447,123 @@ class _EventPageState extends State<EventPage> {
                       : Center(
                           child: TextButton(
                             onPressed: () {
-                              addUserToThisEvent(context).then(
-                                (_) {
-                                  showCustomToast(
-                                      "You have joined a game at ${courtOfTheEvent.name}",
-                                      Icons.schedule,
-                                      context);
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BottomNavBar(
-                                                currentIndex: 2,
-                                              )),
-                                      (route) => false);
-                                  //, (route) => false)
-                                  //pushReplacement(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           const BottomNavBar(
-                                  //             currentIndex: 2,
-                                  //           )),
-                                  // );
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    actionsPadding: const EdgeInsets.only(bottom: 15.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    elevation: 10.0,
+                                    contentPadding:
+                                        const EdgeInsets.fromLTRB(0, 20, 0, 5),
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RichText(
+                                          text: _getContetText(courtOfTheEvent),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          const Spacer(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor:
+                                                      Styles.textColor,
+                                                  backgroundColor: Colors.white,
+                                                  side: const BorderSide(
+                                                      color: Styles.textColor),
+                                                  minimumSize:
+                                                      const Size(105, 39),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text(
+                                                  'No, Cancel',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          Styles.mainFont,
+                                                      fontSize: Styles
+                                                          .fontSizeSmallest,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Styles.primaryColor,
+                                                  side: const BorderSide(
+                                                      color: Styles.textColor),
+                                                  minimumSize:
+                                                      const Size(105, 39),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  'Yes, confirm',
+                                                  style: TextStyle(
+                                                    fontFamily: Styles.mainFont,
+                                                    fontSize:
+                                                        Styles.fontSizeSmallest,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  addUserToThisEvent(context)
+                                                      .then((_) {
+                                                    showCustomToast(
+                                                        "You have joined a game at ${courtOfTheEvent.name}",
+                                                        Icons.schedule,
+                                                        context);
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const BottomNavBar(
+                                                                          currentIndex:
+                                                                              2,
+                                                                        )),
+                                                            (route) => false);
+                                                  }); // Close the dialog
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                    ],
+                                  );
                                 },
                               );
                             },
@@ -500,6 +594,31 @@ class _EventPageState extends State<EventPage> {
         ),
       ),
     );
+  }
+
+  TextSpan _getContetText(Court courtOfTheEvent) {
+    final contetText = TextSpan(
+      text: 'Do you want to join a game at',
+      style: const TextStyle(
+        fontWeight: FontWeight.normal,
+        fontFamily: Styles.subHeaderFont,
+        color: Styles.textColor,
+        fontSize: Styles.fontSizeSmall,
+      ),
+      children: [
+        TextSpan(
+          text:
+              '\n${courtOfTheEvent.name}\n${widget.event.time.getFormattedTimeAndDate()}?',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: Styles.subHeaderFont,
+            color: Styles.textColor,
+            fontSize: Styles.fontSizeSmall,
+          ),
+        ),
+      ],
+    );
+    return contetText;
   }
 
   addUserToThisEvent(BuildContext context) {

@@ -51,32 +51,12 @@ class _MapPageState extends State<MapPage> {
         final locationData = await location.getLocation();
         _currentPosition =
             LatLng(locationData.latitude!, locationData.longitude!);
-        final marker = Marker(
-          markerId: const MarkerId('current_location'),
-          position: _currentPosition,
-          infoWindow: const InfoWindow(
-            title: 'Current Location',
-          ),
-        );
-        setState(() {
-          _markers.add(marker);
-        });
       } else {
         final permission = await location.requestPermission();
         if (permission == PermissionStatus.granted) {
           final locationData = await location.getLocation();
           _currentPosition =
               LatLng(locationData.latitude!, locationData.longitude!);
-          final marker = Marker(
-            markerId: const MarkerId('current_location'),
-            position: _currentPosition,
-            infoWindow: const InfoWindow(
-              title: 'Current Location',
-            ),
-          );
-          setState(() {
-            _markers.add(marker);
-          });
         } else {
           _currentPosition = const LatLng(59.349821, 17.952483);
         }
