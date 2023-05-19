@@ -55,6 +55,7 @@ class EventHandler {
     );
     Message message = Message(
       username: hoopUpUser!.username,
+      userPhotoUrl: hoopUpUser.photoUrl,
       userId: hoopUpUser.id,
       messageText: eventDescription,
       timeStamp: DateTime.now(),

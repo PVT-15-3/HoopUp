@@ -52,6 +52,7 @@ void main() {
   arrangeMessage() {
     message = Message(
         username: user.username,
+        userPhotoUrl: user.photoUrl,
         userId: user.id,
         messageText: "messageText",
         timeStamp: DateTime.now());

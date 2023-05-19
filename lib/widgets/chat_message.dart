@@ -6,12 +6,14 @@ import '../providers/hoopup_user_provider.dart';
 
 class ChatMessage extends StatelessWidget {
   final String username;
+  final String userPhotoUrl;
   final String userId;
   final String messageText;
   final DateTime timestamp;
 
   const ChatMessage({
     required this.username,
+    required this.userPhotoUrl,
     required this.userId,
     required this.messageText,
     required this.timestamp,
@@ -56,7 +58,17 @@ class ChatMessage extends StatelessWidget {
           child: ListTile(
             title: Row(
               children: [
-                if (!isCurrentUser) const Icon(Icons.person_pin),
+                if (!isCurrentUser)
+                  if (userPhotoUrl.isNotEmpty)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CircleAvatar(
+                        radius: 16,
+                        backgroundImage: NetworkImage(userPhotoUrl),
+                      ),
+                    )
+                  else
+                    const Icon(Icons.person_pin),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Align(
@@ -69,7 +81,18 @@ class ChatMessage extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isCurrentUser) const Icon(Icons.person_pin),
+                const SizedBox(width: 4),
+                if (isCurrentUser)
+                  if (userPhotoUrl.isNotEmpty)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CircleAvatar(
+                        radius: 16,
+                        backgroundImage: NetworkImage(userPhotoUrl),
+                      ),
+                    )
+                  else
+                    const Icon(Icons.person_pin),
               ],
             ),
             subtitle: Tooltip(

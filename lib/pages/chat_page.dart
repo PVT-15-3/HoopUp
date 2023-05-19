@@ -22,11 +22,12 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  void _sendMessage(String username, String userId) {
+  void _sendMessage(String username, String userPhotoUrl, String userId) {
     String messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       Message message = Message(
         username: username,
+        userPhotoUrl: userPhotoUrl,
         userId: userId,
         messageText: messageText,
         timeStamp: DateTime.now(),
@@ -101,6 +102,7 @@ class _ChatPageState extends State<ChatPage> {
                         return ChatMessage(
                           username: message.username,
                           userId: message.userId,
+                          userPhotoUrl: message.userPhotoUrl,
                           messageText: message.messageText,
                           timestamp: message.timeStamp,
                         );
@@ -138,6 +140,7 @@ class _ChatPageState extends State<ChatPage> {
                     icon: const Icon(Icons.chat_bubble_outline_outlined),
                     onPressed: () => _sendMessage(
                         hoopUpUserProvider.user!.username,
+                        hoopUpUserProvider.user!.photoUrl,
                         hoopUpUserProvider.user!.id),
                   ),
                 ],
