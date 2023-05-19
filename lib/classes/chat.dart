@@ -22,6 +22,10 @@ class Chat {
 
   List<Message> get messages => _messages;
 
+  set messages(List<Message> messages) {
+    _messages.addAll(messages);
+  }
+
   factory Chat.fromFirebase(String eventId, Map<String, dynamic> data) {
     List<Message> messages = [];
     if (data['messages'] != null) {
@@ -44,10 +48,10 @@ class Chat {
   }
 
   void removeMessage(Message message) {
-    if (_messages.contains(message)) {
-      _messages.remove(message);
-      _firebaseProvider
-          .removeFirebaseData("events/$_eventId/chat/messages/${message.id}");
+    if (_messages.remove(message)) {
+      _firebaseProvider.removeFirebaseData(
+        "events/$_eventId/chat/messages/${message.id}",
+      );
     }
   }
 

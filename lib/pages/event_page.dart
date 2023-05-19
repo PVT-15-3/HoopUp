@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/chat_page.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
@@ -28,21 +29,33 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   BitmapDescriptor? customMarkerIcon;
-  late String _creatorName = '';
-  late String _creatorPhotoUrl = '';
-  late int _numberOfPlayersInEvent = 0;
-  late int _numberOfChatMessages = 0;
-  late final FirebaseProvider _firebaseProvider;
+  String _creatorName = '';
+  String _creatorPhotoUrl = '';
+  int _numberOfPlayersInEvent = 0;
+  int _numberOfChatMessages = 0;
 
   @override
   void initState() {
-    _firebaseProvider = context.read<FirebaseProvider>();
     super.initState();
-    _getCreatorName();
-    _getCreatorPhotoUrl();
     _loadCustomMarkerIcon();
-    loadAmountOfUsersFirebase();
-    loadAmountOfChatMessages();
+    _loadInfo();
+  }
+
+  Future<void> _loadInfo() async {
+    FirebaseProvider fbp = FirebaseProvider();
+    HoopUpUser user = await fbp.getUserFromFirebase(widget.event.creatorId);
+    setState(() {
+      _creatorName = user.username;
+    });
+    setState(() {
+      _creatorPhotoUrl = user.photoUrl;
+    });
+    setState(() {
+      _numberOfPlayersInEvent = widget.event.userIds.length;
+    });
+    setState(() {
+      _numberOfChatMessages = widget.event.chat.messages.length;
+    });
   }
 
   Future<void> _loadCustomMarkerIcon() async {
@@ -52,14 +65,6 @@ class _EventPageState extends State<EventPage> {
     customMarkerIcon = BitmapDescriptor.fromBytes(markerIconBytes);
   }
 
-  loadAmountOfChatMessages() async {
-    String chatPath = 'events/${widget.event.id}/chat/messages';
-    List messages =
-        await _firebaseProvider.getListOfChatMessages(widget.event.id);
-    _numberOfChatMessages = messages.length;
-    return true;
-  }
-
   Court? _getCourt(String id) {
     for (Court court in widget._courts) {
       if (court.courtId == id) {
@@ -67,34 +72,6 @@ class _EventPageState extends State<EventPage> {
       }
     }
     return null;
-  }
-
-  void _getCreatorName() async {
-    FirebaseProvider firebaseProvider = FirebaseProvider();
-    Map<dynamic, dynamic> userMap = await firebaseProvider.getMapFromFirebase(
-        "users", widget.event.creatorId);
-    String name = userMap['username'];
-    setState(() {
-      _creatorName = name;
-    });
-  }
-
-  void _getCreatorPhotoUrl() async {
-    FirebaseProvider firebaseProvider = FirebaseProvider();
-    Map<dynamic, dynamic> userMap = await firebaseProvider.getMapFromFirebase(
-        "users", widget.event.creatorId);
-    String photoUrl = userMap['photoUrl'];
-    setState(() {
-      _creatorPhotoUrl = photoUrl;
-    });
-  }
-
-  loadAmountOfUsersFirebase() async {
-    Map eventMap =
-        await _firebaseProvider.getMapFromFirebase("events", widget.event.id);
-    List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
-    _numberOfPlayersInEvent = userIdsList.length;
-    return true;
   }
 
   TextSpan _getSubtitleText() {
@@ -477,7 +454,7 @@ class _EventPageState extends State<EventPage> {
                                     child: Container(
                                       width: 24,
                                       height: 24,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         color: Colors
                                             .red, // Choose your desired background color
                                         shape: BoxShape.circle,
@@ -485,7 +462,7 @@ class _EventPageState extends State<EventPage> {
                                       child: Center(
                                         child: Text(
                                           '$_numberOfChatMessages',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -691,7 +668,6 @@ class _EventPageState extends State<EventPage> {
       List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
       HoopUpUserProvider hoopUpUserProvider =
           Provider.of<HoopUpUserProvider>(context, listen: false);
-
       addUserToEvent(
         widget.event.id,
         hoopUpUserProvider.user!.events,

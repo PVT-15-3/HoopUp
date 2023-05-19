@@ -84,9 +84,9 @@ class EventHandler {
 }
 
 void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
-  if (!event.usersIds.contains(hoopUpUser.id)) {
+  if (!event.userIds.contains(hoopUpUser.id)) {
     // Add the user's ID to the event's list of users
-    List<String> userIdsList = event.usersIds;
+    List<String> userIdsList = event.userIds;
     List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
     event.userIds = newUserIdsList;
   }

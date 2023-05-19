@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:my_app/classes/message.dart';
 import 'chat.dart';
 import 'time.dart';
 import 'package:my_app/providers/firebase_provider.dart';
@@ -84,7 +85,7 @@ class Event {
   String get ageGroup => _ageGroup;
   String get genderGroup => _genderGroup;
   Chat get chat => _chat;
-  List<String> get usersIds => _usersIds;
+  List<String> get userIds => _usersIds;
 
   // Setters --------------------------------------------------------------
   set userIds(List<String> userIds) {
@@ -155,6 +156,18 @@ class Event {
       id: id,
       firebaseProvider: firebaseHandler,
     );
+    // Get messages from json and add them to the event
+    dynamic messageMap = json['chat']['messages'];
+    if (messageMap != null) {
+      List<Message> messages = [];
+      messageMap.forEach((key, value) {
+        messages.add(Message.fromFirebase(Map<String, dynamic>.from(value)));
+      });
+      event._chat.messages = messages;
+    }
+    // Get list of users that have joined from json and add them to the event
+    List<String> userIdsList = List.from(json['userIds'] ?? []);
+    event._usersIds = userIdsList;
     return event;
   }
 }

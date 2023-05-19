@@ -150,7 +150,7 @@ void main() {
             'playerAmount': sut.playerAmount,
             'genderGroup': sut.genderGroup,
             'ageGroup': sut.ageGroup,
-            'userIds': sut.usersIds,
+            'userIds': sut.userIds,
           })).called(1);
     });
     test(
@@ -193,7 +193,7 @@ void main() {
       arrangeValidEvent();
       List<String> testIds = ["id1", "id2", "id3", "id4", "id5"];
       sut.userIds = testIds;
-      expect(sut.usersIds, testIds);
+      expect(sut.userIds, testIds);
       verify(() => mockDatabase.setFirebaseDataList(
           'events/${sut.id}/userIds', testIds)).called(1);
     });
