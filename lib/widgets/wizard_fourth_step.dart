@@ -94,22 +94,43 @@ class WizardFourthStep extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text:
-                              String.fromCharCode(0x2605) * wizardProvider.skillLevel,
+                          text: String.fromCharCode(0x2605) *
+                              wizardProvider.skillLevel,
                           style: const TextStyle(
                             color: Colors.orange,
                             fontSize: 30,
                           ),
                         ),
                         TextSpan(
-                          text:
-                              String.fromCharCode(0x2606) * (5 - wizardProvider.skillLevel),
+                          text: String.fromCharCode(0x2606) *
+                              (5 - wizardProvider.skillLevel),
                           style: const TextStyle(
                             fontSize: 30,
                             color: Colors.orange,
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(1.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.asset(
+                      wizardProvider.court!.imageLink,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
