@@ -119,7 +119,8 @@ class FirebaseProvider with ChangeNotifier {
         photoUrl: userMap['photoUrl'],
         gender: userMap['gender'] ?? 'other',
         firebaseProvider: this,
-        dateOfBirth: DateTime.fromMillisecondsSinceEpoch(userMap['dateOfBirth']));
+        dateOfBirth:
+            DateTime.fromMillisecondsSinceEpoch(userMap['dateOfBirth']));
     if (userMap['events'] != null) {
       user.events = userMap['events'].cast<String>();
     }
@@ -177,5 +178,32 @@ class FirebaseProvider with ChangeNotifier {
       notifyListeners();
       return messages;
     });
+  }
+
+  Future<List<Message>> getListOfChatMessages(String eventId) async {
+    final chatMessagesRef = database.ref('events/$eventId/chat/messages');
+
+    DatabaseEvent event = await chatMessagesRef.once();
+
+    DataSnapshot snapshot = event.snapshot;
+
+    List<Message> messages = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> messagesFromDatabaseMap =
+          snapshot.value as Map<dynamic, dynamic>;
+
+      messagesFromDatabaseMap.forEach((key, value) {
+        if (value is Map<dynamic, dynamic>) {
+          // Convert the value to Map<String, dynamic>
+          Map<String, dynamic> messageData = Map<String, dynamic>.from(value);
+
+          final message = Message.fromFirebase(messageData);
+          messages.add(message);
+        }
+      });
+    }
+
+    return messages;
   }
 }
