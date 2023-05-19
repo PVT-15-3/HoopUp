@@ -112,11 +112,13 @@ class LogInPage extends StatelessWidget {
                             email!, password!, context);
                         if (logInSuccess) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BottomNavBar(currentIndex: 0,)),
-                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomNavBar(
+                                        currentIndex: 0,
+                                      )),
+                              (route) => false);
                         }
                       }
                     },

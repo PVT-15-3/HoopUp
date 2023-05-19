@@ -199,7 +199,8 @@ class FilterIconButton extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ElevatedButton(style: TextButton.styleFrom(
+                            ElevatedButton(
+                              style: TextButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: Styles.primaryColor,
                                 minimumSize: const Size(70, 35),
@@ -231,13 +232,14 @@ class FilterIconButton extends StatelessWidget {
                               ),
                               onPressed: () {
                                 // Apply filter logic here
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const BottomNavBar(
-                                            currentIndex: 0,
-                                          )),
-                                );
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavBar(
+                                              currentIndex: 0,
+                                            )),
+                                    (route) => false);
                               },
                               child: const Text(
                                 'APPLY',

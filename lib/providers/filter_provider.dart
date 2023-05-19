@@ -27,21 +27,21 @@ class FilterProvider with ChangeNotifier {
   int get skillLevel => _skillLevel;
   bool get isSkillLevelAllSelected => _isSkillLevelAllSelected;
 
-void clearFilters(){
-  _isMaleSelected = false;
-  _isFemaleSelected = false;
-  _isOtherSelected = false;
-  _isGenderAllSelected = false;
-  _isAge13To17Selected = false;
-  _isAge18To25Selected = false;
-  _isAge26To35Selected = false;
-  _isAge36To50Selected = false;
-  _isAgeAllSelected = false;
-  _isAge50plusSelected = false;
-  _skillLevel = 0;
-  _isSkillLevelAllSelected = false;
-  notifyListeners();
-}
+  void clearFilters() {
+    _isMaleSelected = false;
+    _isFemaleSelected = false;
+    _isOtherSelected = false;
+    _isGenderAllSelected = false;
+    _isAge13To17Selected = false;
+    _isAge18To25Selected = false;
+    _isAge26To35Selected = false;
+    _isAge36To50Selected = false;
+    _isAgeAllSelected = false;
+    _isAge50plusSelected = false;
+    _skillLevel = 0;
+    _isSkillLevelAllSelected = false;
+    notifyListeners();
+  }
 
   set isMaleSelected(bool value) {
     _isMaleSelected = value;
@@ -91,7 +91,7 @@ void clearFilters(){
   set isAgeAllSelected(bool value) {
     _isAgeAllSelected = value;
     notifyListeners();
-}
+  }
 
   set skillLevel(int value) {
     _skillLevel = value;
@@ -208,5 +208,4 @@ void clearFilters(){
     _isAgeAllSelected = value;
     notifyListeners();
   }
-  
 }

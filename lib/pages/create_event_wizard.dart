@@ -60,14 +60,13 @@ class CreateEventWizard extends StatelessWidget {
                 showCustomToast(e.toString(), Icons.error, context);
                 debugPrint("error when creating event: $e");
               }).then((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const BottomNavBar(
-                      currentIndex: 2,
-                    ),
-                  ),
-                );
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BottomNavBar(
+                              currentIndex: 2,
+                            )),
+                    (route) => false);
                 showCustomToast(
                     'Your event is created', Icons.approval, context);
               });

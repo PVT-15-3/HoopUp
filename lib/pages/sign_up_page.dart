@@ -357,11 +357,13 @@ class _SignUpPage extends State<SignUpPage> {
 
                             if (signUpSuccess) {
                               // ignore: use_build_context_synchronously
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const BottomNavBar(currentIndex: 0)),
-                              );
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const BottomNavBar(
+                                            currentIndex: 0,
+                                          )),
+                                  (route) => false);
                             }
                           } else {
                             showCustomToast("Please fill out all fields",

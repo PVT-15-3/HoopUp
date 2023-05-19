@@ -491,14 +491,23 @@ class _EventPageState extends State<EventPage> {
                                       "You have joined a game at ${courtOfTheEvent.name}",
                                       Icons.schedule,
                                       context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const BottomNavBar(
-                                              currentIndex: 2,
-                                            )),
-                                  );
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const BottomNavBar(
+                                                currentIndex: 2,
+                                              )),
+                                      (route) => false);
+                                  //, (route) => false)
+                                  //pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           const BottomNavBar(
+                                  //             currentIndex: 2,
+                                  //           )),
+                                  // );
                                 },
                               );
                             },

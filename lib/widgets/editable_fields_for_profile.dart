@@ -279,11 +279,13 @@ class _EditableFieldsState extends State<EditableFields> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(currentIndex: 3,)),
-                      );
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavBar(
+                                    currentIndex: 3,
+                                  )),
+                          (route) => false);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -312,11 +314,13 @@ class _EditableFieldsState extends State<EditableFields> {
                         user.photoUrl = photoUrl;
                         showCustomToast(
                             "Profile updated", Icons.person, context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BottomNavBar(currentIndex: 3,)),
-                        );
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BottomNavBar(
+                                      currentIndex: 3,
+                                    )),
+                            (route) => false);
                       } else {
                         showCustomToast(
                             "Username is too short", Icons.warning, context);
