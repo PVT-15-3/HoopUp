@@ -196,6 +196,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedYear,
                   onChanged: (value) {
                     wizardProvider.setSelectedYear(value!);
+                    wizardProvider.onTimeSelectedChanged();
                   },
                   items: List.generate(10, (index) => index + 2022)
                       .map((year) => DropdownMenuItem<int>(
@@ -209,6 +210,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedMonth,
                   onChanged: (value) {
                     wizardProvider.setSelectedMonth(value!);
+                    wizardProvider.onTimeSelectedChanged();
                   },
                   items: List.generate(12, (index) => index + 1)
                       .map((month) => DropdownMenuItem<int>(
@@ -222,6 +224,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedDay,
                   onChanged: (value) {
                     wizardProvider.setSelectedDay(value!);
+                    wizardProvider.onTimeSelectedChanged();
                   },
                   items: daysInMonth
                       .map((day) => DropdownMenuItem<int>(

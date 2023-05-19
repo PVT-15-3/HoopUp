@@ -30,6 +30,7 @@ class _EventPageState extends State<EventPage> {
   BitmapDescriptor? customMarkerIcon;
   late String _creatorName = '';
   late int _numberOfPlayersInEvent = 0;
+  late int _numberOfChatMessages = 0;
   late final FirebaseProvider _firebaseProvider;
 
   @override
@@ -39,6 +40,7 @@ class _EventPageState extends State<EventPage> {
     _getCreatorName();
     _loadCustomMarkerIcon();
     loadAmountOfUsersFirebase();
+    loadAmountOfChatMessages();
   }
 
   Future<void> _loadCustomMarkerIcon() async {
@@ -46,6 +48,14 @@ class _EventPageState extends State<EventPage> {
         .load('assets/markerImage.png'); // URL to the marker icon
     final Uint8List markerIconBytes = markerIconData.buffer.asUint8List();
     customMarkerIcon = BitmapDescriptor.fromBytes(markerIconBytes);
+  }
+
+  loadAmountOfChatMessages() async {
+    String chatPath = 'events/${widget.event.id}/chat/messages';
+    List messages =
+        await _firebaseProvider.getListOfChatMessages(widget.event.id);
+    _numberOfChatMessages = messages.length;
+    return true;
   }
 
   Court? _getCourt(String id) {
@@ -418,22 +428,50 @@ class _EventPageState extends State<EventPage> {
                                 ),
                               ),
                               const Spacer(),
-                              IconButton(
-                                icon: const Icon(
-                                    Icons.chat_bubble_outline_rounded),
-                                color: Styles.primaryColor,
-                                iconSize: 35,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChatPage(
-                                        event: widget.event,
-                                        court: courtOfTheEvent,
+                              Stack(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.chat_bubble_outline_rounded,
+                                    ),
+                                    color: Styles.primaryColor,
+                                    iconSize: 35,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ChatPage(
+                                            event: widget.event,
+                                            court: courtOfTheEvent,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: Container(
+                                      width: 24,
+                                      height: 24,
+                                      decoration: BoxDecoration(
+                                        color: Colors
+                                            .red, // Choose your desired background color
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '$_numberOfChatMessages',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                ],
                               ),
                             ],
                           ),

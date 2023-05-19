@@ -5,9 +5,17 @@ class Address {
   final double _long;
   final double _lat;
 
-  Address(this._street, this._city, this._postalCode, this._long, this._lat);
+  Address(this._street, this._city, this._postalCode, this._long, this._lat) {
+    if (_postalCode <= 9999) {
+      throw ArgumentError('Postal code must be a positive integer.');
+    }
+    if (_lat < -90 || _lat > 90 || _long < -180 || _long > 180) {
+      throw ArgumentError('Invalid latitude or longitude values.');
+    }
+  }
 
   //Getters ---------------------------------------------------------------
+
   String get street => _street;
   String get city => _city;
   int get postalCode => _postalCode;
@@ -15,6 +23,7 @@ class Address {
   double get lat => _lat;
 
   //Functions --------------------------------------------------------------
+
   Map<String, dynamic> toJson() {
     return {
       'street': _street,
@@ -54,8 +63,8 @@ class Address {
   String toString() {
     return "$_street, $_postalCode, $_city";
   }
-  
+
   String toStringDivided() {
     return "$_street, $_postalCode\n$_city";
-}
+  }
 }
