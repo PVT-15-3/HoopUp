@@ -576,8 +576,13 @@ class _EventPageState extends State<EventPage> {
                                                   ),
                                                 ),
                                                 onPressed: () {
-                                                  addUserToThisEvent(context)
-                                                      .then((_) {
+                                                  addUserToEvent(
+                                                    widget.event,
+                                                    Provider.of<HoopUpUserProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .user!,
+                                                  ).then((_) {
                                                     showCustomToast(
                                                         "You have joined a game at ${courtOfTheEvent.name}",
                                                         Icons.schedule,
@@ -658,23 +663,5 @@ class _EventPageState extends State<EventPage> {
       ],
     );
     return contetText;
-  }
-
-  addUserToThisEvent(BuildContext context) {
-    FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
-    return firebaseProvider
-        .getMapFromFirebase("events", widget.event.id)
-        .then((eventMap) {
-      List<String> userIdsList = List.from(eventMap['userIds'] ?? []);
-      HoopUpUserProvider hoopUpUserProvider =
-          Provider.of<HoopUpUserProvider>(context, listen: false);
-      addUserToEvent(
-        widget.event.id,
-        hoopUpUserProvider.user!.events,
-        userIdsList,
-        hoopUpUserProvider,
-        firebaseProvider,
-      );
-    });
   }
 }

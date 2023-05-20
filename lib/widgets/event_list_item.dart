@@ -152,9 +152,6 @@ class _EventListItemState extends State<EventListItem> {
   }
 
   Future<void> toggleEvent(bool hasUserJoined) async {
-    Map? userMap =
-        await _firebaseProvider.getMapFromFirebase("users", _firebaseUser.uid);
-    List<String> eventsList = List.from(userMap['events'] ?? []);
     if (!mounted) {
       return;
     }
@@ -166,14 +163,13 @@ class _EventListItemState extends State<EventListItem> {
       return;
     }
 
-    if (eventsList.contains(_event.id)) {
-      removeUserFromEvent(_event.id, eventsList, _userIdsList!, userProvider,
-          _firebaseProvider);
+    if (userProvider.user!.events.contains(_event.id)) {
+      removeUserFromEvent(
+          _event.id, userProvider.user!.events, _userIdsList!, userProvider);
       showCustomToast("You have canceled your game at ${widget._court.name}",
           Icons.schedule, context);
     } else {
-      addUserToEvent(_event.id, eventsList, _userIdsList!, userProvider,
-          _firebaseProvider);
+      addUserToEvent(_event, userProvider.user!);
       showCustomToast("You have joined a game at ${widget._court.name}",
           Icons.schedule, context);
     }

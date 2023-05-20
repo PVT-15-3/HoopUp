@@ -8,6 +8,8 @@ import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
 import 'package:synchronized/synchronized.dart';
 
+final FirebaseProvider firebaseProvider = FirebaseProvider();
+
 class EventHandler {
   final Lock appLock = Lock();
   Future<void> createEvent(
@@ -61,93 +63,49 @@ class EventHandler {
       timeStamp: DateTime.now(),
     );
     await appLock.synchronized(() async {
-      await event.addEventToDatabase();
-      if (message.messageText.isNotEmpty) {
-        await event.chat.addMessage(message);
+      try {
+        await event.addEventToDatabase();
+        if (message.messageText.isNotEmpty) {
+          await event.chat.addMessage(message);
+        }
+        addUserToEvent(event, hoopUpUser);
+      } on Exception catch (e) {
+        debugPrint('Error creating event: $e');
       }
-      addCreatorToEvent(event, hoopUpUser);
     }, timeout: const Duration(seconds: 5));
-
-    debugPrint('Event created:\n'
-        '  Date: $eventDate\n'
-        '  Start time: $eventStartTime\n'
-        '  End time: $eventEndTime\n'
-        '  Number of participants: $numberOfParticipants\n'
-        '  Gender: $selectedGender\n'
-        '  Age group: $selectedAgeGroup\n'
-        '  Skill level: $skillLevel\n'
-        '  Event name: $eventName\n'
-        '  Event description: $eventDescription\n'
-        '  Court ID: $courtId\n'
-        '  User ID: $userId');
   }
 }
 
-void addCreatorToEvent(Event event, HoopUpUser hoopUpUser) {
-  if (!event.userIds.contains(hoopUpUser.id)) {
-    // Add the user's ID to the event's list of users
-    List<String> userIdsList = event.userIds;
-    List<String> newUserIdsList = List.from(userIdsList)..add(hoopUpUser.id);
-    event.userIds = newUserIdsList;
-  }
-  if (!hoopUpUser.events.contains(event.id)) {
-    // Add the event ID to the user's list of events
-    List<String> eventsList = hoopUpUser.events;
-    List<String> newEventsList = List.from(eventsList)..add(event.id);
-    hoopUpUser.events = newEventsList;
-  }
-}
-
-void removeUserFromEvent(
-    String eventId,
-    List<String> eventsList,
-    List<String> userIdsList,
-    HoopUpUserProvider hoopUpUserProvider,
-    FirebaseProvider firebaseProvider) {
+void removeUserFromEvent(String eventId, List<String> eventsList,
+    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) async {
   // Remove the event ID from the user's list
   eventsList.remove(eventId);
   // Update the user's list of events in the database
-  HoopUpUser? user = hoopUpUserProvider.user;
-  user!.events = eventsList;
+  hoopUpUserProvider.user!.events = eventsList;
   // Remove the user's ID from the event's list of users
   userIdsList.removeWhere((index) => index == hoopUpUserProvider.user!.id);
   // Update the event's list of users in the database
-  firebaseProvider.setFirebaseDataList('events/$eventId/userIds', userIdsList);
+  await firebaseProvider.setFirebaseDataList(
+      'events/$eventId/userIds', userIdsList);
 }
 
-void addUserToEvent(
-    String eventId,
-    List<String> eventsList,
-    List<String> userIdsList,
-    HoopUpUserProvider hoopUpUserProvider,
-    FirebaseProvider firebaseProvider) {
-  if (eventsList.contains(eventId)) {
-    debugPrint("User is already in this event");
-    return;
+Future<void> addUserToEvent(Event event, HoopUpUser user) async {
+  // Update users list
+  if (!event.userIds.contains(user.id)) {
+    // Add the user's ID to the event's list of users
+    event.userIds = List.from(event.userIds)..add(user.id);
   }
-  // Add the new event ID to the user's list
-  List<String> newEventsList = List.from(eventsList)..add(eventId);
-  // Update the user's list of events in the database
-  HoopUpUser? user = hoopUpUserProvider.user;
-  user!.events = newEventsList;
-  // Add the user's ID to the event's list of users
-  if (userIdsList.contains(user.id)) {
-    return;
+  if (!user.events.contains(event.id)) {
+    // Add the event ID to the user's list of events
+    user.events = List.from(user.events)..add(event.id);
   }
-  List<String> newUserIdsList = List.from(userIdsList)
-    ..add(hoopUpUserProvider.user!.id);
-  // Update the event's list of users in the database
-  firebaseProvider.setFirebaseDataList(
-      'events/$eventId/userIds', newUserIdsList);
 }
 
 Future<void> removeOldEvents(
-    {required FirebaseProvider firebaseProvider,
-    required HoopUpUserProvider hoopUpUserProvider}) async {
+    {required HoopUpUserProvider hoopUpUserProvider}) async {
   List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
   for (final event in eventsList) {
-    if (event.time.endTime.millisecondsSinceEpoch <
-        DateTime.now().millisecondsSinceEpoch) {
+    if (event.time.endTime.isBefore(DateTime.now())) {
       firebaseProvider.removeFirebaseData('events/${event.id}');
       debugPrint('Event ${event.id} removed because it has ended');
     }
@@ -156,19 +114,22 @@ Future<void> removeOldEvents(
       eventsList: eventsList, hoopUpUserProvider: hoopUpUserProvider);
 }
 
-void removeOldEventsFromUser(
-    {required List<Event> eventsList,
-    required HoopUpUserProvider hoopUpUserProvider}) async {
+void removeOldEventsFromUser({
+  required List<Event> eventsList,
+  required HoopUpUserProvider hoopUpUserProvider,
+}) {
   HoopUpUser hoopUpUser = hoopUpUserProvider.user!;
-  List<String> validEventIds = [];
-  for (final eventId in hoopUpUser.events) {
-    if (eventsList.any((event) => event.id == eventId)) {
-      validEventIds.add(eventId);
-    } else {
-      debugPrint(
-          "Event $eventId removed from user ${hoopUpUser.username} because "
-          "it no longer exists");
-    }
+
+  List<String> validEventIds = List<String>.from(hoopUpUser.events);
+  validEventIds.removeWhere(
+      (eventId) => !eventsList.any((event) => event.id == eventId));
+
+  List<String> removedEventIds =
+      hoopUpUser.events.toSet().difference(validEventIds.toSet()).toList();
+  for (final removedEventId in removedEventIds) {
+    debugPrint(
+        "Event $removedEventId removed from user ${hoopUpUser.username} because it no longer exists");
   }
+
   hoopUpUser.events = validEventIds;
 }

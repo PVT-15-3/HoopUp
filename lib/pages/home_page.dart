@@ -46,8 +46,7 @@ class _HomePageState extends State<HomePage> {
       _userProvider.setUser(hoopUpUser);
       _user = hoopUpUser;
     });
-    await removeOldEvents(
-        firebaseProvider: _firebaseProvider, hoopUpUserProvider: _userProvider);
+    await removeOldEvents(hoopUpUserProvider: _userProvider);
     setState(() {
       _isLoading = false;
     });
