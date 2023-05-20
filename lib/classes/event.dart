@@ -166,8 +166,7 @@ class Event {
       event._chat.messages = messages;
     }
     // Get list of users that have joined from json and add them to the event
-    List<String> userIdsList = List.from(json['userIds'] ?? []);
-    event._usersIds = userIdsList;
+    event._usersIds = List<String>.from(json['userIds'] ?? []);
     return event;
   }
 }

@@ -61,10 +61,6 @@ class Address {
 
   @override
   String toString() {
-    return "$_street, $_postalCode, $_city";
-  }
-
-  String toStringDivided() {
     return "$_street, $_postalCode\n$_city";
   }
 }

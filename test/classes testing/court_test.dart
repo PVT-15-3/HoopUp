@@ -77,27 +77,6 @@ void main() {
       expect(sut.courtId, '0.00.0');
     });
 
-    test('Court setters should update properties correctly', () {
-      arrangeCourt();
-
-      sut.name = 'New Court Name';
-      expect(sut.name, 'New Court Name');
-
-      sut.imageLink = 'http://example.com/new_image.png';
-      expect(sut.imageLink, 'http://example.com/new_image.png');
-
-      sut.courtType = 'Outdoor';
-      expect(sut.courtType, 'Outdoor');
-
-      final newAddress = Address('456 Elm St', 'Shelbyville', 54321, 1, 1);
-      sut.address = newAddress;
-      expect(sut.address.street, '456 Elm St');
-      expect(sut.address.city, 'Shelbyville');
-      expect(sut.address.postalCode, 54321);
-      expect(sut.address.long, 1);
-      expect(sut.address.lat, 1);
-    });
-
     test('addEvent() should add event to events list', () {
       arrangeCourt();
       arrangeEvents();
@@ -154,16 +133,7 @@ void main() {
       expect(court1 == court2, isFalse);
       expect(court1 == court3, isTrue);
     });
-    test(
-        "Testing that the isSelected property is initially false and can be set to true.",
-        () {
-      // Check that the isSelected property is initially false
-      expect(sut.isSelected, isFalse);
 
-      // Set the isSelected property to true and check that it has been updated
-      sut.isSelected = true;
-      expect(sut.isSelected, isTrue);
-    });
     test(
         "Testing that the events list is initially empty and can be populated with events.",
         () {

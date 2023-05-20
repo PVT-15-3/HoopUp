@@ -101,7 +101,7 @@ class CourtPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'Adress: ${court.address.toStringDivided()}',
+                                'Adress: ${court.address.toString()}',
                                 style: const TextStyle(
                                   fontSize: Styles.fontSizeSmall,
                                   fontWeight: FontWeight.w600,
