@@ -22,7 +22,7 @@ void main() {
     test('toString should return a formatted string', () {
       final string = sut.toString();
 
-      expect(string, equals('123 Main St, 12345, Anytown'));
+      expect(string, equals('123 Main St, 12345\nAnytown'));
     });
 
     test('Getters should return correct values', () {
