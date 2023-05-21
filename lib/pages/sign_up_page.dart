@@ -35,22 +35,22 @@ class _SignUpPage extends State<SignUpPage> {
     auth = Auth(firebaseProvider);
     skillLevel = 0;
     gender = "";
-    generateStars();
   }
 
-  void generateStars() {
+  void generateStars(final constraints) {
+    double size = constraints.maxWidth * 0.1;
     stars = List.generate(
       5,
       (index) => GestureDetector(
         child: Icon(
-          size: 30,
+          size: size,
           index < skillLevel ? Icons.star : Icons.star_border,
           color: index < skillLevel ? Styles.primaryColor : Colors.grey,
         ),
         onTap: () {
           setState(() {
             skillLevel = index + 1;
-            generateStars();
+            generateStars(constraints);
           });
         },
       ),
@@ -65,339 +65,363 @@ class _SignUpPage extends State<SignUpPage> {
     final username = useState<String?>(null);
     final dateOfBirth = useState<DateTime>(DateTime(0));
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
+    return LayoutBuilder(builder: (context, constraints) {
+      generateStars(constraints);
+      return Scaffold(
         backgroundColor: Colors.white,
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              //HoopUp Icon
-              const Image(
-                image: AssetImage('assets/logo.png'),
-                width: 100,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "CREATE ACCOUNT",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontFamily: Styles.mainFont,
-                  fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+        ),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                //HoopUp Icon
+                Image(
+                  image: const AssetImage('assets/logo.png'),
+                  width: constraints.maxWidth * 0.3,
                 ),
-              ),
-              const SizedBox(height: 20),
-              //Edit skill level -----------------------------------------------
-              const Text(
-                "Choose Skill Level",
-                style: TextStyle(
-                  fontFamily: Styles.mainFont,
-                  fontWeight: FontWeight.bold,
+                SizedBox(height: constraints.maxHeight * 0.03),
+                const Text(
+                  "CREATE ACCOUNT",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: Styles.mainFont,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: stars,
-              ),
-              const SizedBox(height: 20),
+                SizedBox(height: constraints.maxHeight * 0.03),
+                //Edit skill level -----------------------------------------------
+                const Text(
+                  "Choose Skill Level",
+                  style: TextStyle(
+                    fontFamily: Styles.mainFont,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: stars,
+                ),
+                SizedBox(height: constraints.maxHeight * 0.03),
 
-              Container(
-                  margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  child: Column(children: [
-                    //Edit gender ----------------------------------------------
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                gender = "Male";
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(
-                                fontFamily: Styles.mainFont,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              backgroundColor: Colors.white,
-                              minimumSize: const Size(90, 50),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: gender == "Male"
-                                        ? Styles.primaryColor
-                                        : Styles.textColor,
-                                    width: gender == "Male" ? 2 : 1,
-                                  )),
-                            ),
-                            child: const Text("MALE")),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                gender = "Female";
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(
-                                fontFamily: Styles.mainFont,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              backgroundColor: Colors.white,
-                              minimumSize: const Size(90, 50),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: gender == "Female"
-                                        ? Styles.primaryColor
-                                        : Styles.textColor,
-                                    width: gender == "Female" ? 2 : 1,
-                                  )),
-                            ),
-                            child: const Text("FEMALE")),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                gender = "Other";
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              textStyle: const TextStyle(
-                                fontFamily: Styles.mainFont,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              backgroundColor: Colors.white,
-                              minimumSize: const Size(90, 50),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: gender == "Other"
-                                        ? Styles.primaryColor
-                                        : Styles.textColor,
-                                    width: gender == "Other" ? 2 : 1,
-                                  )),
-                            ),
-                            child: const Text("OTHER")),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-
-                    //Edit User name ------------------------------------------
-                    TextFormField(
-                      controller: nameController,
-                      style: const TextStyle(
-                        fontFamily: Styles.mainFont,
+                Container(
+                    margin: EdgeInsets.fromLTRB(constraints.maxWidth * 0.15, 0,
+                        constraints.maxWidth * 0.15, 0),
+                    child: Column(children: [
+                      //Edit gender ----------------------------------------------
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    gender = "Male";
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  textStyle: TextStyle(
+                                    fontFamily: Styles.mainFont,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: constraints.maxWidth * 0.025,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  minimumSize: Size(constraints.maxWidth * 0.1,
+                                      constraints.maxHeight * 0.06),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: gender == "Male"
+                                            ? Styles.primaryColor
+                                            : Styles.textColor,
+                                        width: gender == "Male" ? 2 : 1,
+                                      )),
+                                ),
+                                child: const Text("MALE")),
+                          ),
+                          SizedBox(width: constraints.maxWidth * 0.05),
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    gender = "Female";
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  textStyle: TextStyle(
+                                    fontFamily: Styles.mainFont,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: constraints.maxWidth * 0.025,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  minimumSize: Size(constraints.maxWidth * 0.1,
+                                      constraints.maxHeight * 0.06),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: gender == "Female"
+                                            ? Styles.primaryColor
+                                            : Styles.textColor,
+                                        width: gender == "Female" ? 2 : 1,
+                                      )),
+                                ),
+                                child: const Text("FEMALE")),
+                          ),
+                          SizedBox(width: constraints.maxWidth * 0.05),
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    gender = "Other";
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  textStyle: TextStyle(
+                                    fontFamily: Styles.mainFont,
+                                    fontSize: constraints.maxWidth * 0.025,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  minimumSize: Size(constraints.maxWidth * 0.1,
+                                      constraints.maxHeight * 0.06),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: gender == "Other"
+                                            ? Styles.primaryColor
+                                            : Styles.textColor,
+                                        width: gender == "Other" ? 2 : 1,
+                                      )),
+                                ),
+                                child: const Text("OTHER")),
+                          ),
+                        ],
                       ),
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Username*',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 12)),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your username';
-                        }
-                        if (value.length < 3) {
-                          return 'Username must be at least 3 characters long';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        username.value = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
+                      SizedBox(height: constraints.maxHeight * 0.03),
 
-                    //Edit age -------------------------------------------------
-                    TextField(
-                      controller: birthdayController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Date of birth*',
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 12)),
-                      onTap: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _selectedDate,
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        ).then((pickedDate) {
-                          if (pickedDate != null) {
-                            // Check if the pickedDate is a valid date
-                            if (pickedDate.year < 1900 ||
-                                pickedDate.year > DateTime.now().year) {
-                              showCustomToast("Invalid date",
-                                  Icons.warning_amber_outlined, context);
-                              return;
-                            }
-
-                            setState(() {
-                              _selectedDate = pickedDate;
-                              dateOfBirth.value = pickedDate;
-                            });
-
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(_selectedDate);
-                            birthdayController.text = formattedDate;
-                          } else {
-                            showCustomToast("Pick a date",
-                                Icons.warning_amber_outlined, context);
-                          }
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 20),
-
-                    //Edit email -----------------------------------------------
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      style: const TextStyle(
-                        fontFamily: Styles.mainFont,
-                      ),
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.orange, width: 2.0)),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 12),
-                        labelText: 'Email*',
-                        errorText: isEmailValid.value
-                            ? null
-                            : 'Please enter a valid email',
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        final isValid =
-                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value);
-                        isEmailValid.value = isValid;
-                        return isValid ? null : 'Please enter a valid email';
-                      },
-                      onSaved: (value) {
-                        email.value = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-
-                    //Edit password ------------------------------------------------
-                    TextFormField(
-                      obscureText: true,
-                      style: const TextStyle(
-                        fontFamily: Styles.mainFont,
-                      ),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                        labelText: 'Password*',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters long';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        password.value = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-
-                    //SaveButton ---------------------------------------------------
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (dateOfBirth.value == DateTime(0)) {
-                          showCustomToast("Please select a valid date of birth",
-                              Icons.warning, context);
-                          return;
-                        }
-
-                        DateTime thresholdDate = DateTime.now()
-                            .subtract(const Duration(days: 13 * 365));
-
-                        if (dateOfBirth.value.isAfter(thresholdDate)) {
-                          showCustomToast(
-                              "You must be at least 13 years old to use HoopUp",
-                              Icons.warning,
-                              context);
-                          return;
-                        }
-                        if (_formKey.currentState!.validate()) {
-                          if (skillLevel != 0 && gender != "") {
-                            _formKey.currentState!.save();
-                            bool signUpSuccess = await auth.signUpWithEmail(
-                              email.value!,
-                              password.value!,
-                              username.value!,
-                              gender,
-                              dateOfBirth.value,
-                              skillLevel,
-                              context,
-                            );
-
-                            if (signUpSuccess) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const BottomNavBar(
-                                            currentIndex: 0,
-                                          )),
-                                  (route) => false);
-                            }
-                          } else {
-                            showCustomToast("Please fill out all fields",
-                                Icons.warning, context);
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        minimumSize: const Size(180, 60),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: const BorderSide(
-                              color: Styles.textColor,
-                              width: 1,
-                            )),
-                      ),
-                      child: const Text(
-                        'CREATE',
-                        style: TextStyle(
+                      //Edit User name ------------------------------------------
+                      TextFormField(
+                        controller: nameController,
+                        style: const TextStyle(
                           fontFamily: Styles.mainFont,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: 'Username*',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: constraints.maxWidth * 0.03)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          if (value.length < 3) {
+                            return 'Username must be at least 3 characters long';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          username.value = value;
+                        },
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.03),
+
+                      //Edit age -------------------------------------------------
+                      TextField(
+                        controller: birthdayController,
+                        decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: 'Date of birth*',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: constraints.maxWidth * 0.03)),
+                        onTap: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _selectedDate,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          ).then((pickedDate) {
+                            if (pickedDate != null) {
+                              // Check if the pickedDate is a valid date
+                              if (pickedDate.year < 1900 ||
+                                  pickedDate.year > DateTime.now().year) {
+                                showCustomToast("Invalid date",
+                                    Icons.warning_amber_outlined, context);
+                                return;
+                              }
+
+                              setState(() {
+                                _selectedDate = pickedDate;
+                                dateOfBirth.value = pickedDate;
+                              });
+
+                              String formattedDate = DateFormat('yyyy-MM-dd')
+                                  .format(_selectedDate);
+                              birthdayController.text = formattedDate;
+                            } else {
+                              showCustomToast("Pick a date",
+                                  Icons.warning_amber_outlined, context);
+                            }
+                          });
+                        },
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.03),
+
+                      //Edit email -----------------------------------------------
+                      TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(
+                          fontFamily: Styles.mainFont,
+                        ),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.orange, width: 2.0)),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: constraints.maxWidth * 0.03),
+                          labelText: 'Email*',
+                          errorText: isEmailValid.value
+                              ? null
+                              : 'Please enter a valid email',
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          final isValid =
+                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value);
+                          isEmailValid.value = isValid;
+                          return isValid ? null : 'Please enter a valid email';
+                        },
+                        onSaved: (value) {
+                          email.value = value;
+                        },
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.03),
+
+                      //Edit password ------------------------------------------------
+                      TextFormField(
+                        obscureText: true,
+                        style: const TextStyle(
+                          fontFamily: Styles.mainFont,
+                        ),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: constraints.maxWidth * 0.03),
+                          labelText: 'Password*',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters long';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          password.value = value;
+                        },
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.03),
+
+                      //SaveButton ---------------------------------------------------
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (dateOfBirth.value == DateTime(0)) {
+                            showCustomToast(
+                                "Please select a valid date of birth",
+                                Icons.warning,
+                                context);
+                            return;
+                          }
+
+                          DateTime thresholdDate = DateTime.now()
+                              .subtract(const Duration(days: 13 * 365));
+
+                          if (dateOfBirth.value.isAfter(thresholdDate)) {
+                            showCustomToast(
+                                "You must be at least 13 years old to use HoopUp",
+                                Icons.warning,
+                                context);
+                            return;
+                          }
+                          if (_formKey.currentState!.validate()) {
+                            if (skillLevel != 0 && gender != "") {
+                              _formKey.currentState!.save();
+                              bool signUpSuccess = await auth.signUpWithEmail(
+                                email.value!,
+                                password.value!,
+                                username.value!,
+                                gender,
+                                dateOfBirth.value,
+                                skillLevel,
+                                context,
+                              );
+
+                              if (signUpSuccess) {
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavBar(
+                                              currentIndex: 0,
+                                            )),
+                                    (route) => false);
+                              }
+                            } else {
+                              showCustomToast("Please fill out all fields",
+                                  Icons.warning, context);
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          minimumSize: Size(constraints.maxWidth * 0.4,
+                              constraints.maxHeight * 0.08),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: const BorderSide(
+                                color: Styles.textColor,
+                                width: 1,
+                              )),
+                        ),
+                        child: Text(
+                          'CREATE',
+                          style: TextStyle(
+                            fontFamily: Styles.mainFont,
+                            fontWeight: FontWeight.bold,
+                            fontSize: constraints.maxWidth * 0.06,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                  ])),
-            ],
+                      SizedBox(height: constraints.maxHeight * 0.03),
+                    ])),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

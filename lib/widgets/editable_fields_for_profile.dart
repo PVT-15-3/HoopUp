@@ -225,7 +225,7 @@ class _EditableFieldsState extends State<EditableFields> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: constraints.maxHeight * 0.05),
 
                     //Edit User name ------------------------------------------
                     TextFormField(
@@ -234,10 +234,11 @@ class _EditableFieldsState extends State<EditableFields> {
                           border: const OutlineInputBorder(),
                           labelText: 'Username',
                           hintText: username,
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 12)),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: constraints.maxWidth * 0.03)),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: constraints.maxHeight * 0.03),
 
                     //Edit email -----------------------------------------------
                     TextFormField(
@@ -246,32 +247,28 @@ class _EditableFieldsState extends State<EditableFields> {
                       decoration: InputDecoration(
                           fillColor: Colors.black12,
                           filled: true,
-                          border: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.orange, width: 2.0)),
                           labelText: 'Email',
                           hintText: email,
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 12)),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: constraints.maxWidth * 0.03)),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: constraints.maxHeight * 0.03),
 
                     //Edit age -------------------------------------------------
                     TextFormField(
                       controller: birthDayController,
                       enabled: false,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           fillColor: Colors.black12,
                           filled: true,
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.orange, width: 2.0)),
                           labelText: 'Age',
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 12)),
+                              vertical: 0,
+                              horizontal: constraints.maxWidth * 0.03)),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: constraints.maxHeight * 0.04),
                   ])),
 
               Row(
@@ -289,22 +286,23 @@ class _EditableFieldsState extends State<EditableFields> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      minimumSize: const Size(100, 60),
+                      minimumSize: Size(constraints.maxWidth * 0.25,
+                          constraints.maxHeight * 0.1),
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'CANCEL',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: constraints.maxWidth * 0.06,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: constraints.maxWidth * 0.05),
                   ElevatedButton(
                     onPressed: () {
                       if (nameController.text.length >= 3) {
@@ -328,17 +326,18 @@ class _EditableFieldsState extends State<EditableFields> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      minimumSize: const Size(100, 60),
+                      minimumSize: Size(constraints.maxWidth * 0.25,
+                          constraints.maxHeight * 0.1),
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'SAVE',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: constraints.maxWidth * 0.06,
                         color: Colors.black,
                       ),
                     ),
