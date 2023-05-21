@@ -12,27 +12,14 @@ class Time {
   })  : _id = const Uuid().v4(),
         _startTime = startTime,
         _endTime = endTime {
-    // _validateStartTime();  // causes issues with loading the times from the database (viktor)
-    // _validateEndTime();    // causes issues with loading the times from the database (viktor)
+    validateStartTime();
+    validateEndTime();
   }
 
   // Getters
   DateTime get startTime => _startTime;
   DateTime get endTime => _endTime;
   String get id => _id;
-
-  // Setters
-  set startTime(DateTime startTime) {
-    _startTime = startTime;
-    validateStartTime();
-    validateEndTime();
-  }
-
-  set endTime(DateTime endTime) {
-    _endTime = endTime;
-    validateStartTime();
-    validateEndTime();
-  }
 
   // Validate inputs
   void validateStartTime() {
@@ -48,22 +35,24 @@ class Time {
   }
 
   String getFormattedTimeAndDate() {
-  final formatter = DateFormat('HH:mm');
-  final formattedStartTime = formatter.format(_startTime);
-  final formattedEndTime = formatter.format(_endTime);
-  return "$formattedStartTime-$formattedEndTime | ${getFormattedDate()}";
-}
- String getFormattedDate() {
-  final formatter = DateFormat('yyyy-MM-dd');
-  return formatter.format(_startTime);
-}
+    final formatter = DateFormat('HH:mm');
+    final formattedStartTime = formatter.format(_startTime);
+    final formattedEndTime = formatter.format(_endTime);
+    return "$formattedStartTime-$formattedEndTime | ${getFormattedDate()}";
+  }
 
- String getFormattedStartAndEndTime() {
-  final formattedStartTime = "${_startTime.hour.toString().padLeft(2, '0')}:${_startTime.minute.toString().padLeft(2, '0')}";
-  final formattedEndTime = "${_endTime.hour.toString().padLeft(2, '0')}:${_endTime.minute.toString().padLeft(2, '0')}";
-  return "$formattedStartTime-$formattedEndTime";
-}
+  String getFormattedDate() {
+    final formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(_startTime);
+  }
 
+  String getFormattedStartAndEndTime() {
+    final formattedStartTime =
+        "${_startTime.hour.toString().padLeft(2, '0')}:${_startTime.minute.toString().padLeft(2, '0')}";
+    final formattedEndTime =
+        "${_endTime.hour.toString().padLeft(2, '0')}:${_endTime.minute.toString().padLeft(2, '0')}";
+    return "$formattedStartTime-$formattedEndTime";
+  }
 
   Map<String, dynamic> toJson() {
     return {
