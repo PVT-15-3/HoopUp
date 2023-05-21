@@ -19,8 +19,26 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  late final TextEditingController _messageController;
+  late final ScrollController _scrollController;
+  List<Message> _sortedMessages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _messageController = TextEditingController();
+    _scrollController = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
+  }
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _sendMessage(String username, String userPhotoUrl, String userId) {
     String messageText = _messageController.text.trim();
@@ -45,14 +63,6 @@ class _ChatPageState extends State<ChatPage> {
         curve: Curves.easeInOut,
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom();
-    });
   }
 
   @override
@@ -87,27 +97,26 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: StreamBuilder<List<Message>>(
               stream: firebaseProvider.getChatMessageStream(eventId),
+              initialData: null,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final List<Message> messages = snapshot.data!;
                   messages.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _scrollToBottom();
-                  });
-                  return SingleChildScrollView(
+                  _sortedMessages = messages;
+                  return ListView.builder(
                     controller: _scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: messages.map<Widget>((message) {
-                        return ChatMessage(
-                          username: message.username,
-                          userId: message.userId,
-                          userPhotoUrl: message.userPhotoUrl,
-                          messageText: message.messageText,
-                          timestamp: message.timeStamp,
-                        );
-                      }).toList(),
-                    ),
+                    itemCount: _sortedMessages.length,
+                    itemBuilder: (context, index) {
+                      final Message message = _sortedMessages[index];
+                      return ChatMessage(
+                        username: message.username,
+                        userId: message.userId,
+                        userPhotoUrl: message.userPhotoUrl,
+                        messageText: message.messageText,
+                        timestamp: message.timeStamp,
+                      );
+                    },
                   );
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
@@ -139,9 +148,10 @@ class _ChatPageState extends State<ChatPage> {
                   IconButton(
                     icon: const Icon(Icons.chat_bubble_outline_outlined),
                     onPressed: () => _sendMessage(
-                        hoopUpUserProvider.user!.username,
-                        hoopUpUserProvider.user!.photoUrl,
-                        hoopUpUserProvider.user!.id),
+                      hoopUpUserProvider.user!.username,
+                      hoopUpUserProvider.user!.photoUrl,
+                      hoopUpUserProvider.user!.id,
+                    ),
                   ),
                 ],
               ),
