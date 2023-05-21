@@ -148,6 +148,19 @@ class LogInPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    TextButton(
+                      onPressed: () {
+                        forgotPassword(context);
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          fontFamily: Styles.mainFont,
+                          fontSize: Styles.fontSizeSmall,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -157,4 +170,54 @@ class LogInPage extends StatelessWidget {
       );
     });
   }
+}
+
+void forgotPassword(BuildContext context) {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String? email;
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Forgot Password"),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(labelText: "Email"),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              email = value;
+            },
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
+            child: const Text("Submit"),
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                Auth(FirebaseProvider()).resetPassword(email!);
+                Navigator.pop(context);
+                showCustomToast(
+                    "Password reset link sent", Icons.check, context);
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
