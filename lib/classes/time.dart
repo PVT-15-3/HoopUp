@@ -11,10 +11,7 @@ class Time {
     required DateTime endTime,
   })  : _id = const Uuid().v4(),
         _startTime = startTime,
-        _endTime = endTime {
-    validateStartTime();
-    validateEndTime();
-  }
+        _endTime = endTime;
 
   // Getters
   DateTime get startTime => _startTime;
