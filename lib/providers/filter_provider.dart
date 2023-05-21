@@ -148,7 +148,7 @@ class FilterProvider with ChangeNotifier {
     return selectedAge;
   }
 
-  List<int> getSelectedSKillLevel() {
+  List<int> getSelectedSkillLevel() {
     List<int> selectedSkillLevel = [];
     List<int> allSkillLevel = [0, 1, 2, 3, 4, 5];
     if (!_isSkillLevelAllSelected && _skillLevel == 0) {
