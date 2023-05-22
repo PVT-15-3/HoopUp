@@ -257,7 +257,7 @@ class _EventPageState extends State<EventPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  courtOfTheEvent.address.toString(),
+                                  courtOfTheEvent.address.toStringOnTheSameLine(),
                                   style: const TextStyle(
                                     fontSize: Styles.fontSizeSmall,
                                     fontWeight: FontWeight.bold,
