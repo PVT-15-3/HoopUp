@@ -77,11 +77,11 @@ class WizardFourthStep extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Game will be created at\n'
+                          text: 'Game will be created at:\n'
                               '${wizardProvider.court?.name}\n'
-                              '${wizardProvider.eventDate.year}-${wizardProvider.eventDate.month}-${wizardProvider.eventDate.day}\n'
-                              'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString()}\n'
-                              'End Time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString()}\n'
+                              '${wizardProvider.eventDate.year}-${wizardProvider.eventDate.month.toString().padLeft(2, '0')}-${wizardProvider.eventDate.day.toString().padLeft(2, '0')}\n'
+                              'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString().padLeft(2, '0')}\n'
+                              'End Time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString().padLeft(2, '0')}\n'
                               '\nFor ${wizardProvider.numberOfParticipants} players\n'
                               '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge} - ${wizardProvider.maximumAge}\n'
                               'with skill level\n',
