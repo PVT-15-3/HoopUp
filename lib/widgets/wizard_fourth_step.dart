@@ -17,7 +17,7 @@ class WizardFourthStep extends StatelessWidget {
         'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString()}\n'
         'End Time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString()}\n'
         '\nFor ${wizardProvider.numberOfParticipants} players\n'
-        '${wizardProvider.selectedGender} between ${wizardProvider.selectedAgeGroup}\n'
+        '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge} - ${wizardProvider.maximumAge}\n'
         'with skill level\n'
         '${String.fromCharCode(0x2605) * wizardProvider.skillLevel}${String.fromCharCode(0x2606) * (5 - wizardProvider.skillLevel)}';
 
@@ -81,7 +81,7 @@ class WizardFourthStep extends StatelessWidget {
                               'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString()}\n'
                               'End Time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString()}\n'
                               '\nFor ${wizardProvider.numberOfParticipants} players\n'
-                              '${wizardProvider.selectedGender} between ${wizardProvider.selectedAgeGroup}\n'
+                              '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge} - ${wizardProvider.maximumAge}\n'
                               'with skill level\n',
                           style: const TextStyle(
                             fontFamily: 'Open Sans',

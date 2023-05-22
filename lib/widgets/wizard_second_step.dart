@@ -312,7 +312,7 @@ class WizardSecondStep extends StatelessWidget {
                 height: 32,
                 alignment: Alignment.center,
                 child: const Text(
-                  'Select age group/s',
+                  'Select age range',
                   style: TextStyle(
                     fontFamily: 'Open Sans',
                     fontStyle: FontStyle.normal,
@@ -325,289 +325,51 @@ class WizardSecondStep extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) {
-                  return Checkbox(
-                    value: wizardProvider.ageGroupAllSelected,
-                    onChanged: (bool? value) {
-                      if (value == true) {
-                        wizardProvider.selectedAgeGroup = 'All';
-                        wizardProvider.ageGroupAllSelected = true;
-                        wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                        wizardProvider.onAgeSelectedChanged(true);
-                      } else {
-                        wizardProvider.selectedAgeGroup = '';
-                        wizardProvider.ageGroupAllSelected = false;
-                        wizardProvider.wizardSecondStepAgeGroupSelected = false;
-                        wizardProvider.onAgeSelectedChanged(false);
-                      }
-                    },
-                  );
-                },
-              ),
-              Container(
-                width: 15,
-                height: 32,
-                alignment: Alignment.center,
-                child: const Text(
-                  'All',
-                  style: TextStyle(
-                    fontFamily: 'Open Sans',
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    height: 2.67,
-                    letterSpacing: 0.1,
-                    color: Color(0xFFA9A9A9),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
             ],
           ),
         ),
         const SizedBox(height: 20),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) => GestureDetector(
-                  onTap: () {
-                    wizardProvider.selectedAgeGroup = '13-17';
-                    wizardProvider.ageGroupAllSelected = false;
-                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                    wizardProvider.onAgeSelectedChanged(true);
+        Consumer<CreateEventWizardProvider>(
+          builder: (context, wizardProvider, _) {
+            RangeValues ageRange = RangeValues(
+              wizardProvider.minimumAge.toDouble(),
+              wizardProvider.maximumAge.toDouble(),
+            );
+            return Column(
+              children: [
+                RangeSlider(
+                  min: 1,
+                  max: 100,
+                  divisions: 99,
+                  values: ageRange,
+                  onChanged: (RangeValues values) {
+                    if (values.end - values.start >= 1) {
+                      wizardProvider.minimumAge = values.start.toInt();
+                      wizardProvider.maximumAge = values.end.toInt();
+                    }
                   },
-                  child: Container(
-                    width: 50,
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: wizardProvider.selectedAgeGroup == '13-17'
-                            ? const Color(0xFFFFA500)
-                            : const Color(0xFFDBDBDB),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 4,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '13-17',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Color(0xFF454545),
-                        ),
-                      ),
-                    ),
-                  ),
+                  onChangeEnd: (RangeValues values) {},
                 ),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) => GestureDetector(
-                  onTap: () {
-                    wizardProvider.selectedAgeGroup = '18-25';
-                    wizardProvider.ageGroupAllSelected = false;
-                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                    wizardProvider.onAgeSelectedChanged(true);
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: wizardProvider.selectedAgeGroup == '18-25'
-                            ? const Color(0xFFFFA500)
-                            : const Color(0xFFDBDBDB),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 4,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '18-25',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Color(0xFF454545),
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Age Range: ${ageRange.start.toInt()} - ${ageRange.end.toInt()}',
+                      style: TextStyle(
+                        fontFamily: 'Open Sans',
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        height: 1.6,
+                        letterSpacing: 0.1,
+                        color: Color(0xFF454545),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) => GestureDetector(
-                  onTap: () {
-                    wizardProvider.selectedAgeGroup = '26-35';
-                    wizardProvider.ageGroupAllSelected = false;
-                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                    wizardProvider.onAgeSelectedChanged(true);
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: wizardProvider.selectedAgeGroup == '26-35'
-                            ? const Color(0xFFFFA500)
-                            : const Color(0xFFDBDBDB),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 4,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '26-35',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Color(0xFF454545),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) => GestureDetector(
-                  onTap: () {
-                    wizardProvider.selectedAgeGroup = '36-50';
-                    wizardProvider.ageGroupAllSelected = false;
-                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                    wizardProvider.onAgeSelectedChanged(true);
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: wizardProvider.selectedAgeGroup == '36-50'
-                            ? const Color(0xFFFFA500)
-                            : const Color(0xFFDBDBDB),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 4,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '36-50',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Color(0xFF454545),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Consumer<CreateEventWizardProvider>(
-                builder: (context, wizardProvider, _) => GestureDetector(
-                  onTap: () {
-                    wizardProvider.selectedAgeGroup = '50+';
-                    wizardProvider.ageGroupAllSelected = false;
-                    wizardProvider.wizardSecondStepAgeGroupSelected = true;
-                    wizardProvider.onAgeSelectedChanged(true);
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: wizardProvider.selectedAgeGroup == '50+'
-                            ? const Color(0xFFFFA500)
-                            : const Color(0xFFDBDBDB),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          blurRadius: 4,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '50+',
-                        style: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Color(0xFF454545),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
+              ],
+            );
+          },
         ),
         Center(
           child: Row(

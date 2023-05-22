@@ -16,7 +16,8 @@ class Event {
   int _skillLevel;
   int _playerAmount;
   String _genderGroup;
-  String _ageGroup;
+  int _minimumAge;
+  int _maximumAge;
   List<String> _usersIds = [];
 
   Event({
@@ -27,8 +28,9 @@ class Event {
     required String courtId,
     required int skillLevel,
     required int playerAmount,
+    required int minimumAge,
+    required int maximumAge,
     required String genderGroup,
-    required String ageGroup,
     required String id,
     required FirebaseProvider firebaseProvider,
   })  : _name = name,
@@ -39,8 +41,9 @@ class Event {
         _courtId = courtId,
         _skillLevel = skillLevel,
         _playerAmount = playerAmount,
+        _minimumAge = minimumAge,
+        _maximumAge = maximumAge,
         _genderGroup = genderGroup,
-        _ageGroup = ageGroup,
         _id = id {
     _chat = Chat(eventId: _id, firebaseProvider: firebaseProvider);
     {
@@ -64,7 +67,8 @@ class Event {
         'skillLevel': _skillLevel,
         'playerAmount': _playerAmount,
         'genderGroup': _genderGroup,
-        'ageGroup': _ageGroup,
+        'minimumAge': _minimumAge,
+        'maximumAge': _maximumAge,
         'userIds': _usersIds,
       });
     } on Exception catch (e) {
@@ -82,7 +86,8 @@ class Event {
   String get courtId => _courtId;
   int get skillLevel => _skillLevel;
   int get playerAmount => _playerAmount;
-  String get ageGroup => _ageGroup;
+  int get minimumAge => _minimumAge;
+  int get maximumAge => _maximumAge;
   String get genderGroup => _genderGroup;
   Chat get chat => _chat;
   List<String> get userIds => _usersIds;
@@ -109,7 +114,7 @@ class Event {
 
   @override
   toString() {
-    return 'Event: $name, $description, $creatorId, $time, $courtId, $skillLevel, $playerAmount, $genderGroup, $ageGroup, $id';
+    return 'Event: $name, $description, $creatorId, $time, $courtId, $skillLevel, $playerAmount, $genderGroup, $minimumAge, $maximumAge, $id';
   }
 
   Map<String, dynamic> toJson() {
@@ -123,7 +128,8 @@ class Event {
       'skillLevel': _skillLevel,
       'playerAmount': _playerAmount,
       'genderGroup': _genderGroup,
-      'ageGroup': _ageGroup,
+      'minimumAge': _minimumAge,
+      'maximumAge': _maximumAge,
     };
   }
 
@@ -137,7 +143,8 @@ class Event {
     final skillLevel = json['skillLevel'] as int;
     final playerAmount = json['playerAmount'] as int;
     final genderGroup = json['genderGroup'] as String;
-    final ageGroup = json['ageGroup'] as String;
+    final minimumAge = json['minimumAge'] as int;
+    final maximumAge = json['maximumAge'] as int;
 
     // This is only to get the event id. The chat is not used. Maybe we should change this.
     Map<dynamic, dynamic> chatJason = json['chat'] as Map<dynamic, dynamic>;
@@ -152,7 +159,8 @@ class Event {
       skillLevel: skillLevel,
       playerAmount: playerAmount,
       genderGroup: genderGroup,
-      ageGroup: ageGroup,
+      minimumAge: minimumAge,
+      maximumAge: maximumAge,
       id: id,
       firebaseProvider: firebaseHandler,
     );

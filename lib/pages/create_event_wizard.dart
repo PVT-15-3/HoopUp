@@ -49,7 +49,8 @@ class CreateEventWizard extends StatelessWidget {
                       eventEndTime: wizardProvider.eventEndTime,
                       numberOfParticipants: wizardProvider.numberOfParticipants,
                       selectedGender: wizardProvider.selectedGender,
-                      selectedAgeGroup: wizardProvider.selectedAgeGroup,
+                      minimumAge: wizardProvider.minimumAge,
+                      maximumAge: wizardProvider.maximumAge,
                       skillLevel: wizardProvider.skillLevel,
                       eventName: wizardProvider.court!.name,
                       eventDescription: wizardProvider.eventDescription,
@@ -126,9 +127,6 @@ class CreateEventWizard extends StatelessWidget {
                 validation: () {
                   if (wizardProvider.selectedGender.isEmpty) {
                     return "Please select an option for gender";
-                  }
-                  if (wizardProvider.selectedAgeGroup.isEmpty) {
-                    return "Please select an option for age groups";
                   }
                   return null;
                 },

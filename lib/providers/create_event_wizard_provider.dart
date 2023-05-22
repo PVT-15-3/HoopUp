@@ -12,7 +12,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
   TimeOfDay _eventEndTime = TimeOfDay.now();
   int _numberOfParticipants = 2;
   String _selectedGender = "";
-  String _selectedAgeGroup = "";
+  int _minimumAge = 1;
+  int _maximumAge = 100;
   int _skillLevel = 1;
   String _eventName = "";
   String _eventDescription = "";
@@ -85,10 +86,17 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get selectedAgeGroup => _selectedAgeGroup;
+  int get minimumAge => _minimumAge;
 
-  set selectedAgeGroup(String selectedAgeGroup) {
-    _selectedAgeGroup = selectedAgeGroup;
+  set minimumAge(int minimumAge) {
+    _minimumAge = minimumAge;
+    notifyListeners();
+  }
+
+  int get maximumAge => _maximumAge;
+
+  set maximumAge(int maximumAge) {
+    _maximumAge = maximumAge;
     notifyListeners();
   }
 
@@ -405,7 +413,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _eventEndTime = TimeOfDay.now();
     _numberOfParticipants = 2;
     _selectedGender = "";
-    _selectedAgeGroup = "";
+    _minimumAge = 1;
+    _maximumAge = 100;
     _skillLevel = 1;
     _eventName = "";
     _eventDescription = "";

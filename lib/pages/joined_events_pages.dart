@@ -14,17 +14,16 @@ class JoinedEventsPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           const Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 90.0),
             child: Center(
               child: Text(
                 'MY BOOKINGS',
                 style: TextStyle(
-                  fontSize: Styles.fontSizeBig,
-                  fontWeight: FontWeight.bold,
-                  color: Styles.primaryColor,
-                  fontFamily: Styles.headerFont
-                ),
+                    fontSize: Styles.fontSizeBig,
+                    fontWeight: FontWeight.bold,
+                    color: Styles.primaryColor,
+                    fontFamily: Styles.headerFont),
               ),
             ),
           ),

@@ -52,6 +52,7 @@ class _ChatPageState extends State<ChatPage> {
       );
       widget.event.chat.addMessage(message);
       _messageController.clear();
+      _scrollToBottom();
     }
   }
 
@@ -179,6 +180,7 @@ class _ChatPageState extends State<ChatPage> {
                   Expanded(
                     child: TextField(
                       controller: _messageController,
+                      maxLines: null,
                       decoration: const InputDecoration(
                         hintText: 'Enter your message...',
                         border: InputBorder.none,

@@ -418,7 +418,7 @@ class _EventPageState extends State<EventPage> {
                                 ),
                               ),
                               Text(
-                                widget.event.ageGroup,
+                                '${widget.event.minimumAge} - ${widget.event.maximumAge}',
                                 style: const TextStyle(
                                   fontSize: Styles.fontSizeMedium,
                                   fontWeight: FontWeight.bold,

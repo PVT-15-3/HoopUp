@@ -7,12 +7,15 @@ class FilterHandler {
   // Filtreringslogik baserat på valda alternativ
   static bool filterEvent(Event event, BuildContext context) {
     final filterProvider = context.read<FilterProvider>();
-    final List<String> selectedGenderGroups = filterProvider.getSelectedGenders();
+    final List<String> selectedGenderGroups =
+        filterProvider.getSelectedGenders();
     final List<String> selectedAges = filterProvider.getSelectedAge();
     final List<int> selectedSkillLevel = filterProvider.getSelectedSkillLevel();
 
-    return (selectedGenderGroups.isEmpty || selectedGenderGroups.contains(event.genderGroup)) &&
-           (selectedAges.isEmpty || selectedAges.contains(event.ageGroup)) &&
-           (selectedSkillLevel.isEmpty || selectedSkillLevel.contains(event.skillLevel));
+    return (selectedGenderGroups.isEmpty ||
+            selectedGenderGroups.contains(event.genderGroup)) &&
+        (selectedAges.isEmpty || selectedAges.contains(event)) &&
+        (selectedSkillLevel.isEmpty ||
+            selectedSkillLevel.contains(event.skillLevel));
   }
 }
