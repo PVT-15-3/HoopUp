@@ -143,10 +143,10 @@ class WizardFirstStep extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text('Choose from map'),
                 Icon(
                   Icons.place,

@@ -50,9 +50,9 @@ class _ListEventHandlerState extends State<ListEventHandler> {
         children: [
           widget.showJoinedEvents
               ? const SizedBox.shrink()
-              : Row(
+              : const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                       Text(
                         'DISCOVER GAME',
                         style: TextStyle(

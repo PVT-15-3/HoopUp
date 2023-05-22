@@ -91,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           Text(
-            '${widget.court.name}',
+            widget.court.name,
             style: const TextStyle(
               fontFamily: 'Inter',
               fontStyle: FontStyle.normal,

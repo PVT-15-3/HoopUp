@@ -6,6 +6,8 @@ import '../providers/create_event_wizard_provider.dart';
 class WizardFourthStep extends StatelessWidget {
   TextEditingController eventInfoController = TextEditingController();
 
+  WizardFourthStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     CreateEventWizardProvider wizardProvider =

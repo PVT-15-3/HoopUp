@@ -10,7 +10,6 @@ import 'package:my_app/widgets/wizard_fourth_step.dart';
 import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
-import '../classes/event.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class CreateEventWizard extends StatelessWidget {
