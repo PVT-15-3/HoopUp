@@ -412,32 +412,28 @@ class _SignUpPage extends State<SignUpPage> {
                             return;
                           }
                           if (_formKey.currentState!.validate()) {
-                            if (skillLevel != 0 && gender != "") {
-                              _formKey.currentState!.save();
-                              bool signUpSuccess = await auth.signUpWithEmail(
-                                email.value!,
-                                password.value!,
-                                username.value!,
-                                gender,
-                                dateOfBirth.value,
-                                skillLevel,
-                                context,
-                              );
-
-                              if (signUpSuccess) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const BottomNavBar(
-                                              currentIndex: 0,
-                                            )),
-                                    (route) => false);
-                              }
-                            } else {
-                              showCustomToast("Please fill out all fields",
-                                  Icons.warning, context);
+                            _formKey.currentState!.save();
+                            bool signUpSuccess = await auth.signUpWithEmail(
+                              email.value!,
+                              password.value!,
+                              username.value!,
+                              gender,
+                              dateOfBirth.value,
+                              skillLevel,
+                              context,
+                            );
+                            if (signUpSuccess && mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const BottomNavBar(
+                                            currentIndex: 0,
+                                          )),
+                                  (route) => false);
                             }
+                          } else {
+                            showCustomToast("Please fill out all fields",
+                                Icons.warning, context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
