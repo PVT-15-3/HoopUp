@@ -41,7 +41,8 @@ void main() {
         skillLevel: 1,
         playerAmount: 2,
         genderGroup: "any",
-        ageGroup: "18-25",
+        minimumAge: 13,
+        maximumAge: 100,
         id: "id1",
         firebaseProvider: mockDatabase);
 
@@ -56,7 +57,8 @@ void main() {
         skillLevel: 1,
         playerAmount: 2,
         genderGroup: "femlae",
-        ageGroup: "25-40",
+        minimumAge: 13,
+        maximumAge: 100,
         id: "id2",
         firebaseProvider: mockDatabase);
   }

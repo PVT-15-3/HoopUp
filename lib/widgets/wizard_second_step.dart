@@ -338,9 +338,8 @@ class WizardSecondStep extends StatelessWidget {
             return Column(
               children: [
                 RangeSlider(
-                  min: 1,
+                  min: 13,
                   max: 100,
-                  divisions: 99,
                   values: ageRange,
                   onChanged: (RangeValues values) {
                     if (values.end - values.start >= 1) {
@@ -348,14 +347,13 @@ class WizardSecondStep extends StatelessWidget {
                       wizardProvider.maximumAge = values.end.toInt();
                     }
                   },
-                  onChangeEnd: (RangeValues values) {},
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Age Range: ${ageRange.start.toInt()} - ${ageRange.end.toInt()}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Open Sans',
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,

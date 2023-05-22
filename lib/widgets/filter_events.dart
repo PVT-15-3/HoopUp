@@ -19,6 +19,10 @@ class FilterIconButton extends StatelessWidget {
           builder: (BuildContext context) {
             return Consumer<FilterProvider>(
               builder: (context, filterProvider, _) {
+                RangeValues ageRange = RangeValues(
+                  filterProvider.minimumAge.toDouble(),
+                  filterProvider.maximumAge.toDouble(),
+                );
                 return SingleChildScrollView(
                   child: AlertDialog(
                     title: const Center(
@@ -71,46 +75,42 @@ class FilterIconButton extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Styles.primaryColor)),
-                        CheckboxListTile(
-                          title: const Text('13-17'),
-                          value: filterProvider.isAge13To17Selected,
-                          onChanged: (value) {
-                            filterProvider.toggleAge13To17Selected(value!);
-                          },
-                        ),
-                        CheckboxListTile(
-                          title: const Text('18-25'),
-                          value: filterProvider.isAge18To25Selected,
-                          onChanged: (value) {
-                            filterProvider.toggleAge18To25Selected(value!);
-                          },
-                        ),
-                        CheckboxListTile(
-                          title: const Text('26-35'),
-                          value: filterProvider.isAge26To35Selected,
-                          onChanged: (value) {
-                            filterProvider.toggleAge26To35Selected(value!);
-                          },
-                        ),
-                        CheckboxListTile(
-                          title: const Text('36-50'),
-                          value: filterProvider.isAge36To50Selected,
-                          onChanged: (value) {
-                            filterProvider.toggleAge36To50Selected(value!);
-                          },
-                        ),
-                        CheckboxListTile(
-                          title: const Text('50+'),
-                          value: filterProvider.isAge50plusSelected,
-                          onChanged: (value) {
-                            filterProvider.toggleAge50plusSelected(value!);
-                          },
-                        ),
-                        CheckboxListTile(
-                          title: const Text('Age category "All"'),
-                          value: filterProvider.isAgeAllSelected,
-                          onChanged: (value) {
-                            filterProvider.toggleAgeAllSelected(value!);
+                        Consumer<FilterProvider>(
+                          builder: (context, filterProvider, _) {
+                            return Column(
+                              children: [
+                                RangeSlider(
+                                  min: 13,
+                                  max: 100,
+                                  values: ageRange,
+                                  onChanged: (RangeValues values) {
+                                    if (values.end - values.start >= 1) {
+                                      filterProvider.minimumAge =
+                                          values.start.toInt();
+                                      filterProvider.maximumAge =
+                                          values.end.toInt();
+                                    }
+                                  },
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Age Range: ${ageRange.start.toInt()} - ${ageRange.end.toInt()}',
+                                      style: const TextStyle(
+                                        fontFamily: 'Open Sans',
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        height: 1.6,
+                                        letterSpacing: 0.1,
+                                        color: Color(0xFF454545),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
                           },
                         ),
                         const SizedBox(height: 16),

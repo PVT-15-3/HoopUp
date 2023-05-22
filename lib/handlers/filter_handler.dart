@@ -9,12 +9,18 @@ class FilterHandler {
     final filterProvider = context.read<FilterProvider>();
     final List<String> selectedGenderGroups =
         filterProvider.getSelectedGenders();
-    final List<String> selectedAges = filterProvider.getSelectedAge();
+    final int selectedMinAge = filterProvider.minimumAge;
+    final int selectedMaxAge = filterProvider.maximumAge;
     final List<int> selectedSkillLevel = filterProvider.getSelectedSkillLevel();
+
+    bool isWithinAgeRange() {
+      return event.minimumAge >= selectedMinAge &&
+          event.maximumAge <= selectedMaxAge;
+    }
 
     return (selectedGenderGroups.isEmpty ||
             selectedGenderGroups.contains(event.genderGroup)) &&
-        (selectedAges.isEmpty || selectedAges.contains(event)) &&
+        (isWithinAgeRange()) &&
         (selectedSkillLevel.isEmpty ||
             selectedSkillLevel.contains(event.skillLevel));
   }

@@ -12,7 +12,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   TimeOfDay _eventEndTime = TimeOfDay.now();
   int _numberOfParticipants = 2;
   String _selectedGender = "";
-  int _minimumAge = 1;
+  int _minimumAge = 13;
   int _maximumAge = 100;
   int _skillLevel = 1;
   String _eventName = "";
@@ -39,7 +39,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   Color? _color;
   bool _isEventTimeAvailable = false;
   Timer? _availabilityCheckTimer;
-  StreamController<bool> _eventAvailabilityController =
+  final StreamController<bool> _eventAvailabilityController =
       StreamController<bool>();
   Stream<bool> get eventAvailabilityStream =>
       _eventAvailabilityController.stream;
@@ -413,7 +413,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _eventEndTime = TimeOfDay.now();
     _numberOfParticipants = 2;
     _selectedGender = "";
-    _minimumAge = 1;
+    _minimumAge = 13;
     _maximumAge = 100;
     _skillLevel = 1;
     _eventName = "";

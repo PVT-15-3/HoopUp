@@ -46,7 +46,8 @@ void main() {
       skillLevel: 3,
       playerAmount: 2,
       genderGroup: 'any',
-      ageGroup: '18-25',
+      minimumAge: 13,
+      maximumAge: 100,
       id: '123456',
       firebaseProvider: mockDatabase,
     );
@@ -92,7 +93,8 @@ void main() {
                 skillLevel: 1,
                 playerAmount: -2,
                 genderGroup: 'any',
-                ageGroup: '18-25',
+                minimumAge: 13,
+                maximumAge: 100,
                 id: '123456',
                 firebaseProvider: mockDatabase,
               ),
@@ -110,7 +112,8 @@ void main() {
                 skillLevel: 1,
                 playerAmount: 22,
                 genderGroup: 'any',
-                ageGroup: '18-25',
+                minimumAge: 13,
+                maximumAge: 100,
                 id: '123456',
                 firebaseProvider: mockDatabase,
               ),
@@ -130,7 +133,8 @@ void main() {
                 skillLevel: -1,
                 playerAmount: 2,
                 genderGroup: 'any',
-                ageGroup: '18-25',
+                minimumAge: 13,
+                maximumAge: 100,
                 id: '123456',
                 firebaseProvider: mockDatabase,
               ),
@@ -149,7 +153,8 @@ void main() {
             'skillLevel': sut.skillLevel,
             'playerAmount': sut.playerAmount,
             'genderGroup': sut.genderGroup,
-            'ageGroup': sut.ageGroup,
+            'minimumAge': sut.minimumAge,
+            'maximumAge': sut.maximumAge,
             'userIds': sut.userIds,
           })).called(1);
     });
@@ -168,7 +173,8 @@ void main() {
         skillLevel: 1,
         playerAmount: 2,
         genderGroup: 'any',
-        ageGroup: '18-25',
+        minimumAge: 13,
+        maximumAge: 100,
         id: '123456',
         firebaseProvider: mockDatabase,
       );
@@ -187,7 +193,8 @@ void main() {
       expect(json['skillLevel'], equals(3));
       expect(json['playerAmount'], equals(2));
       expect(json['genderGroup'], equals('any'));
-      expect(json['ageGroup'], equals('18-25'));
+      expect(json['minimumAge'], equals(13));
+      expect(json['maximumAge'], equals(100));
     });
     test("Test that the userIds can be set and retrieved correctly.", () {
       arrangeValidEvent();
@@ -212,7 +219,8 @@ void main() {
         'skillLevel': 2,
         'playerAmount': 10,
         'genderGroup': 'mixed',
-        'ageGroup': '18-30',
+        'minimumAge': 13,
+        'maximumAge': 100,
         'chat': {
           'eventId': 'xyz789',
         }
@@ -228,7 +236,8 @@ void main() {
       expect(sut.skillLevel, 2);
       expect(sut.playerAmount, 10);
       expect(sut.genderGroup, 'mixed');
-      expect(sut.ageGroup, '18-30');
+      expect(sut.minimumAge, 13);
+      expect(sut.maximumAge, 100);
       expect(sut.id, 'xyz789');
     });
   });

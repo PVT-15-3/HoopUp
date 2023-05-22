@@ -246,6 +246,7 @@ class _SignUpPage extends State<SignUpPage> {
                         onTap: () {
                           showDatePicker(
                             context: context,
+                            initialEntryMode: DatePickerEntryMode.input,
                             initialDate: _selectedDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),

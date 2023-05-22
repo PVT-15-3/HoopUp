@@ -50,18 +50,20 @@ class _ListEventHandlerState extends State<ListEventHandler> {
         children: [
           widget.showJoinedEvents
               ? const SizedBox.shrink()
-              : Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-                  Text(
-                    'DISCOVER GAME',
-                    style: TextStyle(
-                      fontSize: Styles.fontSizeBig,
-                      fontWeight: FontWeight.w800,
-                      color: Styles.discoverGameHeaderColor,
-                      fontFamily: Styles.headerFont,
-                    ),
-                  ),
-              FilterIconButton(),
-                ]),
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                      Text(
+                        'DISCOVER GAME',
+                        style: TextStyle(
+                          fontSize: Styles.fontSizeBig,
+                          fontWeight: FontWeight.w800,
+                          color: Styles.discoverGameHeaderColor,
+                          fontFamily: Styles.headerFont,
+                        ),
+                      ),
+                      FilterIconButton(),
+                    ]),
           Expanded(
             child: Center(
               child: StreamBuilder<List<Event>>(
@@ -72,6 +74,9 @@ class _ListEventHandlerState extends State<ListEventHandler> {
                   }
 
                   List<Event>? events = snapshot.data;
+                  // Sort the events based on date
+                  events?.sort((a, b) => a.time.startTime.millisecondsSinceEpoch -
+                      b.time.startTime.millisecondsSinceEpoch);
                   return Stack(
                     children: [
                       ListView.builder(
