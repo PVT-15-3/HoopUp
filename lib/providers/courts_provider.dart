@@ -95,7 +95,7 @@ class CourtProvider extends ChangeNotifier {
       imageLink: 'assets/skogas.jpg',
       courtType: 'PVC tiles',
       address: Address(
-          'Lötbacken', 'SKogås', 14230, 59.21683912857965, 18.149234026943972),
+          'Lötbacken', 'Skogås', 14230, 59.21683912857965, 18.149234026943972),
       numberOfHoops: 1,
     ),
 

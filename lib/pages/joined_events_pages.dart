@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../handlers/list_event_handler.dart';
+import '../widgets/list_event_widget.dart';
 import '/app_styles.dart';
 
 class JoinedEventsPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class JoinedEventsPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListEventHandler(
+            child: ListEventWidget(
               showJoinedEvents: showJoinedEvents,
             ),
           ),

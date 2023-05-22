@@ -11,7 +11,7 @@ class ChatMessage extends StatelessWidget {
   final String messageText;
   final DateTime timestamp;
 
-  const ChatMessage({
+  const ChatMessage({super.key, 
     required this.username,
     required this.userPhotoUrl,
     required this.userId,

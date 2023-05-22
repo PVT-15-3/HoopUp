@@ -63,4 +63,7 @@ class Address {
   String toString() {
     return "$_street, $_postalCode\n$_city";
   }
+  toStringOnTheSameLine() {
+    return "$_street, $_postalCode, $_city";
+  }
 }

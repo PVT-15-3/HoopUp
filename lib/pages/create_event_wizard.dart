@@ -10,7 +10,6 @@ import 'package:my_app/widgets/wizard_fourth_step.dart';
 import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
-import '../classes/event.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class CreateEventWizard extends StatelessWidget {
@@ -90,11 +89,6 @@ class CreateEventWizard extends StatelessWidget {
                     wizardProvider.eventStartTime.hour,
                     wizardProvider.eventStartTime.minute,
                   );
-                  DateTime thirtyMinutesFromNow =
-                      now.add(const Duration(minutes: 30));
-                  if (startTime.isBefore(thirtyMinutesFromNow)) {
-                    return 'Start time must be at least 30 minutes from now.';
-                  }
                   if (startTime.isBefore(now)) {
                     return 'Start time cannot be before current time.';
                   }

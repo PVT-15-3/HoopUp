@@ -257,7 +257,7 @@ class _EventPageState extends State<EventPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  courtOfTheEvent.address.toString(),
+                                  courtOfTheEvent.address.toStringOnTheSameLine(),
                                   style: const TextStyle(
                                     fontSize: Styles.fontSizeSmall,
                                     fontWeight: FontWeight.bold,
@@ -523,6 +523,10 @@ class _EventPageState extends State<EventPage> {
                       : Center(
                           child: TextButton(
                             onPressed: () {
+                              if (_numberOfPlayersInEvent >= widget.event.playerAmount) {
+                                showCustomToast("This event is full!", Icons.error, context);
+                                return;
+                              }
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {

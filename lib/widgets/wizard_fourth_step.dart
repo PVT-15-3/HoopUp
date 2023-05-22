@@ -6,6 +6,8 @@ import '../providers/create_event_wizard_provider.dart';
 class WizardFourthStep extends StatelessWidget {
   TextEditingController eventInfoController = TextEditingController();
 
+  WizardFourthStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     CreateEventWizardProvider wizardProvider =
@@ -75,14 +77,14 @@ class WizardFourthStep extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Game will be created at\n'
+                          text: 'Game will be created at:\n'
                               '${wizardProvider.court?.name}\n'
-                              '${wizardProvider.eventDate.year}-${wizardProvider.eventDate.month}-${wizardProvider.eventDate.day}\n'
-                              'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString()}\n'
-                              'End Time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString()}\n'
+                              '${wizardProvider.eventDate.year}-${wizardProvider.eventDate.month.toString().padLeft(2, '0')}-${wizardProvider.eventDate.day.toString().padLeft(2, '0')}\n'
+                              'Start time: ${wizardProvider.eventStartTime.hour.toString()}:${wizardProvider.eventStartTime.minute.toString().padLeft(2, '0')}\n'
+                              'End time: ${wizardProvider.eventEndTime.hour.toString()}:${wizardProvider.eventEndTime.minute.toString().padLeft(2, '0')}\n'
                               '\nFor ${wizardProvider.numberOfParticipants} players\n'
-                              '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge} - ${wizardProvider.maximumAge}\n'
-                              'with skill level\n',
+                              '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge}-${wizardProvider.maximumAge} years old\n'
+                              'with skill level:\n',
                           style: const TextStyle(
                             fontFamily: 'Open Sans',
                             fontStyle: FontStyle.normal,

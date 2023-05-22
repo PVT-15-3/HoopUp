@@ -119,89 +119,143 @@ class _SignUpPage extends State<SignUpPage> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Male";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Male"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Male" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Male";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("MALE")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Male"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Male" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.male,
+                                      color: gender == "Male"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("MALE"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(width: constraints.maxWidth * 0.05),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Female";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Female"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Female" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Female";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("FEMALE")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Female"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Female" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.female,
+                                      color: gender == "Female"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("FEMALE"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(width: constraints.maxWidth * 0.05),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Other";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Other"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Other" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Other";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("OTHER")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Other"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Other" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.transgender,
+                                      color: gender == "Other"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("OTHER"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -235,7 +289,8 @@ class _SignUpPage extends State<SignUpPage> {
                       SizedBox(height: constraints.maxHeight * 0.03),
 
                       //Edit age -------------------------------------------------
-                      TextField(
+                      TextFormField(
+                        readOnly: true,
                         controller: birthdayController,
                         decoration: InputDecoration(
                             border: const OutlineInputBorder(),
@@ -252,14 +307,6 @@ class _SignUpPage extends State<SignUpPage> {
                             lastDate: DateTime.now(),
                           ).then((pickedDate) {
                             if (pickedDate != null) {
-                              // Check if the pickedDate is a valid date
-                              if (pickedDate.year < 1900 ||
-                                  pickedDate.year > DateTime.now().year) {
-                                showCustomToast("Invalid date",
-                                    Icons.warning_amber_outlined, context);
-                                return;
-                              }
-
                               setState(() {
                                 _selectedDate = pickedDate;
                                 dateOfBirth.value = pickedDate;
@@ -267,7 +314,8 @@ class _SignUpPage extends State<SignUpPage> {
 
                               String formattedDate = DateFormat('yyyy-MM-dd')
                                   .format(_selectedDate);
-                              birthdayController.text = formattedDate;
+                              setState(() =>
+                                  birthdayController.text = formattedDate);
                             } else {
                               showCustomToast("Pick a date",
                                   Icons.warning_amber_outlined, context);
@@ -346,14 +394,6 @@ class _SignUpPage extends State<SignUpPage> {
                       //SaveButton ---------------------------------------------------
                       ElevatedButton(
                         onPressed: () async {
-                          if (dateOfBirth.value == DateTime(0)) {
-                            showCustomToast(
-                                "Please select a valid date of birth",
-                                Icons.warning,
-                                context);
-                            return;
-                          }
-
                           DateTime thresholdDate = DateTime.now()
                               .subtract(const Duration(days: 13 * 365));
 
@@ -364,34 +404,36 @@ class _SignUpPage extends State<SignUpPage> {
                                 context);
                             return;
                           }
+                          if (dateOfBirth.value == DateTime(0)) {
+                            showCustomToast(
+                                "Please select a valid date of birth",
+                                Icons.warning,
+                                context);
+                            return;
+                          }
                           if (_formKey.currentState!.validate()) {
-                            if (skillLevel != 0 && gender != "") {
-                              _formKey.currentState!.save();
-                              bool signUpSuccess = await auth.signUpWithEmail(
-                                email.value!,
-                                password.value!,
-                                username.value!,
-                                gender,
-                                dateOfBirth.value,
-                                skillLevel,
-                                context,
-                              );
-
-                              if (signUpSuccess) {
-                                // ignore: use_build_context_synchronously
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const BottomNavBar(
-                                              currentIndex: 0,
-                                            )),
-                                    (route) => false);
-                              }
-                            } else {
-                              showCustomToast("Please fill out all fields",
-                                  Icons.warning, context);
+                            _formKey.currentState!.save();
+                            bool signUpSuccess = await auth.signUpWithEmail(
+                              email.value!,
+                              password.value!,
+                              username.value!,
+                              gender,
+                              dateOfBirth.value,
+                              skillLevel,
+                              context,
+                            );
+                            if (signUpSuccess && mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const BottomNavBar(
+                                            currentIndex: 0,
+                                          )),
+                                  (route) => false);
                             }
+                          } else {
+                            showCustomToast("Please fill out all fields",
+                                Icons.warning, context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
