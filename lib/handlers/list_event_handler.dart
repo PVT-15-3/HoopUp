@@ -50,9 +50,9 @@ class _ListEventHandlerState extends State<ListEventHandler> {
         children: [
           widget.showJoinedEvents
               ? const SizedBox.shrink()
-              : const Row(
+              : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                       Text(
                         'DISCOVER GAME',
                         style: TextStyle(
@@ -75,7 +75,8 @@ class _ListEventHandlerState extends State<ListEventHandler> {
 
                   List<Event>? events = snapshot.data;
                   // Sort the events based on date
-                  events?.sort((a, b) => a.time.startTime.millisecondsSinceEpoch -
+                  events?.sort((a, b) =>
+                      a.time.startTime.millisecondsSinceEpoch -
                       b.time.startTime.millisecondsSinceEpoch);
                   return Stack(
                     children: [

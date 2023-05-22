@@ -114,9 +114,9 @@ class FilterIconButton extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Skill level',
                               style: TextStyle(
@@ -144,9 +144,9 @@ class FilterIconButton extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Or chose a specific skill level below:',
                               style: TextStyle(

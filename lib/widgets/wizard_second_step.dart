@@ -168,9 +168,9 @@ class WizardSecondStep extends StatelessWidget {
                       ],
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.male,
                           size: 24,
@@ -223,9 +223,9 @@ class WizardSecondStep extends StatelessWidget {
                       ],
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.female,
                           size: 24,
@@ -278,9 +278,9 @@ class WizardSecondStep extends StatelessWidget {
                       ],
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.transgender_sharp,
                           size: 24,

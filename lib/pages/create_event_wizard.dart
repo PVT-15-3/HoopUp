@@ -89,11 +89,6 @@ class CreateEventWizard extends StatelessWidget {
                     wizardProvider.eventStartTime.hour,
                     wizardProvider.eventStartTime.minute,
                   );
-                  DateTime thirtyMinutesFromNow =
-                      now.add(const Duration(minutes: 30));
-                  if (startTime.isBefore(thirtyMinutesFromNow)) {
-                    return 'Start time must be at least 30 minutes from now.';
-                  }
                   if (startTime.isBefore(now)) {
                     return 'Start time cannot be before current time.';
                   }

@@ -188,12 +188,17 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.chat_bubble_outline_outlined),
-                    onPressed: () => _sendMessage(
-                      hoopUpUserProvider.user!.username,
-                      hoopUpUserProvider.user!.photoUrl,
-                      hoopUpUserProvider.user!.id,
+                  Container(
+                    width: 48,
+                    height: 48,
+                    child: IconButton(
+                      icon: const Icon(Icons.send_sharp),
+                      iconSize: 32,
+                      onPressed: () => _sendMessage(
+                        hoopUpUserProvider.user!.username,
+                        hoopUpUserProvider.user!.photoUrl,
+                        hoopUpUserProvider.user!.id,
+                      ),
                     ),
                   ),
                 ],
