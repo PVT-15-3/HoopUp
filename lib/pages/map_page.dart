@@ -124,6 +124,7 @@ class _MapPageState extends State<MapPage> {
                                               context,
                                               listen: false);
                                       wizardProvider.court = court;
+                                      wizardProvider.checkEventAvailability;
                                       wizardProvider
                                           .wizardFirstStepMapSelected = true;
                                       Navigator.pop(context);

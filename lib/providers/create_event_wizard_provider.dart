@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../classes/court.dart';
+import '../classes/event.dart';
+import '../classes/time.dart';
+import '../handlers/event_handler.dart';
 
 class CreateEventWizardProvider extends ChangeNotifier {
   DateTime _eventDate = DateTime.now();
@@ -26,11 +31,17 @@ class CreateEventWizardProvider extends ChangeNotifier {
   int selectedStartHour = TimeOfDay.now().hour;
   int selectedStartMinute = TimeOfDay.now().minute;
   int selectedEndHour = TimeOfDay.now().hour;
-  int selectedEndMinute = TimeOfDay.now().minute;
+  late int selectedEndMinute;
   bool _genderAllSelected = false;
   bool _ageGroupAllSelected = false;
   bool _skillLevelAllSelected = false;
   Color? _color;
+  bool _isEventTimeAvailable = false;
+  Timer? _availabilityCheckTimer;
+  StreamController<bool> _eventAvailabilityController =
+      StreamController<bool>();
+  Stream<bool> get eventAvailabilityStream =>
+      _eventAvailabilityController.stream;
 
   DateTime get eventDate => _eventDate;
 
@@ -185,6 +196,13 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isEventTimeAvailable => _isEventTimeAvailable;
+
+  set isEventTimeAvailable(bool value) {
+    _isEventTimeAvailable = value;
+    notifyListeners();
+  }
+
   Color? get color => _color;
 
   set color(Color? value) {
@@ -194,7 +212,9 @@ class CreateEventWizardProvider extends ChangeNotifier {
 
   void updateColorFirstStep(bool isMapSelected, bool isTimeSelected) {
     bool wizardFirstStepComplete = isMapSelected && isTimeSelected;
-    color = wizardFirstStepComplete ? const Color(0xFFFC8027) : const Color(0xFF959595);
+    color = wizardFirstStepComplete
+        ? const Color(0xFFFC8027)
+        : const Color(0xFF959595);
   }
 
   void onMapSelectedChanged(bool newValue) {
@@ -230,6 +250,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
     updateColorFirstStep(
         wizardFirstStepMapSelected, wizardFirstStepTimeSelected);
+    checkEventAvailability();
   }
 
   void onGenderSelectedChanged(bool newValue) {
@@ -254,7 +275,9 @@ class CreateEventWizardProvider extends ChangeNotifier {
       bool isSkillLevelSelected) {
     bool wizardSecondStageComplete =
         isGenderSelected && isAgeGroupSelected && isSkillLevelSelected;
-    color = wizardSecondStageComplete ? const Color(0xFFFC8027) : const Color(0xFF959595);
+    color = wizardSecondStageComplete
+        ? const Color(0xFFFC8027)
+        : const Color(0xFF959595);
   }
 
   void setSelectedMonth(int month) {
@@ -301,6 +324,78 @@ class CreateEventWizardProvider extends ChangeNotifier {
       return false;
     } else {
       return true;
+    }
+  }
+
+  void startEventAvailabilityCheckStream(String courtId) {
+    _availabilityCheckTimer = Timer.periodic(const Duration(seconds: 60), (_) {
+      checkEventAvailabilityStream(courtId);
+    });
+  }
+
+  void stopEventAvailabilityCheckStream() {
+    _availabilityCheckTimer?.cancel();
+    _availabilityCheckTimer = null;
+  }
+
+  void checkEventAvailabilityStream(String courtId) {
+    Stream<List<Event>> eventsStream = firebaseProvider.eventsStream;
+    eventsStream.listen((eventsList) {
+      bool isAvailable = true;
+
+      for (Event event in eventsList) {
+        if (event.courtId == courtId) {
+          if (isTimeOverlap(event.time)) {
+            isAvailable = false;
+            break;
+          }
+        }
+      }
+
+      _isEventTimeAvailable = isAvailable;
+      _eventAvailabilityController.add(isAvailable);
+      notifyListeners();
+    });
+  }
+
+  void checkEventAvailability() async {
+    List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
+    bool isAvailable = true;
+
+    for (Event event in eventsList) {
+      if (event.courtId == court?.courtId) {
+        if (isTimeOverlap(event.time)) {
+          isAvailable = false;
+          break;
+        }
+      }
+    }
+
+    _isEventTimeAvailable = isAvailable;
+    notifyListeners();
+  }
+
+  bool isTimeOverlap(Time eventTime) {
+    DateTime wizardStartTime = DateTime(
+      _eventDate.year,
+      _eventDate.month,
+      _eventDate.day,
+      _eventStartTime.hour,
+      _eventStartTime.minute,
+    );
+    DateTime wizardEndTime = DateTime(
+      _eventDate.year,
+      _eventDate.month,
+      _eventDate.day,
+      _eventEndTime.hour,
+      _eventEndTime.minute,
+    );
+
+    if (wizardStartTime.isBefore(eventTime.endTime) &&
+        wizardEndTime.isAfter(eventTime.startTime)) {
+      return true;
+    } else {
+      return false;
     }
   }
 

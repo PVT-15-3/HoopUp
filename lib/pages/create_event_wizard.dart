@@ -10,6 +10,7 @@ import 'package:my_app/widgets/wizard_fourth_step.dart';
 import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
+import '../classes/event.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class CreateEventWizard extends StatelessWidget {
@@ -80,10 +81,6 @@ class CreateEventWizard extends StatelessWidget {
                 subtitle: '',
                 content: WizardFirstStep(dateController: dateController),
                 validation: () {
-                  if (wizardProvider.numberOfParticipants < 2 ||
-                      wizardProvider.numberOfParticipants > 20) {
-                    return 'Please select a number of players between 2 and 20';
-                  }
                   DateTime now = DateTime.now();
                   DateTime startTime = DateTime(
                     wizardProvider.eventDate.year,
@@ -111,8 +108,13 @@ class CreateEventWizard extends StatelessWidget {
                       .isBefore(startTime.add(const Duration(hours: 1)))) {
                     return 'End time must be at least 1 hour after start time.';
                   }
+
                   if (wizardProvider.court == null) {
                     return "Please select a court";
+                  }
+                  wizardProvider.checkEventAvailability();
+                  if (!wizardProvider.isEventTimeAvailable) {
+                    return "The selected time is not available";
                   }
                   return null;
                 },
@@ -146,6 +148,10 @@ class CreateEventWizard extends StatelessWidget {
                 subtitle: "",
                 content: WizardFourthStep(),
                 validation: () {
+                  wizardProvider.checkEventAvailability();
+                  if (!wizardProvider.isEventTimeAvailable) {
+                    return "The selected time has been taken";
+                  }
                   return null;
                 },
               ),

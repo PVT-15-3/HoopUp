@@ -74,16 +74,23 @@ class _ChatPageState extends State<ChatPage> {
     final String eventId = widget.event.id;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chat'),
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        shadowColor: Colors.white,
-      ),
       body: Column(
         children: [
+          const SizedBox(height: 40),
+          const Text(
+            'Game at',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w700,
+              fontSize: 21,
+              height: 1.19,
+              letterSpacing: 0.05,
+              color: Color(0xFF000000),
+            ),
+          ),
           Text(
-            'Game at ${widget.court.name}',
+            '${widget.court.name}',
             style: const TextStyle(
               fontFamily: 'Inter',
               fontStyle: FontStyle.normal,
@@ -94,6 +101,40 @@ class _ChatPageState extends State<ChatPage> {
               color: Color(0xFF000000),
             ),
           ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: Container(
+                  width: 30.0,
+                  height: 30.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100.0),
+                    border: Border.all(
+                      color: Colors.orange,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: 24.0,
+                    height: 24.0,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.close,
+                          color: Colors.orange, size: 24.0),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
           Expanded(
             child: StreamBuilder<List<Message>>(
               stream: firebaseProvider.getChatMessageStream(eventId),

@@ -95,14 +95,16 @@ class WizardSecondStep extends StatelessWidget {
                         wizardProvider.genderAllSelected = true;
                         wizardProvider.wizardSecondStepGenderSelected = true;
                         wizardProvider.onGenderSelectedChanged(true);
-                        debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
+                        debugPrint(wizardProvider
+                            .wizardSecondStepAgeGroupSelected
                             .toString());
                       } else {
                         wizardProvider.selectedGender = '';
                         wizardProvider.genderAllSelected = false;
                         wizardProvider.wizardSecondStepGenderSelected = false;
                         wizardProvider.onGenderSelectedChanged(false);
-                        debugPrint(wizardProvider.wizardSecondStepAgeGroupSelected
+                        debugPrint(wizardProvider
+                            .wizardSecondStepAgeGroupSelected
                             .toString());
                       }
                     },
@@ -378,8 +380,8 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
-                    width: 39.3,
-                    height: 39.3,
+                    width: 50,
+                    height: 45,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -425,8 +427,8 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
-                    width: 39.3,
-                    height: 39.3,
+                    width: 50,
+                    height: 45,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -472,8 +474,8 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
-                    width: 39.3,
-                    height: 39.3,
+                    width: 50,
+                    height: 45,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -519,8 +521,8 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
-                    width: 39.3,
-                    height: 39.3,
+                    width: 50,
+                    height: 45,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -566,8 +568,8 @@ class WizardSecondStep extends StatelessWidget {
                     wizardProvider.onAgeSelectedChanged(true);
                   },
                   child: Container(
-                    width: 39.3,
-                    height: 39.3,
+                    width: 50,
+                    height: 45,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -607,7 +609,6 @@ class WizardSecondStep extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        // TODO: Skill level för event behöver återimplementeras som en Sträng ifall man ska kunna välja "all". För tillfället så är koden för den här knappen samma som för age group.
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

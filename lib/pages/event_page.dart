@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
 import '../classes/event.dart';
+import '../classes/message.dart';
 import '../handlers/share_event_handler.dart';
 import '../providers/courts_provider.dart';
 import '../handlers/event_handler.dart';
@@ -32,7 +33,6 @@ class _EventPageState extends State<EventPage> {
   String _creatorName = '';
   String _creatorPhotoUrl = '';
   int _numberOfPlayersInEvent = 0;
-  int _numberOfChatMessages = 0;
 
   @override
   void initState() {
@@ -52,9 +52,6 @@ class _EventPageState extends State<EventPage> {
     });
     setState(() {
       _numberOfPlayersInEvent = widget.event.userIds.length;
-    });
-    setState(() {
-      _numberOfChatMessages = widget.event.chat.messages.length;
     });
   }
 
@@ -148,6 +145,8 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseProvider firebaseProvider =
+        Provider.of<FirebaseProvider>(context, listen: false);
     Court courtOfTheEvent = _getCourt(widget.event.courtId)!;
     final bool hasUserJoined = widget.hasUserJoined;
     return Scaffold(
@@ -451,24 +450,63 @@ class _EventPageState extends State<EventPage> {
                                   Positioned(
                                     top: 0,
                                     right: 0,
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: const BoxDecoration(
-                                        color: Colors
-                                            .red, // Choose your desired background color
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '$_numberOfChatMessages',
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                                    child: StreamBuilder<List<Message>>(
+                                      stream:
+                                          firebaseProvider.getChatMessageStream(
+                                              widget.event.id),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child:
+                                                const CircularProgressIndicator(),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.white,
+                                              size: 12,
+                                            ),
+                                          );
+                                        } else {
+                                          List<Message> messages =
+                                              snapshot.data ?? [];
+                                          int numberOfChatMessages =
+                                              messages.length;
+
+                                          return Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                '$numberOfChatMessages',
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],
