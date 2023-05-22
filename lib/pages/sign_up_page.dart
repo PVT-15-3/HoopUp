@@ -119,89 +119,143 @@ class _SignUpPage extends State<SignUpPage> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Male";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Male"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Male" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Male";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("MALE")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Male"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Male" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.male,
+                                      color: gender == "Male"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("MALE"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(width: constraints.maxWidth * 0.05),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Female";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Female"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Female" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Female";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("FEMALE")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Female"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Female" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.female,
+                                      color: gender == "Female"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("FEMALE"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(width: constraints.maxWidth * 0.05),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    gender = "Other";
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  textStyle: TextStyle(
-                                    fontFamily: Styles.mainFont,
-                                    fontSize: constraints.maxWidth * 0.025,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(constraints.maxWidth * 0.1,
-                                      constraints.maxHeight * 0.06),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: gender == "Other"
-                                            ? Styles.primaryColor
-                                            : Styles.textColor,
-                                        width: gender == "Other" ? 2 : 1,
-                                      )),
+                              onPressed: () {
+                                setState(() {
+                                  gender = "Other";
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(
+                                  fontFamily: Styles.mainFont,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * 0.025,
                                 ),
-                                child: const Text("OTHER")),
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(constraints.maxWidth * 0.1,
+                                    constraints.maxHeight * 0.06),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: gender == "Other"
+                                        ? Styles.primaryColor
+                                        : Styles.textColor,
+                                    width: gender == "Other" ? 2 : 1,
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, top: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.transgender,
+                                      color: gender == "Other"
+                                          ? Styles.primaryColor
+                                          : Styles.textColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text("OTHER"),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
