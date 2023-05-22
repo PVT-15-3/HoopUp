@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/handlers/event_handler.dart';
-import 'package:my_app/handlers/list_event_handler.dart';
+import 'package:my_app/widgets/list_event_widget.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
-                child: ListEventHandler(showJoinedEvents: false),
+                child: ListEventWidget(showJoinedEvents: false),
               ),
             ),
           ],

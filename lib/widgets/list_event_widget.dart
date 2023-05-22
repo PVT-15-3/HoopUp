@@ -4,20 +4,20 @@ import 'package:my_app/app_styles.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
-import '../widgets/event_list_item.dart';
+import 'event_list_item.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/filter_events.dart';
+import 'filter_events.dart';
 
-class ListEventHandler extends StatefulWidget {
+class ListEventWidget extends StatefulWidget {
   final bool showJoinedEvents;
-  const ListEventHandler({super.key, required this.showJoinedEvents});
+  const ListEventWidget({super.key, required this.showJoinedEvents});
 
   @override
-  _ListEventHandlerState createState() => _ListEventHandlerState();
+  _ListEventWidgetState createState() => _ListEventWidgetState();
 }
 
-class _ListEventHandlerState extends State<ListEventHandler> {
+class _ListEventWidgetState extends State<ListEventWidget> {
   final BehaviorSubject<List<Event>> _eventsController =
       BehaviorSubject<List<Event>>.seeded([]);
   late StreamSubscription<List<Event>> _eventsSubscription;

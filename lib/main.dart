@@ -3,7 +3,7 @@ import 'package:my_app/providers/courts_provider.dart';
 import 'package:my_app/providers/filter_provider.dart';
 import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
-import 'package:my_app/handlers/list_event_handler.dart';
+import 'package:my_app/widgets/list_event_widget.dart';
 import 'package:my_app/pages/create_event_wizard.dart';
 import 'package:my_app/pages/joined_events_pages.dart';
 import 'package:my_app/pages/sign_up_page.dart';
@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
 
   Widget startWidget() {
     if (HoopUpUser.isSignedIn()) {
-      return const BottomNavBar(currentIndex: 0,);
+      return const BottomNavBar(
+        currentIndex: 0,
+      );
     } else {
       return StartPage();
     }
@@ -53,14 +55,18 @@ class MyApp extends StatelessWidget {
         ),
         home: startWidget(),
         routes: {
-          '/home_page_route_my_bookings': (context) => const BottomNavBar(currentIndex: 2,),
-          '/bottom_nav_bar': (context) => const BottomNavBar(currentIndex: 0,),
+          '/home_page_route_my_bookings': (context) => const BottomNavBar(
+                currentIndex: 2,
+              ),
+          '/bottom_nav_bar': (context) => const BottomNavBar(
+                currentIndex: 0,
+              ),
           '/map': (context) => MapPage(showSelectOption: false),
           '/create_event_wizard.dart': (context) => const CreateEventWizard(),
           '/sign_up_page.dart': (context) => const SignUpPage(),
           '/log_in_page.dart': (context) => StartPage(),
           '/profile_page.dart': (context) => const ProfilePage(),
-          '/list_events_handler.dart': (context) => const ListEventHandler(
+          '/list_events_handler.dart': (context) => const ListEventWidget(
                 showJoinedEvents: true,
               ),
           '/join_event_page.dart': (context) =>
