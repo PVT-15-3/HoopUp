@@ -523,6 +523,10 @@ class _EventPageState extends State<EventPage> {
                       : Center(
                           child: TextButton(
                             onPressed: () {
+                              if (_numberOfPlayersInEvent >= widget.event.playerAmount) {
+                                showCustomToast("This event is full!", Icons.error, context);
+                                return;
+                              }
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
