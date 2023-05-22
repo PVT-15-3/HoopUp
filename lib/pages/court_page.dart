@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_app/app_styles.dart';
+import 'package:my_app/pages/create_event_wizard.dart';
+import 'package:my_app/providers/create_event_wizard_provider.dart';
+import 'package:provider/provider.dart';
 import '../classes/court.dart';
 
 class CourtPage extends StatelessWidget {
@@ -75,7 +78,8 @@ class CourtPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         
+                          Row(
+                            children: [
                               Text(
                                 'Flooring: ${court.courtType}',
                                 style: const TextStyle(
@@ -85,17 +89,55 @@ class CourtPage extends StatelessWidget {
                                   fontFamily: Styles.subHeaderFont,
                                 ),
                               ),
-                             
-                              const SizedBox(height: 4.0),
-                              Text(
-                                'Number of Hoops: ${court.numberOfHoops}',
-                                style: const TextStyle(
-                                  fontSize: Styles.fontSizeSmall,
-                                  fontWeight: FontWeight.w600,
-                                  color: Styles.discoverGametextColor,
-                                  fontFamily: Styles.subHeaderFont,
-                                ),
+                              const Spacer(),
+                              Consumer<CreateEventWizardProvider>(
+                                builder: (context, wizardProvider, _) {
+                                  return TextButton(
+                                    onPressed: () {
+                                      wizardProvider.court = court;
+                                      wizardProvider.checkEventAvailability;
+                                      wizardProvider
+                                          .wizardFirstStepMapSelected = true;
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CreateEventWizard()),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(
+                                      
+                                      backgroundColor: Styles.primaryColor,
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Create Event',
+                                      style: TextStyle(
+                                        fontSize: Styles.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: Styles.buttonFont,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
+                            ],
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            'Number of Hoops: ${court.numberOfHoops}',
+                            style: const TextStyle(
+                              fontSize: Styles.fontSizeSmall,
+                              fontWeight: FontWeight.w600,
+                              color: Styles.discoverGametextColor,
+                              fontFamily: Styles.subHeaderFont,
+                            ),
+                          ),
                           const SizedBox(height: 4.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,

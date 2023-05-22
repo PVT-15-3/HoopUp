@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/classes/hoopup_user.dart';
 import 'package:my_app/pages/start_page.dart';
+import 'package:my_app/providers/create_event_wizard_provider.dart';
+import 'package:my_app/providers/filter_provider.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
@@ -32,6 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 IconButton(
                     onPressed: () {
                       HoopUpUser.signOut();
+                      FilterProvider().clearFilters();
+                      CreateEventWizardProvider().reset();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => StartPage()),
