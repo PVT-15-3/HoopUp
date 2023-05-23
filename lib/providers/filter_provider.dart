@@ -28,6 +28,9 @@ class FilterProvider with ChangeNotifier {
     _isFemaleSelected = false;
     _isOtherSelected = false;
     _isGenderAllSelected = false;
+    _isPVCSelected = false;
+    _isAsphaltSelected = false;
+    _isRubberSelected = false;
     _skillLevel = 0;
     _isSkillLevelAllSelected = false;
     _minimumAge = 13;
