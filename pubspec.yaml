@@ -56,6 +56,8 @@ dependencies:
   flutter_widget_from_html: ^0.10.0
   location: ^4.4.0
   flutter_time_picker_spinner: ^2.0.0
+  
+  
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,14 @@ dev_dependencies:
   mocktail: ^0.3.0
   integration_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/icon_logo.png"
+  ios: false
+
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

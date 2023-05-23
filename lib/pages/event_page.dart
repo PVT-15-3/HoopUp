@@ -257,7 +257,8 @@ class _EventPageState extends State<EventPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  courtOfTheEvent.address.toStringOnTheSameLine(),
+                                  courtOfTheEvent.address
+                                      .toStringOnTheSameLine(),
                                   style: const TextStyle(
                                     fontSize: Styles.fontSizeSmall,
                                     fontWeight: FontWeight.bold,
@@ -405,7 +406,7 @@ class _EventPageState extends State<EventPage> {
                                   : getGenderIcon(),
                             ],
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(height: 12.0,),
                           Row(
                             children: [
                               const Text(
@@ -426,7 +427,30 @@ class _EventPageState extends State<EventPage> {
                                   color: Styles.primaryColor,
                                 ),
                               ),
-                              const Spacer(),
+                            
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Floor Type: ',
+                                style: TextStyle(
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.textColor,
+                                ),
+                              ),
+                               Text(
+                                      courtOfTheEvent.courtType,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: Styles.fontSizeMedium,
+                                        fontFamily: Styles.subHeaderFont,
+                                        color: Styles.primaryColor,
+                                      ),
+                                    ),
+                                    const Spacer(),
                               Stack(
                                 children: [
                                   IconButton(
@@ -523,8 +547,10 @@ class _EventPageState extends State<EventPage> {
                       : Center(
                           child: TextButton(
                             onPressed: () {
-                              if (_numberOfPlayersInEvent >= widget.event.playerAmount) {
-                                showCustomToast("This event is full!", Icons.error, context);
+                              if (_numberOfPlayersInEvent >=
+                                  widget.event.playerAmount) {
+                                showCustomToast("This event is full!",
+                                    Icons.error, context);
                                 return;
                               }
                               showDialog(

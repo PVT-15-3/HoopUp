@@ -140,8 +140,7 @@ class _MapPageState extends State<MapPage> {
                                       );
                                     }
                                   },
-                                  child: ListView(
-                                    shrinkWrap: true,
+                                  child: Column(
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
@@ -149,7 +148,6 @@ class _MapPageState extends State<MapPage> {
                                           borderRadius:
                                               BorderRadius.circular(4),
                                         ),
-                                        padding: const EdgeInsets.all(4.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -159,9 +157,7 @@ class _MapPageState extends State<MapPage> {
                                               color: Colors.white,
                                               size: 30,
                                             ),
-                                            const SizedBox(
-                                              width: 8.0,
-                                            ),
+                                            const SizedBox(width: 8.0),
                                             Expanded(
                                               child: Text(
                                                 court.name,
@@ -172,26 +168,10 @@ class _MapPageState extends State<MapPage> {
                                                       color: Colors.white,
                                                     ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      // Container(
-                                      //   decoration: BoxDecoration(
-                                      //     color: Colors.white,
-                                      //     borderRadius: BorderRadius.circular(4),
-                                      //   ),
-                                      //   padding: const EdgeInsets.all(8.0),
-                                      //   child: Text(
-                                      //     court.address.toString(),
-                                      //     style: Theme.of(context)
-                                      //         .textTheme
-                                      //         .titleMedium!
-                                      //         .copyWith(
-                                      //           color: Colors.black,
-                                      //         ),
-                                      //   ),
-                                      // ),
                                       Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -214,9 +194,7 @@ class _MapPageState extends State<MapPage> {
                                                     color: Colors.black,
                                                   ),
                                             ),
-                                            const SizedBox(
-                                              width: 8.0,
-                                            ),
+                                            const Spacer(),
                                             widget.showSelectOption
                                                 ? const Icon(
                                                     Icons.check_circle,
@@ -245,7 +223,7 @@ class _MapPageState extends State<MapPage> {
                     controller: _customInfoWindowController,
                     height: 110,
                     width: 220,
-                    offset: 30,
+                    offset: 15,
                   ),
                 ],
               ),

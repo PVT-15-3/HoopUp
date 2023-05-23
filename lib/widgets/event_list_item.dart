@@ -70,7 +70,7 @@ class _EventListItemState extends State<EventListItem> {
         } else if (snapshot.data != widget.showJoinedEvents) {
           // If the snapshot data is not equal to the showJoinedEvents variable, return an empty SizedBox widget
           return const SizedBox.shrink();
-        } else if (!FilterHandler.filterEvent(_event, context) &&
+        } else if (!FilterHandler.filterEvent(widget._courts, _event, context) &&
             !widget.showJoinedEvents) {
           // If the event does not pass the filter and the user has not joined the event, return an empty SizedBox widget
           return const SizedBox.shrink();
