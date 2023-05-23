@@ -6,6 +6,10 @@ class FilterProvider with ChangeNotifier {
   bool _isOtherSelected = false;
   bool _isGenderAllSelected = false;
 
+  bool _isPVCSelected = false;
+  bool _isAsphaltSelected = false;
+  bool _isRubberSelected = false;
+
   int _skillLevel = 0;
   bool _isSkillLevelAllSelected = false;
 
@@ -31,40 +35,7 @@ class FilterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set isMaleSelected(bool value) {
-    _isMaleSelected = value;
-    notifyListeners();
-  }
-
-  set isFemaleSelected(bool value) {
-    _isFemaleSelected = value;
-    notifyListeners();
-  }
-
-  set isOtherSelected(bool value) {
-    _isOtherSelected = value;
-    notifyListeners();
-  }
-
-  set isGenderAllSelected(bool value) {
-    _isGenderAllSelected = value;
-    notifyListeners();
-  }
-
-  set skillLevel(int value) {
-    _skillLevel = value;
-    notifyListeners();
-  }
-
-  set isSkillLevelAllSelected(bool value) {
-    _isSkillLevelAllSelected = value;
-    notifyListeners();
-  }
-
-  void toggleMaleSelected(bool value) {
-    _isMaleSelected = value;
-    notifyListeners();
-  }
+ 
 
   List<String> getSelectedGenders() {
     List<String> selectedGenders = [];
@@ -94,8 +65,53 @@ class FilterProvider with ChangeNotifier {
     return selectedSkillLevel;
   }
 
-  void toggleSkillLevelAllSelected(bool value) {
+  List<String> getSelectedCourtTypes() {
+    List<String> selectedCourtTypes = [];
+    if (_isPVCSelected) {
+      selectedCourtTypes.add('PVC tiles');
+    }
+    if (_isAsphaltSelected) {
+      selectedCourtTypes.add('Asphalt');
+    }
+    if (_isRubberSelected) {
+      selectedCourtTypes.add('Synthetic rubber');
+    }
+    return selectedCourtTypes;
+  }
+
+  bool get isPVCSelected => _isPVCSelected;
+  bool get isAsphaltSelected => _isAsphaltSelected;
+  bool get isRubberSelected => _isRubberSelected;
+
+  void togglePVCSelected(bool value) {
+    _isPVCSelected = value;
+    notifyListeners();
+  }
+
+  void toggleAsphaltSelected(bool value) {
+    _isAsphaltSelected = value;
+    notifyListeners();
+  }
+
+  void toggleRubberSelected(bool value) {
+    _isRubberSelected = value;
+    notifyListeners();
+  }
+
+
+
+   set skillLevel(int value) {
+    _skillLevel = value;
+    notifyListeners();
+  }
+
+  set isSkillLevelAllSelected(bool value) {
     _isSkillLevelAllSelected = value;
+    notifyListeners();
+  }
+
+ void toggleMaleSelected(bool value) {
+    _isMaleSelected = value;
     notifyListeners();
   }
 

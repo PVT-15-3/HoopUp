@@ -10,9 +10,26 @@ class FilterIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.tune),
-      color: Styles.primaryColor,
+    return TextButton.icon(
+      label: const Text(
+        '',
+      ),
+      icon: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Icon(
+            Icons.tune,
+            color: Styles.primaryColor,
+          ),
+          Text(
+        'Filter',
+        style: TextStyle(
+          color: Styles.primaryColor,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),),
+        ],
+      ),
       onPressed: () {
         showDialog(
           context: context,
@@ -68,6 +85,32 @@ class FilterIconButton extends StatelessWidget {
                           value: filterProvider.isGenderAllSelected,
                           onChanged: (value) {
                             filterProvider.toggleGenderAllSelected(value!);
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                         const Text('Floor type',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Styles.primaryColor)),
+                        CheckboxListTile(
+                          title: const Text('PVC tiles (Plastic)'),
+                          value: filterProvider.isPVCSelected,
+                          onChanged: (value) {
+                            filterProvider.togglePVCSelected(value!);
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: const Text('Asphalt'),
+                          value: filterProvider.isAsphaltSelected,
+                          onChanged: (value) {
+                            filterProvider.toggleAsphaltSelected(value!);
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: const Text('Synthetic rubber'),
+                          value: filterProvider.isRubberSelected,
+                          onChanged: (value) {
+                            filterProvider.toggleRubberSelected(value!);
                           },
                         ),
                         const SizedBox(height: 16),
