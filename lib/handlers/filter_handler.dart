@@ -28,6 +28,6 @@ class FilterHandler {
             selectedGenderGroups.contains(event.genderGroup)) &&
         (isWithinAgeRange()) &&
         (selectedSkillLevel.isEmpty ||
-            selectedSkillLevel.contains(event.skillLevel)) && selectedCourtTypes.isEmpty || selectedCourtTypes.contains(getEventCourt().courtType);
+            selectedSkillLevel.contains(event.skillLevel)) && (selectedCourtTypes.isEmpty || selectedCourtTypes.contains(getEventCourt().courtType));
   }
 }
