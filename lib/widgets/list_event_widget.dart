@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/providers/firebase_provider.dart';
+import 'package:my_app/widgets/toaster.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
 import 'event_list_item.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
 
 import 'filter_events.dart';
 
@@ -18,6 +20,7 @@ class ListEventWidget extends StatefulWidget {
 }
 
 class _ListEventWidgetState extends State<ListEventWidget> {
+  int amountOfExistingCards = 0;
   final BehaviorSubject<List<Event>> _eventsController =
       BehaviorSubject<List<Event>>.seeded([]);
   late StreamSubscription<List<Event>> _eventsSubscription;
@@ -41,9 +44,20 @@ class _ListEventWidgetState extends State<ListEventWidget> {
     _eventsSubscription.cancel();
   }
 
-  @override
+  void handleCardExists() {
+    amountOfExistingCards++;
+  }
+
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        if (amountOfExistingCards == 0) {
+          showCustomToast("There are no events to show",
+              Icons.no_backpack_outlined, context);
+        }
+      });
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -85,8 +99,11 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                         itemBuilder: (context, index) {
                           final event = events![index];
                           return EventListItem(
-                              event: event,
-                              showJoinedEvents: widget.showJoinedEvents);
+                            key: UniqueKey(),
+                            event: event,
+                            showJoinedEvents: widget.showJoinedEvents,
+                            onCardExists: handleCardExists,
+                          );
                         },
                       ),
                       if (events == null || events.isEmpty)

@@ -18,11 +18,13 @@ class EventListItem extends StatefulWidget {
   final bool showJoinedEvents;
   final Set<Court> _courts = CourtProvider().courts;
   late final Court _court;
+  final VoidCallback onCardExists;
 
   EventListItem({
     Key? key, // Added a Key? parameter for super constructor
     required this.event,
     required this.showJoinedEvents,
+    required this.onCardExists,
   }) : super(key: key);
 
   @override
@@ -86,8 +88,10 @@ class _EventListItemState extends State<EventListItem> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (hasUserJoined) {
+                widget.onCardExists();
                 return returnMyBookingsView(hasUserJoined);
               } else {
+                widget.onCardExists();
                 return returnDiscoverGameView(hasUserJoined);
               }
             },
@@ -215,7 +219,6 @@ class _EventListItemState extends State<EventListItem> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.asset(
-                    //TODO change to court image when court is implemented
                     widget._court.imageLink,
                     height: MediaQuery.of(context).size.height * 0.4,
                     width: double.infinity,
