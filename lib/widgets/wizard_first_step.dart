@@ -14,28 +14,78 @@ class WizardFirstStep extends StatelessWidget {
   final TextEditingController playerAmountController =
       TextEditingController(text: '2');
 
-  Widget hourMinute(Function(TimeOfDay) onTimeChange) {
-    return TimePickerSpinner(
-      spacing: 10,
-      minutesInterval: 5,
-      isForce2Digits: true,
-      normalTextStyle: const TextStyle(
-        fontSize: 30,
-        color: Color(0xFF959595),
-        fontFamily: "Open Sans",
-        fontStyle: FontStyle.normal,
-        letterSpacing: 0.1,
-      ),
-      highlightedTextStyle: const TextStyle(
-        fontSize: 30,
-        color: Color(0xFFFC8027),
-        fontFamily: "Open Sans",
-        fontStyle: FontStyle.normal,
-        letterSpacing: 0.1,
-      ),
-      onTimeChange: (time) {
-        final timeOfDay = TimeOfDay.fromDateTime(time);
-        onTimeChange(timeOfDay);
+  Widget startTimePicker(Function(TimeOfDay) onTimeChange) {
+    return Consumer<CreateEventWizardProvider>(
+      builder: (context, wizardProvider, _) {
+        DateTime wizardStartTime = DateTime(
+          wizardProvider.eventDate.year,
+          wizardProvider.eventDate.month,
+          wizardProvider.eventDate.day,
+          wizardProvider.eventStartTime.hour,
+          wizardProvider.eventStartTime.minute,
+        );
+        return TimePickerSpinner(
+          spacing: 10,
+          time: wizardStartTime,
+          minutesInterval: 5,
+          isForce2Digits: true,
+          normalTextStyle: const TextStyle(
+            fontSize: 30,
+            color: Color(0xFF959595),
+            fontFamily: "Open Sans",
+            fontStyle: FontStyle.normal,
+            letterSpacing: 0.1,
+          ),
+          highlightedTextStyle: const TextStyle(
+            fontSize: 30,
+            color: Color(0xFFFC8027),
+            fontFamily: "Open Sans",
+            fontStyle: FontStyle.normal,
+            letterSpacing: 0.1,
+          ),
+          onTimeChange: (time) {
+            final timeOfDay = TimeOfDay.fromDateTime(time);
+            onTimeChange(timeOfDay);
+          },
+        );
+      },
+    );
+  }
+
+  Widget endTimePicker(Function(TimeOfDay) onTimeChange) {
+    return Consumer<CreateEventWizardProvider>(
+      builder: (context, wizardProvider, _) {
+        DateTime wizardStartTime = DateTime(
+          wizardProvider.eventDate.year,
+          wizardProvider.eventDate.month,
+          wizardProvider.eventDate.day,
+          wizardProvider.eventEndTime.hour,
+          wizardProvider.eventEndTime.minute,
+        );
+        return TimePickerSpinner(
+          spacing: 10,
+          time: wizardStartTime,
+          minutesInterval: 5,
+          isForce2Digits: true,
+          normalTextStyle: const TextStyle(
+            fontSize: 30,
+            color: Color(0xFF959595),
+            fontFamily: "Open Sans",
+            fontStyle: FontStyle.normal,
+            letterSpacing: 0.1,
+          ),
+          highlightedTextStyle: const TextStyle(
+            fontSize: 30,
+            color: Color(0xFFFC8027),
+            fontFamily: "Open Sans",
+            fontStyle: FontStyle.normal,
+            letterSpacing: 0.1,
+          ),
+          onTimeChange: (time) {
+            final timeOfDay = TimeOfDay.fromDateTime(time);
+            onTimeChange(timeOfDay);
+          },
+        );
       },
     );
   }
@@ -367,13 +417,13 @@ class WizardFirstStep extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              hourMinute((time) {
+              startTimePicker((time) {
                 wizardProvider.eventStartTime = time;
                 wizardProvider.onTimeSelectedChanged();
                 debugPrint(wizardProvider.eventStartTime.toString());
               }),
               const SizedBox(width: 70),
-              hourMinute((time) {
+              endTimePicker((time) {
                 wizardProvider.eventEndTime = time;
                 wizardProvider.onTimeSelectedChanged();
                 debugPrint(wizardProvider.eventEndTime.toString());

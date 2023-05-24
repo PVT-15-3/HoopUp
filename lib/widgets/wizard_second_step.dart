@@ -328,7 +328,6 @@ class WizardSecondStep extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 20),
         Consumer<CreateEventWizardProvider>(
           builder: (context, wizardProvider, _) {
             RangeValues ageRange = RangeValues(
@@ -337,16 +336,19 @@ class WizardSecondStep extends StatelessWidget {
             );
             return Column(
               children: [
-                RangeSlider(
-                  min: 13,
-                  max: 100,
-                  values: ageRange,
-                  onChanged: (RangeValues values) {
-                    if (values.end - values.start >= 1) {
-                      wizardProvider.minimumAge = values.start.toInt();
-                      wizardProvider.maximumAge = values.end.toInt();
-                    }
-                  },
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  child: RangeSlider(
+                    min: 13,
+                    max: 100,
+                    values: ageRange,
+                    onChanged: (RangeValues values) {
+                      if (values.end - values.start >= 1) {
+                        wizardProvider.minimumAge = values.start.toInt();
+                        wizardProvider.maximumAge = values.end.toInt();
+                      }
+                    },
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -369,6 +371,7 @@ class WizardSecondStep extends StatelessWidget {
             );
           },
         ),
+        const SizedBox(height: 20),
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
