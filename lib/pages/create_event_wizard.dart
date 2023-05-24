@@ -10,6 +10,7 @@ import 'package:my_app/widgets/wizard_fourth_step.dart';
 import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class CreateEventWizard extends StatelessWidget {
@@ -151,11 +152,18 @@ class CreateEventWizard extends StatelessWidget {
             config: CoolStepperConfig(
               nextTextStyle: nextButtonColor != null
                   ? TextStyle(color: nextButtonColor, fontSize: 40)
-                  : const TextStyle(color: Color(0xFF959595), fontSize: 40),
-              backTextStyle:
-                  const TextStyle(color: Color(0xFFFC8027), fontSize: 40),
-              stepOfTextStyle:
-                  const TextStyle(color: Color(0xFFFC8027), fontSize: 20),
+                  : const TextStyle(
+                      color: Color(0xFF959595),
+                      fontSize: 40,
+                      fontFamily: Styles.mainFont),
+              backTextStyle: const TextStyle(
+                  color: Color(0xFFFC8027),
+                  fontSize: 40,
+                  fontFamily: Styles.mainFont),
+              stepOfTextStyle: const TextStyle(
+                  color: Color(0xFFFC8027),
+                  fontSize: 20,
+                  fontFamily: Styles.mainFont),
               backText: String.fromCharCode(0x25C0),
               nextText: String.fromCharCode(0x25B6),
               stepText: 'STEP',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../app_styles.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class WizardSecondStep extends StatelessWidget {
@@ -27,7 +28,7 @@ class WizardSecondStep extends StatelessWidget {
           child: Text(
             'CREATE GAME',
             style: TextStyle(
-              fontFamily: 'Inter',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w800,
               fontSize: 30,
@@ -52,7 +53,7 @@ class WizardSecondStep extends StatelessWidget {
           child: Text(
             'Customize your game',
             style: TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -74,7 +75,7 @@ class WizardSecondStep extends StatelessWidget {
                 child: const Text(
                   'Select gender/s',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -118,7 +119,7 @@ class WizardSecondStep extends StatelessWidget {
                 child: const Text(
                   'All',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
@@ -314,7 +315,7 @@ class WizardSecondStep extends StatelessWidget {
                 child: const Text(
                   'Select age range',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -356,7 +357,7 @@ class WizardSecondStep extends StatelessWidget {
                     Text(
                       'Age Range: ${ageRange.start.toInt()} - ${ageRange.end.toInt()}',
                       style: const TextStyle(
-                        fontFamily: 'Open Sans',
+                        fontFamily: Styles.mainFont,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
@@ -383,7 +384,7 @@ class WizardSecondStep extends StatelessWidget {
                 child: const Text(
                   'Select skill level/s',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -426,7 +427,7 @@ class WizardSecondStep extends StatelessWidget {
                 child: const Text(
                   'All',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,

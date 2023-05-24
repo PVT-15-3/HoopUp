@@ -3,6 +3,7 @@ import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/message.dart';
 import 'package:my_app/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../classes/court.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../providers/firebase_provider.dart';
@@ -87,7 +88,7 @@ class _ChatPageState extends State<ChatPage> {
             const Text(
               'Game at',
               style: TextStyle(
-                fontFamily: 'Inter',
+                fontFamily: Styles.mainFont,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w700,
                 fontSize: 21,
@@ -99,7 +100,7 @@ class _ChatPageState extends State<ChatPage> {
             Text(
               widget.court.name,
               style: const TextStyle(
-                fontFamily: 'Inter',
+                fontFamily: Styles.mainFont,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w700,
                 fontSize: 21,

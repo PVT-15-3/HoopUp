@@ -4,6 +4,7 @@ import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/providers/courts_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../app_styles.dart';
 import '../classes/court.dart';
 import '../providers/create_event_wizard_provider.dart';
 
@@ -32,14 +33,14 @@ class WizardFirstStep extends StatelessWidget {
           normalTextStyle: const TextStyle(
             fontSize: 30,
             color: Color(0xFF959595),
-            fontFamily: "Open Sans",
+            fontFamily: Styles.mainFont,
             fontStyle: FontStyle.normal,
             letterSpacing: 0.1,
           ),
           highlightedTextStyle: const TextStyle(
             fontSize: 30,
             color: Color(0xFFFC8027),
-            fontFamily: "Open Sans",
+            fontFamily: Styles.mainFont,
             fontStyle: FontStyle.normal,
             letterSpacing: 0.1,
           ),
@@ -70,14 +71,14 @@ class WizardFirstStep extends StatelessWidget {
           normalTextStyle: const TextStyle(
             fontSize: 30,
             color: Color(0xFF959595),
-            fontFamily: "Open Sans",
+            fontFamily: Styles.mainFont,
             fontStyle: FontStyle.normal,
             letterSpacing: 0.1,
           ),
           highlightedTextStyle: const TextStyle(
             fontSize: 30,
             color: Color(0xFFFC8027),
-            fontFamily: "Open Sans",
+            fontFamily: Styles.mainFont,
             fontStyle: FontStyle.normal,
             letterSpacing: 0.1,
           ),
@@ -104,7 +105,7 @@ class WizardFirstStep extends StatelessWidget {
           child: Text(
             'CREATE GAME',
             style: TextStyle(
-              fontFamily: 'Inter',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w800,
               fontSize: 30,
@@ -119,7 +120,7 @@ class WizardFirstStep extends StatelessWidget {
           child: Text(
             'Select a court for your game',
             style: TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -185,7 +186,7 @@ class WizardFirstStep extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFFFC8027),
               textStyle: const TextStyle(
-                fontFamily: 'Open Sans',
+                fontFamily: Styles.mainFont,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w600,
                 fontSize: 18,
@@ -221,7 +222,7 @@ class WizardFirstStep extends StatelessWidget {
           child: Text(
             'Select day and time for your game',
             style: TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -302,7 +303,7 @@ class WizardFirstStep extends StatelessWidget {
                   child: const Text(
                     'Start time',
                     style: TextStyle(
-                      fontFamily: 'Open Sans',
+                      fontFamily: Styles.mainFont,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -319,7 +320,7 @@ class WizardFirstStep extends StatelessWidget {
                   child: const Text(
                     'End time',
                     style: TextStyle(
-                      fontFamily: 'Open Sans',
+                      fontFamily: Styles.mainFont,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -345,7 +346,7 @@ class WizardFirstStep extends StatelessWidget {
                 child: const Text(
                   'Hour',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -363,7 +364,7 @@ class WizardFirstStep extends StatelessWidget {
                 child: const Text(
                   'Minutes',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -384,7 +385,7 @@ class WizardFirstStep extends StatelessWidget {
                 child: const Text(
                   'Hour',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -401,7 +402,7 @@ class WizardFirstStep extends StatelessWidget {
                 child: const Text(
                   'Minutes',
                   style: TextStyle(
-                    fontFamily: 'Open Sans',
+                    fontFamily: Styles.mainFont,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,

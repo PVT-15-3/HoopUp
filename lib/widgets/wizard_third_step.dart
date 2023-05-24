@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../app_styles.dart';
 import '../providers/create_event_wizard_provider.dart';
 import 'basketball_slider.dart';
 
@@ -20,7 +21,7 @@ class WizardThirdStep extends StatelessWidget {
           child: Text(
             'CREATE GAME',
             style: TextStyle(
-              fontFamily: 'Inter',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w800,
               fontSize: 30,
@@ -35,7 +36,7 @@ class WizardThirdStep extends StatelessWidget {
           child: Text(
             'Select number of players',
             style: TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -74,7 +75,7 @@ class WizardThirdStep extends StatelessWidget {
                           : (wizardProvider.numberOfParticipants ~/ 10)
                               .toString(),
                       style: const TextStyle(
-                        fontFamily: 'Open Sans',
+                        fontFamily: Styles.mainFont,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         fontSize: 40,
@@ -87,7 +88,7 @@ class WizardThirdStep extends StatelessWidget {
                     Text(
                       (wizardProvider.numberOfParticipants % 10).toString(),
                       style: const TextStyle(
-                        fontFamily: 'Open Sans',
+                        fontFamily: Styles.mainFont,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w600,
                         fontSize: 40,
@@ -123,7 +124,7 @@ class WizardThirdStep extends StatelessWidget {
           child: Text(
             'Other information',
             style: TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -148,7 +149,7 @@ class WizardThirdStep extends StatelessWidget {
               border: InputBorder.none,
             ),
             style: const TextStyle(
-              fontFamily: 'Open Sans',
+              fontFamily: Styles.mainFont,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontSize: 15,

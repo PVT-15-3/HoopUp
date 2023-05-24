@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../app_styles.dart';
 import '../providers/create_event_wizard_provider.dart';
 
 class WizardFourthStep extends StatelessWidget {
@@ -36,7 +37,7 @@ class WizardFourthStep extends StatelessWidget {
                   child: Text(
                     'CONFIRM GAME',
                     style: TextStyle(
-                      fontFamily: 'Inter',
+                      fontFamily: Styles.mainFont,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w800,
                       fontSize: 30,
@@ -53,7 +54,7 @@ class WizardFourthStep extends StatelessWidget {
                   child: Text(
                     'Go through the content of your game',
                     style: TextStyle(
-                      fontFamily: 'Open Sans',
+                      fontFamily: Styles.mainFont,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
@@ -86,7 +87,7 @@ class WizardFourthStep extends StatelessWidget {
                               '${wizardProvider.selectedGender} between ${wizardProvider.minimumAge}-${wizardProvider.maximumAge} years old\n'
                               'with skill level:\n',
                           style: const TextStyle(
-                            fontFamily: 'Open Sans',
+                            fontFamily: Styles.mainFont,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
                             fontSize: 15,

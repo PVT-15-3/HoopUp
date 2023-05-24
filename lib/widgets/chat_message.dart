@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../app_styles.dart';
 import '../providers/hoopup_user_provider.dart';
 
 class ChatMessage extends StatelessWidget {
@@ -11,7 +12,8 @@ class ChatMessage extends StatelessWidget {
   final String messageText;
   final DateTime timestamp;
 
-  const ChatMessage({super.key, 
+  const ChatMessage({
+    super.key,
     required this.username,
     required this.userPhotoUrl,
     required this.userId,
@@ -27,7 +29,7 @@ class ChatMessage extends StatelessWidget {
     bool isCurrentUser = userId == hoopUpUserProvider.user!.id;
 
     TextStyle usernameStyle = const TextStyle(
-      fontFamily: 'Open Sans',
+      fontFamily: Styles.mainFont,
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w400,
       fontSize: 14,
@@ -36,7 +38,7 @@ class ChatMessage extends StatelessWidget {
     );
 
     TextStyle messageTextStyle = const TextStyle(
-      fontFamily: 'Roboto',
+      fontFamily: Styles.mainFont,
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w400,
       fontSize: 13,
