@@ -165,6 +165,7 @@ class WizardFirstStep extends StatelessWidget {
                   ],
                   onChanged: (Court? newCourt) {
                     wizardProvider.court = newCourt;
+                    print(wizardProvider.eventDate.toIso8601String());
                     wizardProvider.onMapSelectedChanged(true);
                   },
                   underline: Container(),

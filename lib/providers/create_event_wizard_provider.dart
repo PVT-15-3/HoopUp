@@ -52,10 +52,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
   }
 
   void updateEventDate() {
-    if (wizardFirstStepMapSelected) {
-      _eventDate = DateTime(selectedYear, selectedMonth, selectedDay);
-      notifyListeners();
-    }
+    _eventDate = DateTime(selectedYear, selectedMonth, selectedDay);
+    notifyListeners();
   }
 
   TimeOfDay get eventStartTime => _eventStartTime;
@@ -437,7 +435,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _ageGroupAllSelected = false;
     _skillLevelAllSelected = false;
     _color = null;
-    bool _isEventTimeAvailable = false;
+    _isEventTimeAvailable = false;
 
     notifyListeners();
   }
