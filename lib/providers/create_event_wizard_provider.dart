@@ -437,6 +437,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
     _ageGroupAllSelected = false;
     _skillLevelAllSelected = false;
     _color = null;
+    bool _isEventTimeAvailable = false;
 
     notifyListeners();
   }
