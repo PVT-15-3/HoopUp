@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/providers/firebase_provider.dart';
-import 'package:my_app/widgets/toaster.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
 import 'event_list_item.dart';
@@ -26,7 +25,7 @@ class _ListEventWidgetState extends State<ListEventWidget> {
   late StreamSubscription<List<Event>> _eventsSubscription;
   late final FirebaseProvider firebaseProvider;
 
-  bool joined = false;
+  bool noEventsToShow = false;
 
   @override
   void initState() {
@@ -51,10 +50,11 @@ class _ListEventWidgetState extends State<ListEventWidget> {
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        if (amountOfExistingCards == 0) {
-          showCustomToast("There are no events to show",
-              Icons.no_backpack_outlined, context);
+      Future.delayed(const Duration(milliseconds: 750), () {
+        if (amountOfExistingCards == 0 && mounted) {
+          setState(() {
+            noEventsToShow = true;
+          });
         }
       });
     });
@@ -109,6 +109,24 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                       if (events == null || events.isEmpty)
                         const Center(
                           child: CircularProgressIndicator(),
+                        ),
+                      if (noEventsToShow && widget.showJoinedEvents)
+                        Center(
+                          child: Text(
+                            'You have not booked any events yet \u{1F614}',
+                            style: TextStyle(
+                              fontSize: Styles.fontSizeSmall,
+                            ),
+                          ),
+                        ),
+                      if (noEventsToShow && !(widget.showJoinedEvents))
+                        Center(
+                          child: Text(
+                            'There are no bookable events to join right now \u{1F614}',
+                            style: TextStyle(
+                              fontSize: Styles.fontSizeSmall,
+                            ),
+                          ),
                         ),
                     ],
                   );

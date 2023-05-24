@@ -108,6 +108,7 @@ class _EventListItemState extends State<EventListItem> {
     for (Court court in widget._courts) {
       if (court.courtId == _event.courtId) {
         widget._court = court;
+        break;
       }
     }
     return true;
