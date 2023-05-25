@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:my_app/classes/message.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import '../classes/hoopup_user.dart';
@@ -8,7 +9,7 @@ import 'package:my_app/classes/time.dart';
 import 'package:uuid/uuid.dart';
 import 'package:synchronized/synchronized.dart';
 
-final FirebaseProvider firebaseProvider = FirebaseProvider();
+//final FirebaseProvider firebaseProvider = FirebaseProvider();
 
 class EventHandler {
   final Lock appLock = Lock();
@@ -78,8 +79,12 @@ class EventHandler {
   }
 }
 
-void removeUserFromEvent(String eventId, List<String> eventsList,
-    List<String> userIdsList, HoopUpUserProvider hoopUpUserProvider) async {
+void removeUserFromEvent(
+    String eventId,
+    List<String> eventsList,
+    List<String> userIdsList,
+    HoopUpUserProvider hoopUpUserProvider,
+    FirebaseProvider firebaseProvider) async {
   // Remove the event ID from the user's list
   eventsList.remove(eventId);
   // Update the user's list of events in the database
@@ -104,7 +109,8 @@ Future<void> addUserToEvent(Event event, HoopUpUser user) async {
 }
 
 Future<void> removeOldEvents(
-    {required HoopUpUserProvider hoopUpUserProvider}) async {
+    {required HoopUpUserProvider hoopUpUserProvider,
+    required FirebaseProvider firebaseProvider}) async {
   List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
   for (final event in eventsList) {
     if (event.time.endTime.isBefore(DateTime.now())) {

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/handlers/login_handler.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
@@ -179,6 +180,7 @@ void forgotPassword(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
       return AlertDialog(
         title: const Text("Forgot Password"),
         content: Form(
@@ -209,7 +211,7 @@ void forgotPassword(BuildContext context) {
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 formKey.currentState!.save();
-                Auth(FirebaseProvider()).resetPassword(email!);
+                Auth(firebaseProvider).resetPassword(email!);
                 Navigator.pop(context);
                 showCustomToast(
                     "Password reset link sent", Icons.check, context);

@@ -6,6 +6,7 @@ import 'package:my_app/providers/create_event_wizard_provider.dart';
 import 'package:my_app/providers/filter_provider.dart';
 import 'package:provider/provider.dart';
 import '../app_styles.dart';
+import '../providers/firebase_provider.dart';
 import '../providers/hoopup_user_provider.dart';
 import '../widgets/editable_fields_for_profile.dart';
 
@@ -35,7 +36,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       HoopUpUser.signOut();
                       FilterProvider().clearFilters();
-                      CreateEventWizardProvider().reset();
+                      CreateEventWizardProvider(
+                              //TODO FIX THIS SHIT
+                              // firebaseProvider:
+                              //     context.read<FirebaseProvider>()
+                              )
+                          .reset();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => StartPage()),

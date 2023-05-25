@@ -41,10 +41,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => FirebaseProvider()),
         ChangeNotifierProvider(create: (_) => FilterProvider()),
         ChangeNotifierProvider(create: (_) => HoopUpUserProvider()),
-        ChangeNotifierProvider(create: (_) => CreateEventWizardProvider()),
-        ChangeNotifierProvider(create: (_) => FirebaseProvider()),
+        ChangeNotifierProvider(
+            create: (_) => CreateEventWizardProvider(
+                //TODO FIX THIS SHIT
+                // firebaseProvider: context.read<FirebaseProvider>()
+                )),
         ChangeNotifierProvider(create: (_) => CourtProvider()),
       ],
       child: MaterialApp(

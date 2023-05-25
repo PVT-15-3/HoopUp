@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,17 +34,19 @@ class _EventPageState extends State<EventPage> {
   String _creatorName = '';
   String _creatorPhotoUrl = '';
   int _numberOfPlayersInEvent = 0;
+  late FirebaseProvider firebaseProvider;
 
   @override
   void initState() {
     super.initState();
     _loadCustomMarkerIcon();
     _loadInfo();
+    firebaseProvider = context.read<FirebaseProvider>();
   }
 
   Future<void> _loadInfo() async {
-    FirebaseProvider fbp = FirebaseProvider();
-    HoopUpUser user = await fbp.getUserFromFirebase(widget.event.creatorId);
+    HoopUpUser user =
+        await firebaseProvider.getUserFromFirebase(widget.event.creatorId);
     setState(() {
       _creatorName = user.username;
     });
@@ -145,8 +148,7 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseProvider firebaseProvider =
-        Provider.of<FirebaseProvider>(context, listen: false);
+    final FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
     Court courtOfTheEvent = _getCourt(widget.event.courtId)!;
     final bool hasUserJoined = widget.hasUserJoined;
     return Scaffold(
@@ -406,7 +408,9 @@ class _EventPageState extends State<EventPage> {
                                   : getGenderIcon(),
                             ],
                           ),
-                          const SizedBox(height: 12.0,),
+                          const SizedBox(
+                            height: 12.0,
+                          ),
                           Row(
                             children: [
                               const Text(
@@ -427,7 +431,6 @@ class _EventPageState extends State<EventPage> {
                                   color: Styles.primaryColor,
                                 ),
                               ),
-                            
                             ],
                           ),
                           Row(
@@ -441,16 +444,16 @@ class _EventPageState extends State<EventPage> {
                                   color: Styles.textColor,
                                 ),
                               ),
-                               Text(
-                                      courtOfTheEvent.courtType,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: Styles.fontSizeMedium,
-                                        fontFamily: Styles.subHeaderFont,
-                                        color: Styles.primaryColor,
-                                      ),
-                                    ),
-                                    const Spacer(),
+                              Text(
+                                courtOfTheEvent.courtType,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Styles.fontSizeMedium,
+                                  fontFamily: Styles.subHeaderFont,
+                                  color: Styles.primaryColor,
+                                ),
+                              ),
+                              const Spacer(),
                               Stack(
                                 children: [
                                   IconButton(

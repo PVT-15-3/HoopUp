@@ -20,8 +20,7 @@ class CreateEventWizard extends StatelessWidget {
   Widget build(BuildContext context) {
     final HoopUpUserProvider hoopUpUserProvider =
         Provider.of<HoopUpUserProvider>(context, listen: false);
-    final FirebaseProvider firebaseProvider =
-        Provider.of<FirebaseProvider>(context, listen: false);
+    final FirebaseProvider firebaseProvider = context.read<FirebaseProvider>();
 
     TextEditingController dateController = TextEditingController();
     TextEditingController eventNameController = TextEditingController();

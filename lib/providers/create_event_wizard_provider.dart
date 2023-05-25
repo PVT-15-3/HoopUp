@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import '../classes/court.dart';
 import '../classes/event.dart';
 import '../classes/time.dart';
-import '../handlers/event_handler.dart';
+import 'firebase_provider.dart';
 
 class CreateEventWizardProvider extends ChangeNotifier {
+  late FirebaseProvider firebaseProvider;
+  //TODO fix this shit
+  // CreateEventWizardProvider({required FirebaseProvider firebaseProvider}) {
+  //   firebaseProvider = firebaseProvider;
+  // }
+
   DateTime _eventDate = DateTime.now();
   TimeOfDay _eventStartTime = TimeOfDay.now();
   TimeOfDay _eventEndTime = TimeOfDay.now();
