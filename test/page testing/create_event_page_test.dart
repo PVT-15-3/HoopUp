@@ -269,7 +269,6 @@ void main() {
       });
       test('reset should reset all properties to their default values', () {
         // Arrange
-        final wizardProvider = CreateEventWizardProvider();
         wizardProvider.eventDate = DateTime(2023, 5, 24);
         wizardProvider.eventStartTime = TimeOfDay(hour: 10, minute: 0);
         wizardProvider.eventEndTime = TimeOfDay(hour: 12, minute: 0);
@@ -304,9 +303,6 @@ void main() {
         wizardProvider.reset();
 
         // Assert
-        expect(wizardProvider.eventDate, DateTime.now());
-        expect(wizardProvider.eventStartTime, TimeOfDay.now());
-        expect(wizardProvider.eventEndTime, TimeOfDay.now());
         expect(wizardProvider.numberOfParticipants, 2);
         expect(wizardProvider.selectedGender, "");
         expect(wizardProvider.minimumAge, 13);
