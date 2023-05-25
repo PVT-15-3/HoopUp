@@ -5,7 +5,7 @@ import 'package:my_app/providers/firebase_provider.dart';
 import 'package:my_app/providers/hoopup_user_provider.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/toaster.dart';
-import 'package:my_app/widgets/wizard_first_Step.dart';
+import 'package:my_app/widgets/wizard_first_step.dart';
 import 'package:my_app/widgets/wizard_fourth_step.dart';
 import 'package:my_app/widgets/wizard_second_step.dart';
 import 'package:my_app/widgets/wizard_third_step.dart';
