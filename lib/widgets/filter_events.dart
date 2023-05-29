@@ -22,12 +22,13 @@ class FilterIconButton extends StatelessWidget {
             color: Styles.primaryColor,
           ),
           Text(
-        'Filter',
-        style: TextStyle(
-          color: Styles.primaryColor,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-        ),),
+            'Filter',
+            style: TextStyle(
+              color: Styles.primaryColor,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
       onPressed: () {
@@ -88,7 +89,7 @@ class FilterIconButton extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                         const Text('Floor type',
+                        const Text('Floor type',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Styles.primaryColor)),
@@ -254,6 +255,14 @@ class FilterIconButton extends StatelessWidget {
                               onPressed: () {
                                 // Apply clear filter logic here
                                 filterProvider.clearFilters();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavBar(
+                                              currentIndex: 0,
+                                            )),
+                                    (route) => false);
                               },
                               child: const Text(
                                 'CLEAR FILTERS',

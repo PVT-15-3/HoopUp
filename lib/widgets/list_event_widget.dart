@@ -25,7 +25,7 @@ class _ListEventWidgetState extends State<ListEventWidget> {
   late StreamSubscription<List<Event>> _eventsSubscription;
   late final FirebaseProvider firebaseProvider;
 
-  bool noEventsToShow = false;
+  late bool noEventsToShow = false;
 
   @override
   void initState() {
@@ -49,8 +49,8 @@ class _ListEventWidgetState extends State<ListEventWidget> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 750), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         if (amountOfExistingCards == 0 && mounted) {
           setState(() {
             noEventsToShow = true;
@@ -98,9 +98,6 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                         itemCount: events?.length,
                         itemBuilder: (context, index) {
                           final event = events![index];
-                          setState(() {
-                            noEventsToShow = false;
-                          });
 
                           return EventListItem(
                             key: UniqueKey(),
@@ -110,10 +107,6 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                           );
                         },
                       ),
-                      if (events == null || events.isEmpty)
-                        const Center(
-                          child: CircularProgressIndicator(),
-                        ),
                       if (noEventsToShow && widget.showJoinedEvents)
                         Center(
                           child: Text(
