@@ -40,7 +40,8 @@ class Message {
       userPhotoUrl: data['userPhotoUrl'] ?? '',
       userId: data['userId'] ?? '',
       messageText: data['messageText'] ?? '',
-      timeStamp: DateFormat('MM-dd HH:mm:ss').parse(data['timeStamp'] ?? ''),
+      timeStamp:
+          DateFormat('yyyy-MM-dd HH:mm:ss').parse(data['timeStamp'] ?? ''),
     );
   }
 
@@ -51,7 +52,7 @@ class Message {
       'userPhotoUrl': _userPhotoUrl,
       'userId': _userId,
       'messageText': _messageText,
-      'timeStamp': DateFormat('MM-dd HH:mm:ss').format(_timeStamp),
+      'timeStamp': DateFormat('yyyy-MM-dd HH:mm:ss').format(_timeStamp),
     };
   }
 }
