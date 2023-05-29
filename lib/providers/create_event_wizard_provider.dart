@@ -58,11 +58,6 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateEventDate() {
-    _eventDate = DateTime(selectedYear, selectedMonth, selectedDay);
-    notifyListeners();
-  }
-
   TimeOfDay get eventStartTime => _eventStartTime;
 
   set eventStartTime(TimeOfDay eventStartTime) {
@@ -223,8 +218,10 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateColorFirstStep(bool isMapSelected, bool isTimeSelected) {
-    bool wizardFirstStepComplete = isMapSelected && isTimeSelected;
+  void updateColorFirstStep(
+      bool isMapSelected, bool isTimeSelected, bool isEventTimeAvailable) {
+    bool wizardFirstStepComplete =
+        isMapSelected && isTimeSelected && isEventTimeAvailable;
     color = wizardFirstStepComplete
         ? const Color(0xFFFC8027)
         : const Color(0xFF959595);
@@ -232,8 +229,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
 
   void onMapSelectedChanged(bool newValue) {
     wizardFirstStepMapSelected = newValue;
-    updateColorFirstStep(
-        wizardFirstStepMapSelected, wizardFirstStepTimeSelected);
+    updateColorFirstStep(wizardFirstStepMapSelected,
+        wizardFirstStepTimeSelected, isEventTimeAvailable);
   }
 
   void onTimeSelectedChanged() {
@@ -261,9 +258,8 @@ class CreateEventWizardProvider extends ChangeNotifier {
         endTime.isAfter(startTime.add(const Duration(hours: 1)));
 
     wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
-    updateColorFirstStep(
-        wizardFirstStepMapSelected, wizardFirstStepTimeSelected);
-    checkEventAvailability();
+    updateColorFirstStep(wizardFirstStepMapSelected,
+        wizardFirstStepTimeSelected, isEventTimeAvailable);
   }
 
   void onGenderSelectedChanged(bool newValue) {
@@ -291,6 +287,11 @@ class CreateEventWizardProvider extends ChangeNotifier {
     color = wizardSecondStageComplete
         ? const Color(0xFFFC8027)
         : const Color(0xFF959595);
+  }
+
+  void updateEventDate() {
+    _eventDate = DateTime(selectedYear, selectedMonth, selectedDay);
+    notifyListeners();
   }
 
   void setSelectedMonth(int month) {
@@ -340,40 +341,11 @@ class CreateEventWizardProvider extends ChangeNotifier {
     }
   }
 
-  void startEventAvailabilityCheckStream(String courtId) {
-    _availabilityCheckTimer = Timer.periodic(const Duration(seconds: 60), (_) {
-      checkEventAvailabilityStream(courtId);
-    });
-  }
-
-  void stopEventAvailabilityCheckStream() {
-    _availabilityCheckTimer?.cancel();
-    _availabilityCheckTimer = null;
-  }
-
-  void checkEventAvailabilityStream(String courtId) {
-    Stream<List<Event>> eventsStream = firebaseProvider.eventsStream;
-    eventsStream.listen((eventsList) {
-      bool isAvailable = true;
-
-      for (Event event in eventsList) {
-        if (event.courtId == courtId) {
-          if (isTimeOverlap(event.time)) {
-            isAvailable = false;
-            break;
-          }
-        }
-      }
-
-      _isEventTimeAvailable = isAvailable;
-      _eventAvailabilityController.add(isAvailable);
-      notifyListeners();
-    });
-  }
-
   void checkEventAvailability() async {
     List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
     bool isAvailable = true;
+
+    wizardFirstStepMapSelected = true;
 
     for (Event event in eventsList) {
       if (event.courtId == court?.courtId) {
@@ -384,7 +356,34 @@ class CreateEventWizardProvider extends ChangeNotifier {
       }
     }
 
-    _isEventTimeAvailable = isAvailable;
+    DateTime now = DateTime.now();
+    DateTime startTime = DateTime(
+      eventDate.year,
+      eventDate.month,
+      eventDate.day,
+      eventStartTime.hour,
+      eventStartTime.minute,
+    );
+
+    DateTime thirtyMinutesFromNow = now.add(const Duration(minutes: 30));
+    bool isStartTimeValid =
+        startTime.isAfter(thirtyMinutesFromNow) && startTime.isAfter(now);
+
+    DateTime endTime = DateTime(
+      eventDate.year,
+      eventDate.month,
+      eventDate.day,
+      eventEndTime.hour,
+      eventEndTime.minute,
+    );
+    bool isEndTimeValid =
+        endTime.isAfter(startTime.add(const Duration(hours: 1)));
+
+    wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
+
+    isEventTimeAvailable = isAvailable;
+    updateColorFirstStep(wizardFirstStepMapSelected,
+        wizardFirstStepTimeSelected, isEventTimeAvailable);
     notifyListeners();
   }
 

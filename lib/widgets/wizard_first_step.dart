@@ -166,8 +166,8 @@ class WizardFirstStep extends StatelessWidget {
                   ],
                   onChanged: (Court? newCourt) {
                     wizardProvider.court = newCourt;
-                    print(wizardProvider.eventDate.toIso8601String());
-                    wizardProvider.onMapSelectedChanged(true);
+                    wizardProvider.wizardFirstStepMapSelected = true;
+                    wizardProvider.checkEventAvailability();
                   },
                   underline: Container(),
                 );
@@ -248,7 +248,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedYear,
                   onChanged: (value) {
                     wizardProvider.setSelectedYear(value!);
-                    wizardProvider.onTimeSelectedChanged();
+                    wizardProvider.checkEventAvailability();
                   },
                   items: List.generate(10, (index) => index + 2022)
                       .map((year) => DropdownMenuItem<int>(
@@ -262,7 +262,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedMonth,
                   onChanged: (value) {
                     wizardProvider.setSelectedMonth(value!);
-                    wizardProvider.onTimeSelectedChanged();
+                    wizardProvider.checkEventAvailability();
                   },
                   items: List.generate(12, (index) => index + 1)
                       .map((month) => DropdownMenuItem<int>(
@@ -276,7 +276,7 @@ class WizardFirstStep extends StatelessWidget {
                   value: wizardProvider.selectedDay,
                   onChanged: (value) {
                     wizardProvider.setSelectedDay(value!);
-                    wizardProvider.onTimeSelectedChanged();
+                    wizardProvider.checkEventAvailability();
                   },
                   items: daysInMonth
                       .map((day) => DropdownMenuItem<int>(
@@ -421,14 +421,12 @@ class WizardFirstStep extends StatelessWidget {
             children: [
               startTimePicker((time) {
                 wizardProvider.eventStartTime = time;
-                wizardProvider.onTimeSelectedChanged();
-                debugPrint(wizardProvider.eventStartTime.toString());
+                wizardProvider.checkEventAvailability();
               }),
               const SizedBox(width: 70),
               endTimePicker((time) {
                 wizardProvider.eventEndTime = time;
-                wizardProvider.onTimeSelectedChanged();
-                debugPrint(wizardProvider.eventEndTime.toString());
+                wizardProvider.checkEventAvailability();
               }),
               const SizedBox(width: 20),
             ],

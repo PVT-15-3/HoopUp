@@ -127,6 +127,7 @@ class _MapPageState extends State<MapPage> {
                                       wizardProvider.checkEventAvailability;
                                       wizardProvider
                                           .wizardFirstStepMapSelected = true;
+                                      wizardProvider.checkEventAvailability();
                                       Navigator.pop(context);
                                       showCustomToast('Court selected',
                                           Icons.check_circle, context);
