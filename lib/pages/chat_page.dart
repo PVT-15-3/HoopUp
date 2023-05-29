@@ -3,6 +3,11 @@ import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/message.dart';
 import 'package:my_app/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
 import '../app_styles.dart';
 import '../classes/court.dart';
 import '../providers/hoopup_user_provider.dart';
@@ -29,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     _messageController = TextEditingController();
     _scrollController = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       _scrollToBottom();
     });
   }
@@ -43,13 +48,19 @@ class _ChatPageState extends State<ChatPage> {
 
   void _sendMessage(String username, String userPhotoUrl, String userId) {
     String messageText = _messageController.text.trim();
+
+    final String stockholmTimezone = 'Europe/Stockholm';
+
     if (messageText.isNotEmpty) {
+      final currentTimezone =
+          tz.TZDateTime.now(tz.getLocation(stockholmTimezone));
+
       Message message = Message(
         username: username,
         userPhotoUrl: userPhotoUrl,
         userId: userId,
         messageText: messageText,
-        timeStamp: DateTime.now(),
+        timeStamp: currentTimezone,
       );
       widget.event.chat.addMessage(message);
       _messageController.clear();
@@ -75,6 +86,10 @@ class _ChatPageState extends State<ChatPage> {
         Provider.of<FirebaseProvider>(context, listen: false);
     final String eventId = widget.event.id;
 
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Stockholm'));
+    initializeDateFormatting();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -82,7 +97,7 @@ class _ChatPageState extends State<ChatPage> {
         shadowColor: Colors.white,
       ),
       body: Container(
-        color: Colors.white, // Set your desired background color here
+        color: Colors.white,
         child: Column(
           children: [
             const Text(
