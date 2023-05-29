@@ -54,14 +54,14 @@ class _ListEventWidgetState extends State<ListEventWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 850), () {
         if (amountOfExistingCards == 0 && mounted && widget.showJoinedEvents) {
-          showCustomToast("You have no booked events right now.. \u{1F614}",
+          Toaster.showCustomToast("You have no booked events right now.. \u{1F614}",
               Icons.warning, context,
               positionOnScreen: ToastGravity.CENTER);
         }
         if (amountOfExistingCards == 0 &&
             mounted &&
             !(widget.showJoinedEvents)) {
-          showCustomToast(
+          Toaster.showCustomToast(
               "There are no bookable events to join right now \u{1F614}",
               Icons.warning,
               context,

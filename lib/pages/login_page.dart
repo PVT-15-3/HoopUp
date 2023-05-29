@@ -111,7 +111,7 @@ class LogInPage extends StatelessWidget {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          showCustomToast("Authenticating...",
+                          Toaster.showCustomToast("Authenticating...",
                               Icons.watch_later_outlined, context);
                           bool logInSuccess = await auth.signInWithEmail(
                               email!, password!, context);
@@ -213,7 +213,7 @@ void forgotPassword(BuildContext context) {
                 formKey.currentState!.save();
                 Auth(firebaseProvider).resetPassword(email!);
                 Navigator.pop(context);
-                showCustomToast(
+                Toaster.showCustomToast(
                     "Password reset link sent", Icons.check, context);
               }
             },

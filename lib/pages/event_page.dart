@@ -553,7 +553,7 @@ class _EventPageState extends State<EventPage> {
                             onPressed: () {
                               if (_numberOfPlayersInEvent >=
                                   widget.event.playerAmount) {
-                                showCustomToast("This event is full!",
+                                Toaster.showCustomToast("This event is full!",
                                     Icons.error, context);
                                 return;
                               }
@@ -655,7 +655,7 @@ class _EventPageState extends State<EventPage> {
                                                             listen: false)
                                                         .user!,
                                                   ).then((_) {
-                                                    showCustomToast(
+                                                    Toaster.showCustomToast(
                                                         "You have joined a game at ${courtOfTheEvent.name}",
                                                         Icons.schedule,
                                                         context);

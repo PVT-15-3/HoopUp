@@ -31,7 +31,7 @@ class Auth {
       debugPrint('User created: ${userCredential.user!.uid}');
       return true;
     } on FirebaseAuthException catch (e) {
-      showCustomToast(e.message!, Icons.error, context);
+      Toaster.showCustomToast(e.message!, Icons.error, context);
       return false;
     }
   }
@@ -47,7 +47,7 @@ class Auth {
       debugPrint('User signed in: ${hoopUpUser.username}');
       return true;
     } on FirebaseAuthException catch (e) {
-      showCustomToast(e.message!, Icons.error, context);
+      Toaster.showCustomToast(e.message!, Icons.error, context);
       return false;
     }
   }

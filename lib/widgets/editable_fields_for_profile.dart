@@ -310,7 +310,7 @@ class _EditableFieldsState extends State<EditableFields> {
                         user.gender = gender;
                         user.username = nameController.text;
                         user.photoUrl = photoUrl;
-                        showCustomToast(
+                        Toaster.showCustomToast(
                             "Profile updated", Icons.person, context);
                         Navigator.pushAndRemoveUntil(
                             context,
@@ -320,7 +320,7 @@ class _EditableFieldsState extends State<EditableFields> {
                                     )),
                             (route) => false);
                       } else {
-                        showCustomToast(
+                        Toaster.showCustomToast(
                             "Username is too short", Icons.warning, context);
                       }
                     },

@@ -317,7 +317,7 @@ class _SignUpPage extends State<SignUpPage> {
                               setState(() =>
                                   birthdayController.text = formattedDate);
                             } else {
-                              showCustomToast("Pick a date",
+                              Toaster.showCustomToast("Pick a date",
                                   Icons.warning_amber_outlined, context);
                             }
                           });
@@ -398,14 +398,14 @@ class _SignUpPage extends State<SignUpPage> {
                               .subtract(const Duration(days: 13 * 365));
 
                           if (dateOfBirth.value.isAfter(thresholdDate)) {
-                            showCustomToast(
+                            Toaster.showCustomToast(
                                 "You must be at least 13 years old to use HoopUp",
                                 Icons.warning,
                                 context);
                             return;
                           }
                           if (dateOfBirth.value == DateTime(0)) {
-                            showCustomToast(
+                            Toaster.showCustomToast(
                                 "Please select a valid date of birth",
                                 Icons.warning,
                                 context);
@@ -432,7 +432,7 @@ class _SignUpPage extends State<SignUpPage> {
                                   (route) => false);
                             }
                           } else {
-                            showCustomToast("Please fill out all fields",
+                            Toaster.showCustomToast("Please fill out all fields",
                                 Icons.warning, context);
                           }
                         },

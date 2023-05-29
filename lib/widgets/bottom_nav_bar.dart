@@ -6,6 +6,7 @@ import 'package:my_app/pages/start_page.dart';
 import 'package:my_app/pages/map_page.dart';
 import 'package:my_app/pages/profile_page.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:my_app/widgets/toaster.dart';
 import '../app_styles.dart';
 import '../classes/court.dart';
 import '../providers/courts_provider.dart';
@@ -13,7 +14,6 @@ import '../providers/courts_provider.dart';
 class BottomNavBar extends StatefulWidget {
   final int currentIndex;
   const BottomNavBar({super.key, required this.currentIndex});
-
 
   Set<Court> get courtMarkers => _courtMarkers;
 
@@ -40,6 +40,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const ProfilePage(),
   ];
 
+  void onChangedPage(index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    Toaster.clearToast();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!HoopUpUser.isSignedIn()) {
@@ -51,7 +58,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           containerHeight: 60,
           iconSize: 30,
           selectedIndex: _currentIndex,
-          onItemSelected: (index) => setState(() => _currentIndex = index),
+          onItemSelected: onChangedPage,
           items: [
             BottomNavyBarItem(
               icon: const Icon(Icons.home),
