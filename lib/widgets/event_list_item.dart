@@ -165,18 +165,18 @@ class _EventListItemState extends State<EventListItem> {
         Provider.of<HoopUpUserProvider>(context, listen: false);
 
     if (_numberOfPlayersInEvent >= _event.playerAmount && !hasUserJoined) {
-      showCustomToast("This event is full!", Icons.error, context);
+      Toaster.showCustomToast("This event is full!", Icons.error, context);
       return;
     }
 
     if (userProvider.user!.events.contains(_event.id)) {
       removeUserFromEvent(_event.id, userProvider.user!.events, _userIdsList!,
           userProvider, _firebaseProvider);
-      showCustomToast("You have canceled your game at ${widget._court.name}",
+      Toaster.showCustomToast("You have canceled your game at ${widget._court.name}",
           Icons.schedule, context);
     } else {
       addUserToEvent(_event, userProvider.user!);
-      showCustomToast("You have joined a game at ${widget._court.name}",
+      Toaster.showCustomToast("You have joined a game at ${widget._court.name}",
           Icons.schedule, context);
     }
   }

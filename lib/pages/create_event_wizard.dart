@@ -58,7 +58,7 @@ class CreateEventWizard extends StatelessWidget {
                       hoopUpUser: hoopUpUserProvider.user,
                       firebaseProvider: firebaseProvider)
                   .catchError((e) {
-                showCustomToast(e.toString(), Icons.error, context);
+                Toaster.showCustomToast(e.toString(), Icons.error, context);
                 debugPrint("error when creating event: $e");
               }).then((_) {
                 Navigator.pushAndRemoveUntil(
@@ -68,7 +68,7 @@ class CreateEventWizard extends StatelessWidget {
                               currentIndex: 2,
                             )),
                     (route) => false);
-                showCustomToast(
+                Toaster.showCustomToast(
                     'Your event is created', Icons.approval, context);
               });
               Future.delayed(const Duration(seconds: 1), () {

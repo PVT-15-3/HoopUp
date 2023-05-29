@@ -129,7 +129,7 @@ class _MapPageState extends State<MapPage> {
                                           .wizardFirstStepMapSelected = true;
                                       wizardProvider.checkEventAvailability();
                                       Navigator.pop(context);
-                                      showCustomToast('Court selected',
+                                      Toaster.showCustomToast('Court selected',
                                           Icons.check_circle, context);
                                     } else {
                                       Navigator.push(

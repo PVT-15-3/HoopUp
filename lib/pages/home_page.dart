@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       _isLoading = false;
     });
     if (mounted) {
-      showCustomToast(
+      Toaster.showCustomToast(
           'Welcome, ${_user?.username}', Icons.sports_basketball, context);
     }
   }
