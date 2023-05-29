@@ -6,8 +6,9 @@ import '../classes/event.dart';
 import '../classes/time.dart';
 import 'firebase_provider.dart';
 
+FirebaseProvider firebaseProvider = FirebaseProvider();
+
 class CreateEventWizardProvider extends ChangeNotifier {
-  late FirebaseProvider firebaseProvider;
   //TODO fix this shit
   // CreateEventWizardProvider({required FirebaseProvider firebaseProvider}) {
   //   firebaseProvider = firebaseProvider;

@@ -98,6 +98,10 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                         itemCount: events?.length,
                         itemBuilder: (context, index) {
                           final event = events![index];
+                          setState(() {
+                            noEventsToShow = false;
+                          });
+
                           return EventListItem(
                             key: UniqueKey(),
                             event: event,
