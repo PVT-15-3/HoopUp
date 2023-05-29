@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,6 +17,8 @@ import '../handlers/event_handler.dart';
 import '../providers/firebase_provider.dart';
 import '../widgets/toaster.dart';
 
+FirebaseProvider firebaseProvider = FirebaseProvider();
+
 class EventPage extends StatefulWidget {
   final Event event;
   final Set<Court> _courts = CourtProvider().courts;
@@ -34,7 +36,6 @@ class _EventPageState extends State<EventPage> {
   String _creatorName = '';
   String _creatorPhotoUrl = '';
   int _numberOfPlayersInEvent = 0;
-  late FirebaseProvider firebaseProvider;
 
   @override
   void initState() {

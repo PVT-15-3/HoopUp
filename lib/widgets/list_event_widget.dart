@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/app_styles.dart';
 import 'package:my_app/providers/firebase_provider.dart';
+import 'package:my_app/widgets/toaster.dart';
 import '../classes/event.dart';
 import 'package:rxdart/subjects.dart';
 import 'event_list_item.dart';
@@ -49,12 +51,21 @@ class _ListEventWidgetState extends State<ListEventWidget> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        if (amountOfExistingCards == 0 && mounted) {
-          setState(() {
-            noEventsToShow = true;
-          });
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 850), () {
+        if (amountOfExistingCards == 0 && mounted && widget.showJoinedEvents) {
+          showCustomToast("You have no booked events right now.. \u{1F614}",
+              Icons.warning, context,
+              positionOnScreen: ToastGravity.CENTER);
+        }
+        if (amountOfExistingCards == 0 &&
+            mounted &&
+            !(widget.showJoinedEvents)) {
+          showCustomToast(
+              "There are no bookable events to join right now \u{1F614}",
+              Icons.warning,
+              context,
+              positionOnScreen: ToastGravity.CENTER);
         }
       });
     });
@@ -98,7 +109,6 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                         itemCount: events?.length,
                         itemBuilder: (context, index) {
                           final event = events![index];
-
                           return EventListItem(
                             key: UniqueKey(),
                             event: event,
@@ -107,24 +117,6 @@ class _ListEventWidgetState extends State<ListEventWidget> {
                           );
                         },
                       ),
-                      if (noEventsToShow && widget.showJoinedEvents)
-                        Center(
-                          child: Text(
-                            'You have not booked any events yet \u{1F614}',
-                            style: TextStyle(
-                              fontSize: Styles.fontSizeSmall,
-                            ),
-                          ),
-                        ),
-                      if (noEventsToShow && !(widget.showJoinedEvents))
-                        Center(
-                          child: Text(
-                            'There are no bookable events to join right now \u{1F614}',
-                            style: TextStyle(
-                              fontSize: Styles.fontSizeSmall,
-                            ),
-                          ),
-                        ),
                     ],
                   );
                 },

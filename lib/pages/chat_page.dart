@@ -3,7 +3,6 @@ import 'package:my_app/classes/event.dart';
 import 'package:my_app/classes/message.dart';
 import 'package:my_app/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -34,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     _messageController = TextEditingController();
     _scrollController = ScrollController();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToBottom();
     });
   }

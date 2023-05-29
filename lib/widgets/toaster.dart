@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void showCustomToast(String message, IconData icon, BuildContext context) {
+void showCustomToast(
+  String message,
+  IconData icon,
+  BuildContext context, {
+  ToastGravity positionOnScreen = ToastGravity.BOTTOM,
+}) {
   FToast fToast = FToast();
   fToast.init(context);
 
@@ -34,7 +39,7 @@ void showCustomToast(String message, IconData icon, BuildContext context) {
 
   fToast.showToast(
     child: toast,
-    gravity: ToastGravity.BOTTOM,
+    gravity: positionOnScreen,
     toastDuration: const Duration(seconds: 3),
   );
 }
