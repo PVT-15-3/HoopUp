@@ -296,37 +296,43 @@ class WizardFirstStep extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 69,
-                  height: 32,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Start time',
-                    style: TextStyle(
-                      fontFamily: Styles.mainFont,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      height: 1.14,
-                      letterSpacing: 0.1,
-                      color: Color(0xFF2D2D2D),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Container(
+                    width: 69,
+                    height: 32,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Start time',
+                      style: TextStyle(
+                        fontFamily: Styles.mainFont,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        height: 1.14,
+                        letterSpacing: 0.1,
+                        color: Color(0xFF2D2D2D),
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 69,
-                  height: 32,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'End time',
-                    style: TextStyle(
-                      fontFamily: Styles.mainFont,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      height: 1.14,
-                      letterSpacing: 0.1,
-                      color: Color(0xFF2D2D2D),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Container(
+                    width: 69,
+                    height: 32,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'End time',
+                      style: TextStyle(
+                        fontFamily: Styles.mainFont,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        height: 1.14,
+                        letterSpacing: 0.1,
+                        color: Color(0xFF2D2D2D),
+                      ),
                     ),
                   ),
                 ),
@@ -343,16 +349,19 @@ class WizardFirstStep extends StatelessWidget {
                 height: 32,
                 margin: const EdgeInsets.only(right: 20),
                 alignment: Alignment.center,
-                child: const Text(
-                  'Hour',
-                  style: TextStyle(
-                    fontFamily: Styles.mainFont,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.14,
-                    letterSpacing: 0.1,
-                    color: Color(0xFF959595),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: const Text(
+                    'Hour',
+                    style: TextStyle(
+                      fontFamily: Styles.mainFont,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF959595),
+                    ),
                   ),
                 ),
               ),
@@ -361,16 +370,19 @@ class WizardFirstStep extends StatelessWidget {
                 height: 32,
                 margin: const EdgeInsets.only(right: 20),
                 alignment: Alignment.center,
-                child: const Text(
-                  'Minutes',
-                  style: TextStyle(
-                    fontFamily: Styles.mainFont,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.14,
-                    letterSpacing: 0.1,
-                    color: Color(0xFF959595),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: const Text(
+                    'Minutes',
+                    style: TextStyle(
+                      fontFamily: Styles.mainFont,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF959595),
+                    ),
                   ),
                 ),
               ),
@@ -382,16 +394,19 @@ class WizardFirstStep extends StatelessWidget {
                 height: 32,
                 margin: const EdgeInsets.only(right: 20),
                 alignment: Alignment.center,
-                child: const Text(
-                  'Hour',
-                  style: TextStyle(
-                    fontFamily: Styles.mainFont,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.14,
-                    letterSpacing: 0.1,
-                    color: Color(0xFF959595),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: const Text(
+                    'Hour',
+                    style: TextStyle(
+                      fontFamily: Styles.mainFont,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF959595),
+                    ),
                   ),
                 ),
               ),
@@ -399,16 +414,19 @@ class WizardFirstStep extends StatelessWidget {
                 width: 56,
                 height: 32,
                 alignment: Alignment.center,
-                child: const Text(
-                  'Minutes',
-                  style: TextStyle(
-                    fontFamily: Styles.mainFont,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 1.14,
-                    letterSpacing: 0.1,
-                    color: Color(0xFF959595),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: const Text(
+                    'Minutes',
+                    style: TextStyle(
+                      fontFamily: Styles.mainFont,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      height: 1.14,
+                      letterSpacing: 0.1,
+                      color: Color(0xFF959595),
+                    ),
                   ),
                 ),
               ),
