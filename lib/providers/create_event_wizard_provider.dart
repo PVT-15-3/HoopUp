@@ -255,7 +255,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
       eventEndTime.minute,
     );
     bool isEndTimeValid =
-        endTime.isAfter(startTime.add(const Duration(hours: 1)));
+        endTime.isAfter(startTime.add(const Duration(minutes: 55)));
 
     wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
     updateColorFirstStep(wizardFirstStepMapSelected,
@@ -345,8 +345,6 @@ class CreateEventWizardProvider extends ChangeNotifier {
     List<Event> eventsList = await firebaseProvider.getAllEventsFromFirebase();
     bool isAvailable = true;
 
-    wizardFirstStepMapSelected = true;
-
     for (Event event in eventsList) {
       if (event.courtId == court?.courtId) {
         if (isTimeOverlap(event.time)) {
@@ -377,7 +375,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
       eventEndTime.minute,
     );
     bool isEndTimeValid =
-        endTime.isAfter(startTime.add(const Duration(hours: 1)));
+        endTime.isAfter(startTime.add(const Duration(minutes: 55)));
 
     wizardFirstStepTimeSelected = isStartTimeValid && isEndTimeValid;
 
