@@ -299,7 +299,7 @@ class WizardFirstStep extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Container(
-                    width: 69,
+                    width: 85,
                     height: 32,
                     alignment: Alignment.center,
                     child: const Text(
