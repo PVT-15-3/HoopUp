@@ -10,7 +10,7 @@ import 'event_list_item.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 
-import 'filter_events.dart';
+import 'filter_icon_button.dart';
 
 class ListEventWidget extends StatefulWidget {
   final bool showJoinedEvents;
