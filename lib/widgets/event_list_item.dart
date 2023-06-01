@@ -172,8 +172,10 @@ class _EventListItemState extends State<EventListItem> {
     if (userProvider.user!.events.contains(_event.id)) {
       removeUserFromEvent(_event.id, userProvider.user!.events, _userIdsList!,
           userProvider, _firebaseProvider);
-      Toaster.showCustomToast("You have canceled your game at ${widget._court.name}",
-          Icons.schedule, context);
+      Toaster.showCustomToast(
+          "You have canceled your game at ${widget._court.name}",
+          Icons.schedule,
+          context);
     } else {
       addUserToEvent(_event, userProvider.user!);
       Toaster.showCustomToast("You have joined a game at ${widget._court.name}",
