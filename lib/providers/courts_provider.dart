@@ -119,6 +119,16 @@ class CourtProvider extends ChangeNotifier {
       numberOfHoops: 2,
     ),
 
+     Court(
+      position: const LatLng(59.281390251724645, 17.972683542079295),
+      name: 'Långbroparken',
+      imageLink: 'assets/langbropark.jpg',
+      courtType: 'Asphalt',
+      address: Address('Stora Kvinns Väg 11', 'Älvsjö', 12952,
+          59.281390251724645, 17.972683542079295),
+      numberOfHoops: 2,
+    ),
+
     Court(
       position: const LatLng(59.37829473768301, 17.93254852514142),
       name: 'Rosa pantern',
