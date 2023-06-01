@@ -52,11 +52,14 @@ class _ListEventWidgetState extends State<ListEventWidget> {
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 850), () {
+      Future.delayed(const Duration(milliseconds: 800), () {
         if (amountOfExistingCards == 0 && mounted && widget.showJoinedEvents) {
-          Toaster.showCustomToast("You have no booked events right now.. \u{1F614}",
-              Icons.warning, context,
+          Toaster.showCustomToast(
+              "You have no booked events right now.. \u{1F614}",
+              Icons.warning,
+              context,
               positionOnScreen: ToastGravity.CENTER);
+          return;
         }
         if (amountOfExistingCards == 0 &&
             mounted &&
@@ -66,6 +69,7 @@ class _ListEventWidgetState extends State<ListEventWidget> {
               Icons.warning,
               context,
               positionOnScreen: ToastGravity.CENTER);
+          return;
         }
       });
     });
