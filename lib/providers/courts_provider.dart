@@ -111,7 +111,7 @@ class CourtProvider extends ChangeNotifier {
 
     Court(
       position: const LatLng(59.254592810710456, 18.031293796423572),
-      name: 'Rågdalen',
+      name: 'Rågdalens Basketplan',
       imageLink: 'assets/Ragsved.jpeg',
       courtType: 'Asphalt',
       address: Address('Bjursätragatan 50-52', 'Bandhagen', 12464,

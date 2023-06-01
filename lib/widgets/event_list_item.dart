@@ -196,7 +196,7 @@ class _EventListItemState extends State<EventListItem> {
       },
       child: Card(
         elevation: 0.0,
-        margin: const EdgeInsets.fromLTRB(22.0, 0.0, 22.0, 24.0),
+        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 24.0),
         shadowColor: Colors.grey.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -205,9 +205,9 @@ class _EventListItemState extends State<EventListItem> {
           children: [
             Center(
               child: Container(
-                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
-                height: 155,
-                width: 340,
+                padding: const EdgeInsets.only(bottom: 15.0),
+                height: 175,
+                width: 325,
                 margin: const EdgeInsets.all(1.0),
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -234,10 +234,11 @@ class _EventListItemState extends State<EventListItem> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0.0),
                   child: Text(
                     widget._court.name.toUpperCase(),
                     style: const TextStyle(
+                      wordSpacing: 3.0,
                       fontSize: Styles.fontSizeMedium,
                       fontWeight: FontWeight.normal,
                       color: Styles.discoverGametextColor,
@@ -254,7 +255,7 @@ class _EventListItemState extends State<EventListItem> {
               ],
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 4, 16.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0.0),
               child: Row(
                 children: [
                   _event.skillLevel != 0
@@ -323,6 +324,26 @@ class _EventListItemState extends State<EventListItem> {
     );
   }
 
+  Widget yourEventText() {
+    if (_event.creatorId == _firebaseUser.uid) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            'Created by you',
+            style: const TextStyle(
+              fontSize: Styles.fontSizeSmall,
+              fontWeight: FontWeight.bold,
+              color: Styles.primaryColor,
+              fontFamily: Styles.headerFont,
+            ),
+          ),
+        ]),
+      );
+    }
+    return const SizedBox.shrink();
+  }
+
   Card returnMyBookingsView(bool hasUserJoined) {
     return Card(
       elevation: 3.0,
@@ -334,8 +355,9 @@ class _EventListItemState extends State<EventListItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          yourEventText(),
           Padding(
-            padding: const EdgeInsets.fromLTRB(40.0, 30.0, 16.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(40.0, 5.0, 16.0, 0.0),
             child: ListTile(
               title: Text(
                 widget._court.name.toUpperCase(),
