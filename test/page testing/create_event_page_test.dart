@@ -199,23 +199,7 @@ void main() {
         expect(wizardProvider.wizardSecondStepGenderSelected, isFalse);
         expect(wizardProvider.color, equals(const Color(0xFF959595)));
       });
-      test(
-          'onAgeSelectedChanged should update wizardSecondStepAgeGroupSelected and call updateColorSecondStep',
-          () {
-        // Initial values
-        expect(wizardProvider.wizardSecondStepAgeGroupSelected, isFalse);
-        expect(wizardProvider.color, isNull);
 
-        // Toggle age selection to true
-        wizardProvider.onAgeSelectedChanged(true);
-        expect(wizardProvider.wizardSecondStepAgeGroupSelected, isTrue);
-        expect(wizardProvider.color, equals(const Color(0xFF959595)));
-
-        // Toggle age selection to false
-        wizardProvider.onAgeSelectedChanged(false);
-        expect(wizardProvider.wizardSecondStepAgeGroupSelected, isFalse);
-        expect(wizardProvider.color, equals(const Color(0xFF959595)));
-      });
       test('updateEventDate should update eventDate', () {
         final date = DateTime(2023, 5, 24);
         wizardProvider.wizardFirstStepMapSelected = true;

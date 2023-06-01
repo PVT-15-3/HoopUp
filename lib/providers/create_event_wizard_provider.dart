@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../classes/court.dart';
 import '../classes/event.dart';
 import '../classes/time.dart';
@@ -45,6 +46,7 @@ class CreateEventWizardProvider extends ChangeNotifier {
   bool _skillLevelAllSelected = false;
   Color? _color;
   bool _isEventTimeAvailable = false;
+  String _checkEventAvailabilityMessage = "";
   Timer? _availabilityCheckTimer;
   final StreamController<bool> _eventAvailabilityController =
       StreamController<bool>();
@@ -218,6 +220,13 @@ class CreateEventWizardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get checkEventAvailabilityMessage => _checkEventAvailabilityMessage;
+
+  set checkEventAvailabilityMessage(String checkEventAvailabilityMessage) {
+    _checkEventAvailabilityMessage = checkEventAvailabilityMessage;
+    notifyListeners();
+  }
+
   void updateColorFirstStep(
       bool isMapSelected, bool isTimeSelected, bool isEventTimeAvailable) {
     bool wizardFirstStepComplete =
@@ -333,6 +342,12 @@ class CreateEventWizardProvider extends ChangeNotifier {
     for (Event event in eventsList) {
       if (event.courtId == court?.courtId) {
         if (isTimeOverlap(event.time)) {
+          DateFormat format = DateFormat('HH:mm');
+          String startTime = format.format(event.time.startTime);
+          String endTime = format.format(event.time.endTime);
+
+          checkEventAvailabilityMessage =
+              "${court?.name} is occupied by another event the following time: $startTime - $endTime";
           isAvailable = false;
           break;
         }
