@@ -19,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isEditable = false;
+  late final _dateOfBirth;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       HoopUpUser.signOut();
                       FilterProvider().clearFilters();
-                      CreateEventWizardProvider(
-                              //TODO FIX THIS SHIT
-                              // firebaseProvider:
-                              //     context.read<FirebaseProvider>()
-                              )
-                          .reset();
+                      CreateEventWizardProvider().reset();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => StartPage()),
@@ -59,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   String name = user.username;
                   int skillLevel = user.skillLevel;
                   String gender = user.gender;
-                  DateTime dateOfBirth = user.dateOfBirth;
+                  _dateOfBirth = user.dateOfBirth;
                   String? email = FirebaseAuth.instance.currentUser!.email;
                   String photoUrl = user.photoUrl;
 
@@ -143,8 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 fontFamily: Styles.mainFont,
                               ),
                               readOnly: true,
-                              initialValue:
-                                  "${DateTime.now().year - dateOfBirth.year}",
+                              initialValue: calculateAge(),
                               decoration: const InputDecoration(
                                 labelText: "Age",
                                 border: OutlineInputBorder(),
@@ -218,5 +213,17 @@ class _ProfilePageState extends State<ProfilePage> {
         body: const EditableFields(),
       );
     }
+  }
+
+  String calculateAge() {
+    DateTime now = DateTime.now();
+    num age = now.year - _dateOfBirth.year;
+
+    if (now.month < _dateOfBirth.month ||
+        (now.month == _dateOfBirth.month && now.day < _dateOfBirth.day)) {
+      age--;
+    }
+
+    return age.toString();
   }
 }

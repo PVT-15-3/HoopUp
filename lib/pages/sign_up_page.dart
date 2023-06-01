@@ -97,7 +97,7 @@ class _SignUpPage extends State<SignUpPage> {
                 SizedBox(height: constraints.maxHeight * 0.03),
                 //Edit skill level -----------------------------------------------
                 const Text(
-                  "Choose Skill Level",
+                  "Choose Skill Level (optional)",
                   style: TextStyle(
                     fontFamily: Styles.mainFont,
                     fontWeight: FontWeight.bold,
@@ -114,6 +114,14 @@ class _SignUpPage extends State<SignUpPage> {
                         constraints.maxWidth * 0.15, 0),
                     child: Column(children: [
                       //Edit gender ----------------------------------------------
+                      const Text(
+                        "Choose gender (optional)",
+                        style: TextStyle(
+                          fontFamily: Styles.mainFont,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.01),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -432,8 +440,10 @@ class _SignUpPage extends State<SignUpPage> {
                                   (route) => false);
                             }
                           } else {
-                            Toaster.showCustomToast("Please fill out all fields",
-                                Icons.warning, context);
+                            Toaster.showCustomToast(
+                                "Please fill out all fields",
+                                Icons.warning,
+                                context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
