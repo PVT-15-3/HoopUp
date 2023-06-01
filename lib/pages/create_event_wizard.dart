@@ -110,7 +110,7 @@ class CreateEventWizard extends StatelessWidget {
                   }
                   wizardProvider.checkEventAvailability();
                   if (!wizardProvider.isEventTimeAvailable) {
-                    return "The selected time is not available";
+                    return wizardProvider.checkEventAvailabilityMessage;
                   }
                   return null;
                 },
