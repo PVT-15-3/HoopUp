@@ -52,7 +52,7 @@ class _ListEventWidgetState extends State<ListEventWidget> {
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 800), () {
+      Future.delayed(const Duration(milliseconds: 1250), () {
         if (amountOfExistingCards == 0 && mounted && widget.showJoinedEvents) {
           Toaster.showCustomToast(
               "You have no booked events right now.. \u{1F614}",

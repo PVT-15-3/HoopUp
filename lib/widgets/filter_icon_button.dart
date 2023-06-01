@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/widgets/bottom_nav_bar.dart';
+import 'package:my_app/widgets/toaster.dart';
 import 'package:provider/provider.dart';
 
 import '../app_styles.dart';
@@ -32,6 +33,7 @@ class FilterIconButton extends StatelessWidget {
         ],
       ),
       onPressed: () {
+        Toaster.clearToast();
         showDialog(
           barrierDismissible: true,
           context: context,

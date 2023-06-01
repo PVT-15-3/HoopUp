@@ -25,6 +25,7 @@ class CreateEventWizard extends StatelessWidget {
     TextEditingController dateController = TextEditingController();
     TextEditingController eventNameController = TextEditingController();
     TextEditingController eventDescriptionController = TextEditingController();
+    Toaster.clearToast();
 
     return Scaffold(
       backgroundColor: Colors.white,
