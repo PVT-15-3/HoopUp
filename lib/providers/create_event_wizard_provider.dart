@@ -264,26 +264,11 @@ class CreateEventWizardProvider extends ChangeNotifier {
 
   void onGenderSelectedChanged(bool newValue) {
     wizardSecondStepGenderSelected = newValue;
-    updateColorSecondStep(wizardSecondStepGenderSelected,
-        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
+    updateColorSecondStep(wizardSecondStepGenderSelected);
   }
 
-  void onAgeSelectedChanged(bool newValue) {
-    wizardSecondStepAgeGroupSelected = newValue;
-    updateColorSecondStep(wizardSecondStepGenderSelected,
-        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
-  }
-
-  void onSkillLevelSelectedChanged(bool newValue) {
-    wizardSecondStepSkillLevelSelected = newValue;
-    updateColorSecondStep(wizardSecondStepGenderSelected,
-        wizardSecondStepAgeGroupSelected, wizardSecondStepSkillLevelSelected);
-  }
-
-  void updateColorSecondStep(bool isGenderSelected, bool isAgeGroupSelected,
-      bool isSkillLevelSelected) {
-    bool wizardSecondStageComplete =
-        isGenderSelected && isAgeGroupSelected && isSkillLevelSelected;
+  void updateColorSecondStep(bool isGenderSelected) {
+    bool wizardSecondStageComplete = isGenderSelected;
     color = wizardSecondStageComplete
         ? const Color(0xFFFC8027)
         : const Color(0xFF959595);

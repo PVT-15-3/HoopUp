@@ -58,12 +58,13 @@ class EventHandler {
       id: const Uuid().v4(),
       firebaseProvider: firebaseProvider,
     );
+    DateTime androidSupportedStart = DateTime.utc(1970, 1, 1);
     Message message = Message(
       username: hoopUpUser!.username,
       userPhotoUrl: hoopUpUser.photoUrl,
       userId: hoopUpUser.id,
       messageText: eventDescription,
-      timeStamp: DateTime.now(),
+      timeStamp: androidSupportedStart,
     );
     await appLock.synchronized(() async {
       try {
