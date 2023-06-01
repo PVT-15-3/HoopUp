@@ -153,16 +153,16 @@ void main() {
           () {
         expect(wizardProvider.color, isNull);
 
-        wizardProvider.updateColorFirstStep(false, false);
+        wizardProvider.updateColorFirstStep(false, false, true);
         expect(wizardProvider.color, equals(const Color(0xFF959595)));
 
-        wizardProvider.updateColorFirstStep(true, true);
+        wizardProvider.updateColorFirstStep(true, true, true);
         expect(wizardProvider.color, equals(const Color(0xFFFC8027)));
 
-        wizardProvider.updateColorFirstStep(true, false);
+        wizardProvider.updateColorFirstStep(true, false, true);
         expect(wizardProvider.color, equals(const Color(0xFF959595)));
 
-        wizardProvider.updateColorFirstStep(false, true);
+        wizardProvider.updateColorFirstStep(false, true, true);
         expect(wizardProvider.color, equals(const Color(0xFF959595)));
       });
       test(
