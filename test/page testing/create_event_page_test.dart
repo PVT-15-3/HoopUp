@@ -192,7 +192,7 @@ void main() {
         // Toggle gender selection to true
         wizardProvider.onGenderSelectedChanged(true);
         expect(wizardProvider.wizardSecondStepGenderSelected, isTrue);
-        expect(wizardProvider.color, equals(const Color(0xFF959595)));
+        expect(wizardProvider.color, equals(const Color(0xFFFC8027)));
 
         // Toggle gender selection to false
         wizardProvider.onGenderSelectedChanged(false);
