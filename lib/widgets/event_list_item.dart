@@ -206,8 +206,8 @@ class _EventListItemState extends State<EventListItem> {
             Center(
               child: Container(
                 padding: const EdgeInsets.only(bottom: 15.0),
-                height: 175,
-                width: 325,
+                height: 170,
+                width: 320,
                 margin: const EdgeInsets.all(1.0),
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -234,7 +234,7 @@ class _EventListItemState extends State<EventListItem> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(35.0, 0, 40.0, 0.0),
                   child: Text(
                     widget._court.name.toUpperCase(),
                     style: const TextStyle(
@@ -243,19 +243,13 @@ class _EventListItemState extends State<EventListItem> {
                       fontWeight: FontWeight.normal,
                       color: Styles.discoverGametextColor,
                       fontFamily: Styles.headerFont,
-                      // shadows: <Shadow>[
-                      //   Shadow(
-                      //       offset: Offset(0, 2.0),
-                      //       blurRadius: 4.0,
-                      //       color: Styles.shadowColor),
-                      // ],
                     ),
                   ),
                 ),
               ],
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(33.0, 0, 30.0, 0.0),
               child: Row(
                 children: [
                   _event.skillLevel != 0
@@ -290,12 +284,6 @@ class _EventListItemState extends State<EventListItem> {
                       const Icon(
                         Icons.access_time,
                         color: Styles.primaryColor,
-                        // shadows: <Shadow>[
-                        //   Shadow(
-                        //       offset: Offset(0, 3.0),
-                        //       blurRadius: 5.0,
-                        //       color: Styles.shadowColor),
-                        // ],
                       ),
                       const SizedBox(width: 3),
                       Text(

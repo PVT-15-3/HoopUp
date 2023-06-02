@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FirebaseProvider()),
         ChangeNotifierProvider(create: (_) => FilterProvider()),
         ChangeNotifierProvider(create: (_) => HoopUpUserProvider()),
-        ChangeNotifierProvider(create: (_) => CreateEventWizardProvider()),
+        ChangeNotifierProvider(
+            create: (_) => CreateEventWizardProvider()),
         ChangeNotifierProvider(create: (_) => CourtProvider()),
       ],
       child: MaterialApp(

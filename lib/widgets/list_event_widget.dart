@@ -82,6 +82,7 @@ class _ListEventWidgetState extends State<ListEventWidget> {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
+                    const SizedBox(width: 63),
                       Text(
                         'DISCOVER GAME',
                         style: TextStyle(
