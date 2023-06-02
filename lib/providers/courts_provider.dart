@@ -16,7 +16,7 @@ class CourtProvider extends ChangeNotifier {
   Set<Court> _courts = <Court>{
     Court(
       position: const LatLng(59.41539988194249, 18.045802457670916),
-      name: 'Utomhusplanen Danderyd',
+      name: 'Danderyd Basketplan',
       imageLink: 'assets/danderyd.jpeg',
       courtType: 'PVC tiles',
       address: Address(
